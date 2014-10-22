@@ -14,8 +14,14 @@ public class Token {
 		return text;
 	}
 
+	@Override
+	public String toString() {
+		return ("<" + type + "\"" + getText() + "\"" + ">").replaceAll("\n",
+				"\\\\n").replaceAll("\t", "\\\\t");
+	}
+
 	public static enum TokenType {
-		NUMBER;
+		NUMBER, SPACE, EOF, OPERATOR;
 	}
 
 }
