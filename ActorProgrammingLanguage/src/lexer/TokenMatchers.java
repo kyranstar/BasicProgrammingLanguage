@@ -51,6 +51,10 @@ public class TokenMatchers {
 			final char c = code.charAt(0);
 			final String token = String.valueOf(c);
 			switch (code.charAt(0)) {
+			case ';':
+				return new Token(TokenType.SEMI, token);
+			case '=':
+				return new Token(TokenType.EQUAL, token);
 			case '*':
 			case '/':
 				return new Token(TokenType.MULDIV, token);
@@ -73,9 +77,9 @@ public class TokenMatchers {
 			return code.startsWith("*") || code.startsWith("/")
 					|| code.startsWith("+") || code.startsWith("-")
 					|| code.startsWith("^") || code.startsWith("(")
-					|| code.startsWith(")");
+					|| code.startsWith(")") || code.startsWith(";")
+					|| code.startsWith("=");
 		}
-
 	}
 
 	public static class IDENTIFIER extends TokenMatcher {
