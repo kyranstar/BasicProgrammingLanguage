@@ -14,6 +14,10 @@ public class Token {
 		return text;
 	}
 
+	public TokenType getType() {
+		return type;
+	}
+
 	@Override
 	public String toString() {
 		return ("<" + type + "\"" + getText() + "\"" + ">").replaceAll("\n",
@@ -21,7 +25,7 @@ public class Token {
 	}
 
 	public static enum TokenType {
-		NUMBER, SPACE, EOF, OPERATOR;
+		NUMBER, SPACE, EOF, PLUSMINUS, MULDIV, RAISED, OPEN_PARENS, CLOSE_PARENS, IDENTIFIER;
 	}
 
 }
