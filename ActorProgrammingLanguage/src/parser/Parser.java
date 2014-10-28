@@ -50,20 +50,26 @@ public class Parser {
 		final ExpressionNode.VariableNode expr = identifier();
 		nextToken();
 		if (lookahead.getType() == TokenType.EQUAL) {
-			nextToken();
-			final ExpressionNode<BigDecimal> assigned = expression(context);
-			final ExpressionNode assignment = new ExpressionNode.AssignmentNode(
-					expr, assigned);
-			if (lookahead.getType() != TokenType.SEMI)
-				throw new ParserException("Expected semicolon, got "
-						+ lookahead.getText());
-			nextToken();
+			final ExpressionNode assignment = assignment(context, expr);
 			return assignment;
 		} else {
 			System.out.println(lookahead.getType());
 			throw new ParserException("Only assignments supported now.");
 		}
 
+	}
+
+	private ExpressionNode assignment(final Context context,
+			final ExpressionNode.VariableNode expr) {
+		nextToken();
+		final ExpressionNode<BigDecimal> assigned = expression(context);
+		final ExpressionNode assignment = new ExpressionNode.AssignmentNode(
+				expr, assigned);
+		if (lookahead.getType() != TokenType.SEMI)
+			throw new ParserException("Expected semicolon, got "
+					+ lookahead.getText());
+		nextToken();
+		return assignment;
 	}
 
 	private ExpressionNode<BigDecimal> expression(final Context context) {
@@ -166,7 +172,7 @@ public class Parser {
 			return node;
 		} else
 			// argument -> value
-			return value();
+			return value(context);
 	}
 
 	private ExpressionNode<BigDecimal> signedTerm(final Context context) {
@@ -185,15 +191,26 @@ public class Parser {
 			return term(context);
 	}
 
-	private ExpressionNode<BigDecimal> value() {
+	private ExpressionNode<BigDecimal> value(final Context context) {
 		if (lookahead.getType() == TokenType.NUMBER) {
 			final ExpressionNode.ConstantNode expr = new ExpressionNode.ConstantNode(
 					new BigDecimal(lookahead.getText()));
 			nextToken();
 			return expr;
 		} else if (lookahead.getType() == TokenType.IDENTIFIER) {
+
 			final ExpressionNode.VariableNode expr = identifier();
 			nextToken();
+			if (lookahead.getType() == TokenType.OPEN_PARENS) {
+				final List<ExpressionNode> parameters = new ArrayList<>();
+				while (lookahead.getType() != TokenType.CLOSE_PARENS) {
+					nextToken();
+					parameters.add(expression(context));
+				}
+				nextToken();
+
+				return new ExpressionNode.FunctionCallNode(expr, parameters);
+			}
 			return expr;
 		} else
 			throw new ParserException("Unexpected token " + lookahead

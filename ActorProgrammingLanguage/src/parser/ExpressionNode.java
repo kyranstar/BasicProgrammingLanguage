@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import machine.Context;
+import machine.Function;
 import type.APValue;
 import type.APValue.APValueInt;
 
@@ -56,38 +57,55 @@ public abstract class ExpressionNode<T> {
 
 	}
 
-	// public static class FunctionDefNode extends ExpressionNode<BigDecimal>{}
-	//
-	// public static class FunctionCallNode extends ExpressionNode<BigDecimal> {
-	//
-	// private final ExpressionNode.VariableNode variable;
-	// private final ExpressionNode<BigDecimal> expression;
-	// private final ExpressionNode parameter;
-	//
-	// public FunctionCallNode(final VariableNode expr,
-	// final ExpressionNode parameter,
-	// final ExpressionNode<BigDecimal> assigned) {
-	// super(ExpressionNodeType.ASSIGNMENT_NODE, null);
-	// this.variable = expr;
-	// this.parameter = parameter;
-	// this.expression = assigned;
-	// }
-	//
-	// @Override
-	// public String toString() {
-	// return variable + "(" + parameter + ") = " + expression;
-	// }
-	//
-	// @Override
-	// public APValue<BigDecimal> getValue(final Context context) {
-	// final Context c = context.getChild();
-	// c.
-	// final APValue<BigDecimal> expr = this.expression.getValue(c);
-	//
-	// return expr;
-	// }
-	//
-	// }
+	public static class FunctionDefNode extends ExpressionNode<Void> {
+
+		private final Function func;
+
+		public FunctionDefNode(final String name,
+				final List<ExpressionNode.VariableNode> parameters,
+				final ExpressionNode body) {
+			super(ExpressionNodeType.FUNCTION_DEF_NODE, null);
+			this.func = new Function(name, parameters, body);
+		}
+
+		@Override
+		public APValue<Void> getValue(final Context context) {
+			context.putFunction(func.name, func);
+			return APValue.VOID;
+		}
+
+	}
+
+	public static class FunctionCallNode extends ExpressionNode<BigDecimal> {
+
+		private final ExpressionNode.VariableNode variable;
+		private final List<ExpressionNode> parameters;
+
+		public FunctionCallNode(final VariableNode expr,
+				final List<ExpressionNode> parameters) {
+			super(ExpressionNodeType.FUNCTION_CALL_NODE, null);
+			variable = expr;
+			this.parameters = parameters;
+		}
+
+		@Override
+		public String toString() {
+			return variable + "(" + parameters + ")";
+		}
+
+		@Override
+		public APValue<BigDecimal> getValue(final Context context) {
+			final Context c = context.getChild();
+			final Function func = context.getFunction(variable.name);
+			// Put all parameters in child scope
+			for (int i = 0; i < parameters.size(); i++) {
+				final ExpressionNode given = parameters.get(i);
+				final String name = func.parameters.get(i).name;
+				c.putVariable(name, given);
+			}
+			return func.body.getValue(c);
+		}
+	}
 
 	public static class AssignmentNode extends ExpressionNode<BigDecimal> {
 
@@ -97,7 +115,7 @@ public abstract class ExpressionNode<T> {
 		public AssignmentNode(final VariableNode expr,
 				final ExpressionNode<BigDecimal> assigned) {
 			super(ExpressionNodeType.ASSIGNMENT_NODE, null);
-			this.variable = expr;
+			variable = expr;
 			this.expression = assigned;
 		}
 
@@ -109,7 +127,7 @@ public abstract class ExpressionNode<T> {
 		@Override
 		public APValue<BigDecimal> getValue(final Context context) {
 			final APValue<BigDecimal> expr = this.expression.getValue(context);
-			context.put(variable.name, expression);
+			context.putVariable(variable.name, expression);
 			return expr;
 		}
 
@@ -207,7 +225,7 @@ public abstract class ExpressionNode<T> {
 		@Override
 		public APValue getValue(final Context c) {
 			// TODO: Use map for variables
-			return c.get(name).getValue(c);
+			return c.getVariable(name).getValue(c);
 		}
 	}
 

@@ -10,6 +10,12 @@ public abstract class APValue<T> {
 	// }
 	// };
 
+	public static final APValue<Void> VOID = new APValue<Void>() {
+		@Override
+		public String toString() {
+			return "VOID";
+		}
+	};
 	String type;
 	private T value;
 
