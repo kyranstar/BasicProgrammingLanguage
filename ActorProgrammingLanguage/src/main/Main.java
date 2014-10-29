@@ -13,7 +13,7 @@ import parser.Parser;
 public class Main {
 	
 	public static void main(final String[] args) {
-		final List<Token> tokens = new Lexer("a = true && false; a = 3;").lex();
+		final List<Token> tokens = new Lexer("b = true; a = if b 3 else 4;").lex();
 		System.out.println(tokens);
 		
 		final Context context = new Context();

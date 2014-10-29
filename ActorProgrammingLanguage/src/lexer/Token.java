@@ -38,7 +38,9 @@ public class Token {
 		COMMA,
 		AND,
 		OR,
-		BOOLEAN;
+		BOOLEAN,
+		IF,
+		ELSE;
 	}
 	
 	@Override

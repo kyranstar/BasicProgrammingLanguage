@@ -12,7 +12,7 @@ public class Lexer {
 	// Token matchers, ordered by length to avoid hitting shorter ones first.
 	// ("len" before "length")
 	private final TokenMatcher[] matchers = { new TokenMatchers.SPACE(), new TokenMatchers.NUMBER(), new TokenMatchers.BOOLEAN(), new TokenMatchers.OPERATOR(),
-			new TokenMatchers.BRACKETS(), new TokenMatchers.IDENTIFIER() };
+			new TokenMatchers.BRACKETS(), new TokenMatchers.IF(), new TokenMatchers.IDENTIFIER() };
 	private final List<TokenType> typesToIgnore = Arrays.asList(TokenType.SPACE, TokenType.EOF);
 
 	public Lexer(final String code) {
@@ -38,19 +38,23 @@ public class Lexer {
 				return t;
 			}
 		}
-		throw new LexerException("Could not match character '" + code.charAt(lexInfo.position) + "' with token" + lexInfo.getMessage());
+		throw new LexerException("Could not match character '" + code.charAt(lexInfo.position) + "' with token");
 	}
 
 	public List<Token> lex() {
-		final List<Token> tokens = new ArrayList<>();
-
-		while (lexInfo.position < code.length()) {
-			final Token t = matchToken();
-			if (!typesToIgnore.contains(t.getType())) {
-				tokens.add(t);
+		try {
+			final List<Token> tokens = new ArrayList<>();
+			
+			while (lexInfo.position < code.length()) {
+				final Token t = matchToken();
+				if (!typesToIgnore.contains(t.getType())) {
+					tokens.add(t);
+				}
 			}
+			
+			return tokens;
+		} catch (final LexerException e) {
+			throw new LexerException(e.getMessage() + lexInfo.getMessage());
 		}
-
-		return tokens;
 	}
 }

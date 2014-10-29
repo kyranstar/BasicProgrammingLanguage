@@ -46,12 +46,13 @@ public class TokenMatchers {
 
 		@Override
 		public Token getTokenNoCheck(final String code, final LexerInformation lexInfo) {
-			if (code.startsWith("true"))
+			if (code.startsWith("true")) {
 				return new Token(TokenType.BOOLEAN, "true");
-			if (code.startsWith("false"))
+			}
+			if (code.startsWith("false")) {
 				return new Token(TokenType.BOOLEAN, "false");
-			throw new LexerException("Tried to get token " + getClass() + ", but did not match. Was {" + code.charAt(0) + "} instead." + lexInfo.getMessage()
-					+ " Should never get here! Compiler bug.");
+			}
+			throw new LexerException("Tried to get token " + getClass() + ", but did not match. Was {" + code.charAt(0) + "} instead. Should never get here! Compiler bug.");
 		}
 
 		@Override
@@ -82,10 +83,15 @@ public class TokenMatchers {
 				case '^':
 					return new Token(TokenType.RAISED, token);
 			}
-			if (code.startsWith("&&"))
-				return new Token(TokenType.AND, "&&");
-			if (code.startsWith("||"))
-				return new Token(TokenType.OR, "||");
+			final String and = "&&";
+			final String or = "||";
+
+			if (code.startsWith(and)) {
+				return new Token(TokenType.AND, and);
+			}
+			if (code.startsWith(or)) {
+				return new Token(TokenType.OR, or);
+			}
 
 			throw new LexerException("Unidentified token: " + token);
 		}
@@ -95,6 +101,27 @@ public class TokenMatchers {
 			return code.startsWith("*") || code.startsWith("/") || code.startsWith("+") || code.startsWith("-") || code.startsWith("^") || code.startsWith(";")
 					|| code.startsWith("=") || code.startsWith(",") || code.startsWith("&&") || code.startsWith("||");
 		}
+	}
+	
+	public static class IF extends TokenMatcher {
+		final String ifString = "if";
+		final String elseString = "else";
+
+		@Override
+		protected Token getTokenNoCheck(final String code, final LexerInformation lexInfo) {
+			
+			if (code.startsWith(ifString)) {
+				return new Token(TokenType.IF, ifString);
+			} else {
+				return new Token(TokenType.ELSE, elseString);
+			}
+		}
+
+		@Override
+		protected boolean matchesNoCheck(final String code, final LexerInformation lexInfo) {
+			return code.startsWith(ifString) || code.startsWith(elseString);
+		}
+		
 	}
 
 	public static class BRACKETS extends TokenMatcher {
