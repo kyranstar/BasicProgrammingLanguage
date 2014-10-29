@@ -9,6 +9,8 @@ import java.util.NoSuchElementException;
 import lexer.Token;
 import lexer.Token.TokenType;
 import machine.Context;
+import machine.Function;
+import parser.ExpressionNode.VariableNode;
 
 public class Parser {
 	LinkedList<Token> tokens = new LinkedList<>();
@@ -46,12 +48,28 @@ public class Parser {
 		return expressions;
 	}
 
-	private ExpressionNode<BigDecimal> statement(final Context context) {
+	private ExpressionNode statement(final Context context) {
 		final ExpressionNode.VariableNode expr = identifier();
 		nextToken();
 		if (lookahead.getType() == TokenType.EQUAL) {
 			final ExpressionNode assignment = assignment(context, expr);
 			return assignment;
+		} else if (lookahead.getType() == TokenType.IDENTIFIER) {
+			// we have a parameter
+			final List<VariableNode> variables = new ArrayList<>();
+			while (lookahead.getType() == TokenType.IDENTIFIER) {
+				variables.add(identifier());
+				nextToken();
+			}
+			if (lookahead.getType() == TokenType.EQUAL) {
+				nextToken();
+				final ExpressionNode expression = expression(context);
+				final Function function = new Function(expr.getName(), variables, expression);
+				context.putFunction(expr.getName(), function);
+				nextToken();
+				return new ExpressionNode.ConstantNode(new BigDecimal("-1"));
+			} else
+				throw new ParserException("Expected EQUAL, got " + lookahead);
 		} else {
 			System.out.println(lookahead.getType());
 			throw new ParserException("Only assignments supported now.");
@@ -59,15 +77,12 @@ public class Parser {
 
 	}
 
-	private ExpressionNode assignment(final Context context,
-			final ExpressionNode.VariableNode expr) {
+	private ExpressionNode assignment(final Context context, final ExpressionNode.VariableNode expr) {
 		nextToken();
 		final ExpressionNode<BigDecimal> assigned = expression(context);
-		final ExpressionNode assignment = new ExpressionNode.AssignmentNode(
-				expr, assigned);
+		final ExpressionNode assignment = new ExpressionNode.AssignmentNode(expr, assigned);
 		if (lookahead.getType() != TokenType.SEMI)
-			throw new ParserException("Expected semicolon, got "
-					+ lookahead.getText());
+			throw new ParserException("Expected semicolon, got " + lookahead.getText());
 		nextToken();
 		return assignment;
 	}
@@ -77,8 +92,7 @@ public class Parser {
 		return sumOp(expr, context);
 	}
 
-	private ExpressionNode<BigDecimal> sumOp(
-			final ExpressionNode<BigDecimal> expr, final Context context) {
+	private ExpressionNode<BigDecimal> sumOp(final ExpressionNode<BigDecimal> expr, final Context context) {
 		if (lookahead.getType() == TokenType.PLUSMINUS) {
 			// sum_op -> PLUSMINUS term sum_op
 			ExpressionNode<BigDecimal> sum;
@@ -102,8 +116,7 @@ public class Parser {
 		return termOp(factor(context), context);
 	}
 
-	private ExpressionNode<BigDecimal> termOp(
-			final ExpressionNode<BigDecimal> expr, final Context context) {
+	private ExpressionNode<BigDecimal> termOp(final ExpressionNode<BigDecimal> expr, final Context context) {
 		if (lookahead.getType() == TokenType.MULDIV) {
 			// term_op -> MULTDIV factor term_op
 			ExpressionNode<BigDecimal> prod;
@@ -133,8 +146,7 @@ public class Parser {
 			if (positive)
 				return t;
 			else
-				return new ExpressionNode.ConstantNode(t.getValue(context)
-						.getValue().multiply(new BigDecimal("-1")));
+				return new ExpressionNode.ConstantNode(t.getValue(context).getValue().multiply(new BigDecimal("-1")));
 		} else
 			// signed_factor -> factor
 			return factor(context);
@@ -145,8 +157,7 @@ public class Parser {
 		return factorOp(argument(context), context);
 	}
 
-	private ExpressionNode<BigDecimal> factorOp(
-			final ExpressionNode<BigDecimal> expression, final Context context) {
+	private ExpressionNode<BigDecimal> factorOp(final ExpressionNode<BigDecimal> expression, final Context context) {
 		if (lookahead.getType() == TokenType.RAISED) {
 			// factor_op -> RAISED expression
 			nextToken();
@@ -165,8 +176,7 @@ public class Parser {
 			final ExpressionNode<BigDecimal> node = expression(context);
 
 			if (lookahead.getType() != TokenType.CLOSE_PARENS)
-				throw new ParserException("Closing brackets expected and "
-						+ lookahead.getText() + " found instead");
+				throw new ParserException("Closing brackets expected and " + lookahead.getText() + " found instead");
 
 			nextToken();
 			return node;
@@ -184,8 +194,7 @@ public class Parser {
 			if (positive)
 				return t;
 			else
-				return new ExpressionNode.ConstantNode(t.getValue(context)
-						.getValue().multiply(new BigDecimal("-1")));
+				return new ExpressionNode.ConstantNode(t.getValue(context).getValue().multiply(new BigDecimal("-1")));
 		} else
 			// signed_term -> term
 			return term(context);
@@ -193,8 +202,7 @@ public class Parser {
 
 	private ExpressionNode<BigDecimal> value(final Context context) {
 		if (lookahead.getType() == TokenType.NUMBER) {
-			final ExpressionNode.ConstantNode expr = new ExpressionNode.ConstantNode(
-					new BigDecimal(lookahead.getText()));
+			final ExpressionNode.ConstantNode expr = new ExpressionNode.ConstantNode(new BigDecimal(lookahead.getText()));
 			nextToken();
 			return expr;
 		} else if (lookahead.getType() == TokenType.IDENTIFIER) {
@@ -213,8 +221,7 @@ public class Parser {
 			}
 			return expr;
 		} else
-			throw new ParserException("Unexpected token " + lookahead
-					+ " found");
+			throw new ParserException("Unexpected token " + lookahead + " found");
 	}
 
 	private ExpressionNode.VariableNode identifier() {
