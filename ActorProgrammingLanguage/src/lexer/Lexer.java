@@ -11,11 +11,9 @@ public class Lexer {
 	private final String code;
 	// Token matchers, ordered by length to avoid hitting shorter ones first.
 	// ("len" before "length")
-	private final TokenMatcher[] matchers = { new TokenMatchers.SPACE(),
-			new TokenMatchers.NUMBER(), new TokenMatchers.OPERATOR(),
-			new TokenMatchers.IDENTIFIER() };
-	private final List<TokenType> typesToIgnore = Arrays.asList(
-			TokenType.SPACE, TokenType.EOF);
+	private final TokenMatcher[] matchers = { new TokenMatchers.SPACE(), new TokenMatchers.NUMBER(), new TokenMatchers.BOOLEAN(), new TokenMatchers.OPERATOR(),
+			new TokenMatchers.BRACKETS(), new TokenMatchers.IDENTIFIER() };
+	private final List<TokenType> typesToIgnore = Arrays.asList(TokenType.SPACE, TokenType.EOF);
 
 	public Lexer(final String code) {
 		this.code = code;
@@ -33,18 +31,14 @@ public class Lexer {
 				// if the text contains a new line
 				if (tokenText.indexOf('\n') != -1) {
 					// add number of \n in text to the currentLine
-					lexInfo.currentLine += tokenText.length()
-							- tokenText.replace("\n", "").length();
-					lexInfo.lastEndLine = lexInfo.position
-							+ tokenText.lastIndexOf('\n');
+					lexInfo.currentLine += tokenText.length() - tokenText.replace("\n", "").length();
+					lexInfo.lastEndLine = lexInfo.position + tokenText.lastIndexOf('\n');
 				}
 				lexInfo.position += tokenText.length();
 				return t;
 			}
 		}
-		throw new LexerException("Could not match character '"
-				+ code.charAt(lexInfo.position) + "' with token"
-				+ lexInfo.getMessage());
+		throw new LexerException("Could not match character '" + code.charAt(lexInfo.position) + "' with token" + lexInfo.getMessage());
 	}
 
 	public List<Token> lex() {
