@@ -1,48 +1,33 @@
 package lexer;
 
 public class Token {
-	
+
 	private final String text;
 	private final TokenType type;
-	
+
 	public Token(final TokenType type, final String text) {
 		this.type = type;
 		this.text = text;
 	}
-	
+
 	public String getText() {
 		return text;
 	}
-	
+
 	public TokenType getType() {
 		return type;
 	}
-	
+
 	@Override
 	public String toString() {
-		return ("<" + type + "\"" + getText() + "\"" + ">").replaceAll("\n", "\\\\n").replaceAll("\t", "\\\\t");
+		return ("<" + type + "\"" + getText() + "\"" + ">").replaceAll("\n",
+				"\\\\n").replaceAll("\t", "\\\\t");
 	}
-	
+
 	public static enum TokenType {
-		NUMBER,
-		SPACE,
-		EOF,
-		PLUSMINUS,
-		MULDIV,
-		RAISED,
-		OPEN_PARENS,
-		CLOSE_PARENS,
-		IDENTIFIER,
-		SEMI,
-		EQUAL,
-		COMMA,
-		AND,
-		OR,
-		BOOLEAN,
-		IF,
-		ELSE;
+		NUMBER, SPACE, EOF, PLUSMINUS, MULDIV, RAISED, OPEN_PARENS, CLOSE_PARENS, IDENTIFIER, SEMI, EQUAL, COMMA, AND, OR, BOOLEAN, IF, ELSE, LESS_THAN, GREATER_THAN, LESS_THAN_EQUAL, GREATER_THAN_EQUAL;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -51,7 +36,7 @@ public class Token {
 		result = prime * result + (type == null ? 0 : type.hashCode());
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj)
@@ -70,5 +55,5 @@ public class Token {
 			return false;
 		return true;
 	}
-	
+
 }

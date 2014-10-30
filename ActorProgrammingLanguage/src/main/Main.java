@@ -1,5 +1,7 @@
 package main;
 
+import interpreter.library.LibraryFunction;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +15,11 @@ import parser.Parser;
 public class Main {
 
 	public static void main(final String[] args) {
-		final List<Token> tokens = new Lexer("b = true; a = if b 10 else 10;").lex();
+		final List<Token> tokens = new Lexer(" a= print (3);").lex();
 		System.out.println(tokens);
 
-		final Context context = new Context();
+		final Context context = LibraryFunction
+				.applyLibraryFunctions(new Context());
 
 		final List<ExpressionNode.VariableNode> parameters = new ArrayList<>();
 
@@ -24,8 +27,10 @@ public class Main {
 		for (final ExpressionNode node : nodes) {
 			System.out.println(node.getValue(context));
 		}
-		for (final Map.Entry<String, ExpressionNode> a : context.getContext().entrySet()) {
-			System.out.println(a.getKey() + " -> " + a.getValue().getValue(context));
+		for (final Map.Entry<String, ExpressionNode> a : context.getContext()
+				.entrySet()) {
+			System.out.println(a.getKey() + " -> "
+					+ a.getValue().getValue(context));
 		}
 	}
 }
