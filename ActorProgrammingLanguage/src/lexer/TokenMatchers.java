@@ -1,5 +1,8 @@
 package lexer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lexer.Token.TokenType;
 
 public class TokenMatchers {
@@ -17,7 +20,8 @@ public class TokenMatchers {
 		}
 
 		@Override
-		public boolean matchesNoCheck(final String code, final LexerInformation lexInfo) {
+		public boolean matchesNoCheck(final String code,
+				final LexerInformation lexInfo) {
 			return Character.isWhitespace(code.charAt(0));
 		}
 
@@ -36,7 +40,8 @@ public class TokenMatchers {
 		}
 
 		@Override
-		public boolean matchesNoCheck(final String code, final LexerInformation lexInfo) {
+		public boolean matchesNoCheck(final String code,
+				final LexerInformation lexInfo) {
 			return Character.isDigit(code.charAt(0)) || code.charAt(0) == '.';
 		}
 
@@ -45,71 +50,94 @@ public class TokenMatchers {
 	public static class BOOLEAN extends TokenMatcher {
 
 		@Override
-		public Token getTokenNoCheck(final String code, final LexerInformation lexInfo) {
+		public Token getTokenNoCheck(final String code,
+				final LexerInformation lexInfo) {
 			if (code.startsWith("true")) {
 				return new Token(TokenType.BOOLEAN, "true");
 			}
 			if (code.startsWith("false")) {
 				return new Token(TokenType.BOOLEAN, "false");
 			}
-			throw new LexerException("Tried to get token " + getClass() + ", but did not match. Was {" + code.charAt(0) + "} instead. Should never get here! Compiler bug.");
+			throw new LexerException("Tried to get token " + getClass()
+					+ ", but did not match. Was {" + code.charAt(0)
+					+ "} instead. Should never get here! Compiler bug.");
 		}
 
 		@Override
-		public boolean matchesNoCheck(final String code, final LexerInformation lexInfo) {
+		public boolean matchesNoCheck(final String code,
+				final LexerInformation lexInfo) {
 			return code.startsWith("true") || code.startsWith("false");
 		}
 
 	};
 
 	public static class OPERATOR extends TokenMatcher {
-		@Override
-		public Token getTokenNoCheck(final String code, final LexerInformation lexInfo) {
-			final char c = code.charAt(0);
-			final String token = String.valueOf(c);
-			switch (code.charAt(0)) {
-				case ',':
-					return new Token(TokenType.COMMA, token);
-				case ';':
-					return new Token(TokenType.SEMI, token);
-				case '=':
-					return new Token(TokenType.EQUAL, token);
-				case '*':
-				case '/':
-					return new Token(TokenType.MULDIV, token);
-				case '+':
-				case '-':
-					return new Token(TokenType.PLUSMINUS, token);
-				case '^':
-					return new Token(TokenType.RAISED, token);
-			}
-			final String and = "&&";
-			final String or = "||";
+		private static final List<StringToOperator> operators = new ArrayList<>();
+		static {
+			operators.add(new StringToOperator(";", TokenType.SEMI));
+			operators.add(new StringToOperator(",", TokenType.COMMA));
+			operators.add(new StringToOperator("=", TokenType.EQUAL));
 
-			if (code.startsWith(and)) {
-				return new Token(TokenType.AND, and);
-			}
-			if (code.startsWith(or)) {
-				return new Token(TokenType.OR, or);
+			operators.add(new StringToOperator("*", TokenType.MULDIV));
+			operators.add(new StringToOperator("/", TokenType.MULDIV));
+			operators.add(new StringToOperator("+", TokenType.PLUSMINUS));
+			operators.add(new StringToOperator("-", TokenType.PLUSMINUS));
+			operators.add(new StringToOperator("^", TokenType.RAISED));
+
+			operators
+			.add(new StringToOperator("<=", TokenType.LESS_THAN_EQUAL));
+			operators.add(new StringToOperator(">=",
+					TokenType.GREATER_THAN_EQUAL));
+
+			operators.add(new StringToOperator("<", TokenType.LESS_THAN));
+			operators.add(new StringToOperator(">", TokenType.GREATER_THAN));
+
+			operators.add(new StringToOperator("&&", TokenType.AND));
+			operators.add(new StringToOperator("||", TokenType.OR));
+		}
+
+		private static class StringToOperator {
+			public StringToOperator(final String string, final TokenType type) {
+				text = string;
+				this.type = type;
 			}
 
-			throw new LexerException("Unidentified token: " + token);
+			public String text;
+			public TokenType type;
 		}
 
 		@Override
-		public boolean matchesNoCheck(final String code, final LexerInformation lexInfo) {
-			return code.startsWith("*") || code.startsWith("/") || code.startsWith("+") || code.startsWith("-") || code.startsWith("^") || code.startsWith(";")
-					|| code.startsWith("=") || code.startsWith(",") || code.startsWith("&&") || code.startsWith("||");
+		public Token getTokenNoCheck(final String code,
+				final LexerInformation lexInfo) {
+			for (final StringToOperator entry : operators) {
+				if (code.startsWith(entry.text)) {
+					return new Token(entry.type, entry.text);
+				}
+			}
+
+			throw new LexerException("Unidentified token");
+		}
+
+		@Override
+		public boolean matchesNoCheck(final String code,
+				final LexerInformation lexInfo) {
+			for (final StringToOperator s : operators) {
+				if (code.startsWith(s.text)) {
+					return true;
+				}
+			}
+			return false;
 		}
 	}
-	
+
 	public static class IF extends TokenMatcher {
 		final String ifString = "if";
 		final String elseString = "else";
 
 		@Override
-		protected Token getTokenNoCheck(final String code, final LexerInformation lexInfo) {
-			
+		protected Token getTokenNoCheck(final String code,
+				final LexerInformation lexInfo) {
+
 			if (code.startsWith(ifString)) {
 				return new Token(TokenType.IF, ifString);
 			} else {
@@ -118,32 +146,35 @@ public class TokenMatchers {
 		}
 
 		@Override
-		protected boolean matchesNoCheck(final String code, final LexerInformation lexInfo) {
+		protected boolean matchesNoCheck(final String code,
+				final LexerInformation lexInfo) {
 			return code.startsWith(ifString) || code.startsWith(elseString);
 		}
-		
+
 	}
 
 	public static class BRACKETS extends TokenMatcher {
 		@Override
-		public Token getTokenNoCheck(final String code, final LexerInformation lexInfo) {
+		public Token getTokenNoCheck(final String code,
+				final LexerInformation lexInfo) {
 			final char c = code.charAt(0);
 			final String token = String.valueOf(c);
 			switch (code.charAt(0)) {
-				case '(':
-					return new Token(TokenType.OPEN_PARENS, token);
-				case ')':
-					return new Token(TokenType.CLOSE_PARENS, token);
+			case '(':
+				return new Token(TokenType.OPEN_PARENS, token);
+			case ')':
+				return new Token(TokenType.CLOSE_PARENS, token);
 			}
 			throw new LexerException("Unidentified token: " + token);
 		}
 
 		@Override
-		public boolean matchesNoCheck(final String code, final LexerInformation lexInfo) {
+		public boolean matchesNoCheck(final String code,
+				final LexerInformation lexInfo) {
 			return code.startsWith("(") || code.startsWith(")");
 		}
 	}
-	
+
 	public static class IDENTIFIER extends TokenMatcher {
 
 		@Override
@@ -157,8 +188,10 @@ public class TokenMatchers {
 		}
 
 		@Override
-		public boolean matchesNoCheck(final String code, final LexerInformation lexInfo) {
-			return Character.isAlphabetic(code.charAt(0)) || code.charAt(0) == '_';
+		public boolean matchesNoCheck(final String code,
+				final LexerInformation lexInfo) {
+			return Character.isAlphabetic(code.charAt(0))
+					|| code.charAt(0) == '_';
 		}
 
 	};
