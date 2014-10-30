@@ -11,15 +11,15 @@ import parser.ExpressionNode;
 import parser.Parser;
 
 public class Main {
-	
+
 	public static void main(final String[] args) {
-		final List<Token> tokens = new Lexer("b = true; a = if b 3 else 4;").lex();
+		final List<Token> tokens = new Lexer("b = true; a = if b 10 else 10;").lex();
 		System.out.println(tokens);
-		
+
 		final Context context = new Context();
-		
+
 		final List<ExpressionNode.VariableNode> parameters = new ArrayList<>();
-		
+
 		final List<ExpressionNode> nodes = new Parser(tokens).parse(context);
 		for (final ExpressionNode node : nodes) {
 			System.out.println(node.getValue(context));
