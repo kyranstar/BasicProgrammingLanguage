@@ -50,7 +50,7 @@ public class APValueList extends APValue<List> {
     public APValue callMethod(final Operators method, final APValue arg) {
         if (!arg.getType().equals(TYPE)) {
             throw new MismatchedMethodException(method
-                    + " must take two bool types. Was " + TYPE + " and "
+                    + " must take two list types. Was " + TYPE + " and "
                     + arg.getType());
         }
         
@@ -60,7 +60,7 @@ public class APValueList extends APValue<List> {
                         append(getValue(), (List) arg.getValue()));
         }
         throw new MismatchedMethodException("Can't call method " + method
-                + " on type bool!");
+                + " on type list!");
     }
 
     private List<ExpressionNode> append(final List value, final List value2) {
