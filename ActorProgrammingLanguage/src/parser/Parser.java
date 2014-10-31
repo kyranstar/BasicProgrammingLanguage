@@ -23,17 +23,17 @@ import type.APValue.Methods;
  * The Class Parser.
  */
 public class Parser {
-    
+
     /** The Constant NEGATIVE_ONE. */
     private static final APValueNum NEGATIVE_ONE = new APValueNum(
             new BigDecimal("-1"));
-    
+
     /** The tokens. */
     LinkedList<Token> tokens = new LinkedList<>();
-    
+
     /** The lookahead. */
     Token lookahead;
-
+    
     /**
      * Instantiates a new parser.
      *
@@ -46,7 +46,7 @@ public class Parser {
             throw new ParserException("Cannot parse an empty file!");
         }
     }
-
+    
     /**
      * Next token.
      */
@@ -63,7 +63,7 @@ public class Parser {
             lookahead = tokens.getFirst();
         }
     }
-
+    
     /**
      * Parses the.
      *
@@ -72,17 +72,16 @@ public class Parser {
      * @return the list
      */
     public List<ExpressionNode> parse(final Context context) {
-
         final List<ExpressionNode> expressions = new ArrayList<>();
-
+        
         lookahead = tokens.getFirst();
-
+        
         while (lookahead.getType() != TokenType.EOF) {
             expressions.add(statement(context));
         }
         return expressions;
     }
-
+    
     /**
      * Statement.
      *
@@ -98,7 +97,6 @@ public class Parser {
             return assignment;
         } else if (lookahead.getType() == TokenType.IDENTIFIER) {
             // we have a parameter
-            nextToken();
             if (lookahead.getType() == TokenType.IDENTIFIER
                     || lookahead.getType() == TokenType.EQUAL) {
                 final List<VariableNode> variables = new ArrayList<>();
@@ -111,6 +109,7 @@ public class Parser {
                     final ExpressionNode expression = expression(context);
                     final Function function = new Function(expr.getName(),
                             variables, expression);
+                    System.out.println("putting function " + expression);
                     context.putFunction(expr.getName(), function);
                     nextToken();
                     return ExpressionNode.VOID;
@@ -129,9 +128,9 @@ public class Parser {
             throw new ParserException(
                     "Non function call, assignment, or function def statement");
         }
-
+        
     }
-
+    
     /**
      * Assignment.
      *
@@ -154,7 +153,7 @@ public class Parser {
         nextToken();
         return assignment;
     }
-
+    
     /**
      * Expression.
      *
@@ -166,11 +165,11 @@ public class Parser {
         if (lookahead.getType() == TokenType.IF) {
             return ifExpr(context);
         }
-
+        
         final ExpressionNode expr = signedTerm(context);
         return lowOp(expr, context);
     }
-
+    
     /**
      * If expr.
      *
@@ -190,7 +189,7 @@ public class Parser {
         final ExpressionNode elseExpr = expression(context);
         return new ExpressionNode.IfNode(ifExpr, thenExpr, elseExpr);
     }
-
+    
     /*
      * Lower level precedence operations: +, -, ||
      */
@@ -216,11 +215,15 @@ public class Parser {
             } else {
                 sum = new ExpressionNode.SubtractionNode(expr, t);
             }
-
+            
             return lowOp(sum, context);
         } else if (lookahead.getType() == TokenType.OR) {
             nextToken();
             return lowOp(new ExpressionNode.OrNode(expr, term(context)),
+                    context);
+        } else if (lookahead.getType() == TokenType.EQUAL) {
+            nextToken();
+            return lowOp(new ExpressionNode.EqualNode(expr, term(context)),
                     context);
         } else if (lookahead.getType() == TokenType.LESS_THAN) {
             nextToken();
@@ -244,7 +247,7 @@ public class Parser {
             return expr;
         }
     }
-
+    
     /**
      * Term.
      *
@@ -256,7 +259,7 @@ public class Parser {
         // term -> factor term_op
         return highOp(factor(context), context);
     }
-
+    
     /*
      * High precedence operations: *, /, &&
      */
@@ -274,17 +277,17 @@ public class Parser {
         if (lookahead.getType() == TokenType.MULDIV) {
             // term_op -> MULTDIV factor term_op
             ExpressionNode prod;
-
+            
             final boolean positive = lookahead.getText().equals("*");
             nextToken();
             final ExpressionNode f = signedFactor(context);
-
+            
             if (positive) {
                 prod = new ExpressionNode.MultiplicationNode(expr, f);
             } else {
                 prod = new ExpressionNode.DivisionNode(expr, f);
             }
-
+            
             return highOp(prod, context);
         } else if (lookahead.getType() == TokenType.AND) {
             nextToken();
@@ -294,9 +297,9 @@ public class Parser {
             // term_op -> EPSILON
             return expr;
         }
-
+        
     }
-
+    
     /**
      * Signed factor.
      *
@@ -321,7 +324,7 @@ public class Parser {
             return factor(context);
         }
     }
-
+    
     /**
      * matches a factor.
      *
@@ -333,7 +336,7 @@ public class Parser {
         // factor -> argument factor_op
         return factorOp(argument(context), context);
     }
-
+    
     /**
      * matches a factor operation.
      *
@@ -350,13 +353,13 @@ public class Parser {
             nextToken();
             final ExpressionNode exponent = signedFactor(context);
             return new ExpressionNode.ExponentiationNode(expression, exponent);
-
+            
         } else {
             // factor_op -> EPSILON
             return expression;
         }
     }
-
+    
     /**
      * matches an argument.
      *
@@ -369,12 +372,12 @@ public class Parser {
             // argument -> OPEN_BRACKET sum CLOSE_BRACKET
             nextToken();
             final ExpressionNode node = expression(context);
-
+            
             if (lookahead.getType() != TokenType.CLOSE_PARENS) {
                 throw new ParserException("Closing brackets expected and "
                         + lookahead.getText() + " found instead");
             }
-
+            
             nextToken();
             return node;
         } else {
@@ -382,7 +385,7 @@ public class Parser {
             return value(context);
         }
     }
-
+    
     /**
      * matches a signed term.
      *
@@ -407,7 +410,7 @@ public class Parser {
             return term(context);
         }
     }
-
+    
     /**
      * matches a value.
      *
@@ -427,9 +430,9 @@ public class Parser {
             nextToken();
             return expr;
         }
-
+        
         else if (lookahead.getType() == TokenType.IDENTIFIER) {
-
+            
             final ExpressionNode.VariableNode expr = identifier();
             nextToken();
             if (lookahead.getType() == TokenType.OPEN_PARENS) {
@@ -441,7 +444,7 @@ public class Parser {
                     + " found");
         }
     }
-
+    
     /**
      * Matches function parameters.
      *
@@ -462,7 +465,6 @@ public class Parser {
             nextToken();
             return node;
         }
-
         parameters.add(expression(context));
         if (lookahead.getType() == TokenType.CLOSE_PARENS) {
             // One parameter
@@ -471,7 +473,7 @@ public class Parser {
             nextToken();
             return node;
         }
-
+        
         while (lookahead.getType() != TokenType.CLOSE_PARENS) {
             if (lookahead.getType() != TokenType.COMMA) {
                 throw new ParserException("Expected comma, got " + lookahead);
@@ -480,10 +482,10 @@ public class Parser {
             parameters.add(expression(context));
         }
         nextToken();
-
+        
         return new ExpressionNode.FunctionCallNode(expr.getName(), parameters);
     }
-
+    
     /**
      * Matches an identifier.
      *

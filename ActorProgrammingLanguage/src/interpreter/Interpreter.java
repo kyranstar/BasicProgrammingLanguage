@@ -10,16 +10,16 @@ import parser.Parser;
 
 public class Interpreter {
     private final PrintStream printStream;
-
+    
     public Interpreter(final PrintStream printStream) {
         this.printStream = printStream;
     }
-    
+
     public Context interpret(final String s) {
         final Context context = new Context(printStream);
         final Lexer lexer = new Lexer(s);
         final List<ExpressionNode> nodes = new Parser(lexer.lex())
-        .parse(context);
+                .parse(context);
         for (final ExpressionNode node : nodes) {
             node.getValue(context);
         }

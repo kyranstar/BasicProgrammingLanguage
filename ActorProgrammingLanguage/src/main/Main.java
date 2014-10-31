@@ -8,16 +8,15 @@ import interpreter.Interpreter;
 import java.util.Map;
 
 import machine.Context;
-import parser.ExpressionNode;
+import type.APValue;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Main.
  */
 public final class Main {
     private Main() {
     }
-
+    
     /**
      * The main method.
      *
@@ -27,11 +26,10 @@ public final class Main {
     public static void main(final String[] args) {
         final Interpreter interpreter = new Interpreter(System.out);
         final Context context = interpreter.interpret("a= print (3);");
-        
-        for (final Map.Entry<String, ExpressionNode> a : context.getContext()
+
+        for (final Map.Entry<String, APValue> a : context.getContext()
                 .entrySet()) {
-            System.out.println(a.getKey() + " -> "
-                    + a.getValue().getValue(context));
+            System.out.println(a.getKey() + " -> " + a.getValue().getValue());
         }
     }
 }

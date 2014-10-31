@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import parser.ExpressionNode;
+import type.APValue;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -19,11 +19,11 @@ import parser.ExpressionNode;
 public class Context {
     
     /** The context. */
-    private Map<String, ExpressionNode> context;
+    private Map<String, APValue> context;
     
     /** The functions. */
-    private final Map<String, Function> functions;
-    
+    private Map<String, Function> functions;
+
     /** The parent. */
     Optional<Context> parent;
     
@@ -33,7 +33,8 @@ public class Context {
     /**
      * Instantiates a new context.
      *
-     * @param p the p
+     * @param p
+     *            the p
      */
     public Context(final PrintStream p) {
         setContext(new HashMap<>());
@@ -47,7 +48,8 @@ public class Context {
     /**
      * Instantiates a new context.
      *
-     * @param parent the parent
+     * @param parent
+     *            the parent
      */
     public Context(final Context parent) {
         setContext(new HashMap<>());
@@ -59,10 +61,12 @@ public class Context {
     /**
      * Put variable.
      *
-     * @param s the s
-     * @param en the en
+     * @param s
+     *            the s
+     * @param en
+     *            the en
      */
-    public void putVariable(final String s, final ExpressionNode en) {
+    public void putVariable(final String s, final APValue en) {
         // If this context has a parent
         if (parent.isPresent()) {
             // If that parent has the variable we are assigning
@@ -78,8 +82,10 @@ public class Context {
     /**
      * Put function.
      *
-     * @param s the s
-     * @param func the func
+     * @param s
+     *            the s
+     * @param func
+     *            the func
      */
     public void putFunction(final String s, final Function func) {
         // If this context has a parent
@@ -91,20 +97,21 @@ public class Context {
                 return;
             }
         }
-        functions.put(s, func);
+        getFunctions().put(s, func);
     }
     
     /**
      * Gets the variable.
      *
-     * @param s the s
+     * @param s
+     *            the s
      * @return the variable
      */
-    public ExpressionNode getVariable(final String s) {
-        final ExpressionNode node = getContext().get(s);
+    public APValue getVariable(final String s) {
+        APValue node = getContext().get(s);
         if (node == null) {
             if (parent.isPresent()) {
-                return parent.get().getVariable(s);
+                node = parent.get().getVariable(s);
             } else {
                 throw new ContextException("Could not find value for <" + s
                         + ">");
@@ -117,11 +124,12 @@ public class Context {
     /**
      * Gets the function.
      *
-     * @param s the s
+     * @param s
+     *            the s
      * @return the function
      */
     public Function getFunction(final String s) {
-        Function node = functions.get(s);
+        Function node = getFunctions().get(s);
         if (node == null) {
             if (parent.isPresent()) {
                 node = parent.get().getFunction(s);
@@ -148,16 +156,17 @@ public class Context {
      *
      * @return the context
      */
-    public Map<String, ExpressionNode> getContext() {
+    public Map<String, APValue> getContext() {
         return context;
     }
     
     /**
      * Sets the context.
      *
-     * @param context the context
+     * @param context
+     *            the context
      */
-    public void setContext(final Map<String, ExpressionNode> context) {
+    public void setContext(final Map<String, APValue> context) {
         this.context = context;
     }
     
@@ -173,9 +182,19 @@ public class Context {
     /**
      * Sets the output stream.
      *
-     * @param p the new output stream
+     * @param p
+     *            the new output stream
      */
     public void setOutputStream(final PrintStream p) {
         outputStream = p;
     }
+
+    public Map<String, Function> getFunctions() {
+        return functions;
+    }
+    
+    public void setFunctions(final Map<String, Function> functions) {
+        this.functions = functions;
+    }
+    
 }
