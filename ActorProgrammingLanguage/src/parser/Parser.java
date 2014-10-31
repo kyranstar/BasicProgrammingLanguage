@@ -14,9 +14,9 @@ import lexer.Token.TokenType;
 import machine.Context;
 import machine.Function;
 import parser.ExpressionNode.VariableNode;
-import type.APValue.APValueBool;
-import type.APValue.APValueNum;
-import type.APValue.Methods;
+import type.APValue.Operators;
+import type.APValueBool;
+import type.APValueNum;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -316,7 +316,7 @@ public class Parser {
             } else {
                 return new ExpressionNode.ConstantNode(
                         ((APValueNum) t.getValue(context)).callMethod(
-                                Methods.MULTIPLY, NEGATIVE_ONE));
+                                Operators.MULTIPLY, NEGATIVE_ONE));
             }
         } else {
             // signed_factor -> factor
@@ -402,7 +402,7 @@ public class Parser {
                 return t;
             } else {
                 return new ExpressionNode.ConstantNode(t.getValue(context)
-                        .callMethod(Methods.MULTIPLY, NEGATIVE_ONE));
+                        .callMethod(Operators.MULTIPLY, NEGATIVE_ONE));
             }
         } else {
             // signed_term -> term

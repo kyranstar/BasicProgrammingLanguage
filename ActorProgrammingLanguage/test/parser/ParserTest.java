@@ -17,14 +17,14 @@ import parser.ExpressionNode.AdditionNode;
 import parser.ExpressionNode.AssignmentNode;
 import parser.ExpressionNode.ConstantNode;
 import parser.ExpressionNode.VariableNode;
-import type.APValue.APValueNum;
+import type.APValueNum;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class ParserTest.
  */
 public class ParserTest {
-    
+
     /**
      * Test.
      */
@@ -36,9 +36,9 @@ public class ParserTest {
         final ExpressionNode expected = new AssignmentNode(
                 new VariableNode(""), new AdditionNode(new ConstantNode(
                         new APValueNum(new BigDecimal("1"))), new ConstantNode(
-                        new APValueNum(new BigDecimal("3")))));
+                                new APValueNum(new BigDecimal("3")))));
         assertEquals(1, tokens.size());
         assertEquals(expected, tokens.get(0));
     }
-    
+
 }
