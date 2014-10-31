@@ -1,5 +1,5 @@
 /*
- * @author Kyran Adams
+f * @author Kyran Adams
  */
 package parser;
 
@@ -13,7 +13,14 @@ import lexer.Token;
 import lexer.Token.TokenType;
 import machine.Context;
 import machine.Function;
-import parser.ExpressionNode.VariableNode;
+import parser.ExpressionNode.AndNode;
+import parser.ExpressionNode.ListIndexNode;
+import parser.ExpressionNode.OrNode.AdditionNode;
+import parser.ExpressionNode.OrNode.DivisionNode;
+import parser.ExpressionNode.OrNode.ExponentiationNode;
+import parser.ExpressionNode.OrNode.MultiplicationNode;
+import parser.ExpressionNode.OrNode.SubtractionNode;
+import parser.ExpressionNode.OrNode.VariableNode;
 import type.APValue.Operators;
 import type.APValueBool;
 import type.APValueList;
@@ -91,7 +98,7 @@ public class Parser {
      * @return the expression node
      */
     private ExpressionNode statement(final Context context) {
-        final ExpressionNode.VariableNode expr = identifier();
+        final VariableNode expr = identifier();
         nextToken();
         if (lookahead.getType() == TokenType.EQUAL) {
             final ExpressionNode assignment = assignment(context, expr);
@@ -118,7 +125,8 @@ public class Parser {
                             "Expected parameter list or equal (function def)");
                 }
             } else {
-                throw new ParserException("Expected EQUAL");
+                throw new ParserException(
+                        "Expected EQUAL or OPEN_PARENS or IDENTIFIER");
             }
         } else if (lookahead.getType() == TokenType.OPEN_PARENS) {
             final ExpressionNode node = functionParameters(context, expr);
@@ -141,7 +149,7 @@ public class Parser {
      * @return the expression node
      */
     private ExpressionNode assignment(final Context context,
-            final ExpressionNode.VariableNode expr) {
+            final VariableNode expr) {
         nextToken();
         final ExpressionNode assigned = expression(context);
         final ExpressionNode assignment = new ExpressionNode.AssignmentNode(
@@ -211,9 +219,9 @@ public class Parser {
             nextToken();
             final ExpressionNode t = signedTerm(context);
             if (positive) {
-                sum = new ExpressionNode.AdditionNode(expr, t);
+                sum = new AdditionNode(expr, t);
             } else {
-                sum = new ExpressionNode.SubtractionNode(expr, t);
+                sum = new SubtractionNode(expr, t);
             }
             
             return lowOp(sum, context);
@@ -242,6 +250,15 @@ public class Parser {
             nextToken();
             return lowOp(new ExpressionNode.GreaterThanEqualNode(expr,
                     term(context)), context);
+        } else if (lookahead.getType() == TokenType.OPEN_PARENS) {
+            nextToken();
+            final ExpressionNode insideParens = expression(context);
+            if (lookahead.getType() != TokenType.CLOSE_PARENS) {
+                throw new ParserException("Expected CLOSE_PARENS");
+            }
+            nextToken();
+            return new ListIndexNode(expr, insideParens);
+            
         } else {
             // sum_op -> EPSILON
             return expr;
@@ -283,16 +300,15 @@ public class Parser {
             final ExpressionNode f = signedFactor(context);
             
             if (positive) {
-                prod = new ExpressionNode.MultiplicationNode(expr, f);
+                prod = new MultiplicationNode(expr, f);
             } else {
-                prod = new ExpressionNode.DivisionNode(expr, f);
+                prod = new DivisionNode(expr, f);
             }
             
             return highOp(prod, context);
         } else if (lookahead.getType() == TokenType.AND) {
             nextToken();
-            return highOp(new ExpressionNode.AndNode(expr, value(context)),
-                    context);
+            return highOp(new AndNode(expr, value(context)), context);
         } else {
             // term_op -> EPSILON
             return expr;
@@ -352,7 +368,7 @@ public class Parser {
             // factor_op -> RAISED expression
             nextToken();
             final ExpressionNode exponent = signedFactor(context);
-            return new ExpressionNode.ExponentiationNode(expression, exponent);
+            return new ExponentiationNode(expression, exponent);
             
         } else {
             // factor_op -> EPSILON
@@ -432,15 +448,16 @@ public class Parser {
         } else if (lookahead.getType() == TokenType.OPEN_BRACKET) {
             final List<ExpressionNode> nodes = new ArrayList<>();
             while (lookahead.getType() != TokenType.CLOSE_BRACKET) {
-                nodes.add(expression(context));
                 nextToken();
+                nodes.add(expression(context));
             }
+            nextToken();
             return new ExpressionNode.ConstantNode(new APValueList(nodes));
         }
         
         else if (lookahead.getType() == TokenType.IDENTIFIER) {
             
-            final ExpressionNode.VariableNode expr = identifier();
+            final VariableNode expr = identifier();
             nextToken();
             if (lookahead.getType() == TokenType.OPEN_PARENS) {
                 return functionParameters(context, expr);
@@ -462,7 +479,7 @@ public class Parser {
      * @return the expression node
      */
     private ExpressionNode functionParameters(final Context context,
-            final ExpressionNode.VariableNode expr) {
+            final VariableNode expr) {
         final List<ExpressionNode> parameters = new ArrayList<>();
         nextToken();
         if (lookahead.getType() == TokenType.CLOSE_PARENS) {
@@ -498,7 +515,7 @@ public class Parser {
      *
      * @return the variable node
      */
-    private ExpressionNode.VariableNode identifier() {
-        return new ExpressionNode.VariableNode(lookahead.getText());
+    private VariableNode identifier() {
+        return new VariableNode(lookahead.getText());
     }
 }
