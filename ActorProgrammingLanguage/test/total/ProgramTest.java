@@ -19,12 +19,13 @@ import org.junit.Test;
 
 import parser.ExpressionNode;
 import parser.Parser;
+import parser.ParserException;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Test Class TotalTest.
  */
-public class TotalTest {
+public class ProgramTest {
 
     /** The number 10. */
     final BigDecimal expected10 = new BigDecimal("10");
@@ -54,6 +55,7 @@ public class TotalTest {
     public void testFuncDef() {
         expectOutput("f = 10; println(f);", "10");
         expectOutput("f a = a + 1 - 1; println(f(10));", "10");
+        expectOutput("f a b = a + b - 1; println(f(10,1));", "10");
     }
 
     /**
@@ -71,8 +73,10 @@ public class TotalTest {
         test(fib + "b = f (5);", new BigDecimal("5"), "b");
         test(fib + "b = f (6);", new BigDecimal("8"), "b");
         test(fib + "b = f (7);", new BigDecimal("13"), "b");
-    }
 
+        testStackOverflowError(fib + "b = f (-1);");
+    }
+    
     /**
      * Test print.
      */
@@ -97,6 +101,8 @@ public class TotalTest {
         test("a = 10/3;", new BigDecimal("10").divide(new BigDecimal("3"),
                 ExpressionNode.DivisionNode.DECIMALS, RoundingMode.HALF_UP),
                 variableNameA);
+        
+        Assert.fail();
     }
 
     /**
@@ -112,7 +118,8 @@ public class TotalTest {
      */
     public static void test(final String s, final BigDecimal expected,
             final String variableName) {
-        final Context c = new Context(System.out);
+        final Context c = new Context(new PrintStream(
+                new ByteArrayOutputStream()));
         final List<ExpressionNode> nodes = new Parser(new Lexer(s).lex())
         .parse(c);
         for (final ExpressionNode node : nodes) {
@@ -148,5 +155,36 @@ public class TotalTest {
         p2.println(expected);
 
         Assert.assertEquals(baos2.toString(), baos.toString());
+    }
+
+    public static void testParserException(final String s) {
+        try {
+            final Context c = new Context(new PrintStream(
+                    new ByteArrayOutputStream()));
+            final List<ExpressionNode> nodes = new Parser(new Lexer(s).lex())
+                    .parse(c);
+            for (final ExpressionNode node : nodes) {
+                node.getValue(c);
+            }
+        } catch (final ParserException e) {
+            return;
+        }
+        throw new AssertionError("Should have thrown a parser exception!");
+    }
+
+    private void testStackOverflowError(final String code) {
+        try {
+            final Context c = new Context(new PrintStream(
+                    new ByteArrayOutputStream()));
+            final List<ExpressionNode> nodes = new Parser(new Lexer(code).lex())
+                    .parse(c);
+            for (final ExpressionNode node : nodes) {
+                node.getValue(c);
+            }
+        } catch (final StackOverflowError e) {
+            return;
+        }
+        throw new AssertionError(
+                "Should have thrown a stack overflow exception!");
     }
 }

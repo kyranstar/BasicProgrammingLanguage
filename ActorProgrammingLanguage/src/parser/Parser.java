@@ -109,7 +109,6 @@ public class Parser {
                     final ExpressionNode expression = expression(context);
                     final Function function = new Function(expr.getName(),
                             variables, expression);
-                    System.out.println("putting function " + expression);
                     context.putFunction(expr.getName(), function);
                     nextToken();
                     return ExpressionNode.VOID;

@@ -10,6 +10,7 @@ import java.util.List;
 
 import machine.Context;
 import machine.Function;
+import parser.math.BigDecimalMath;
 import type.APValue;
 import type.APValue.APValueNum;
 
@@ -866,7 +867,7 @@ public abstract class ExpressionNode<T> {
                         + getTerm(1).getValue(c).getValue().getClass()
                                 .getSimpleName());
             }
-            return new APValue.APValueNum(termOne.pow(termTwo.intValue()));
+            return new APValue.APValueNum(BigDecimalMath.pow(termOne, termTwo));
         }
     }
     
