@@ -16,6 +16,7 @@ import machine.Function;
 import parser.ExpressionNode.VariableNode;
 import type.APValue.Operators;
 import type.APValueBool;
+import type.APValueList;
 import type.APValueNum;
 
 // TODO: Auto-generated Javadoc
@@ -428,6 +429,13 @@ public class Parser {
                     new APValueBool(Boolean.parseBoolean(lookahead.getText())));
             nextToken();
             return expr;
+        } else if (lookahead.getType() == TokenType.OPEN_BRACKET) {
+            final List<ExpressionNode> nodes = new ArrayList<>();
+            while (lookahead.getType() != TokenType.CLOSE_BRACKET) {
+                nodes.add(expression(context));
+                nextToken();
+            }
+            return new ExpressionNode.ConstantNode(new APValueList(nodes));
         }
         
         else if (lookahead.getType() == TokenType.IDENTIFIER) {
