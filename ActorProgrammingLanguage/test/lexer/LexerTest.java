@@ -1,3 +1,6 @@
+/*
+ * @author Kyran Adams
+ */
 package lexer;
 
 import static org.junit.Assert.assertEquals;
@@ -9,8 +12,15 @@ import lexer.Token.TokenType;
 
 import org.junit.Test;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LexerTest.
+ */
 public class LexerTest {
 
+	/**
+	 * Test.
+	 */
 	@Test
 	public void test() {
 		final Lexer lexer = new Lexer("b = 1+3;a = f(3);");

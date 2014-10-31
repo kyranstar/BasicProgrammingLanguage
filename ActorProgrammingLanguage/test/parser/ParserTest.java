@@ -1,3 +1,6 @@
+/*
+ * @author Kyran Adams
+ */
 package parser;
 
 import static org.junit.Assert.assertEquals;
@@ -16,16 +19,26 @@ import parser.ExpressionNode.ConstantNode;
 import parser.ExpressionNode.VariableNode;
 import type.APValue.APValueNum;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ParserTest.
+ */
 public class ParserTest {
-	
-	@Test
-	public void test() {
-		final Context c = new Context(System.out);
-		final List<ExpressionNode> tokens = new Parser(new Lexer("b = 1+3;").lex()).parse(c);
-		final ExpressionNode expected = new AssignmentNode(new VariableNode(""), new AdditionNode(new ConstantNode(new APValueNum(new BigDecimal("1"))), new ConstantNode(
-				new APValueNum(new BigDecimal("3")))));
-		assertEquals(1, tokens.size());
-		assertEquals(expected, tokens.get(0));
-	}
-	
+    
+    /**
+     * Test.
+     */
+    @Test
+    public void test() {
+        final Context c = new Context(System.out);
+        final List<ExpressionNode> tokens = new Parser(
+                new Lexer("b = 1+3;").lex()).parse(c);
+        final ExpressionNode expected = new AssignmentNode(
+                new VariableNode(""), new AdditionNode(new ConstantNode(
+                        new APValueNum(new BigDecimal("1"))), new ConstantNode(
+                        new APValueNum(new BigDecimal("3")))));
+        assertEquals(1, tokens.size());
+        assertEquals(expected, tokens.get(0));
+    }
+    
 }

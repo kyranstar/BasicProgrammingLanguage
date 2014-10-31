@@ -1,0 +1,716 @@
+src/interpreter/library/LibraryFunction.java:9:	All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+src/interpreter/library/LibraryFunction.java:9:	headerCommentRequirement Required
+src/interpreter/library/LibraryFunction.java:10:	Avoid variables with short names like c
+src/interpreter/library/LibraryFunction.java:10:	publicMethodCommentRequirement Required
+src/lexer/Lexer.java:9:	headerCommentRequirement Required
+src/lexer/Lexer.java:10:	Use explicit scoping instead of the default package private level
+src/lexer/Lexer.java:10:	fieldCommentRequirement Required
+src/lexer/Lexer.java:11:	fieldCommentRequirement Required
+src/lexer/Lexer.java:14:	fieldCommentRequirement Required
+src/lexer/Lexer.java:16:	fieldCommentRequirement Required
+src/lexer/Lexer.java:18:	publicMethodCommentRequirement Required
+src/lexer/Lexer.java:22:	Found 'UR'-anomaly for variable 'm' (lines '22'-'26').
+src/lexer/Lexer.java:23:	Found 'DU'-anomaly for variable 'codeFromPosition' (lines '23'-'42').
+src/lexer/Lexer.java:26:	Potential violation of Law of Demeter (object not created locally)
+src/lexer/Lexer.java:27:	Avoid variables with short names like t
+src/lexer/Lexer.java:27:	Potential violation of Law of Demeter (object not created locally)
+src/lexer/Lexer.java:29:	Potential violation of Law of Demeter (object not created locally)
+src/lexer/Lexer.java:32:	Potential violation of Law of Demeter (object not created locally)
+src/lexer/Lexer.java:34:	Potential violation of Law of Demeter (method chain calls)
+src/lexer/Lexer.java:34:	Potential violation of Law of Demeter (object not created locally)
+src/lexer/Lexer.java:34:	Potential violation of Law of Demeter (object not created locally)
+src/lexer/Lexer.java:35:	Potential violation of Law of Demeter (object not created locally)
+src/lexer/Lexer.java:37:	Potential violation of Law of Demeter (object not created locally)
+src/lexer/Lexer.java:44:	publicMethodCommentRequirement Required
+src/lexer/Lexer.java:49:	Avoid variables with short names like t
+src/lexer/Lexer.java:50:	Potential violation of Law of Demeter (object not created locally)
+src/lexer/Lexer.java:57:	New exception is thrown in catch block, original stack trace may be lost
+src/lexer/LexerException.java:3:	headerCommentRequirement Required
+src/lexer/LexerException.java:5:	publicMethodCommentRequirement Required
+src/lexer/LexerException.java:9:	publicMethodCommentRequirement Required
+src/lexer/LexerException.java:13:	publicMethodCommentRequirement Required
+src/lexer/LexerException.java:18:	publicMethodCommentRequirement Required
+src/lexer/LexerException.java:22:	publicMethodCommentRequirement Required
+src/lexer/LexerInformation.java:3:	Each class should declare at least one constructor
+src/lexer/LexerInformation.java:3:	headerCommentRequirement Required
+src/lexer/LexerInformation.java:5:	Avoid using redundant field initializer for 'currentLine'
+src/lexer/LexerInformation.java:5:	fieldCommentRequirement Required
+src/lexer/LexerInformation.java:7:	Avoid using redundant field initializer for 'lastEndLine'
+src/lexer/LexerInformation.java:7:	fieldCommentRequirement Required
+src/lexer/LexerInformation.java:9:	Avoid using redundant field initializer for 'position'
+src/lexer/LexerInformation.java:9:	fieldCommentRequirement Required
+src/lexer/LexerInformation.java:11:	publicMethodCommentRequirement Required
+src/lexer/Token.java:3:	headerCommentRequirement Required
+src/lexer/Token.java:5:	fieldCommentRequirement Required
+src/lexer/Token.java:6:	fieldCommentRequirement Required
+src/lexer/Token.java:8:	publicMethodCommentRequirement Required
+src/lexer/Token.java:13:	publicMethodCommentRequirement Required
+src/lexer/Token.java:17:	publicMethodCommentRequirement Required
+src/lexer/Token.java:22:	publicMethodCommentRequirement Required
+src/lexer/Token.java:23:	Useless parentheses.
+src/lexer/Token.java:23:	Useless parentheses.
+src/lexer/Token.java:27:	enumCommentRequirement Required
+src/lexer/Token.java:32:	publicMethodCommentRequirement Required
+src/lexer/Token.java:33:	Avoid using final local variables, turn them into fields
+src/lexer/Token.java:34:	Found 'DD'-anomaly for variable 'result' (lines '34'-'35').
+src/lexer/Token.java:41:	publicMethodCommentRequirement Required
+src/lexer/Token.java:42:	Avoid using if statements without curly braces
+src/lexer/Token.java:43:	A method should have only one exit point, and that should be the last statement in the method
+src/lexer/Token.java:44:	Avoid using if statements without curly braces
+src/lexer/Token.java:45:	A method should have only one exit point, and that should be the last statement in the method
+src/lexer/Token.java:46:	Avoid using if statements without curly braces
+src/lexer/Token.java:47:	A method should have only one exit point, and that should be the last statement in the method
+src/lexer/Token.java:50:	Avoid using if statements without curly braces
+src/lexer/Token.java:51:	A method should have only one exit point, and that should be the last statement in the method
+src/lexer/Token.java:52:	Avoid using if statements without curly braces
+src/lexer/Token.java:53:	A method should have only one exit point, and that should be the last statement in the method
+src/lexer/Token.java:54:	Avoid using if statements without curly braces
+src/lexer/Token.java:55:	A method should have only one exit point, and that should be the last statement in the method
+src/lexer/TokenMatcher.java:3:	Abstract classes should be named AbstractXXX
+src/lexer/TokenMatcher.java:3:	Each class should declare at least one constructor
+src/lexer/TokenMatcher.java:3:	headerCommentRequirement Required
+src/lexer/TokenMatcher.java:5:	protectedMethodCommentRequirement Required
+src/lexer/TokenMatcher.java:7:	protectedMethodCommentRequirement Required
+src/lexer/TokenMatcher.java:9:	publicMethodCommentRequirement Required
+src/lexer/TokenMatcher.java:10:	Avoid using if statements without curly braces
+src/lexer/TokenMatcher.java:15:	publicMethodCommentRequirement Required
+src/lexer/TokenMatcher.java:17:	A method should have only one exit point, and that should be the last statement in the method
+src/lexer/TokenMatchers.java:8:	Class cannot be instantiated and does not provide any static methods or fields
+src/lexer/TokenMatchers.java:8:	headerCommentRequirement Required
+src/lexer/TokenMatchers.java:12:	headerCommentRequirement Required
+src/lexer/TokenMatchers.java:15:	publicMethodCommentRequirement Required
+src/lexer/TokenMatchers.java:17:	Potential violation of Law of Demeter (object not created locally)
+src/lexer/TokenMatchers.java:18:	Avoid variables with short names like c
+src/lexer/TokenMatchers.java:18:	Potential violation of Law of Demeter (object not created locally)
+src/lexer/TokenMatchers.java:19:	Potential violation of Law of Demeter (object not created locally)
+src/lexer/TokenMatchers.java:21:	Potential violation of Law of Demeter (object not created locally)
+src/lexer/TokenMatchers.java:25:	publicMethodCommentRequirement Required
+src/lexer/TokenMatchers.java:31:	headerCommentRequirement Required
+src/lexer/TokenMatchers.java:34:	Avoid reassigning parameters such as 'code'
+src/lexer/TokenMatchers.java:34:	publicMethodCommentRequirement Required
+src/lexer/TokenMatchers.java:37:	Potential violation of Law of Demeter (object not created locally)
+src/lexer/TokenMatchers.java:40:	Potential violation of Law of Demeter (object not created locally)
+src/lexer/TokenMatchers.java:44:	publicMethodCommentRequirement Required
+src/lexer/TokenMatchers.java:50:	headerCommentRequirement Required
+src/lexer/TokenMatchers.java:53:	publicMethodCommentRequirement Required
+src/lexer/TokenMatchers.java:55:	A method should have only one exit point, and that should be the last statement in the method
+src/lexer/TokenMatchers.java:64:	publicMethodCommentRequirement Required
+src/lexer/TokenMatchers.java:70:	headerCommentRequirement Required
+src/lexer/TokenMatchers.java:71:	fieldCommentRequirement Required
+src/lexer/TokenMatchers.java:93:	headerCommentRequirement Required
+src/lexer/TokenMatchers.java:94:	publicMethodCommentRequirement Required
+src/lexer/TokenMatchers.java:99:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/lexer/TokenMatchers.java:99:	fieldCommentRequirement Required
+src/lexer/TokenMatchers.java:100:	Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+src/lexer/TokenMatchers.java:100:	fieldCommentRequirement Required
+src/lexer/TokenMatchers.java:104:	Found 'UR'-anomaly for variable 'entry' (lines '104'-'106').
+src/lexer/TokenMatchers.java:104:	publicMethodCommentRequirement Required
+src/lexer/TokenMatchers.java:115:	Found 'UR'-anomaly for variable 's' (lines '115'-'117').
+src/lexer/TokenMatchers.java:115:	publicMethodCommentRequirement Required
+src/lexer/TokenMatchers.java:118:	A method should have only one exit point, and that should be the last statement in the method
+src/lexer/TokenMatchers.java:125:	Avoid short class names like IF
+src/lexer/TokenMatchers.java:125:	headerCommentRequirement Required
+src/lexer/TokenMatchers.java:126:	This final field could be made static
+src/lexer/TokenMatchers.java:126:	Use explicit scoping instead of the default package private level
+src/lexer/TokenMatchers.java:126:	fieldCommentRequirement Required
+src/lexer/TokenMatchers.java:127:	This final field could be made static
+src/lexer/TokenMatchers.java:127:	Use explicit scoping instead of the default package private level
+src/lexer/TokenMatchers.java:127:	fieldCommentRequirement Required
+src/lexer/TokenMatchers.java:130:	protectedMethodCommentRequirement Required
+src/lexer/TokenMatchers.java:133:	A method should have only one exit point, and that should be the last statement in the method
+src/lexer/TokenMatchers.java:140:	protectedMethodCommentRequirement Required
+src/lexer/TokenMatchers.java:146:	headerCommentRequirement Required
+src/lexer/TokenMatchers.java:148:	publicMethodCommentRequirement Required
+src/lexer/TokenMatchers.java:149:	Avoid variables with short names like c
+src/lexer/TokenMatchers.java:151:	A switch with less than three branches is inefficient, use a if statement instead.
+src/lexer/TokenMatchers.java:151:	Switch statements should have a default label
+src/lexer/TokenMatchers.java:153:	A method should have only one exit point, and that should be the last statement in the method
+src/lexer/TokenMatchers.java:161:	publicMethodCommentRequirement Required
+src/lexer/TokenMatchers.java:162:	This call to String.startsWith can be rewritten using String.charAt(0)
+src/lexer/TokenMatchers.java:162:	This call to String.startsWith can be rewritten using String.charAt(0)
+src/lexer/TokenMatchers.java:166:	headerCommentRequirement Required
+src/lexer/TokenMatchers.java:169:	Avoid reassigning parameters such as 'code'
+src/lexer/TokenMatchers.java:169:	publicMethodCommentRequirement Required
+src/lexer/TokenMatchers.java:172:	Potential violation of Law of Demeter (object not created locally)
+src/lexer/TokenMatchers.java:175:	Potential violation of Law of Demeter (object not created locally)
+src/lexer/TokenMatchers.java:179:	publicMethodCommentRequirement Required
+src/machine/Context.java:12:	headerCommentRequirement Required
+src/machine/Context.java:13:	It is somewhat confusing to have a field name matching the declaring class name
+src/machine/Context.java:13:	fieldCommentRequirement Required
+src/machine/Context.java:14:	fieldCommentRequirement Required
+src/machine/Context.java:15:	Use explicit scoping instead of the default package private level
+src/machine/Context.java:15:	fieldCommentRequirement Required
+src/machine/Context.java:17:	fieldCommentRequirement Required
+src/machine/Context.java:19:	Avoid variables with short names like p
+src/machine/Context.java:19:	publicMethodCommentRequirement Required
+src/machine/Context.java:28:	publicMethodCommentRequirement Required
+src/machine/Context.java:35:	Avoid variables with short names like en
+src/machine/Context.java:35:	Avoid variables with short names like s
+src/machine/Context.java:35:	publicMethodCommentRequirement Required
+src/machine/Context.java:39:	Potential violation of Law of Demeter (method chain calls)
+src/machine/Context.java:39:	These nested if statements could be combined
+src/machine/Context.java:41:	Potential violation of Law of Demeter (method chain calls)
+src/machine/Context.java:45:	Potential violation of Law of Demeter (method chain calls)
+src/machine/Context.java:48:	Avoid variables with short names like s
+src/machine/Context.java:48:	publicMethodCommentRequirement Required
+src/machine/Context.java:52:	Potential violation of Law of Demeter (method chain calls)
+src/machine/Context.java:52:	These nested if statements could be combined
+src/machine/Context.java:54:	Potential violation of Law of Demeter (method chain calls)
+src/machine/Context.java:61:	Avoid variables with short names like s
+src/machine/Context.java:61:	publicMethodCommentRequirement Required
+src/machine/Context.java:62:	Potential violation of Law of Demeter (method chain calls)
+src/machine/Context.java:65:	A method should have only one exit point, and that should be the last statement in the method
+src/machine/Context.java:65:	Potential violation of Law of Demeter (method chain calls)
+src/machine/Context.java:75:	Avoid variables with short names like s
+src/machine/Context.java:75:	publicMethodCommentRequirement Required
+src/machine/Context.java:79:	Potential violation of Law of Demeter (method chain calls)
+src/machine/Context.java:89:	publicMethodCommentRequirement Required
+src/machine/Context.java:93:	publicMethodCommentRequirement Required
+src/machine/Context.java:97:	publicMethodCommentRequirement Required
+src/machine/Context.java:101:	publicMethodCommentRequirement Required
+src/machine/Context.java:105:	Avoid variables with short names like p
+src/machine/Context.java:105:	publicMethodCommentRequirement Required
+src/machine/ContextException.java:3:	headerCommentRequirement Required
+src/machine/ContextException.java:5:	publicMethodCommentRequirement Required
+src/machine/ContextException.java:9:	publicMethodCommentRequirement Required
+src/machine/ContextException.java:13:	publicMethodCommentRequirement Required
+src/machine/ContextException.java:18:	publicMethodCommentRequirement Required
+src/machine/ContextException.java:22:	publicMethodCommentRequirement Required
+src/machine/Function.java:7:	headerCommentRequirement Required
+src/machine/Function.java:8:	fieldCommentRequirement Required
+src/machine/Function.java:9:	fieldCommentRequirement Required
+src/machine/Function.java:10:	fieldCommentRequirement Required
+src/machine/Function.java:12:	publicMethodCommentRequirement Required
+src/main/Main.java:12:	Avoid short class names like Main
+src/main/Main.java:12:	headerCommentRequirement Required
+src/main/Main.java:17:	Found 'UR'-anomaly for variable 'a' (lines '17'-'29').
+src/main/Main.java:17:	Found 'UR'-anomaly for variable 'node' (lines '17'-'25').
+src/main/Main.java:17:	publicMethodCommentRequirement Required
+src/main/Main.java:19:	System.out.println is used
+src/main/Main.java:25:	System.out.println is used
+src/main/Main.java:27:	Potential violation of Law of Demeter (method chain calls)
+src/main/Main.java:29:	Potential violation of Law of Demeter (method chain calls)
+src/main/Main.java:29:	System.out.println is used
+src/main/Main.java:30:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:1:	Possible God class (WMC=53, ATFD=16, TCC=0.26666666666666666)
+src/parser/ExpressionNode.java:13:	Abstract classes should be named AbstractXXX
+src/parser/ExpressionNode.java:13:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:15:	fieldCommentRequirement Required
+src/parser/ExpressionNode.java:18:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:23:	fieldCommentRequirement Required
+src/parser/ExpressionNode.java:25:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:29:	Avoid variables with short names like i
+src/parser/ExpressionNode.java:29:	protectedMethodCommentRequirement Required
+src/parser/ExpressionNode.java:34:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:35:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:38:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:41:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:42:	Avoid using final local variables, turn them into fields
+src/parser/ExpressionNode.java:43:	Found 'DD'-anomaly for variable 'result' (lines '43'-'44').
+src/parser/ExpressionNode.java:49:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:51:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/ExpressionNode.java:54:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/ExpressionNode.java:57:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/ExpressionNode.java:62:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/ExpressionNode.java:65:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/ExpressionNode.java:70:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:72:	Avoid variables with short names like v
+src/parser/ExpressionNode.java:72:	Use explicit scoping instead of the default package private level
+src/parser/ExpressionNode.java:72:	fieldCommentRequirement Required
+src/parser/ExpressionNode.java:74:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:80:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:81:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:85:	Avoid variables with short names like c
+src/parser/ExpressionNode.java:85:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:91:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:93:	fieldCommentRequirement Required
+src/parser/ExpressionNode.java:95:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:101:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:108:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:110:	fieldCommentRequirement Required
+src/parser/ExpressionNode.java:111:	fieldCommentRequirement Required
+src/parser/ExpressionNode.java:113:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:120:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:125:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:128:	Avoid declaring a variable if it is unreferenced before a possible exit point.
+src/parser/ExpressionNode.java:128:	Avoid variables with short names like c
+src/parser/ExpressionNode.java:128:	Found 'DU'-anomaly for variable 'c' (lines '128'-'142').
+src/parser/ExpressionNode.java:131:	Potential violation of Law of Demeter (static property access)
+src/parser/ExpressionNode.java:132:	Potential violation of Law of Demeter (static property access)
+src/parser/ExpressionNode.java:138:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:138:	Potential violation of Law of Demeter (static property access)
+src/parser/ExpressionNode.java:141:	Potential violation of Law of Demeter (static property access)
+src/parser/ExpressionNode.java:145:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:147:	fieldCommentRequirement Required
+src/parser/ExpressionNode.java:149:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:155:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:156:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:156:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:156:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:162:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:164:	fieldCommentRequirement Required
+src/parser/ExpressionNode.java:165:	fieldCommentRequirement Required
+src/parser/ExpressionNode.java:167:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:174:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:179:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:187:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:189:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:194:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:197:	Found 'DU'-anomaly for variable 'result' (lines '197'-'206').
+src/parser/ExpressionNode.java:197:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:197:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:199:	New exception is thrown in catch block, original stack trace may be lost
+src/parser/ExpressionNode.java:199:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:199:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:202:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/ExpressionNode.java:202:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:204:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:210:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:211:	Avoid variables with short names like n1
+src/parser/ExpressionNode.java:211:	Avoid variables with short names like n2
+src/parser/ExpressionNode.java:211:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:216:	Avoid variables with short names like c
+src/parser/ExpressionNode.java:216:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:217:	Avoid variables with short names like t1
+src/parser/ExpressionNode.java:217:	Avoid variables with short names like t2
+src/parser/ExpressionNode.java:217:	Use one line for each declaration, it enhances code readability.
+src/parser/ExpressionNode.java:220:	Found 'DU'-anomaly for variable 't1' (lines '220'-'228').
+src/parser/ExpressionNode.java:220:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:220:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:221:	Found 'DU'-anomaly for variable 't2' (lines '221'-'228').
+src/parser/ExpressionNode.java:221:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:221:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:223:	New exception is thrown in catch block, original stack trace may be lost
+src/parser/ExpressionNode.java:223:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:223:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:223:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:223:	The String literal " and " appears 11 times in this file; the first occurrence is on line 223
+src/parser/ExpressionNode.java:223:	The String literal " on types " appears 11 times in this file; the first occurrence is on line 223
+src/parser/ExpressionNode.java:223:	The String literal "Cannot do operation " appears 11 times in this file; the first occurrence is on line 223
+src/parser/ExpressionNode.java:224:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:224:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:227:	Potential violation of Law of Demeter (object not created locally)
+src/parser/ExpressionNode.java:232:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:233:	Avoid variables with short names like n1
+src/parser/ExpressionNode.java:233:	Avoid variables with short names like n2
+src/parser/ExpressionNode.java:233:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:238:	Avoid variables with short names like c
+src/parser/ExpressionNode.java:238:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:239:	Avoid variables with short names like t1
+src/parser/ExpressionNode.java:239:	Avoid variables with short names like t2
+src/parser/ExpressionNode.java:239:	Use one line for each declaration, it enhances code readability.
+src/parser/ExpressionNode.java:242:	Found 'DU'-anomaly for variable 't1' (lines '242'-'250').
+src/parser/ExpressionNode.java:242:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:242:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:243:	Found 'DU'-anomaly for variable 't2' (lines '243'-'250').
+src/parser/ExpressionNode.java:243:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:243:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:245:	New exception is thrown in catch block, original stack trace may be lost
+src/parser/ExpressionNode.java:245:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:245:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:245:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:246:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:246:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:249:	Potential violation of Law of Demeter (object not created locally)
+src/parser/ExpressionNode.java:254:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:255:	Avoid variables with short names like n1
+src/parser/ExpressionNode.java:255:	Avoid variables with short names like n2
+src/parser/ExpressionNode.java:255:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:260:	Avoid variables with short names like c
+src/parser/ExpressionNode.java:260:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:261:	Avoid variables with short names like t1
+src/parser/ExpressionNode.java:261:	Avoid variables with short names like t2
+src/parser/ExpressionNode.java:261:	Use one line for each declaration, it enhances code readability.
+src/parser/ExpressionNode.java:264:	Found 'DU'-anomaly for variable 't1' (lines '264'-'272').
+src/parser/ExpressionNode.java:264:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:264:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:265:	Found 'DU'-anomaly for variable 't2' (lines '265'-'272').
+src/parser/ExpressionNode.java:265:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:265:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:267:	New exception is thrown in catch block, original stack trace may be lost
+src/parser/ExpressionNode.java:267:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:267:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:267:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:268:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:268:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:271:	Potential violation of Law of Demeter (object not created locally)
+src/parser/ExpressionNode.java:276:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:277:	Avoid variables with short names like n1
+src/parser/ExpressionNode.java:277:	Avoid variables with short names like n2
+src/parser/ExpressionNode.java:277:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:282:	Avoid variables with short names like c
+src/parser/ExpressionNode.java:282:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:283:	Avoid variables with short names like t1
+src/parser/ExpressionNode.java:283:	Avoid variables with short names like t2
+src/parser/ExpressionNode.java:283:	Use one line for each declaration, it enhances code readability.
+src/parser/ExpressionNode.java:286:	Found 'DU'-anomaly for variable 't1' (lines '286'-'294').
+src/parser/ExpressionNode.java:286:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:286:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:287:	Found 'DU'-anomaly for variable 't2' (lines '287'-'294').
+src/parser/ExpressionNode.java:287:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:287:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:289:	New exception is thrown in catch block, original stack trace may be lost
+src/parser/ExpressionNode.java:289:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:289:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:289:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:290:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:290:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:293:	Potential violation of Law of Demeter (object not created locally)
+src/parser/ExpressionNode.java:298:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:300:	Avoid variables with short names like n1
+src/parser/ExpressionNode.java:300:	Avoid variables with short names like n2
+src/parser/ExpressionNode.java:300:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:305:	Avoid variables with short names like c
+src/parser/ExpressionNode.java:305:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:306:	Avoid variables with short names like t1
+src/parser/ExpressionNode.java:306:	Avoid variables with short names like t2
+src/parser/ExpressionNode.java:306:	Use one line for each declaration, it enhances code readability.
+src/parser/ExpressionNode.java:309:	Found 'DU'-anomaly for variable 't1' (lines '309'-'317').
+src/parser/ExpressionNode.java:309:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:309:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:310:	Found 'DU'-anomaly for variable 't2' (lines '310'-'317').
+src/parser/ExpressionNode.java:310:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:310:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:312:	New exception is thrown in catch block, original stack trace may be lost
+src/parser/ExpressionNode.java:312:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:312:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:312:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:313:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:313:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:320:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:322:	Avoid variables with short names like n1
+src/parser/ExpressionNode.java:322:	Avoid variables with short names like n2
+src/parser/ExpressionNode.java:322:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:327:	Avoid variables with short names like c
+src/parser/ExpressionNode.java:327:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:328:	Avoid variables with short names like t1
+src/parser/ExpressionNode.java:328:	Avoid variables with short names like t2
+src/parser/ExpressionNode.java:328:	Use one line for each declaration, it enhances code readability.
+src/parser/ExpressionNode.java:331:	Found 'DU'-anomaly for variable 't1' (lines '331'-'339').
+src/parser/ExpressionNode.java:331:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:331:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:332:	Found 'DU'-anomaly for variable 't2' (lines '332'-'339').
+src/parser/ExpressionNode.java:332:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:332:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:334:	New exception is thrown in catch block, original stack trace may be lost
+src/parser/ExpressionNode.java:334:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:334:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:334:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:334:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:334:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:335:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:335:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:335:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:335:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:343:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:344:	Avoid variables with short names like n1
+src/parser/ExpressionNode.java:344:	Avoid variables with short names like n2
+src/parser/ExpressionNode.java:344:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:349:	Avoid variables with short names like c
+src/parser/ExpressionNode.java:349:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:350:	Avoid using final local variables, turn them into fields
+src/parser/ExpressionNode.java:350:	Avoid variables with short names like t1
+src/parser/ExpressionNode.java:351:	Avoid using final local variables, turn them into fields
+src/parser/ExpressionNode.java:351:	Avoid variables with short names like t2
+src/parser/ExpressionNode.java:353:	Found 'DU'-anomaly for variable 't1' (lines '353'-'360').
+src/parser/ExpressionNode.java:353:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:353:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:354:	Found 'DU'-anomaly for variable 't2' (lines '354'-'360').
+src/parser/ExpressionNode.java:354:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:354:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:356:	New exception is thrown in catch block, original stack trace may be lost
+src/parser/ExpressionNode.java:356:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:356:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:356:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:356:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:356:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:357:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:357:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:357:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:357:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:359:	Potential violation of Law of Demeter (object not created locally)
+src/parser/ExpressionNode.java:363:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:364:	Avoid variables with short names like n1
+src/parser/ExpressionNode.java:364:	Avoid variables with short names like n2
+src/parser/ExpressionNode.java:364:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:369:	Avoid variables with short names like c
+src/parser/ExpressionNode.java:369:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:370:	Avoid using final local variables, turn them into fields
+src/parser/ExpressionNode.java:370:	Avoid variables with short names like t1
+src/parser/ExpressionNode.java:371:	Avoid using final local variables, turn them into fields
+src/parser/ExpressionNode.java:371:	Avoid variables with short names like t2
+src/parser/ExpressionNode.java:373:	Found 'DU'-anomaly for variable 't1' (lines '373'-'380').
+src/parser/ExpressionNode.java:373:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:373:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:374:	Found 'DU'-anomaly for variable 't2' (lines '374'-'380').
+src/parser/ExpressionNode.java:374:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:374:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:376:	New exception is thrown in catch block, original stack trace may be lost
+src/parser/ExpressionNode.java:376:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:376:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:376:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:376:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:376:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:377:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:377:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:377:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:377:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:379:	Potential violation of Law of Demeter (object not created locally)
+src/parser/ExpressionNode.java:384:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:385:	Avoid variables with short names like n1
+src/parser/ExpressionNode.java:385:	Avoid variables with short names like n2
+src/parser/ExpressionNode.java:385:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:390:	Avoid variables with short names like c
+src/parser/ExpressionNode.java:390:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:391:	Avoid using final local variables, turn them into fields
+src/parser/ExpressionNode.java:391:	Avoid variables with short names like t1
+src/parser/ExpressionNode.java:392:	Avoid using final local variables, turn them into fields
+src/parser/ExpressionNode.java:392:	Avoid variables with short names like t2
+src/parser/ExpressionNode.java:394:	Found 'DU'-anomaly for variable 't1' (lines '394'-'401').
+src/parser/ExpressionNode.java:394:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:394:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:395:	Found 'DU'-anomaly for variable 't2' (lines '395'-'401').
+src/parser/ExpressionNode.java:395:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:395:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:397:	New exception is thrown in catch block, original stack trace may be lost
+src/parser/ExpressionNode.java:397:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:397:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:397:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:397:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:397:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:398:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:398:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:398:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:398:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:400:	Potential violation of Law of Demeter (object not created locally)
+src/parser/ExpressionNode.java:404:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:405:	fieldCommentRequirement Required
+src/parser/ExpressionNode.java:407:	Avoid variables with short names like n1
+src/parser/ExpressionNode.java:407:	Avoid variables with short names like n2
+src/parser/ExpressionNode.java:407:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:412:	Avoid variables with short names like c
+src/parser/ExpressionNode.java:412:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:413:	Avoid using final local variables, turn them into fields
+src/parser/ExpressionNode.java:413:	Avoid variables with short names like t1
+src/parser/ExpressionNode.java:414:	Avoid using final local variables, turn them into fields
+src/parser/ExpressionNode.java:414:	Avoid variables with short names like t2
+src/parser/ExpressionNode.java:416:	Found 'DU'-anomaly for variable 't1' (lines '416'-'423').
+src/parser/ExpressionNode.java:416:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:416:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:417:	Found 'DU'-anomaly for variable 't2' (lines '417'-'423').
+src/parser/ExpressionNode.java:417:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:417:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:419:	New exception is thrown in catch block, original stack trace may be lost
+src/parser/ExpressionNode.java:419:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:419:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:419:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:419:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:419:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:420:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:420:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:420:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:420:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:422:	Potential violation of Law of Demeter (object not created locally)
+src/parser/ExpressionNode.java:426:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:427:	Avoid variables with short names like n1
+src/parser/ExpressionNode.java:427:	Avoid variables with short names like n2
+src/parser/ExpressionNode.java:427:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:432:	Avoid variables with short names like c
+src/parser/ExpressionNode.java:432:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:433:	Avoid using final local variables, turn them into fields
+src/parser/ExpressionNode.java:433:	Avoid variables with short names like t1
+src/parser/ExpressionNode.java:434:	Avoid using final local variables, turn them into fields
+src/parser/ExpressionNode.java:434:	Avoid variables with short names like t2
+src/parser/ExpressionNode.java:436:	Found 'DU'-anomaly for variable 't1' (lines '436'-'443').
+src/parser/ExpressionNode.java:436:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:436:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:437:	Found 'DU'-anomaly for variable 't2' (lines '437'-'443').
+src/parser/ExpressionNode.java:437:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:437:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:439:	New exception is thrown in catch block, original stack trace may be lost
+src/parser/ExpressionNode.java:439:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:439:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:439:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:439:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:439:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:440:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:440:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:440:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:440:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:442:	Potential violation of Law of Demeter (object not created locally)
+src/parser/ExpressionNode.java:442:	Potential violation of Law of Demeter (object not created locally)
+src/parser/ExpressionNode.java:446:	headerCommentRequirement Required
+src/parser/ExpressionNode.java:447:	fieldCommentRequirement Required
+src/parser/ExpressionNode.java:449:	Avoid variables with short names like s
+src/parser/ExpressionNode.java:449:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:455:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:456:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:460:	Avoid variables with short names like c
+src/parser/ExpressionNode.java:460:	publicMethodCommentRequirement Required
+src/parser/ExpressionNode.java:462:	Potential violation of Law of Demeter (method chain calls)
+src/parser/ExpressionNode.java:465:	publicMethodCommentRequirement Required
+src/parser/Parser.java:1:	Possible God class (WMC=56, ATFD=90, TCC=0.08088235294117647)
+src/parser/Parser.java:18:	This class has too many methods, consider refactoring it.
+src/parser/Parser.java:18:	headerCommentRequirement Required
+src/parser/Parser.java:19:	fieldCommentRequirement Required
+src/parser/Parser.java:21:	Avoid using implementation types like 'LinkedList'; use the interface instead
+src/parser/Parser.java:21:	Use explicit scoping instead of the default package private level
+src/parser/Parser.java:21:	fieldCommentRequirement Required
+src/parser/Parser.java:22:	Use explicit scoping instead of the default package private level
+src/parser/Parser.java:22:	fieldCommentRequirement Required
+src/parser/Parser.java:24:	publicMethodCommentRequirement Required
+src/parser/Parser.java:45:	publicMethodCommentRequirement Required
+src/parser/Parser.java:52:	Potential violation of Law of Demeter (object not created locally)
+src/parser/Parser.java:58:	Found 'DU'-anomaly for variable 'expr' (lines '58'-'97').
+src/parser/Parser.java:62:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:62:	Consider simply returning the value vs storing it in local variable 'assignment'
+src/parser/Parser.java:68:	Found 'DU'-anomaly for variable 'variables' (lines '68'-'97').
+src/parser/Parser.java:76:	Potential violation of Law of Demeter (object not created locally)
+src/parser/Parser.java:78:	Potential violation of Law of Demeter (object not created locally)
+src/parser/Parser.java:80:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:103:	Avoid declaring a variable if it is unreferenced before a possible exit point.
+src/parser/Parser.java:103:	Found 'DU'-anomaly for variable 'assignment' (lines '103'-'111').
+src/parser/Parser.java:115:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:125:	Avoid declaring a variable if it is unreferenced before a possible exit point.
+src/parser/Parser.java:125:	Found 'DU'-anomaly for variable 'ifExpr' (lines '125'-'133').
+src/parser/Parser.java:126:	Avoid declaring a variable if it is unreferenced before a possible exit point.
+src/parser/Parser.java:126:	Found 'DU'-anomaly for variable 'thenExpr' (lines '126'-'133').
+src/parser/Parser.java:143:	Potential violation of Law of Demeter (method chain calls)
+src/parser/Parser.java:145:	Avoid variables with short names like t
+src/parser/Parser.java:152:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:155:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:159:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:163:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:168:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:172:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:194:	Potential violation of Law of Demeter (method chain calls)
+src/parser/Parser.java:196:	Avoid variables with short names like f
+src/parser/Parser.java:204:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:207:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:218:	Potential violation of Law of Demeter (method chain calls)
+src/parser/Parser.java:220:	Avoid variables with short names like t
+src/parser/Parser.java:222:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:224:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:225:	Potential violation of Law of Demeter (method chain calls)
+src/parser/Parser.java:225:	Potential violation of Law of Demeter (object not created locally)
+src/parser/Parser.java:225:	Potential violation of Law of Demeter (object not created locally)
+src/parser/Parser.java:245:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:257:	Avoid declaring a variable if it is unreferenced before a possible exit point.
+src/parser/Parser.java:257:	Found 'DU'-anomaly for variable 'node' (lines '257'-'270').
+src/parser/Parser.java:265:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:275:	Potential violation of Law of Demeter (method chain calls)
+src/parser/Parser.java:277:	Avoid variables with short names like t
+src/parser/Parser.java:279:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:281:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:281:	Potential violation of Law of Demeter (method chain calls)
+src/parser/Parser.java:281:	Potential violation of Law of Demeter (object not created locally)
+src/parser/Parser.java:295:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:300:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:308:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:331:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/Parser.java:340:	A method should have only one exit point, and that should be the last statement in the method
+src/parser/ParserException.java:3:	headerCommentRequirement Required
+src/parser/ParserException.java:5:	publicMethodCommentRequirement Required
+src/parser/ParserException.java:9:	publicMethodCommentRequirement Required
+src/parser/ParserException.java:13:	publicMethodCommentRequirement Required
+src/parser/ParserException.java:18:	publicMethodCommentRequirement Required
+src/parser/ParserException.java:22:	publicMethodCommentRequirement Required
+src/type/APValue.java:5:	Abstract classes should be named AbstractXXX
+src/type/APValue.java:5:	Each class should declare at least one constructor
+src/type/APValue.java:5:	headerCommentRequirement Required
+src/type/APValue.java:13:	fieldCommentRequirement Required
+src/type/APValue.java:15:	publicMethodCommentRequirement Required
+src/type/APValue.java:20:	publicMethodCommentRequirement Required
+src/type/APValue.java:25:	Avoid variables with short names like s
+src/type/APValue.java:25:	publicMethodCommentRequirement Required
+src/type/APValue.java:30:	Use explicit scoping instead of the default package private level
+src/type/APValue.java:30:	fieldCommentRequirement Required
+src/type/APValue.java:31:	fieldCommentRequirement Required
+src/type/APValue.java:33:	headerCommentRequirement Required
+src/type/APValue.java:34:	fieldCommentRequirement Required
+src/type/APValue.java:36:	It is a good practice to call super() in a constructor
+src/type/APValue.java:36:	publicMethodCommentRequirement Required
+src/type/APValue.java:41:	publicMethodCommentRequirement Required
+src/type/APValue.java:46:	publicMethodCommentRequirement Required
+src/type/APValue.java:51:	Avoid variables with short names like s
+src/type/APValue.java:51:	publicMethodCommentRequirement Required
+src/type/APValue.java:52:	Avoid using if statements without curly braces
+src/type/APValue.java:52:	Potential violation of Law of Demeter (method chain calls)
+src/type/APValue.java:55:	Switch statements should have a default label
+src/type/APValue.java:57:	A method should have only one exit point, and that should be the last statement in the method
+src/type/APValue.java:57:	Potential violation of Law of Demeter (method chain calls)
+src/type/APValue.java:59:	A method should have only one exit point, and that should be the last statement in the method
+src/type/APValue.java:59:	Potential violation of Law of Demeter (method chain calls)
+src/type/APValue.java:61:	A method should have only one exit point, and that should be the last statement in the method
+src/type/APValue.java:61:	Potential violation of Law of Demeter (method chain calls)
+src/type/APValue.java:63:	A method should have only one exit point, and that should be the last statement in the method
+src/type/APValue.java:63:	Potential violation of Law of Demeter (method chain calls)
+src/type/APValue.java:65:	Potential violation of Law of Demeter (method chain calls)
+src/type/APValue.java:65:	Potential violation of Law of Demeter (method chain calls)
+src/type/APValue.java:65:	Potential violation of Law of Demeter (method chain calls)
+src/type/APValue.java:71:	headerCommentRequirement Required
+src/type/APValue.java:72:	fieldCommentRequirement Required
+src/type/APValue.java:74:	It is a good practice to call super() in a constructor
+src/type/APValue.java:74:	publicMethodCommentRequirement Required
+src/type/APValue.java:79:	publicMethodCommentRequirement Required
+src/type/APValue.java:84:	publicMethodCommentRequirement Required
+src/type/APValue.java:89:	publicMethodCommentRequirement Required
+src/type/APValue.java:90:	Avoid using if statements without curly braces
+src/type/APValue.java:90:	Potential violation of Law of Demeter (method chain calls)
+src/type/APValue.java:93:	A switch with less than three branches is inefficient, use a if statement instead.
+src/type/APValue.java:93:	Switch statements should have a default label
+src/type/APValue.java:95:	A method should have only one exit point, and that should be the last statement in the method
+src/type/APValue.java:95:	Potential violation of Law of Demeter (method chain calls)
+src/type/APValue.java:97:	Potential violation of Law of Demeter (method chain calls)
+src/type/APValue.java:103:	enumCommentRequirement Required
+src/type/APValue.java:115:	publicMethodCommentRequirement Required
+src/type/APValue.java:117:	publicMethodCommentRequirement Required
+src/type/APValue.java:121:	Avoid variables with short names like s
+src/type/APValue.java:121:	publicMethodCommentRequirement Required
+src/type/APValue.java:123:	publicMethodCommentRequirement Required
+src/type/MismatchedMethodException.java:3:	headerCommentRequirement Required
+src/type/MismatchedMethodException.java:5:	publicMethodCommentRequirement Required
+src/type/MismatchedMethodException.java:9:	publicMethodCommentRequirement Required
+src/type/MismatchedMethodException.java:13:	publicMethodCommentRequirement Required
+src/type/MismatchedMethodException.java:18:	publicMethodCommentRequirement Required
+src/type/MismatchedMethodException.java:22:	publicMethodCommentRequirement Required
+test/lexer/LexerTest.java:12:	Each class should declare at least one constructor
+test/lexer/LexerTest.java:12:	headerCommentRequirement Required
+test/lexer/LexerTest.java:15:	publicMethodCommentRequirement Required
+test/parser/ParserTest.java:19:	Each class should declare at least one constructor
+test/parser/ParserTest.java:19:	headerCommentRequirement Required
+test/parser/ParserTest.java:22:	JUnit tests should not contain more than 1 assert(s).
+test/parser/ParserTest.java:22:	publicMethodCommentRequirement Required
+test/parser/ParserTest.java:23:	Avoid variables with short names like c
+test/parser/ParserTest.java:25:	Dont create instances of already existing BigInteger and BigDecimal (ZERO, ONE, TEN)
+test/total/TotalTest.java:18:	Each class should declare at least one constructor
+test/total/TotalTest.java:18:	headerCommentRequirement Required
+test/total/TotalTest.java:20:	Dont create instances of already existing BigInteger and BigDecimal (ZERO, ONE, TEN)
+test/total/TotalTest.java:20:	Use explicit scoping instead of the default package private level
+test/total/TotalTest.java:20:	fieldCommentRequirement Required
+test/total/TotalTest.java:21:	This final field could be made static
+test/total/TotalTest.java:21:	Use explicit scoping instead of the default package private level
+test/total/TotalTest.java:21:	fieldCommentRequirement Required
+test/total/TotalTest.java:24:	publicMethodCommentRequirement Required
+test/total/TotalTest.java:40:	publicMethodCommentRequirement Required
+test/total/TotalTest.java:52:	publicMethodCommentRequirement Required
+test/total/TotalTest.java:57:	publicMethodCommentRequirement Required
+test/total/TotalTest.java:62:	publicMethodCommentRequirement Required
+test/total/TotalTest.java:63:	Dont create instances of already existing BigInteger and BigDecimal (ZERO, ONE, TEN)
+test/total/TotalTest.java:66:	Avoid variables with short names like s
+test/total/TotalTest.java:66:	Found 'UR'-anomaly for variable 'node' (lines '66'-'70').
+test/total/TotalTest.java:66:	JUnit 4 tests that execute tests should use the @Test annotation
+test/total/TotalTest.java:67:	Avoid variables with short names like c
+test/total/TotalTest.java:73:	Potential violation of Law of Demeter (method chain calls)
+test/total/TotalTest.java:73:	Potential violation of Law of Demeter (method chain calls)
+test/total/TotalTest.java:73:	Potential violation of Law of Demeter (method chain calls)
+test/total/TotalTest.java:73:	Potential violation of Law of Demeter (method chain calls)
+test/total/TotalTest.java:73:	Potential violation of Law of Demeter (method chain calls)
+test/total/TotalTest.java:73:	Potential violation of Law of Demeter (method chain calls)
+test/total/TotalTest.java:75:	Potential violation of Law of Demeter (method chain calls)
+test/total/TotalTest.java:75:	Potential violation of Law of Demeter (method chain calls)
+test/total/TotalTest.java:79:	Avoid variables with short names like s
+test/total/TotalTest.java:79:	Found 'UR'-anomaly for variable 'node' (lines '79'-'86').
+test/total/TotalTest.java:81:	Avoid variables with short names like p
+test/total/TotalTest.java:82:	Avoid variables with short names like c
+test/total/TotalTest.java:90:	Avoid variables with short names like p2

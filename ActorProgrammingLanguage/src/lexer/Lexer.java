@@ -1,3 +1,6 @@
+/*
+ * @author Kyran Adams
+ */
 package lexer;
 
 import java.util.ArrayList;
@@ -6,19 +9,40 @@ import java.util.List;
 
 import lexer.Token.TokenType;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Lexer.
+ */
 public class Lexer {
+	
+	/** The lex info. */
 	LexerInformation lexInfo = new LexerInformation();
+	
+	/** The code. */
 	private final String code;
 	// Token matchers, ordered by length to avoid hitting shorter ones first.
 	// ("len" before "length")
+	/** The matchers. */
 	private final TokenMatcher[] matchers = { new TokenMatchers.SPACE(), new TokenMatchers.NUMBER(), new TokenMatchers.BOOLEAN(), new TokenMatchers.OPERATOR(),
 			new TokenMatchers.BRACKETS(), new TokenMatchers.IF(), new TokenMatchers.IDENTIFIER() };
+	
+	/** The types to ignore. */
 	private final List<TokenType> typesToIgnore = Arrays.asList(TokenType.SPACE, TokenType.EOF);
 
+	/**
+	 * Instantiates a new lexer.
+	 *
+	 * @param code the code
+	 */
 	public Lexer(final String code) {
 		this.code = code;
 	}
 
+	/**
+	 * Match token.
+	 *
+	 * @return the token
+	 */
 	private Token matchToken() {
 		final String codeFromPosition = code.substring(lexInfo.position);
 
@@ -41,6 +65,11 @@ public class Lexer {
 		throw new LexerException("Could not match character '" + code.charAt(lexInfo.position) + "' with token");
 	}
 
+	/**
+	 * Lex.
+	 *
+	 * @return the list
+	 */
 	public List<Token> lex() {
 		try {
 			final List<Token> tokens = new ArrayList<>();

@@ -1,29 +1,33 @@
+/*
+ * @author Kyran Adams
+ */
 package main;
 
-import java.util.List;
+import interpreter.Interpreter;
+
 import java.util.Map;
 
-import lexer.Lexer;
-import lexer.Token;
 import machine.Context;
 import parser.ExpressionNode;
-import parser.Parser;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Main.
+ */
 public final class Main {
-    
     private Main() {
     }
-    
+
+    /**
+     * The main method.
+     *
+     * @param args
+     *            the arguments
+     */
     public static void main(final String[] args) {
-        final List<Token> tokens = new Lexer(" a= print (3);").lex();
-        System.out.println(tokens);
+        final Interpreter interpreter = new Interpreter(System.out);
+        final Context context = interpreter.interpret("a= print (3);");
         
-        final Context context = new Context(System.out);
-        
-        final List<ExpressionNode> nodes = new Parser(tokens).parse(context);
-        for (final ExpressionNode node : nodes) {
-            System.out.println(node.getValue(context));
-        }
         for (final Map.Entry<String, ExpressionNode> a : context.getContext()
                 .entrySet()) {
             System.out.println(a.getKey() + " -> "
