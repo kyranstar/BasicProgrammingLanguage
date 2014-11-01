@@ -1,28 +1,27 @@
+/*
+ * @author Kyran Adams
+ */
 package parser.math;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 
+// TODO: Auto-generated Javadoc
 /**
- * Complex numbers with BigDecimal real and imaginary components
- * 
- * @since 2008-10-26
+ * Complex numbers with BigDecimal real and imaginary components.
+ *
  * @author Richard J. Mathar
+ * @since 2008-10-26
  */
 public class BigComplex {
-    /**
-     * real part
-     */
+    
+    /** real part. */
     BigDecimal re;
     
-    /**
-     * imaginary part
-     */
+    /** imaginary part. */
     BigDecimal im;
     
-    /**
-     * The constant that equals zero
-     */
+    /** The constant that equals zero. */
     final static BigComplex ZERO = new BigComplex(BigDecimal.ZERO,
             BigDecimal.ZERO);
     
@@ -35,12 +34,10 @@ public class BigComplex {
     }
     
     /**
-     * ctor with real and imaginary parts
-     * 
-     * @param x
-     *            real part
-     * @param y
-     *            imaginary part
+     * ctor with real and imaginary parts.
+     *
+     * @param x            real part
+     * @param y            imaginary part
      */
     public BigComplex(final BigDecimal x, final BigDecimal y) {
         re = x;
@@ -59,12 +56,10 @@ public class BigComplex {
     }
     
     /**
-     * ctor with real and imaginary parts
-     * 
-     * @param x
-     *            real part
-     * @param y
-     *            imaginary part
+     * ctor with real and imaginary parts.
+     *
+     * @param x            real part
+     * @param y            imaginary part
      */
     public BigComplex(final double x, final double y) {
         re = new BigDecimal(x);
@@ -72,12 +67,10 @@ public class BigComplex {
     }
     
     /**
-     * Multiply with another BigComplex
-     * 
-     * @param oth
-     *            The BigComplex which is a factor in the product
-     * @param mc
-     *            Defining precision and rounding mode
+     * Multiply with another BigComplex.
+     *
+     * @param oth            The BigComplex which is a factor in the product
+     * @param mc            Defining precision and rounding mode
      * @return This multiplied by oth
      * @since 2010-07-19 implemented with 3 multiplications and 5
      *        additions/subtractions
@@ -92,10 +85,9 @@ public class BigComplex {
     }
     
     /**
-     * Add a BigDecimal
-     * 
-     * @param oth
-     *            the value to be added to the real part.
+     * Add a BigDecimal.
+     *
+     * @param oth            the value to be added to the real part.
      * @return this added to oth
      */
     BigComplex add(final BigDecimal oth) {
@@ -104,10 +96,9 @@ public class BigComplex {
     }
     
     /**
-     * Subtract another BigComplex
-     * 
-     * @param oth
-     *            the value to be subtracted from this.
+     * Subtract another BigComplex.
+     *
+     * @param oth            the value to be subtracted from this.
      * @return this minus oth
      */
     BigComplex subtract(final BigComplex oth) {
@@ -117,8 +108,8 @@ public class BigComplex {
     }
     
     /**
-     * Complex-conjugation
-     * 
+     * Complex-conjugation.
+     *
      * @return the complex conjugate of this.
      */
     BigComplex conj() {
@@ -137,7 +128,8 @@ public class BigComplex {
     
     /**
      * The absolute value.
-     * 
+     *
+     * @param mc the mc
      * @return the square root of the sum of the squares of real and imaginary
      *         parts.
      * @since 2008-10-27
@@ -148,7 +140,8 @@ public class BigComplex {
     
     /**
      * The square root.
-     * 
+     *
+     * @param mc the mc
      * @return the square root of the this. The branch is chosen such that the
      *         imaginary part of the result has the same sign as the imaginary
      *         part of this.
@@ -182,7 +175,8 @@ public class BigComplex {
     
     /**
      * The inverse of this.
-     * 
+     *
+     * @param mc the mc
      * @return 1/this
      */
     BigComplex inverse(final MathContext mc) {
@@ -193,7 +187,9 @@ public class BigComplex {
     
     /**
      * Divide through another BigComplex number.
-     * 
+     *
+     * @param oth the oth
+     * @param mc the mc
      * @return this/oth
      */
     BigComplex divide(final BigComplex oth, final MathContext mc) {
@@ -202,8 +198,8 @@ public class BigComplex {
     }
     
     /**
-     * Human-readable Fortran-type display
-     * 
+     * Human-readable Fortran-type display.
+     *
      * @return real and imaginary part in parenthesis, divided by a comma.
      */
     @Override
@@ -212,8 +208,9 @@ public class BigComplex {
     }
     
     /**
-     * Human-readable Fortran-type display
-     * 
+     * Human-readable Fortran-type display.
+     *
+     * @param mc the mc
      * @return real and imaginary part in parenthesis, divided by a comma.
      */
     public String toString(final MathContext mc) {

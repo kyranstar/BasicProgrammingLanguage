@@ -1,14 +1,20 @@
+/*
+ * @author Kyran Adams
+ */
 package parser.math ;
 
 import java.util.* ;
 import java.math.* ;
 
 
-/** Factorials.
-* @since 2006-06-25
-* @since 2012-02-15 Storage of the values based on Ifactor, not BigInteger.
-* @author Richard J. Mathar
-*/
+// TODO: Auto-generated Javadoc
+/**
+ *  Factorials.
+ *
+ * @author Richard J. Mathar
+ * @since 2006-06-25
+ * @since 2012-02-15 Storage of the values based on Ifactor, not BigInteger.
+ */
 public class Factorial
 {
         /** The list of all factorials as a vector.
@@ -51,10 +57,12 @@ public class Factorial
                 return a.elementAt(n) ;
         } /* at */
 
-        /** Extend the internal table to cover up to n!
-        * @param n The maximum factorial to be supported.
-        * @since 2012-02-15
-        */
+        /**
+         *  Extend the internal table to cover up to n!.
+         *
+         * @param n The maximum factorial to be supported.
+         * @since 2012-02-15
+         */
         private void growto(int n)
         {
                 /* extend the internal list if needed. Size to be 2 for n<=1, 3 for n<=2 etc.

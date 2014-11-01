@@ -155,6 +155,11 @@ public class ProgramTest {
         Assert.assertEquals(baos2.toString(), baos.toString());
     }
     
+    /**
+     * Test parser exception.
+     *
+     * @param s the s
+     */
     public static void testParserException(final String s) {
         try {
             final Context c = new Context(new PrintStream(
@@ -170,6 +175,11 @@ public class ProgramTest {
         throw new AssertionError("Should have thrown a parser exception!");
     }
     
+    /**
+     * Test stack overflow error.
+     *
+     * @param code the code
+     */
     private void testStackOverflowError(final String code) {
         try {
             final Context c = new Context(new PrintStream(
@@ -186,6 +196,13 @@ public class ProgramTest {
                 "Should have thrown a stack overflow exception!");
     }
 
+    /**
+     * Test.
+     *
+     * @param string the string
+     * @param list the list
+     * @param variableName the variable name
+     */
     public static void test(final String string, final List list,
             final String variableName) {
         final Context c = new Context(new PrintStream(

@@ -1,13 +1,19 @@
+/*
+ * @author Kyran Adams
+ */
 package parser.math ;
 
 import java.lang.* ;
 import java.util.* ;
 import java.math.* ;
 
-/** Number of partitions.
-* @since 2008-10-15
-* @author Richard J. Mathar
-*/
+// TODO: Auto-generated Javadoc
+/**
+ *  Number of partitions.
+ *
+ * @author Richard J. Mathar
+ * @since 2008-10-15
+ */
 public class PartitionsP
 {
         /**
@@ -37,10 +43,12 @@ public class PartitionsP
                 nMax = new BigInteger(""+(a.size()-1)) ;
         } /* ctor */
 
-        /** return the number of partitions of i
-        * @param i the zero-based index into the list of partitions
-        * @return the ith partition number. This is 1 if i=0 or 1, 2 if i=2 and so forth.
-        */
+        /**
+         *  return the number of partitions of i.
+         *
+         * @param i the zero-based index into the list of partitions
+         * @return the ith partition number. This is 1 if i=0 or 1, 2 if i=2 and so forth.
+         */
         public BigInteger at(int i)
         {
                 /* If the current list is too small, increase in intervals
@@ -53,9 +61,11 @@ public class PartitionsP
                 return ( a.elementAt(i) ) ;
         } /* at */
 
-        /** extend the list of known partitions up to n
-        * @param n the maximum integer hashed after the call.
-        */
+        /**
+         *  extend the list of known partitions up to n.
+         *
+         * @param n the maximum integer hashed after the call.
+         */
         private void growto(BigInteger n)
         {
                 while( a.size() <= n.intValue() )
@@ -72,11 +82,15 @@ public class PartitionsP
                 nMax = new BigInteger(""+(a.size()-1)) ;
         } /* growto */
 
-        /** Test program.
-        * It takes one integer argument n and prints P(n).<br>
-        * java -cp . org.nevec.rjm.PartitionsP n<br>
-        * @since 2008-10-15
-        */
+        /**
+         *  Test program.
+         * It takes one integer argument n and prints P(n).<br>
+         * java -cp . org.nevec.rjm.PartitionsP n<br>
+         *
+         * @param args the arguments
+         * @throws Exception the exception
+         * @since 2008-10-15
+         */
         public static void main(String[] args) throws Exception
         {
                 PartitionsP a = new PartitionsP() ;

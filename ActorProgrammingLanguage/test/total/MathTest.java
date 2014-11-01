@@ -1,9 +1,16 @@
+/*
+ * @author Kyran Adams
+ */
 package total;
 
 import java.math.BigDecimal;
 
 import org.junit.Test;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MathTest.
+ */
 public class MathTest {
     /** The number 10. */
     final BigDecimal expected10 = new BigDecimal("10");
@@ -11,6 +18,9 @@ public class MathTest {
     /** The variable named a. */
     final String variableNameA = "a";
 
+    /**
+     * Int test.
+     */
     @Test
     public void intTest() {
         ProgramTest.test("a = 10;", expected10, variableNameA);
@@ -22,12 +32,18 @@ public class MathTest {
 
     }
     
+    /**
+     * Dec test.
+     */
     @Test
     public void decTest() {
         ProgramTest.test("a = 20 * 0.5;", expected10, variableNameA);
         ProgramTest.test("a = 4 * 2.5;", expected10, variableNameA);
     }
     
+    /**
+     * Neg test.
+     */
     @Test
     public void negTest() {
         ProgramTest.test("a = -20/-2;", expected10, variableNameA);
@@ -38,6 +54,9 @@ public class MathTest {
         ProgramTest.test("a = 100 ^ (1/2);", expected10, variableNameA);
     }
     
+    /**
+     * Invalid type test.
+     */
     @Test
     public void invalidTypeTest() {
         ProgramTest.testParserException("a = true + false");

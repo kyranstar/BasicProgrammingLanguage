@@ -1,15 +1,21 @@
+/*
+ * @author Kyran Adams
+ */
 package parser.math ;
 
 import java.lang.* ;
 import java.util.* ;
 import java.math.* ;
 
-/** Euler totient function.
-* @see <a href="http://oeis.org/A000010">A000010</a> in the OEIS.
-* @since 2008-10-14
-* @since 2012-03-04 Adapted to new Ifactor representation.
-* @author Richard J. Mathar
-*/
+// TODO: Auto-generated Javadoc
+/**
+ *  Euler totient function.
+ *
+ * @author Richard J. Mathar
+ * @see <a href="http://oeis.org/A000010">A000010</a> in the OEIS.
+ * @since 2008-10-14
+ * @since 2012-03-04 Adapted to new Ifactor representation.
+ */
 public class EulerPhi
 {
         /** Default constructor.
@@ -48,11 +54,15 @@ public class EulerPhi
                 return phi ;
         } /* at */
 
-        /** Test program.
-        * It takes one argument n and prints the value phi(n).<br>
-        * java -cp . org.nevec.rjm.EulerPhi n<br>
-        * @since 2006-08-14
-        */
+        /**
+         *  Test program.
+         * It takes one argument n and prints the value phi(n).<br>
+         * java -cp . org.nevec.rjm.EulerPhi n<br>
+         *
+         * @param args the arguments
+         * @throws ArithmeticException the arithmetic exception
+         * @since 2006-08-14
+         */
         public static void main(String[] args) throws ArithmeticException
         {
                 EulerPhi a = new EulerPhi() ;

@@ -1,14 +1,20 @@
+/*
+ * @author Kyran Adams
+ */
 package parser.math ;
 
 import java.lang.* ;
 import java.util.* ;
 import java.math.* ;
 
-/** Harmonic numbers.
-* H(n) is the sum of the inverses of the integers from 1 to n.
-* @since 2008-10-19
-* @author Richard J. Mathar
-*/
+// TODO: Auto-generated Javadoc
+/**
+ *  Harmonic numbers.
+ * H(n) is the sum of the inverses of the integers from 1 to n.
+ *
+ * @author Richard J. Mathar
+ * @since 2008-10-19
+ */
 public class Harmonic
 {
         /** ctor()
@@ -18,11 +24,13 @@ public class Harmonic
         {
         }
 
-        /** The Harmonic number at the index specified
-        * @param n the index, non-negative.
-        * @return the H_1=1 for n=1, H_2=3/2 for n=2 etc.
-        *   For values of n less than 1, zero is returned.
-        */
+        /**
+         *  The Harmonic number at the index specified.
+         *
+         * @param n the index, non-negative.
+         * @return the H_1=1 for n=1, H_2=3/2 for n=2 etc.
+         *   For values of n less than 1, zero is returned.
+         */
         public Rational at(int n)
         {
                 if ( n < 1)

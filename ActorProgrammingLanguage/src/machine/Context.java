@@ -189,10 +189,20 @@ public class Context {
         outputStream = p;
     }
 
+    /**
+     * Gets the functions.
+     *
+     * @return the functions
+     */
     public Map<String, Function> getFunctions() {
         return functions;
     }
     
+    /**
+     * Sets the functions.
+     *
+     * @param functions the functions
+     */
     public void setFunctions(final Map<String, Function> functions) {
         this.functions = functions;
     }

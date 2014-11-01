@@ -1,18 +1,24 @@
+/*
+ * @author Kyran Adams
+ */
 package parser.math ;
 
 import java.util.* ;
 import java.math.* ;
 
-/** Fractions (rational numbers).
-* They are divisions of two BigInteger numbers, reduced to coprime
-* numerator and denominator.
-* @since 2006-06-25
-* @author Richard J. Mathar
-*/
+// TODO: Auto-generated Javadoc
+/**
+ *  Fractions (rational numbers).
+ * They are divisions of two BigInteger numbers, reduced to coprime
+ * numerator and denominator.
+ *
+ * @author Richard J. Mathar
+ * @since 2006-06-25
+ */
 public class Rational implements Cloneable, Comparable<Rational>
 {
-        /** numerator
-        */
+        
+        /**  numerator. */
         BigInteger a ;
 
         /** denominator, always larger than zero.
@@ -23,6 +29,8 @@ public class Rational implements Cloneable, Comparable<Rational>
         * @since 2009-05-18
         */
         static public BigInteger MAX_INT = new BigInteger("2147483647") ;
+        
+        /** The min int. */
         static public BigInteger MIN_INT = new BigInteger("-2147483648") ;
 
         /** The constant 1.
@@ -32,9 +40,11 @@ public class Rational implements Cloneable, Comparable<Rational>
         */
         static public Rational ZERO = new Rational() ;
 
-        /** The constant 1/2
-        * @since 2010-05-25
-        */
+        /**
+         *  The constant 1/2.
+         *
+         * @since 2010-05-25
+         */
         static public Rational HALF = new Rational(1,2) ;
 
         /** Default ctor, which represents the zero.
@@ -84,24 +94,30 @@ public class Rational implements Cloneable, Comparable<Rational>
                 this(n,1) ;
         }
 
-        /** ctor from a string representation.
-        * @param str the string.
-        *   This either has a slash in it, separating two integers, or, if there is no slash,
-        *   is representing the numerator with implicit denominator equal to 1.
-        * Warning: this does not yet test for a denominator equal to zero
-        */
+        /**
+         *  ctor from a string representation.
+         *
+         * @param str the string.
+         *   This either has a slash in it, separating two integers, or, if there is no slash,
+         *   is representing the numerator with implicit denominator equal to 1.
+         * Warning: this does not yet test for a denominator equal to zero
+         * @throws NumberFormatException the number format exception
+         */
         public Rational(String str) throws NumberFormatException
         {
                 this(str,10) ;
         }
 
-        /** ctor from a string representation in a specified base.
-        * @param str the string.
-        *   This either has a slash in it, separating two integers, or, if there is no slash,
-        *   is just representing the numerator.
-        * @param radix the number base for numerator and denominator
-        * Warning: this does not yet test for a denominator equal to zero
-        */
+        /**
+         *  ctor from a string representation in a specified base.
+         *
+         * @param str the string.
+         *   This either has a slash in it, separating two integers, or, if there is no slash,
+         *   is just representing the numerator.
+         * @param radix the number base for numerator and denominator
+         * Warning: this does not yet test for a denominator equal to zero
+         * @throws NumberFormatException the number format exception
+         */
         public Rational(String str, int radix) throws NumberFormatException
         {
                 int hasslah = str.indexOf("/") ;
@@ -121,9 +137,12 @@ public class Rational implements Cloneable, Comparable<Rational>
                 }
         }
 
-        /** Create a copy.
-        * @since 2008-11-07
-        */
+        /**
+         *  Create a copy.
+         *
+         * @return the rational
+         * @since 2008-11-07
+         */
         public Rational clone()
         {
                 /* protected access means this does not work
@@ -186,12 +205,15 @@ public class Rational implements Cloneable, Comparable<Rational>
                         return ( new Rational(deno,num) ) ;
         } /* Rational.pow */
 
-        /** Power to an integer.
-        * @param exponent the exponent.
-        * @return this value raised to the power given by the exponent.
-        *  If the exponent is 0, the value 1 is returned.
-        * @since 2009-05-18
-        */
+        /**
+         *  Power to an integer.
+         *
+         * @param exponent the exponent.
+         * @return this value raised to the power given by the exponent.
+         *  If the exponent is 0, the value 1 is returned.
+         * @throws NumberFormatException the number format exception
+         * @since 2009-05-18
+         */
         public Rational pow(BigInteger exponent) throws NumberFormatException
         {
                 /* test for overflow */
@@ -204,12 +226,15 @@ public class Rational implements Cloneable, Comparable<Rational>
                 return pow( exponent.intValue() ) ;
         } /* Rational.pow */
 
-        /** r-th root.
-        * @param r the inverse of the exponent.
-        *  2 for the square root, 3 for the third root etc
-        * @return this value raised to the inverse power given by the root argument, this^(1/r).
-        * @since 2009-05-18
-        */
+        /**
+         *  r-th root.
+         *
+         * @param r the inverse of the exponent.
+         *  2 for the square root, 3 for the third root etc
+         * @return this value raised to the inverse power given by the root argument, this^(1/r).
+         * @throws NumberFormatException the number format exception
+         * @since 2009-05-18
+         */
         public Rational root(BigInteger r) throws NumberFormatException
         {
                 /* test for overflow */
@@ -238,12 +263,15 @@ public class Rational implements Cloneable, Comparable<Rational>
                         return resul ;
         } /* Rational.root */
 
-        /** Raise to a rational power.
-        * @param exponent The exponent.
-        * @return This value raised to the power given by the exponent.
-        *  If the exponent is 0, the value 1 is returned.
-        * @since 2009-05-18
-        */
+        /**
+         *  Raise to a rational power.
+         *
+         * @param exponent The exponent.
+         * @return This value raised to the power given by the exponent.
+         *  If the exponent is 0, the value 1 is returned.
+         * @throws NumberFormatException the number format exception
+         * @since 2009-05-18
+         */
         public Rational pow(Rational exponent) throws NumberFormatException
         {
                 if ( exponent.a.compareTo(BigInteger.ZERO) == 0 )
@@ -366,13 +394,15 @@ public class Rational implements Cloneable, Comparable<Rational>
                 return ( subtract(val2) ) ;
         } /* Rational.subtract */
 
-        /** binomial (n choose m).
-        * @param n the numerator. Equals the size of the set to choose from.
-        * @param m the denominator. Equals the number of elements to select.
-        * @return the binomial coefficient.
-        * @since 2006-06-27
-        * @author Richard J. Mathar
-        */
+        /**
+         *  binomial (n choose m).
+         *
+         * @author Richard J. Mathar
+         * @param n the numerator. Equals the size of the set to choose from.
+         * @param m the denominator. Equals the number of elements to select.
+         * @return the binomial coefficient.
+         * @since 2006-06-27
+         */
         public static Rational binomial(Rational n, BigInteger m)
         {
                 if ( m.compareTo(BigInteger.ZERO) == 0 ) 
@@ -385,13 +415,15 @@ public class Rational implements Cloneable, Comparable<Rational>
                 return bin ;
         } /* Rational.binomial */
 
-        /** binomial (n choose m).
-        * @param n the numerator. Equals the size of the set to choose from.
-        * @param m the denominator. Equals the number of elements to select.
-        * @return the binomial coefficient.
-        * @since 2009-05-19
-        * @author Richard J. Mathar
-        */
+        /**
+         *  binomial (n choose m).
+         *
+         * @author Richard J. Mathar
+         * @param n the numerator. Equals the size of the set to choose from.
+         * @param m the denominator. Equals the number of elements to select.
+         * @return the binomial coefficient.
+         * @since 2009-05-19
+         */
         public static Rational binomial(Rational n, int m)
         {
                 if ( m == 0 ) 
@@ -404,13 +436,15 @@ public class Rational implements Cloneable, Comparable<Rational>
                 return bin ;
         } /* Rational.binomial */
 
-        /** Hankel's symbol (n,k)
-        * @param n the first parameter.
-        * @param k the second parameter, greater or equal to 0.
-        * @return Gamma(n+k+1/2)/k!/GAMMA(n-k+1/2)
-        * @since 2010-07-18
-        * @author Richard J. Mathar
-        */
+        /**
+         *  Hankel's symbol (n,k).
+         *
+         * @author Richard J. Mathar
+         * @param n the first parameter.
+         * @param k the second parameter, greater or equal to 0.
+         * @return Gamma(n+k+1/2)/k!/GAMMA(n-k+1/2)
+         * @since 2010-07-18
+         */
         public static Rational hankelSymb(Rational n, int k)
         {
                 if ( k == 0 ) 
@@ -647,21 +681,27 @@ public class Rational implements Cloneable, Comparable<Rational>
                 return Pochhammer(new BigInteger(""+n)) ;
         } /* Rational.pochhammer */
 
-        /** True if the value is integer.
-        * Equivalent to the indication whether a conversion to an integer
-        * can be exact.
-        * @since 2010-05-26
-        */
+        /**
+         *  True if the value is integer.
+         * Equivalent to the indication whether a conversion to an integer
+         * can be exact.
+         *
+         * @return true, if is big integer
+         * @since 2010-05-26
+         */
         public boolean isBigInteger()
         {
                 return ( b.abs().compareTo(BigInteger.ONE) == 0 ) ;
         } /* Rational.isBigInteger */
 
-        /** True if the value is integer and in the range of the standard integer.
-        * Equivalent to the indication whether a conversion to an integer
-        * can be exact.
-        * @since 2010-05-26
-        */
+        /**
+         *  True if the value is integer and in the range of the standard integer.
+         * Equivalent to the indication whether a conversion to an integer
+         * can be exact.
+         *
+         * @return true, if is integer
+         * @since 2010-05-26
+         */
         public boolean isInteger()
         {
                 if ( ! isBigInteger() )
@@ -670,9 +710,12 @@ public class Rational implements Cloneable, Comparable<Rational>
         } /* Rational.isInteger */
 
 
-        /** Conversion to an integer value, if this can be done exactly.
-        * @since 2011-02-13
-        */
+        /**
+         *  Conversion to an integer value, if this can be done exactly.
+         *
+         * @return the int
+         * @since 2011-02-13
+         */
         int intValue()
         {
                 if ( ! isInteger() )
@@ -680,9 +723,12 @@ public class Rational implements Cloneable, Comparable<Rational>
                 return a.intValue() ;
         }
 
-        /** Conversion to a BigInteger value, if this can be done exactly.
-        * @since 2012-03-02
-        */
+        /**
+         *  Conversion to a BigInteger value, if this can be done exactly.
+         *
+         * @return the big integer
+         * @since 2012-03-02
+         */
         BigInteger BigIntegerValue()
         {
                 if ( ! isBigInteger() )
@@ -690,19 +736,24 @@ public class Rational implements Cloneable, Comparable<Rational>
                 return a ;
         }
 
-        /** True if the value is a fraction of two integers in the range of the standard integer.
-        * @since 2010-05-26
-        */
+        /**
+         *  True if the value is a fraction of two integers in the range of the standard integer.
+         *
+         * @return true, if is integer frac
+         * @since 2010-05-26
+         */
         public boolean isIntegerFrac()
         {
                 return ( a.compareTo(MAX_INT) <= 0 && a.compareTo(MIN_INT) >= 0 
                         && b.compareTo(MAX_INT) <= 0 && b.compareTo(MIN_INT) >= 0 ) ;
         } /* Rational.isIntegerFrac */
 
-        /** The sign: 1 if the number is >0, 0 if ==0, -1 if <0
-        * @return the signum of the value.
-        * @since 2010-05-26
-        */
+        /**
+         *  The sign: 1 if the number is >0, 0 if ==0, -1 if <0.
+         *
+         * @return the signum of the value.
+         * @since 2010-05-26
+         */
         public int signum()
         {
                 return ( b.signum() * a.signum() ) ;

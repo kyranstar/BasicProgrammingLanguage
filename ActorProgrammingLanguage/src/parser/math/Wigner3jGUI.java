@@ -1,3 +1,6 @@
+/*
+ * @author Kyran Adams
+ */
 package parser.math ;
 
 import java.applet.* ;
@@ -12,6 +15,7 @@ import java.util.* ;
 import java.math.* ;
 
 
+// TODO: Auto-generated Javadoc
 /** An interactive interface to the Wigner3j class.
 * The GUI allows to preselect one of the symbols if the number of j-terms is small
 * (6j up to 15j), or to enter any other connectivity for the triads of j-values.
@@ -21,37 +25,48 @@ import java.math.* ;
 */
 public class Wigner3jGUI implements ActionListener, ListSelectionListener
 {
-        /** The master window of the session
-        */
+        
+        /**  The master window of the session. */
         JFrame fram ;
 
         /* global labels
         */
+        /** The Lbl0. */
         Label Lbl0 ;
+        
+        /** The Lbl1. */
         Label Lbl1 ;
 
+        /** The sear. */
         JButton sear ;
+        
+        /** The sear j. */
         JList searJ ;
+        
+        /** The sear opt. */
         String[] searOpt = {"6j","9j","12j 1st","12j 2nd (not symm)","15j 1st","15j 2nd", "15j 3rd", "15j 4th","15j 5th"} ;
 
-        /** Field with the triads inputs
-        */
+        /**  Field with the triads inputs. */
         TextArea inpGtria ;
 
-        /** Field with the J-value inputs
-        */
+        /**  Field with the J-value inputs. */
         TextArea inpGjval ;
 
         /** Field of the outputs.
         */
         TextArea outG ;
 
+        /** The gridbag. */
         GridBagLayout gridbag ;
+        
+        /** The gridconstr. */
         GridBagConstraints gridconstr ;
 
         /**
-        * @since 2011-02-15
-        */
+         * Inits the.
+         *
+         * @since 2011-02-15
+         */
         public void init()
         {
                 fram =new JFrame("Wigner3jGUI") ;
@@ -300,12 +315,15 @@ public class Wigner3jGUI implements ActionListener, ListSelectionListener
                 }
         } /* valueChanged */
 
-        /** Main entry point.
-        * not taking any command line options:<br>
-        * java -jar Wigner3jGUI.jar<br>
-        * @since 2012-02-16
-        * @author Richard J. Mathar
-        */
+        /**
+         *  Main entry point.
+         * not taking any command line options:<br>
+         * java -jar Wigner3jGUI.jar<br>
+         *
+         * @author Richard J. Mathar
+         * @param args the arguments
+         * @since 2012-02-16
+         */
         public static void main(String[] args)
         {
                 Wigner3jGUI g = new Wigner3jGUI() ;

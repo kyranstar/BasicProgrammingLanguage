@@ -1,5 +1,12 @@
+/*
+ * @author Kyran Adams
+ */
 package type;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class APValueBool.
+ */
 public class APValueBool extends APValue<Boolean> {
     
     /** The Constant TYPE. */

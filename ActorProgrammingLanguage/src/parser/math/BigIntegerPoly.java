@@ -1,3 +1,6 @@
+/*
+ * @author Kyran Adams
+ */
 package parser.math ;
 
 import java.lang.* ;
@@ -5,12 +8,15 @@ import java.security.* ;
 import java.util.* ;
 import java.math.* ;
 
-/** Polynomial with integer coefficients.
-* Alternatively to be interpreted as a sequence which has the polynomial as an (approximate)
-* generating function.
-* @since 2010-08-27
-* @author Richard J. Mathar
-*/
+// TODO: Auto-generated Javadoc
+/**
+ *  Polynomial with integer coefficients.
+ * Alternatively to be interpreted as a sequence which has the polynomial as an (approximate)
+ * generating function.
+ *
+ * @author Richard J. Mathar
+ * @since 2010-08-27
+ */
 public class BigIntegerPoly implements Cloneable
 {
         /** The list of all coefficients, starting with a0, then a1, as in
@@ -26,9 +32,12 @@ public class BigIntegerPoly implements Cloneable
                 a = new Vector<BigInteger>() ;
         }
 
-        /** Ctor with a comma-separated list as the list of coefficients.
-        * @param L the string of the form a0,a1,a2,a3 with the coefficients
-        */
+        /**
+         *  Ctor with a comma-separated list as the list of coefficients.
+         *
+         * @param L the string of the form a0,a1,a2,a3 with the coefficients
+         * @throws NumberFormatException the number format exception
+         */
         public BigIntegerPoly(final String L) throws NumberFormatException
         {
                 a = new Vector<BigInteger>() ;
@@ -58,18 +67,24 @@ public class BigIntegerPoly implements Cloneable
                 simplify() ;
         } /* ctor */
 
-        /** Create a copy of this.
-        * @since 2010-08-27
-        */
+        /**
+         *  Create a copy of this.
+         *
+         * @return the big integer poly
+         * @since 2010-08-27
+         */
         public BigIntegerPoly clone()
         {
                 return new BigIntegerPoly(a) ;
         } /* clone */
 
 
-        /** Translate into a RatPoly copy.
-        * @since 2012-03-02
-        */
+        /**
+         *  Translate into a RatPoly copy.
+         *
+         * @return the rat poly
+         * @since 2012-03-02
+         */
         public RatPoly toRatPoly()
         {
                 RatPoly bd = new RatPoly() ;
@@ -90,12 +105,14 @@ public class BigIntegerPoly implements Cloneable
                         return( BigInteger.ZERO ) ;
         } /* at */
 
-        /** Evaluate at some integer argument.
-        * @param x The abscissa point of the evaluation
-        * @return The polynomial value.
-        * @since 2010-08-27
-        * @author Richard J. Mathar
-        */
+        /**
+         *  Evaluate at some integer argument.
+         *
+         * @author Richard J. Mathar
+         * @param x The abscissa point of the evaluation
+         * @return The polynomial value.
+         * @since 2010-08-27
+         */
         public BigInteger valueOf(final BigInteger x)
         {
                 if (a.size() == 0)
@@ -109,11 +126,13 @@ public class BigIntegerPoly implements Cloneable
         } /* valueOf */
 
 
-        /** Horner scheme to find the function value at the argument x
-        * @param x The argument x.
-        * @return Value of the polynomial at x.
-        * @since 2008-11-13
-        */
+        /**
+         *  Horner scheme to find the function value at the argument x.
+         *
+         * @param x The argument x.
+         * @return Value of the polynomial at x.
+         * @since 2008-11-13
+         */
         public BigInteger valueOf( int x)
         {
                 return valueOf(new BigInteger(""+x)) ;
@@ -197,10 +216,12 @@ public class BigIntegerPoly implements Cloneable
                 return resul ;
         } /* multiply */
 
-        /** Multiply by another polynomial
-        * @param val the other polynomial
-        * @return the product of this with the other polynomial
-        */
+        /**
+         *  Multiply by another polynomial.
+         *
+         * @param val the other polynomial
+         * @return the product of this with the other polynomial
+         */
         public BigIntegerPoly multiply(final BigIntegerPoly val)
         {
                 BigIntegerPoly resul = new BigIntegerPoly() ;
@@ -218,10 +239,13 @@ public class BigIntegerPoly implements Cloneable
                 return resul ;
         } /* multiply */
 
-        /** Raise to a positive power.
-        * @param n the exponent of the power
-        * @return the n-th power of this.
-        */
+        /**
+         *  Raise to a positive power.
+         *
+         * @param n the exponent of the power
+         * @return the n-th power of this.
+         * @throws ArithmeticException the arithmetic exception
+         */
         public BigIntegerPoly pow(final int n) throws ArithmeticException
         {
                 BigIntegerPoly resul = new BigIntegerPoly("1") ;
@@ -236,11 +260,13 @@ public class BigIntegerPoly implements Cloneable
                 }
         } /* pow */
 
-        /** Add another polynomial
-        * @param val the other polynomial
-        * @return the sum of this with the other polynomial
-        * @since 2010-08-27
-        */
+        /**
+         *  Add another polynomial.
+         *
+         * @param val the other polynomial
+         * @return the sum of this with the other polynomial
+         * @since 2010-08-27
+         */
         public BigIntegerPoly add(final BigIntegerPoly val)
         {
                 BigIntegerPoly resul = new BigIntegerPoly() ;
@@ -256,11 +282,13 @@ public class BigIntegerPoly implements Cloneable
                 return resul ;
         } /* add */
 
-        /** Subtract another polynomial
-        * @param val the other polynomial
-        * @return the difference between this and the other polynomial
-        * @since 2008-10-25
-        */
+        /**
+         *  Subtract another polynomial.
+         *
+         * @param val the other polynomial
+         * @return the difference between this and the other polynomial
+         * @since 2008-10-25
+         */
         public BigIntegerPoly subtract(final BigIntegerPoly val)
         {
                 BigIntegerPoly resul = new BigIntegerPoly() ;
@@ -424,10 +452,13 @@ public class BigIntegerPoly implements Cloneable
                 }
         } /* derive */
 
-        /** Truncate polynomial degree.
-        * @return The polynomial with all coefficients beyond deg set to zero.
-        * @since 2010-08-27
-        */
+        /**
+         *  Truncate polynomial degree.
+         *
+         * @param newdeg the newdeg
+         * @return The polynomial with all coefficients beyond deg set to zero.
+         * @since 2010-08-27
+         */
         public BigIntegerPoly trunc(int newdeg)
         {
                 BigIntegerPoly t = new BigIntegerPoly() ;
@@ -460,10 +491,13 @@ public class BigIntegerPoly implements Cloneable
         } /* binomialTInv */
 
 
-        /** Compute the order of the root r.
-        * @return 1 for simple roots, 2 for order 2 etc., 0 if not a root
-        * @since 2010-08-27
-        */
+        /**
+         *  Compute the order of the root r.
+         *
+         * @param r the r
+         * @return 1 for simple roots, 2 for order 2 etc., 0 if not a root
+         * @since 2010-08-27
+         */
         public int rootDeg(final BigInteger r)
         {
                 int o = 0 ;

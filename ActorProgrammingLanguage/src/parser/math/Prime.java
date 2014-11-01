@@ -1,20 +1,26 @@
+/*
+ * @author Kyran Adams
+ */
 package parser.math ;
 
 import java.lang.* ;
 import java.util.* ;
 import java.math.* ;
 
-/** Prime numbers.
-* The implementation is a very basic computation of the set of all primes
-* on demand, growing infinitely without any defined upper limit.
-* The effects of such scheme are (i) the lookup-times become shorter after
-* a while as more and more primes have been used and stored. The applications
-* appear to become faster.  (ii) Using the implementation for factorizations
-* may easily require all available memory and stall finally, because indeed
-* a dense list of primes with growing upper bound is kept without any hashing or lagging scheme.
-* @since 2006-08-11
-* @author Richard J. Mathar
-*/
+// TODO: Auto-generated Javadoc
+/**
+ *  Prime numbers.
+ * The implementation is a very basic computation of the set of all primes
+ * on demand, growing infinitely without any defined upper limit.
+ * The effects of such scheme are (i) the lookup-times become shorter after
+ * a while as more and more primes have been used and stored. The applications
+ * appear to become faster.  (ii) Using the implementation for factorizations
+ * may easily require all available memory and stall finally, because indeed
+ * a dense list of primes with growing upper bound is kept without any hashing or lagging scheme.
+ *
+ * @author Richard J. Mathar
+ * @since 2006-08-11
+ */
 public class Prime
 {
         /** The list of all numbers as a vector.
@@ -148,10 +154,12 @@ public class Prime
                 return 1;
         }
 
-        /** return the ithprime
-        * @param i the zero-based index into the list of primes
-        * @return the ith prime. This is 2 if i=0, 3 if i=1 and so forth.
-        */
+        /**
+         *  return the ithprime.
+         *
+         * @param i the zero-based index into the list of primes
+         * @return the ith prime. This is 2 if i=0, 3 if i=1 and so forth.
+         */
         public BigInteger at(int i)
         {
                 /* If the current list is too small, increase in intervals
@@ -164,10 +172,12 @@ public class Prime
                 return ( a.elementAt(i) ) ;
         }
 
-        /** return the count of primes <= n
-        * @param n the upper limit of the scan
-        * @return the ith prime. This is 2 if i=0, 3 if i=1 and so forth.
-        */
+        /**
+         *  return the count of primes <= n.
+         *
+         * @param n the upper limit of the scan
+         * @return the ith prime. This is 2 if i=0, 3 if i=1 and so forth.
+         */
         public BigInteger pi(BigInteger n)
         {
                 /* If the current list is too small, increase in intervals
@@ -181,11 +191,13 @@ public class Prime
                 return r ;
         }
 
-        /** return the smallest prime larger than n
-        * @param n lower limit of the search
-        * @return the next larger prime.
-        * @since 2008-10-16
-        */
+        /**
+         *  return the smallest prime larger than n.
+         *
+         * @param n lower limit of the search
+         * @return the next larger prime.
+         * @since 2008-10-16
+         */
         public BigInteger nextprime(BigInteger n)
         {
                 /* if n <=1, return 2 */
@@ -205,11 +217,13 @@ public class Prime
                 return ( a.lastElement() ) ;
         }
 
-        /** return the largest prime smaller than n
-        * @param n upper limit of the search
-        * @return the next smaller prime.
-        * @since 2008-10-17
-        */
+        /**
+         *  return the largest prime smaller than n.
+         *
+         * @param n upper limit of the search
+         * @return the next smaller prime.
+         * @since 2008-10-17
+         */
         public BigInteger prevprime(BigInteger n)
         {
                 /* if n <=2, return 0 */
@@ -228,9 +242,11 @@ public class Prime
                 return ( a.lastElement() ) ;
         }
 
-        /** extend the list of known primes up to n
-        * @param n the maximum integer known to be prime or not prime after the call.
-        */
+        /**
+         *  extend the list of known primes up to n.
+         *
+         * @param n the maximum integer known to be prime or not prime after the call.
+         */
         protected void growto(BigInteger n)
         {
                 while( nMax.compareTo(n) == -1)
@@ -259,11 +275,16 @@ public class Prime
                                 a.add(nMax) ;
                 }
         }
-        /** Test program.
-        * Usage: java -cp . org.nevec.rjm.Prime n<br>
-        * This takes a single argument (n) and prints prime(n), the previous and next prime, and pi(n).
-        * @since 2006-08-14
-        */
+        
+        /**
+         *  Test program.
+         * Usage: java -cp . org.nevec.rjm.Prime n<br>
+         * This takes a single argument (n) and prints prime(n), the previous and next prime, and pi(n).
+         *
+         * @param args the arguments
+         * @throws Exception the exception
+         * @since 2006-08-14
+         */
         public static void main(String[] args) throws Exception
         {
                 Prime a = new Prime() ;

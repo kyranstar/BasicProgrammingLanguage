@@ -1,3 +1,6 @@
+/*
+ * @author Kyran Adams
+ */
 package parser.math ;
 
 import java.lang.* ;
@@ -5,12 +8,15 @@ import java.security.* ;
 import java.util.* ;
 import java.math.* ;
 
-/** A one-parameter polynomial with rational coefficients.
-* Alternatively to be interpreted as a sequence which has the polynomial as an (approximate)
-* generating function.
-* @since 2006-06-25
-* @author Richard J. Mathar
-*/
+// TODO: Auto-generated Javadoc
+/**
+ *  A one-parameter polynomial with rational coefficients.
+ * Alternatively to be interpreted as a sequence which has the polynomial as an (approximate)
+ * generating function.
+ *
+ * @author Richard J. Mathar
+ * @since 2006-06-25
+ */
 class RatPoly
 {
         /** The list of all coefficients, ascending exponents. Starting with a0, then a1, representing
@@ -37,9 +43,12 @@ class RatPoly
                 simplify() ;
         } /* ctor */
 
-        /** Constructor with a comma-separated list as the list of coefficients.
-        * @param L the string of the form a0,a1,a2,a3 with the coefficients
-        */
+        /**
+         *  Constructor with a comma-separated list as the list of coefficients.
+         *
+         * @param L the string of the form a0,a1,a2,a3 with the coefficients
+         * @throws NumberFormatException the number format exception
+         */
         public RatPoly(final String L) throws NumberFormatException
         {
                 a = new Vector<Rational>() ;
@@ -126,9 +135,12 @@ class RatPoly
         } /* init */
 
 
-        /** Create a copy of this.
-        * @since 2008-11-07
-        */
+        /**
+         *  Create a copy of this.
+         *
+         * @return the rat poly
+         * @since 2008-11-07
+         */
         public RatPoly clone()
         {
                 RatPoly clo = new RatPoly() ;
@@ -148,11 +160,14 @@ class RatPoly
                         return( new Rational(0,1) ) ;
         } /* at */
 
-        /** Horner scheme to find the function value at the argument x
-        * @param x The argument of the polynomial
-        * @param mc The context determining the precision of the value returned.
-        * @since 2008-10-26
-        */
+        /**
+         *  Horner scheme to find the function value at the argument x.
+         *
+         * @param x The argument of the polynomial
+         * @param mc The context determining the precision of the value returned.
+         * @return the big complex
+         * @since 2008-10-26
+         */
         public BigComplex valueOf( BigComplex x, MathContext mc)
         {
                 /* result is initialized to zero */
@@ -162,10 +177,13 @@ class RatPoly
                 return f ;
         } /* valueOf */
 
-        /** Horner scheme to find the function value at the argument x
-        * @param x The argument of the polynomial
-        * @since 2008-11-13
-        */
+        /**
+         *  Horner scheme to find the function value at the argument x.
+         *
+         * @param x The argument of the polynomial
+         * @return the rational
+         * @since 2008-11-13
+         */
         public Rational valueOf( Rational x)
         {
                 /* result is initialized to zero */
@@ -175,19 +193,25 @@ class RatPoly
                 return f ;
         } /* valueOf */
 
-        /** Horner scheme to find the function value at the argument x
-        * @param x The argument of the polynomial
-        * @since 2008-11-13
-        */
+        /**
+         *  Horner scheme to find the function value at the argument x.
+         *
+         * @param x The argument of the polynomial
+         * @return the rational
+         * @since 2008-11-13
+         */
         public Rational valueOf( int x)
         {
                 return valueOf(new Rational(x,1)) ;
         } /* valueOf */
 
-        /** Horner scheme to evaluate the function at the argument x
-        * @param x The argument of the polynomial
-        * @since 2010-08-27
-        */
+        /**
+         *  Horner scheme to evaluate the function at the argument x.
+         *
+         * @param x The argument of the polynomial
+         * @return the rational
+         * @since 2010-08-27
+         */
         public Rational valueOf( BigInteger x)
         {
                 return valueOf(new Rational(x)) ;
@@ -199,6 +223,12 @@ class RatPoly
         *  the intermediate coefficients are implicitly set to zero.
         * @param value the new value of the coefficient.
         */
+        /**
+         * Sets the.
+         *
+         * @param n the n
+         * @param value the value
+         */
         public void set(final int n, final Rational value)
         {
                 if ( n < a.size())
@@ -240,6 +270,11 @@ class RatPoly
         /* Set to the taylor series of exp(x) up to degree nmax.
         * @param nmax the maximum polynomial degree
         */
+        /**
+         * Sets the exp.
+         *
+         * @param nmax the new exp
+         */
         public void setExp(final int nmax)
         {
                 a.clear() ;
@@ -317,10 +352,12 @@ class RatPoly
                 return resul ;
         } /* multiply */
 
-        /** Multiply by another polynomial
-        * @param val the other polynomial
-        * @return the product of this with the other polynomial
-        */
+        /**
+         *  Multiply by another polynomial.
+         *
+         * @param val the other polynomial
+         * @return the product of this with the other polynomial
+         */
         public RatPoly multiply(final RatPoly val)
         {
                 RatPoly resul = new RatPoly() ;
@@ -340,10 +377,13 @@ class RatPoly
                 return resul ;
         } /* multiply */
 
-        /** Raise to a positive power.
-        * @param n The non-negative exponent of the power
-        * @return The n-th power of this.
-        */
+        /**
+         *  Raise to a positive power.
+         *
+         * @param n The non-negative exponent of the power
+         * @return The n-th power of this.
+         * @throws ArithmeticException the arithmetic exception
+         */
         public RatPoly pow(final int n) throws ArithmeticException
         {
                 RatPoly resul = new RatPoly("1") ;
@@ -361,13 +401,16 @@ class RatPoly
                 }
         } /* pow */
 
-        /** Raise to a rational power.
-        * The result is the taylor expansion of this, truncated at the first
-        * term that remains undetermined based on the current number of coefficients.
-        * @param r the exponent of the power
-        * @return This^r .
-        * @since 2009-05-18
-        */
+        /**
+         *  Raise to a rational power.
+         * The result is the taylor expansion of this, truncated at the first
+         * term that remains undetermined based on the current number of coefficients.
+         *
+         * @param r the exponent of the power
+         * @return This^r .
+         * @throws ArithmeticException the arithmetic exception
+         * @since 2009-05-18
+         */
         public RatPoly pow(final Rational r) throws ArithmeticException
         {
                 /* split (a0+a1*x+a2*x^2+...)^r = a0^r*(1+a1/a0*r+a2/a0*r^2+..)^r
@@ -396,11 +439,13 @@ class RatPoly
                 return resul.multiply(f) ;
         } /* pow */
 
-        /** Add another polynomial
-        * @param val The other polynomial
-        * @return The sum of this and the other polynomial
-        * @since 2008-10-25
-        */
+        /**
+         *  Add another polynomial.
+         *
+         * @param val The other polynomial
+         * @return The sum of this and the other polynomial
+         * @since 2008-10-25
+         */
         public RatPoly add(final RatPoly val)
         {
                 RatPoly resul = new RatPoly() ;
@@ -416,11 +461,13 @@ class RatPoly
                 return resul ;
         } /* add */
 
-        /** Subtract another polynomial
-        * @param val The other polynomial
-        * @return The difference between this and the other polynomial
-        * @since 2008-10-25
-        */
+        /**
+         *  Subtract another polynomial.
+         *
+         * @param val The other polynomial
+         * @return The difference between this and the other polynomial
+         * @since 2008-10-25
+         */
         public RatPoly subtract(final RatPoly val)
         {
                 RatPoly resul = new RatPoly() ;
@@ -769,11 +816,14 @@ class RatPoly
                 return t ;
         } /* trunc */
 
-        /** Generate the roots of the polynomial in floating point arithmetic.
-        * @see <a href="http://en.wikipedia.org/wiki/Durand-Kerner_method">Durand Kerner method</a>
-        * @param the number of floating point digits
-        * @since 2008-10-26
-        */
+        /**
+         *  Generate the roots of the polynomial in floating point arithmetic.
+         *
+         * @param digits the digits
+         * @return the vector
+         * @see <a href="http://en.wikipedia.org/wiki/Durand-Kerner_method">Durand Kerner method</a>
+         * @since 2008-10-26
+         */
         public Vector<BigComplex> roots(int digits)
         {
                 RatPoly mon = monic() ;

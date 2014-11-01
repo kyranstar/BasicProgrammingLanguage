@@ -1,3 +1,6 @@
+/*
+ * @author Kyran Adams
+ */
 package type;
 
 import java.math.BigDecimal;
@@ -5,6 +8,7 @@ import java.math.RoundingMode;
 
 import parser.math.BigDecimalMath;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class APValueNum.
  */

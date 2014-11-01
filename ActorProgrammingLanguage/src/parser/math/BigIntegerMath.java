@@ -1,3 +1,6 @@
+/*
+ * @author Kyran Adams
+ */
 package parser.math ;
 
 import java.lang.* ;
@@ -6,10 +9,13 @@ import java.util.* ;
 import java.math.* ;
 
 
-/** BigInteger special functions and Number theory.
-* @since 2009-08-06
-* @author Richard J. Mathar
-*/
+// TODO: Auto-generated Javadoc
+/**
+ *  BigInteger special functions and Number theory.
+ *
+ * @author Richard J. Mathar
+ * @since 2009-08-06
+ */
 public class BigIntegerMath
 {
 
@@ -101,45 +107,53 @@ public class BigIntegerMath
                 return (new Ifactor(n.abs())).sigma(k).n ;
         } /* sigmak */
 
-        /** Evaluate sigma(n).
-        * @param n the argument for which divisors will be searched.
-        * @return the sigma function. Sum of the positive divisors of the argument.
-        * @since 2006-08-14
-        * @author Richard J. Mathar
-        */
+        /**
+         *  Evaluate sigma(n).
+         *
+         * @author Richard J. Mathar
+         * @param n the argument for which divisors will be searched.
+         * @return the sigma function. Sum of the positive divisors of the argument.
+         * @since 2006-08-14
+         */
         static public BigInteger sigma(int n)
         {
                 return (new Ifactor(Math.abs(n))).sigma().n ;
         }
 
-        /** Compute the list of positive divisors.
-        * @param n The integer of which the divisors are to be found.
-        * @return The sorted list of positive divisors.
-        * @since 2010-08-27
-        * @author Richard J. Mathar
-        */
+        /**
+         *  Compute the list of positive divisors.
+         *
+         * @author Richard J. Mathar
+         * @param n The integer of which the divisors are to be found.
+         * @return The sorted list of positive divisors.
+         * @since 2010-08-27
+         */
         static public Vector<BigInteger> divisors(final BigInteger n)
         {
                 return (new Ifactor(n.abs())).divisors() ;
         }
 
-        /** Evaluate sigma(n).
-        * @param n the argument for which divisors will be searched.
-        * @return the sigma function. Sum of the divisors of the argument.
-        * @since 2006-08-14
-        * @author Richard J. Mathar
-        */
+        /**
+         *  Evaluate sigma(n).
+         *
+         * @author Richard J. Mathar
+         * @param n the argument for which divisors will be searched.
+         * @return the sigma function. Sum of the divisors of the argument.
+         * @since 2006-08-14
+         */
         static public BigInteger sigma(final BigInteger n)
         {
                 return (new Ifactor(n.abs())).sigma().n ;
         }
 
-        /** Evaluate floor(sqrt(n)).
-        * @param n The non-negative argument.
-        * @return The integer square root. The square root rounded down.
-        * @since 2010-08-27
-        * @author Richard J. Mathar
-        */
+        /**
+         *  Evaluate floor(sqrt(n)).
+         *
+         * @author Richard J. Mathar
+         * @param n The non-negative argument.
+         * @return The integer square root. The square root rounded down.
+         * @since 2010-08-27
+         */
         static public int isqrt(final int n)
         {
                 if ( n < 0 )
@@ -148,13 +162,15 @@ public class BigIntegerMath
                 return (int)Math.round(resul) ;
         }
 
-        /** Evaluate floor(sqrt(n)).
-        * @param n The non-negative argument.
-        *  Arguments less than zero throw an ArithmeticException.
-        * @return The integer square root, the square root rounded down.
-        * @since 2010-08-27
-        * @author Richard J. Mathar
-        */
+        /**
+         *  Evaluate floor(sqrt(n)).
+         *
+         * @author Richard J. Mathar
+         * @param n The non-negative argument.
+         *  Arguments less than zero throw an ArithmeticException.
+         * @return The integer square root, the square root rounded down.
+         * @since 2010-08-27
+         */
         static public long isqrt(final long n)
         {
                 if ( n < 0 )
@@ -163,13 +179,15 @@ public class BigIntegerMath
                 return Math.round(resul) ;
         }
 
-        /** Evaluate floor(sqrt(n)).
-        * @param n The non-negative argument.
-        *  Arguments less than zero throw an ArithmeticException.
-        * @return The integer square root, the square root rounded down.
-        * @since 2011-02-12
-        * @author Richard J. Mathar
-        */
+        /**
+         *  Evaluate floor(sqrt(n)).
+         *
+         * @author Richard J. Mathar
+         * @param n The non-negative argument.
+         *  Arguments less than zero throw an ArithmeticException.
+         * @return The integer square root, the square root rounded down.
+         * @since 2011-02-12
+         */
         static public BigInteger isqrt(final BigInteger n)
         {
                 if ( n.compareTo(BigInteger.ZERO) < 0 )
@@ -208,13 +226,15 @@ public class BigIntegerMath
                 }
         }
 
-        /** Evaluate core(n).
-        * Returns the smallest positive integer m such that n/m is a perfect square.
-        * @param n The non-negative argument.
-        * @return The square-free part of n.
-        * @since 2011-02-12
-        * @author Richard J. Mathar
-        */
+        /**
+         *  Evaluate core(n).
+         * Returns the smallest positive integer m such that n/m is a perfect square.
+         *
+         * @author Richard J. Mathar
+         * @param n The non-negative argument.
+         * @return The square-free part of n.
+         * @since 2011-02-12
+         */
         static public BigInteger core(final BigInteger n)
         {
                 if ( n.compareTo(BigInteger.ZERO) < 0 )
@@ -223,16 +243,19 @@ public class BigIntegerMath
                 return i.core() ;
         }
 
-        /** Minor of an integer matrix.
-        * @param A The matrix.
-        * @param r The row index of the row to be removed (0-based).
-        *   An exception is thrown if this is outside the range 0 to the upper row index of A.
-        * @param c The column index of the column to be removed (0-based).
-        *   An exception is thrown if this is outside the range 0 to the upper column index of A.
-        * @return The depleted matrix. This is not a deep copy but contains references to the original.
-        * @since 2010-08-27
-        * @author Richard J. Mathar
-        */
+        /**
+         *  Minor of an integer matrix.
+         *
+         * @author Richard J. Mathar
+         * @param A The matrix.
+         * @param r The row index of the row to be removed (0-based).
+         *   An exception is thrown if this is outside the range 0 to the upper row index of A.
+         * @param c The column index of the column to be removed (0-based).
+         *   An exception is thrown if this is outside the range 0 to the upper column index of A.
+         * @return The depleted matrix. This is not a deep copy but contains references to the original.
+         * @throws ArithmeticException the arithmetic exception
+         * @since 2010-08-27
+         */
         static public BigInteger[][] minor(final BigInteger[][] A, final int r, final int c) throws ArithmeticException
         {
                 /* original row count */
@@ -268,16 +291,19 @@ public class BigIntegerMath
                 return M ;
         }
 
-        /** Replace column of a matrix with a column vector.
-        * @param A The matrix.
-        * @param c The column index of the column to be substituted (0-based).
-        * @param v The column vector to be inserted.
-        * With the current implementation, it must be at least as long as the row count, and 
-        *  its elements that exceed that count are ignored.
-        * @return The modified matrix. This is not a deep copy but contains references to the original.
-        * @since 2010-08-27
-        * @author Richard J. Mathar
-        */
+        /**
+         *  Replace column of a matrix with a column vector.
+         *
+         * @author Richard J. Mathar
+         * @param A The matrix.
+         * @param c The column index of the column to be substituted (0-based).
+         * @param v The column vector to be inserted.
+         * With the current implementation, it must be at least as long as the row count, and 
+         *  its elements that exceed that count are ignored.
+         * @return The modified matrix. This is not a deep copy but contains references to the original.
+         * @throws ArithmeticException the arithmetic exception
+         * @since 2010-08-27
+         */
         static private BigInteger[][] colSubs(final BigInteger[][] A, final int c, final BigInteger[] v) throws ArithmeticException
         {
                 /* original row count */
@@ -307,13 +333,16 @@ public class BigIntegerMath
                 return M ;
         }
 
-        /** Determinant of an integer square matrix.
-        * @param A The square matrix.
-        *  If column and row dimensions are unequal, an ArithmeticException is thrown.
-        * @return The determinant.
-        * @since 2010-08-27
-        * @author Richard J. Mathar
-        */
+        /**
+         *  Determinant of an integer square matrix.
+         *
+         * @author Richard J. Mathar
+         * @param A The square matrix.
+         *  If column and row dimensions are unequal, an ArithmeticException is thrown.
+         * @return The determinant.
+         * @throws ArithmeticException the arithmetic exception
+         * @since 2010-08-27
+         */
         static public BigInteger det(final BigInteger[][] A) throws ArithmeticException
         {
                 BigInteger d = BigInteger.ZERO ;
@@ -358,15 +387,18 @@ public class BigIntegerMath
                 return d;
         }
 
-        /** Solve a linear system of equations.
-        * @param A The square matrix.
-        *  If it is not of full rank, an ArithmeticException is thrown.
-        * @param rhs The right hand side. The length of this vector must match the matrix size;
-        *  else an ArithmeticException is thrown.
-        * @return The vector of x in A*x=rhs.
-        * @since 2010-08-28
-        * @author Richard J. Mathar
-        */
+        /**
+         *  Solve a linear system of equations.
+         *
+         * @author Richard J. Mathar
+         * @param A The square matrix.
+         *  If it is not of full rank, an ArithmeticException is thrown.
+         * @param rhs The right hand side. The length of this vector must match the matrix size;
+         *  else an ArithmeticException is thrown.
+         * @return The vector of x in A*x=rhs.
+         * @throws ArithmeticException the arithmetic exception
+         * @since 2010-08-28
+         */
         static public Rational[] solve(final BigInteger[][]A, final BigInteger[] rhs) throws ArithmeticException
         {
 
@@ -447,13 +479,15 @@ public class BigIntegerMath
                         return x ;
         }
 
-        /** The lowest common multiple
-        * @param a The first argument
-        * @param b The second argument
-        * @return lcm(|a|,|b|)
-        * @since 2010-08-27
-        * @author Richard J. Mathar
-        */
+        /**
+         *  The lowest common multiple.
+         *
+         * @author Richard J. Mathar
+         * @param a The first argument
+         * @param b The second argument
+         * @return lcm(|a|,|b|)
+         * @since 2010-08-27
+         */
         static public BigInteger lcm(final BigInteger a, final BigInteger b)
         {
                 BigInteger g = a.gcd(b) ;
@@ -461,13 +495,15 @@ public class BigIntegerMath
         }
 
 
-        /** Evaluate the value of an integer polynomial at some integer argument.
-        * @param c Represents the coefficients c[0]+c[1]*x+c[2]*x^2+.. of the polynomial
-        * @param x The abscissa point of the evaluation
-        * @return The polynomial value.
-        * @since 2010-08-27
-        * @author Richard J. Mathar
-        */
+        /**
+         *  Evaluate the value of an integer polynomial at some integer argument.
+         *
+         * @author Richard J. Mathar
+         * @param c Represents the coefficients c[0]+c[1]*x+c[2]*x^2+.. of the polynomial
+         * @param x The abscissa point of the evaluation
+         * @return The polynomial value.
+         * @since 2010-08-27
+         */
         static public BigInteger valueOf(final Vector<BigInteger>c, final BigInteger x)
         {
                 if (c.size() == 0)
@@ -478,14 +514,16 @@ public class BigIntegerMath
                 return res ;
         }
 
-        /** The central factorial number t(n,k) number at the indices provided.
-        * @param n the first parameter, non-negative.
-        * @param k the second index, non-negative.
-        * @return t(n,k)
-        * @since 2009-08-06
-        * @author Richard J. Mathar
-        * @see <a href="http://dx.doi.org/10.1080/01630568908816313">P. L. Butzer et al, Num. Funct. Anal. Opt. 10 (5)( 1989) 419-488</a>
-        */
+        /**
+         *  The central factorial number t(n,k) number at the indices provided.
+         *
+         * @author Richard J. Mathar
+         * @param n the first parameter, non-negative.
+         * @param k the second index, non-negative.
+         * @return t(n,k)
+         * @see <a href="http://dx.doi.org/10.1080/01630568908816313">P. L. Butzer et al, Num. Funct. Anal. Opt. 10 (5)( 1989) 419-488</a>
+         * @since 2009-08-06
+         */
         static public Rational centrlFactNumt(int n,int k)
         {
                 if ( k > n || k < 0 || ( k % 2 ) != (n % 2) )
@@ -522,14 +560,16 @@ public class BigIntegerMath
                 }
         } /* CentralFactNumt */
 
-        /** The central factorial number T(n,k) number at the indices provided.
-        * @param n the first parameter, non-negative.
-        * @param k the second index, non-negative.
-        * @return T(n,k)
-        * @since 2009-08-06
-        * @author Richard J. Mathar
-        * @see <a href="http://dx.doi.org/10.1080/01630568908816313">P. L. Butzer et al, Num. Funct. Anal. Opt. 10 (5)( 1989) 419-488</a>
-        */
+        /**
+         *  The central factorial number T(n,k) number at the indices provided.
+         *
+         * @author Richard J. Mathar
+         * @param n the first parameter, non-negative.
+         * @param k the second index, non-negative.
+         * @return T(n,k)
+         * @see <a href="http://dx.doi.org/10.1080/01630568908816313">P. L. Butzer et al, Num. Funct. Anal. Opt. 10 (5)( 1989) 419-488</a>
+         * @since 2009-08-06
+         */
         static public Rational centrlFactNumT(int n,int k)
         {
                 if ( k > n || k < 0 || ( k % 2 ) != (n % 2) )

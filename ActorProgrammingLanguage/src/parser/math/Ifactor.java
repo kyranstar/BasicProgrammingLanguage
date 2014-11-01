@@ -1,21 +1,26 @@
+/*
+ * @author Kyran Adams
+ */
 package parser.math ;
 
 import java.lang.* ;
 import java.util.* ;
 import java.math.* ;
 
-/** Factored integers.
-* This class contains a non-negative integer with the prime factor decomposition attached.
-* @since 2006-08-14
-* @since 2012-02-14 The internal representation contains the bases, and becomes sparser if few 
-*    prime factors are present.
-* @author Richard J. Mathar
-*/
+// TODO: Auto-generated Javadoc
+/**
+ *  Factored integers.
+ * This class contains a non-negative integer with the prime factor decomposition attached.
+ *
+ * @author Richard J. Mathar
+ * @since 2006-08-14
+ * @since 2012-02-14 The internal representation contains the bases, and becomes sparser if few
+ *    prime factors are present.
+ */
 public class Ifactor implements Cloneable, Comparable<Ifactor>
 {
-        /**
-        * The standard representation of the number
-        */
+        
+        /** The standard representation of the number. */
         public BigInteger n ;
 
         /*
@@ -24,10 +29,13 @@ public class Ifactor implements Cloneable, Comparable<Ifactor>
         * The value 0 is represented by an empty vector, the value 1 by a vector of length 1
         * with a single power of 0.
         */
+        /** The primeexp. */
         public Vector<Integer> primeexp ;
 
+        /** The Constant ONE. */
         final public static Ifactor ONE = new Ifactor(1) ;
 
+        /** The Constant ZERO. */
         final public static Ifactor ZERO = new Ifactor(0) ;
 
         /** Constructor given an integer.
@@ -148,9 +156,12 @@ public class Ifactor implements Cloneable, Comparable<Ifactor>
                 primeexp = oth.primeexp ;
         } /* Ifactor */
 
-        /** Deep copy.
-        * @since 2009-08-14
-        */
+        /**
+         *  Deep copy.
+         *
+         * @return the ifactor
+         * @since 2009-08-14
+         */
         public Ifactor clone()
         {
                 Vector<Integer> p = (Vector<Integer>)primeexp.clone();
@@ -370,10 +381,12 @@ public class Ifactor implements Cloneable, Comparable<Ifactor>
                 return  new Ifactor(n.divide(oth.n)) ;
         } /* Ifactor.divide */
 
-        /** Summation with another positive integer
-        * @param oth the other term.
-        * @return the sum of both numbers
-        */
+        /**
+         *  Summation with another positive integer.
+         *
+         * @param oth the other term.
+         * @return the sum of both numbers
+         */
         public Ifactor add(final BigInteger oth)
         {
                 /* avoid refactorization if oth is zero...
@@ -384,10 +397,13 @@ public class Ifactor implements Cloneable, Comparable<Ifactor>
                         return this ;
         } /* Ifactor.add */
 
-        /** Exponentiation with a positive integer.
-        * @param exponent the non-negative exponent
-        * @return n^exponent. If exponent=0, the result is 1.
-        */
+        /**
+         *  Exponentiation with a positive integer.
+         *
+         * @param exponent the non-negative exponent
+         * @return n^exponent. If exponent=0, the result is 1.
+         * @throws ArithmeticException the arithmetic exception
+         */
         public Ifactor pow(final int exponent) throws ArithmeticException
         {
                 /* three simple cases first
@@ -413,13 +429,16 @@ public class Ifactor implements Cloneable, Comparable<Ifactor>
                 return pows ;
         } /* Ifactor.pow */
 
-        /** Pulling the r-th root.
-        * @param r the positive or negative (nonzero) root.
-        * @return n^(1/r).
-        *   The return value falls into the Ifactor class if r is positive, but if r is negative
-        *   a Rational type is needed.
-        * @since 2009-05-18
-        */
+        /**
+         *  Pulling the r-th root.
+         *
+         * @param r the positive or negative (nonzero) root.
+         * @return n^(1/r).
+         *   The return value falls into the Ifactor class if r is positive, but if r is negative
+         *   a Rational type is needed.
+         * @throws ArithmeticException the arithmetic exception
+         * @since 2009-05-18
+         */
         public Rational root(final int r) throws ArithmeticException
         {
                 if ( r == 0 )
@@ -503,9 +522,12 @@ public class Ifactor implements Cloneable, Comparable<Ifactor>
                 return sigma(1) ; 
         } /* Ifactor.sigma */
 
-        /** Sum of the k-th powers of divisors of the number.
-        * @return the sum of all divisors of the number, 1^k+....+n^k.
-        */
+        /**
+         *  Sum of the k-th powers of divisors of the number.
+         *
+         * @param k the k
+         * @return the sum of all divisors of the number, 1^k+....+n^k.
+         */
         public Ifactor sigma(int k)
         {
                 /* the question is whether keeping a factorization  is worth the effort
@@ -696,19 +718,23 @@ public class Ifactor implements Cloneable, Comparable<Ifactor>
                 return resul ;
         } /* Ifactor.min */
 
-        /** Compare value against another Ifactor
-        * @param oth The value to be compared agains.
-        * @return 1, 0 or -1 according to being larger, equal to or smaller than oth.
-        * @since 2012-02-15
-        */
+        /**
+         *  Compare value against another Ifactor.
+         *
+         * @param oth The value to be compared agains.
+         * @return 1, 0 or -1 according to being larger, equal to or smaller than oth.
+         * @since 2012-02-15
+         */
         public int compareTo( final Ifactor oth)
         {
                 return n.compareTo(oth.n) ;
         } /* compareTo */
 
-        /** Convert to printable format
-        * @return a string of the form n:prime^pow*prime^pow*prime^pow...
-        */
+        /**
+         *  Convert to printable format.
+         *
+         * @return a string of the form n:prime^pow*prime^pow*prime^pow...
+         */
         public String toString()
         {
                 String resul = new String(n.toString()+":") ;
@@ -731,10 +757,14 @@ public class Ifactor implements Cloneable, Comparable<Ifactor>
                 return resul ;
         } /* Ifactor.toString */
 
-        /** Test program.
-        * It takes a single argument n and prints the integer factorizaton.<br>
-        * java -cp . org.nevec.rjm.Ifactor n<br>
-        */
+        /**
+         *  Test program.
+         * It takes a single argument n and prints the integer factorizaton.<br>
+         * java -cp . org.nevec.rjm.Ifactor n<br>
+         *
+         * @param args the arguments
+         * @throws Exception the exception
+         */
         public static void main(String[] args) throws Exception
         {
                 BigInteger n = new BigInteger(args[0]) ;

@@ -1,16 +1,22 @@
+/*
+ * @author Kyran Adams
+ */
 package parser.math ;
 
 import java.util.* ;
 import java.security.* ;
 import java.math.* ;
 
-/** A BigSurdVec represents an algebraic sum or differences of values
-* which each term an instance of BigSurd.
-* This mainly means that sums or differences of two BigSurd (or two BigSurdVec) can
-* be represented (exactly) as a BigSurdVec.
-* @since 2012-02-15
-* @author Richard J. Mathar
-*/
+// TODO: Auto-generated Javadoc
+/**
+ *  A BigSurdVec represents an algebraic sum or differences of values
+ * which each term an instance of BigSurd.
+ * This mainly means that sums or differences of two BigSurd (or two BigSurdVec) can
+ * be represented (exactly) as a BigSurdVec.
+ *
+ * @author Richard J. Mathar
+ * @since 2012-02-15
+ */
 public class BigSurdVec implements Comparable<BigSurdVec>
 {
         /** The value of zero.
@@ -189,10 +195,12 @@ public class BigSurdVec implements Comparable<BigSurdVec>
 
         } /* signum */
 
-        /** Construct an approximate floating point representation
-        * @param mc The intended accuracy of the result.
-        * @return A truncated version with the precision described by mc
-        */
+        /**
+         *  Construct an approximate floating point representation.
+         *
+         * @param mc The intended accuracy of the result.
+         * @return A truncated version with the precision described by mc
+         */
         public BigDecimal BigDecimalValue(MathContext mc)
         {
                 /* simple cases with one term forwarded to the BigSurd class
@@ -229,18 +237,22 @@ public class BigSurdVec implements Comparable<BigSurdVec>
         
         } /* BigDecimalValue */
 
-        /** Construct an approximate floating point representation
-        * @return A truncated version with the precision described by mc
-        */
+        /**
+         *  Construct an approximate floating point representation.
+         *
+         * @return A truncated version with the precision described by mc
+         */
         public double doubleValue()
         {
                 BigDecimal bd = BigDecimalValue(MathContext.DECIMAL128) ;
                 return bd.doubleValue() ;
         } /* doubleValue */
 
-        /** Construct an approximate floating point representation
-        * @return A truncated version with the precision described by mc
-        */
+        /**
+         *  Construct an approximate floating point representation.
+         *
+         * @return A truncated version with the precision described by mc
+         */
         public double floatValue()
         {
                 BigDecimal bd = BigDecimalValue(MathContext.DECIMAL64) ;

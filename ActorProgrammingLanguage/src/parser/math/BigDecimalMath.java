@@ -1,3 +1,6 @@
+/*
+ * @author Kyran Adams
+ */
 package parser.math ;
 
 import java.security.* ;
@@ -5,14 +8,17 @@ import java.util.* ;
 import java.math.* ;
 
 
-/** BigDecimal special functions.
-* <a href="http://arxiv.org/abs/0908.3030">A Java Math.BigDecimal Implementation of Core Mathematical Functions</a>
-* @since 2009-05-22
-* @author Richard J. Mathar
-* @see <a href="http://apfloat.org/">apfloat</a>
-* @see <a href="http://dfp.sourceforge.net/">dfp</a>
-* @see <a href="http://jscience.org/">JScience</a>
-*/
+// TODO: Auto-generated Javadoc
+/**
+ *  BigDecimal special functions.
+ * <a href="http://arxiv.org/abs/0908.3030">A Java Math.BigDecimal Implementation of Core Mathematical Functions</a>
+ *
+ * @author Richard J. Mathar
+ * @see <a href="http://apfloat.org/">apfloat</a>
+ * @see <a href="http://dfp.sourceforge.net/">dfp</a>
+ * @see <a href="http://jscience.org/">JScience</a>
+ * @since 2009-05-22
+ */
 public class BigDecimalMath
 {
 
@@ -183,12 +189,14 @@ public class BigDecimalMath
         } /* BigDecimalMath.gamma */
 
 
-        /** The square root.
-        * @param x the non-negative argument.
-        * @param mc
-        * @return the square root of the BigDecimal.
-        * @since 2008-10-27
-        */
+        /**
+         *  The square root.
+         *
+         * @param x the non-negative argument.
+         * @param mc the mc
+         * @return the square root of the BigDecimal.
+         * @since 2008-10-27
+         */
         static public BigDecimal sqrt(final BigDecimal x, final MathContext mc)
         {
                 if ( x.compareTo(BigDecimal.ZERO) < 0 )
@@ -356,15 +364,17 @@ public class BigDecimalMath
         */
         static private int TAYLOR_NTERM = 8 ;
 
-        /** The exponential function.
-        * @param x the argument.
-        * @return exp(x).
-        * The precision of the result is implicitly defined by the precision in the argument.
-        * In particular this means that "Invalid Operation" errors are thrown if catastrophic
-        * cancellation of digits causes the result to have no valid digits left.
-        * @since 2009-05-29
-        * @author Richard J. Mathar
-        */
+        /**
+         *  The exponential function.
+         *
+         * @author Richard J. Mathar
+         * @param x the argument.
+         * @return exp(x).
+         * The precision of the result is implicitly defined by the precision in the argument.
+         * In particular this means that "Invalid Operation" errors are thrown if catastrophic
+         * cancellation of digits causes the result to have no valid digits left.
+         * @since 2009-05-29
+         */
         static public BigDecimal exp(BigDecimal x)
         {
                 /* To calculate the value if x is negative, use exp(-x) = 1/exp(x)
@@ -482,13 +492,15 @@ public class BigDecimalMath
                 }
         } /* BigDecimalMath.exp */
 
-        /** The natural logarithm.
-        * @param x the argument.
-        * @return ln(x).
-        * The precision of the result is implicitly defined by the precision in the argument.
-        * @since 2009-05-29
-        * @author Richard J. Mathar
-        */
+        /**
+         *  The natural logarithm.
+         *
+         * @author Richard J. Mathar
+         * @param x the argument.
+         * @return ln(x).
+         * The precision of the result is implicitly defined by the precision in the argument.
+         * @since 2009-05-29
+         */
         static public BigDecimal log(BigDecimal x)
         {
                 /* the value is undefined if x is negative.
@@ -552,13 +564,15 @@ public class BigDecimalMath
                 }
         } /* BigDecimalMath.log */
 
-        /** The natural logarithm.
-        * @param n The main argument, a strictly positive integer.
-        * @param mc The requirements on the precision.
-        * @return ln(n).
-        * @since 2009-08-08
-        * @author Richard J. Mathar
-        */
+        /**
+         *  The natural logarithm.
+         *
+         * @author Richard J. Mathar
+         * @param n The main argument, a strictly positive integer.
+         * @param mc The requirements on the precision.
+         * @return ln(n).
+         * @since 2009-08-08
+         */
         static public BigDecimal log(int n, final MathContext mc)
         {
                 /* the value is undefined if x is negative.
@@ -710,13 +724,15 @@ public class BigDecimalMath
                 }
         } /* log */
 
-        /** The natural logarithm.
-        * @param r The main argument, a strictly positive value.
-        * @param mc The requirements on the precision.
-        * @return ln(r).
-        * @since 2009-08-09
-        * @author Richard J. Mathar
-        */
+        /**
+         *  The natural logarithm.
+         *
+         * @author Richard J. Mathar
+         * @param r The main argument, a strictly positive value.
+         * @param mc The requirements on the precision.
+         * @return ln(r).
+         * @since 2009-08-09
+         */
         static public BigDecimal log(final Rational r, final MathContext mc)
         {
                 /* the value is undefined if x is negative.
@@ -1462,12 +1478,14 @@ public class BigDecimalMath
                 }
         } /* BigDecimalMath.atan */
 
-        /** The hyperbolic cosine.
-        * @param x The argument.
-        * @return The cosh(x) = (exp(x)+exp(-x))/2 .
-        * @author Richard J. Mathar
-        * @since 2009-08-19
-        */
+        /**
+         *  The hyperbolic cosine.
+         *
+         * @author Richard J. Mathar
+         * @param x The argument.
+         * @return The cosh(x) = (exp(x)+exp(-x))/2 .
+         * @since 2009-08-19
+         */
         static public BigDecimal cosh(final BigDecimal x)
         {
                 if ( x.compareTo(BigDecimal.ZERO) < 0)
@@ -1528,12 +1546,14 @@ public class BigDecimalMath
                 }
         } /* BigDecimalMath.cosh */
 
-        /** The hyperbolic sine.
-        * @param x the argument.
-        * @return the sinh(x) = (exp(x)-exp(-x))/2 .
-        * @author Richard J. Mathar
-        * @since 2009-08-19
-        */
+        /**
+         *  The hyperbolic sine.
+         *
+         * @author Richard J. Mathar
+         * @param x the argument.
+         * @return the sinh(x) = (exp(x)-exp(-x))/2 .
+         * @since 2009-08-19
+         */
         static public BigDecimal sinh(final BigDecimal x)
         {
                 if ( x.compareTo(BigDecimal.ZERO) < 0)
@@ -1600,12 +1620,14 @@ public class BigDecimalMath
                 }
         } /* BigDecimalMath.sinh */
 
-        /** The hyperbolic tangent.
-        * @param x The argument.
-        * @return The tanh(x) = sinh(x)/cosh(x).
-        * @author Richard J. Mathar
-        * @since 2009-08-20
-        */
+        /**
+         *  The hyperbolic tangent.
+         *
+         * @author Richard J. Mathar
+         * @param x The argument.
+         * @return The tanh(x) = sinh(x)/cosh(x).
+         * @since 2009-08-20
+         */
         static public BigDecimal tanh(final BigDecimal x)
         {
                 if ( x.compareTo(BigDecimal.ZERO) < 0)
@@ -1628,12 +1650,14 @@ public class BigDecimalMath
                 }
         } /* BigDecimalMath.tanh */
 
-        /** The inverse hyperbolic sine.
-        * @param x The argument.
-        * @return The arcsinh(x) .
-        * @author Richard J. Mathar
-        * @since 2009-08-20
-        */
+        /**
+         *  The inverse hyperbolic sine.
+         *
+         * @author Richard J. Mathar
+         * @param x The argument.
+         * @return The arcsinh(x) .
+         * @since 2009-08-20
+         */
         static public BigDecimal asinh(final BigDecimal x)
         {
                 if ( x.compareTo(BigDecimal.ZERO) == 0 )
@@ -1655,12 +1679,14 @@ public class BigDecimalMath
                 }
         } /* BigDecimalMath.asinh */
 
-        /** The inverse hyperbolic cosine.
-        * @param x The argument.
-        * @return The arccosh(x) .
-        * @author Richard J. Mathar
-        * @since 2009-08-20
-        */
+        /**
+         *  The inverse hyperbolic cosine.
+         *
+         * @author Richard J. Mathar
+         * @param x The argument.
+         * @return The arccosh(x) .
+         * @since 2009-08-20
+         */
         static public BigDecimal acosh(final BigDecimal x)
         {
                 if ( x.compareTo(BigDecimal.ONE) < 0 )
@@ -2275,13 +2301,17 @@ public class BigDecimalMath
         } /* psi */
 
 
-        /** Broadhurst ladder sequence.
-        * @param a The vector of 8 integer arguments
-        * @param mc Specification of the accuracy of the result
-        * @return S_(n,p)(a)
-        * @since 2009-08-09
-        * @see <a href="http://arxiv.org/abs/math/9803067">arXiv:math/9803067</a>
-        */
+        /**
+         *  Broadhurst ladder sequence.
+         *
+         * @param n the n
+         * @param p the p
+         * @param a The vector of 8 integer arguments
+         * @param mc Specification of the accuracy of the result
+         * @return S_(n,p)(a)
+         * @see <a href="http://arxiv.org/abs/math/9803067">arXiv:math/9803067</a>
+         * @since 2009-08-09
+         */
         static protected BigDecimal broadhurstBBP(final int n, final int p, final int a[], MathContext mc)
         {
                 /* Explore the actual magnitude of the result first with a quick estimate.

@@ -1,20 +1,28 @@
+/*
+ * @author Kyran Adams
+ */
 package parser.math;
 
 import java.math.BigInteger;
 import java.util.Vector;
 
+// TODO: Auto-generated Javadoc
 /**
  * Bernoulli numbers.
  *
- * @since 2006-06-25
  * @author Richard J. Mathar
+ * @since 2006-06-25
  */
 public class Bernoulli {
     /*
      * The list of all Bernoulli numbers as a vector, n=0,2,4,....
      */
+    /** The a. */
     static Vector<Rational> a = new Vector<Rational>();
 
+    /**
+     * Instantiates a new bernoulli.
+     */
     public Bernoulli() {
         if (a.size() == 0) {
             a.add(Rational.ONE);
@@ -72,6 +80,12 @@ public class Bernoulli {
      * @param n The index of the Bernoulli number.
      *
      * @return The Bernoulli number at n.
+     */
+    /**
+     * Double sum.
+     *
+     * @param n the n
+     * @return the rational
      */
     private Rational doubleSum(final int n) {
         Rational resul = Rational.ZERO;

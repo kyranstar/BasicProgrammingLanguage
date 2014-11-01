@@ -1,19 +1,26 @@
+/*
+ * @author Kyran Adams
+ */
 package parser.math ;
 
 import java.lang.* ;
 import java.util.* ;
 import java.math.* ;
 
-/** Euler numbers
-* @see <a href="http://oeis.org/A000364">A000364</a> in the OEIS.
-* @since 2008-10-30
-* @author Richard J. Mathar
-*/
+// TODO: Auto-generated Javadoc
+/**
+ *  Euler numbers.
+ *
+ * @author Richard J. Mathar
+ * @see <a href="http://oeis.org/A000364">A000364</a> in the OEIS.
+ * @since 2008-10-30
+ */
 public class Euler
 {
         /*
         * The list of all Euler numbers as a vector, n=0,2,4,....
         */
+        /** The a. */
         static protected Vector<BigInteger> a = new Vector<BigInteger>() ;
 
         /** Ctor(). Fill the hash list initially with E_0 to E_3.

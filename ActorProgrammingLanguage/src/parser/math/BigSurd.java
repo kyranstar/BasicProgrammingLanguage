@@ -1,17 +1,23 @@
+/*
+ * @author Kyran Adams
+ */
 package parser.math ;
 
 import java.util.* ;
 import java.security.* ;
 import java.math.* ;
 
-/** Square roots on the real line.
-* These represent numbers which are a product of a (signed) fraction by
-* a square root of a non-negative fraction.
-* This might be extended to values on the imaginary axis by allowing negative
-* values underneath the square root, but this is not yet implemented.
-* @since 2011-02-12
-* @author Richard J. Mathar
-*/
+// TODO: Auto-generated Javadoc
+/**
+ *  Square roots on the real line.
+ * These represent numbers which are a product of a (signed) fraction by
+ * a square root of a non-negative fraction.
+ * This might be extended to values on the imaginary axis by allowing negative
+ * values underneath the square root, but this is not yet implemented.
+ *
+ * @author Richard J. Mathar
+ * @since 2011-02-12
+ */
 public class BigSurd implements Cloneable, Comparable<BigSurd>
 {
         /** The value of zero.
@@ -21,8 +27,8 @@ public class BigSurd implements Cloneable, Comparable<BigSurd>
         /** The value of one.
         */
         static public BigSurd ONE = new BigSurd(Rational.ONE,Rational.ONE) ;
-        /** Prefactor
-        */
+        
+        /**  Prefactor. */
         Rational pref ;
 
         /** The number underneath the square root, always non-negative.
@@ -78,9 +84,12 @@ public class BigSurd implements Cloneable, Comparable<BigSurd>
                 this( Rational.ONE, new Rational(a,BigInteger.ONE) ) ;
         }
 
-        /** Create a deep copy.
-        * @since 2011-02-12
-        */
+        /**
+         *  Create a deep copy.
+         *
+         * @return the big surd
+         * @since 2011-02-12
+         */
         public BigSurd clone()
         {
                 Rational fclon = pref.clone() ;
@@ -95,9 +104,12 @@ public class BigSurd implements Cloneable, Comparable<BigSurd>
                 return cl ;
         } /* BigSurd.clone */
 
-        /** Add two surds of compatible discriminant.
-        * @param val The value to be added to this.
-        */
+        /**
+         *  Add two surds of compatible discriminant.
+         *
+         * @param val The value to be added to this.
+         * @return the big surd vec
+         */
         public BigSurdVec add(final BigSurd val)
         {
                 /* zero plus somethings yields something
@@ -301,28 +313,37 @@ System.out.println("dv sq " + res) ;
                 return (float)(doubleValue()) ;
         } /* BigSurd.floatValue */
 
-        /** True if the value is integer.
-        * Equivalent to the indication whether a conversion to an integer
-        * can be exact.
-        * @since 2011-02-12
-        */
+        /**
+         *  True if the value is integer.
+         * Equivalent to the indication whether a conversion to an integer
+         * can be exact.
+         *
+         * @return true, if is big integer
+         * @since 2011-02-12
+         */
         public boolean isBigInteger()
         {
                 return pref.isBigInteger() && ( disc.signum() ==0 || disc.compareTo(Rational.ONE) == 0 ) ;
         } /* BigSurd.isBigInteger */
 
-        /** True if the value is rational.
-        * Equivalent to the indication whether a conversion to a Rational can be exact.
-        * @since 2011-02-12
-        */
+        /**
+         *  True if the value is rational.
+         * Equivalent to the indication whether a conversion to a Rational can be exact.
+         *
+         * @return true, if is rational
+         * @since 2011-02-12
+         */
         public boolean isRational()
         {
                 return ( disc.signum() ==0 || disc.compareTo(Rational.ONE) == 0 ) ;
         } /* BigSurd.isRational */
 
-        /** Convert to a rational value if possible
-        * @since 2012-02-15
-        */
+        /**
+         *  Convert to a rational value if possible.
+         *
+         * @return the rational
+         * @since 2012-02-15
+         */
         public Rational toRational()
         {
                 if ( isRational() )
@@ -331,10 +352,12 @@ System.out.println("dv sq " + res) ;
                         throw new ArithmeticException("Undefined conversion "+ toString() + " to Rational.") ;
         } /* BigSurd.toRational */
 
-        /** The sign: 1 if the number is >0, 0 if ==0, -1 if <0
-        * @return the signum of the value.
-        * @since 2011-02-12
-        */
+        /**
+         *  The sign: 1 if the number is >0, 0 if ==0, -1 if <0.
+         *
+         * @return the signum of the value.
+         * @since 2011-02-12
+         */
         public int signum()
         {
                 /* Since the disc is kept positive, this is the same
@@ -378,9 +401,11 @@ System.out.println("dv sq " + res) ;
                         pref = Rational.ZERO ;
         } /* BigSurd.normalize */
 
-        /** Normalize to coprime numerator and denominator in prefactor and discriminant
-        * @since 2011-02-12
-        */
+        /**
+         *  Normalize to coprime numerator and denominator in prefactor and discriminant.
+         *
+         * @since 2011-02-12
+         */
         protected void normalizeG()
         {
                 /* Is there a common factor between the numerator of the prefactor

@@ -10,13 +10,18 @@ import java.util.Map;
 import machine.Context;
 import type.APValue;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Main.
  */
 public final class Main {
+
+    /**
+     * Instantiates a new main.
+     */
     private Main() {
     }
-    
+
     /**
      * The main method.
      *
@@ -26,7 +31,7 @@ public final class Main {
     public static void main(final String[] args) {
         final Interpreter interpreter = new Interpreter(System.out);
         final Context context = interpreter.interpret("a= print (3);");
-
+        
         for (final Map.Entry<String, APValue> a : context.getContext()
                 .entrySet()) {
             System.out.println(a.getKey() + " -> " + a.getValue().getValue());

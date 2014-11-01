@@ -1,3 +1,6 @@
+/*
+ * @author Kyran Adams
+ */
 package parser.math ;
 
 import java.lang.* ;
@@ -6,27 +9,34 @@ import java.util.* ;
 import java.math.* ;
 
 
-/** Exact representations of Wigner 3jm and 3nj values of half-integer arguments.
-* @see R. J. Mathar, <a href="http://arxiv.org/abs/1102.5125">Corrigendum to "Universal factorzation fo 3n-j (j>2) symbols ..[J. Phys. A: Math. Gen.37 (2004) 3259]"</a>
-* @see R. J. Mathar, <a href="http://vixra.org/abs/1202.0093">Symmetries in Wigner 18-j and 21-j Symbols</a>
-* @since 2011-02-15
-* @author Richard J. Mathar
-*/
+// TODO: Auto-generated Javadoc
+/**
+ *  Exact representations of Wigner 3jm and 3nj values of half-integer arguments.
+ *
+ * @author Richard J. Mathar
+ * @see R. J. Mathar, <a href="http://arxiv.org/abs/1102.5125">Corrigendum to "Universal factorzation fo 3n-j (j>2) symbols ..[J. Phys. A: Math. Gen.37 (2004) 3259]"</a>
+ * @see R. J. Mathar, <a href="http://vixra.org/abs/1202.0093">Symmetries in Wigner 18-j and 21-j Symbols</a>
+ * @since 2011-02-15
+ */
 public class Wigner3j
 {
-        /** Test programs.
-        * This supports three types of direct evaluations:<br>
-        * java -cp . org.nevec.rjm.Wigner3j 3jm 2j1+1 2j2+1 2j3+1 2m1+1 2m2+1 2m3+1<br>
-        * java -cp . org.nevec.rjm.Wigner3j 6j 2j1+1 2j2+2 .. 2j6+1<br>
-        * java -cp . org.nevec.rjm.Wigner3j 9j 2j1+1 2j2+2 .. 2j9+1<br>
-        * The first command line argument is one of the three tags which determine
-        * whether a 3jm, a 6j or a 9j symbol will be computed. The other arguments are 6 or 9 integer
-        * values, which are the physical (half-integer) values multplied by 2 and augmented by 1.
-        * The order of the 6 or 9 values is as reading the corresponding standard symbol
-        * as first row, then second row (and for the 9j symbol) third row.
-        * @since 2011-02-15
-        * @author Richard J. Mathar
-        */
+        
+        /**
+         *  Test programs.
+         * This supports three types of direct evaluations:<br>
+         * java -cp . org.nevec.rjm.Wigner3j 3jm 2j1+1 2j2+1 2j3+1 2m1+1 2m2+1 2m3+1<br>
+         * java -cp . org.nevec.rjm.Wigner3j 6j 2j1+1 2j2+2 .. 2j6+1<br>
+         * java -cp . org.nevec.rjm.Wigner3j 9j 2j1+1 2j2+2 .. 2j9+1<br>
+         * The first command line argument is one of the three tags which determine
+         * whether a 3jm, a 6j or a 9j symbol will be computed. The other arguments are 6 or 9 integer
+         * values, which are the physical (half-integer) values multplied by 2 and augmented by 1.
+         * The order of the 6 or 9 values is as reading the corresponding standard symbol
+         * as first row, then second row (and for the 9j symbol) third row.
+         *
+         * @author Richard J. Mathar
+         * @param args the arguments
+         * @since 2011-02-15
+         */
         static public void main(String args[])
         {
                 if ( args[0].compareTo("6j") == 0 )
@@ -95,20 +105,22 @@ public class Wigner3j
         } /* Wigner3j.main */
 
 
-        /** The Wigner 3jm symbol (j1,j2,j3,m1,m2,m3).
-        * All arguments of the function are the actual parameters multiplied by 2, so
-        * they all allow an integer representation.
-        * @param j1 integer representing 2*j1
-        * @param j2 integer representing 2*j2
-        * @param j3 integer representing 2*j3
-        * @param m1 integer representing 2*m1
-        * @param m2 integer representing 2*m2
-        * @param m3 integer representing 2*m3
-        * @return The value of the symbol. Zero if any of the triangular inequalities is
-        *  violated or some parameters are out of range.
-        * @since 2011-02-13
-        * @author Richard J. Mathar
-        */
+        /**
+         *  The Wigner 3jm symbol (j1,j2,j3,m1,m2,m3).
+         * All arguments of the function are the actual parameters multiplied by 2, so
+         * they all allow an integer representation.
+         *
+         * @author Richard J. Mathar
+         * @param j1 integer representing 2*j1
+         * @param j2 integer representing 2*j2
+         * @param j3 integer representing 2*j3
+         * @param m1 integer representing 2*m1
+         * @param m2 integer representing 2*m2
+         * @param m3 integer representing 2*m3
+         * @return The value of the symbol. Zero if any of the triangular inequalities is
+         *  violated or some parameters are out of range.
+         * @since 2011-02-13
+         */
         static public BigSurd wigner3jm(int j1, int j2, int j3, int m1, int m2, int m3)
         {
                 Rational J1 = new Rational(j1,2) ;
@@ -120,19 +132,22 @@ public class Wigner3j
                 return wigner3jm(J1,J2,J3,M1,M2,M3) ;
         } /* wigner3jm */
 
-        /** Wigner 3jn symbol.
-        * For the 6j symbol, the input of the 3 lines is  "1 2 3 1 5 6", "4 5 3 4 2 6" "2j1+1 2j2+1 2j3+1 2l1+1 2l2+1 2l3+1"
-        * @param m1 The information on the number of angular momenta.
-        * @param t1 The list of one half of the triads, indexing j, whitespace separated
-        * @param t2 The list of the second half of the triads, indexing j, whitespace separated
-        * @param j The list of the integer values of the angular momenta.
-        *    They are actually the doubled j-values plus 1, whitespace separated. Only as many
-        *    as announced by the m1 parameter are used; trailing numbers are ignored.
-        * @see A. Bar-Shalom and M. Klapisch, <a href="http://dx.doi.org/10.1016/0010-4655(88)90192-0">NJGRAF...</a>, Comp. Phys Comm. 50 (3) (1988) 375
-        * @since 2011-02-13
-        * @since 2012-02-15 Upgraded return value to BigSurdVec
-        * @author Richard J. Mathar
-        */
+        /**
+         *  Wigner 3jn symbol.
+         * For the 6j symbol, the input of the 3 lines is  "1 2 3 1 5 6", "4 5 3 4 2 6" "2j1+1 2j2+1 2j3+1 2l1+1 2l2+1 2l3+1"
+         *
+         * @author Richard J. Mathar
+         * @param m1 The information on the number of angular momenta.
+         * @param t1 The list of one half of the triads, indexing j, whitespace separated
+         * @param t2 The list of the second half of the triads, indexing j, whitespace separated
+         * @param j The list of the integer values of the angular momenta.
+         *    They are actually the doubled j-values plus 1, whitespace separated. Only as many
+         *    as announced by the m1 parameter are used; trailing numbers are ignored.
+         * @return the big surd vec
+         * @see A. Bar-Shalom and M. Klapisch, <a href="http://dx.doi.org/10.1016/0010-4655(88)90192-0">NJGRAF...</a>, Comp. Phys Comm. 50 (3) (1988) 375
+         * @since 2011-02-13
+         * @since 2012-02-15 Upgraded return value to BigSurdVec
+         */
         static public BigSurdVec wigner3j(String m1, String t1, String t2, String j)
         {
                 /* The first number in the line "m" is the number of angular momenta.
@@ -221,18 +236,22 @@ public class Wigner3j
                 return wigner3j(tvec,J,M,triadidx) ;
         } /* wigner3j */
 
-        /** Wigner 3jn symbol.
-        * Computes sum_{mi} (-1)^(j1-m1+j2-m2+...) triad(triadidx[0..2])*triad(triadidx[3..5])*...
-        * where each factor is a Wigner-3jm symbol with each sign of m_i occurring once at the
-        * corresponding l-value.
-        * @param triadidx 0-based indices into the list of J
-        * @param J The list of J-values
-        * @param M The list of M-values associated with the J. This contains null where the parameter has
-        *   not yet been set by an outer loop.
-        * @since 2011-02-13
-        * @since 2012-02-15 Upgraded to return BigSurdVec
-        * @author Richard J. Mathar
-        */
+        /**
+         *  Wigner 3jn symbol.
+         * Computes sum_{mi} (-1)^(j1-m1+j2-m2+...) triad(triadidx[0..2])*triad(triadidx[3..5])*...
+         * where each factor is a Wigner-3jm symbol with each sign of m_i occurring once at the
+         * corresponding l-value.
+         *
+         * @author Richard J. Mathar
+         * @param tvec the tvec
+         * @param J The list of J-values
+         * @param M The list of M-values associated with the J. This contains null where the parameter has
+         *   not yet been set by an outer loop.
+         * @param triadidx 0-based indices into the list of J
+         * @return the big surd vec
+         * @since 2011-02-13
+         * @since 2012-02-15 Upgraded to return BigSurdVec
+         */
         static private BigSurdVec wigner3j(final int[] tvec, final Rational[] J, final Rational[] M,final int[] triadidx)
         {
                 /* The result of the computation. The sum over all m-combinations of the 
@@ -403,19 +422,21 @@ public class Wigner3j
                 return res ;
         } /* wigner3j */
 
-        /** The Wigner 3jm symbol (j1,j2,j3,m1,m2,m3).
-        * Warning: there is no check that each argument is indeed half-integer.
-        * @param j1 integer or half-integer j1
-        * @param j2 integer or half-integer j2
-        * @param j3 integer or half-integer j3
-        * @param m1 integer or half-integer m1
-        * @param m2 integer or half-integer m2
-        * @param m3 integer or half-integer m3
-        * @return The value of the symbol. Zero if any of the triangular inequalities is
-        *  violated or some parameters are out of range.
-        * @since 2011-02-13
-        * @author Richard J. Mathar
-        */
+        /**
+         *  The Wigner 3jm symbol (j1,j2,j3,m1,m2,m3).
+         * Warning: there is no check that each argument is indeed half-integer.
+         *
+         * @author Richard J. Mathar
+         * @param j1 integer or half-integer j1
+         * @param j2 integer or half-integer j2
+         * @param j3 integer or half-integer j3
+         * @param m1 integer or half-integer m1
+         * @param m2 integer or half-integer m2
+         * @param m3 integer or half-integer m3
+         * @return The value of the symbol. Zero if any of the triangular inequalities is
+         *  violated or some parameters are out of range.
+         * @since 2011-02-13
+         */
         static protected BigSurd wigner3jm(Rational j1, Rational j2, Rational j3, Rational m1, Rational m2, Rational m3)
         {
                 /* Check that m1+m2+m3 = 0 

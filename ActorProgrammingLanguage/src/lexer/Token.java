@@ -104,7 +104,11 @@ public class Token {
         LESS_THAN_EQUAL,
         /** The greater than equal. */
         GREATER_THAN_EQUAL,
+        
+        /** The open bracket. */
         OPEN_BRACKET,
+        
+        /** The close bracket. */
         CLOSE_BRACKET;
     }
     

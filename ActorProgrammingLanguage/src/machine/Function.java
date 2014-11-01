@@ -13,16 +13,16 @@ import parser.ExpressionNode.OrNode.VariableNode;
  * The Class Function.
  */
 public class Function {
-
+    
     /** The body. */
     public final ExpressionNode body;
-
+    
     /** The parameters. */
     public final List<VariableNode> parameters;
-
+    
     /** The name. */
     public final String name;
-
+    
     /**
      * Instantiates a new function.
      *

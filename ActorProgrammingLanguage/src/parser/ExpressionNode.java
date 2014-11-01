@@ -14,6 +14,7 @@ import type.APValue;
 import type.APValue.Operators;
 import type.APValueList;
 
+// TODO: Auto-generated Javadoc
 /**
  * An ExpressionNode is a expression in the language that evaluates to T.
  *
@@ -169,8 +170,8 @@ public abstract class ExpressionNode<T> {
         /**
          * Instantiates a new function call node.
          *
-         * @param expr
-         *            the expr
+         * @param name
+         *            the name
          * @param parameters
          *            the parameters
          */
@@ -219,39 +220,6 @@ public abstract class ExpressionNode<T> {
             }
             return func.body.getValue(c);
         }
-    }
-    
-    /**
-     * The Class PrintlnNode.
-     */
-    public static class PrintlnNode extends ExpressionNode {
-        
-        /** The node. */
-        private final ExpressionNode node;
-        
-        /**
-         * Instantiates a new println node.
-         *
-         * @param node
-         *            the node
-         */
-        public PrintlnNode(final ExpressionNode node) {
-            super(null);
-            this.node = node;
-        }
-        
-        /*
-         * (non-Javadoc)
-         * 
-         * @see parser.ExpressionNode#getValue(machine.Context)
-         */
-        @Override
-        public APValue getValue(final Context context) {
-            context.getOutputStream()
-                    .println(node.getValue(context).getValue());
-            return APValue.VOID;
-        }
-        
     }
     
     /**
@@ -348,6 +316,9 @@ public abstract class ExpressionNode<T> {
         
     }
     
+    /**
+     * The Class EqualNode.
+     */
     public static class EqualNode extends ExpressionNode {
         
         /**
@@ -514,11 +485,25 @@ public abstract class ExpressionNode<T> {
         
     }
     
+    /**
+     * The Class ListIndexNode.
+     */
     public static class ListIndexNode extends ExpressionNode {
         
+        /** The list. */
         private final ExpressionNode list;
+
+        /** The index. */
         private final ExpressionNode index;
         
+        /**
+         * Instantiates a new list index node.
+         *
+         * @param expr
+         *            the expr
+         * @param insideParens
+         *            the inside parens
+         */
         public ListIndexNode(final ExpressionNode expr,
                 final ExpressionNode insideParens) {
             super(null);
@@ -526,6 +511,11 @@ public abstract class ExpressionNode<T> {
             this.index = insideParens;
         }
         
+        /*
+         * (non-Javadoc)
+         * 
+         * @see parser.ExpressionNode#getValue(machine.Context)
+         */
         @Override
         public APValue getValue(final Context context) {
             final APValueList apValueList = (APValueList) this.list

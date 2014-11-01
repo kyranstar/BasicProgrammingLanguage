@@ -1,3 +1,6 @@
+/*
+ * @author Kyran Adams
+ */
 package total;
 
 import java.math.BigDecimal;
@@ -6,17 +9,23 @@ import java.util.List;
 
 import org.junit.Test;
 
-import parser.ExpressionNode;
 import parser.ExpressionNode.ConstantNode;
 import type.APValueNum;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ListTest.
+ */
 public class ListTest {
     
-    private static final List<ConstantNode> ONE_TWO_LIST = Arrays
-            .asList(new ExpressionNode.ConstantNode(new APValueNum(
-                    new BigDecimal("1"))), new ExpressionNode.ConstantNode(
-                            new APValueNum(new BigDecimal("2"))));
+    /** The Constant ONE_TWO_LIST. */
+    private static final List<ConstantNode> ONE_TWO_LIST = Arrays.asList(
+            new ConstantNode(new APValueNum(new BigDecimal("1"))),
+            new ConstantNode(new APValueNum(new BigDecimal("2"))));
 
+    /**
+     * Test.
+     */
     @Test
     public void test() {
         ProgramTest.test("a = [1,2];", ONE_TWO_LIST, "a");
@@ -27,5 +36,17 @@ public class ListTest {
         ProgramTest.test("a = [1] + [2](0);", new BigDecimal("1"), "a");
         ProgramTest.test("a = [1] + [[2](0)](0);", new BigDecimal("1"), "a");
         ProgramTest.test("a = [10,5](1) - 4;", new BigDecimal("1"), "a");
+        
+    }
+
+    /**
+     * Sub test.
+     */
+    @Test
+    public void subTest() {
+        ProgramTest.test("a = sublist ([10,4,1,2], 2, 4);", ONE_TWO_LIST, "a");
+        ProgramTest.test("a = sublist ([10,4,1,2], 1, 3);", Arrays.asList(
+                new ConstantNode(new APValueNum(new BigDecimal("4"))),
+                new ConstantNode(new APValueNum(new BigDecimal("1")))), "a");
     }
 }

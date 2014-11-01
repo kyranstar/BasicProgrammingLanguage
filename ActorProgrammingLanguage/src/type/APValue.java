@@ -3,6 +3,7 @@
  */
 package type;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class APValue. Holds a value
  *
@@ -31,6 +32,7 @@ public abstract class APValue<T> {
         }
     };
 
+    /** The data. */
     private T data;
 
     /**
@@ -62,10 +64,20 @@ public abstract class APValue<T> {
 
         /** The or. */
         OR,
+        
+        /** The greater equal. */
         GREATER_EQUAL,
+        
+        /** The equal. */
         EQUAL,
+        
+        /** The less equal. */
         LESS_EQUAL,
+        
+        /** The greater. */
         GREATER,
+        
+        /** The less. */
         LESS,
     }
 
