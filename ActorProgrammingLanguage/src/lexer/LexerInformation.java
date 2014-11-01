@@ -8,23 +8,29 @@ package lexer;
  * The Class LexerInformation.
  */
 public class LexerInformation {
-	// Current line number we are on
-	/** The current line. */
-	public int currentLine = 0;
-	// The index from beginning of file of the last end line
-	/** The last end line. */
-	public int lastEndLine = 0;
-	// Total index from beginning of file
-	/** The position. */
-	public int position = 0;
-
-	/**
-	 * Gets the message.
-	 *
-	 * @return the message
-	 */
-	public String getMessage() {
-		return " (Line: " + currentLine + " Position: "
-				+ (position - lastEndLine) + ")";
-	}
+    
+    /** Current line number we are on. */
+    public int currentLine = 0;
+    /** The index from beginning of file of the last end line */
+    public int lastEndLine = 0;
+    /** Total index from beginning of file. */
+    public int position = 0;
+    
+    /**
+     * Gets the message.
+     *
+     * @return the message
+     */
+    public String getMessage() {
+        return " (Line: " + currentLine + " Position: "
+                + (position - lastEndLine) + ")";
+    }
+    
+    public LexerInformation copy() {
+        final LexerInformation copy = new LexerInformation();
+        copy.currentLine = currentLine;
+        copy.lastEndLine = lastEndLine;
+        copy.position = position;
+        return copy;
+    }
 }

@@ -10,22 +10,21 @@ import java.util.List;
 import machine.Context;
 import machine.Function;
 import parser.ExpressionNode;
-import parser.ExpressionNode.OrNode.VariableNode;
+import parser.ExpressionNode.VariableNode;
 import type.APValue;
 import type.APValueList;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class LibraryFunction.
  */
 public final class LibraryFunction {
-    
+
     /**
-     * Instantiates a new library function.
+     * Private constructor, this is a utility class.
      */
     private LibraryFunction() {
     }
-    
+
     /**
      * Apply library functions.
      *
@@ -36,12 +35,14 @@ public final class LibraryFunction {
     public static Context applyLibraryFunctions(final Context context) {
         sublistFunction(context);
         printlnFunction(context);
-        
+
         return context;
     }
-    
+
     /**
-     * Sublist function.
+     * Sublist function. First number is inclusive, second is exclusive.
+     *
+     * Example: subList ([1,2,3,4], 1,3) = [2,3]
      *
      * @param context
      *            the context
@@ -50,31 +51,31 @@ public final class LibraryFunction {
         final String listArg = "a";
         final String firstIndexArg = "b";
         final String secondIndexArg = "c";
-        
+
         context.putFunction(
                 "sublist",
                 new Function("sublist", Arrays.asList(
                         new VariableNode(listArg), new VariableNode(
                                 firstIndexArg),
-                        new VariableNode(secondIndexArg)),
-                        new ExpressionNode<Void>(null) {
-                            @Override
-                            public APValue getValue(final Context context) {
-                                final int firstIndex = ((BigDecimal) new VariableNode(
-                                        firstIndexArg).getValue(context)
-                                        .getValue()).intValueExact();
-                                final int secondIndex = ((BigDecimal) new VariableNode(
-                                        secondIndexArg).getValue(context)
-                                        .getValue()).intValueExact();
-                                
-                                final List list = (List) new VariableNode(
-                                        listArg).getValue(context).getValue();
-                                return new APValueList(list.subList(firstIndex,
-                                        secondIndex));
-                            }
-                        }));
+                                new VariableNode(secondIndexArg)),
+                                new ExpressionNode<Void>(null) {
+                    @Override
+                    public APValue getValue(final Context context) {
+                        final int firstIndex = ((BigDecimal) new VariableNode(
+                                firstIndexArg).getValue(context)
+                                .getValue()).intValueExact();
+                        final int secondIndex = ((BigDecimal) new VariableNode(
+                                secondIndexArg).getValue(context)
+                                .getValue()).intValueExact();
+
+                        final List<ExpressionNode> list = (List<ExpressionNode>) new VariableNode(
+                                listArg).getValue(context).getValue();
+                        return new APValueList(list.subList(firstIndex,
+                                secondIndex));
+                    }
+                }));
     }
-    
+
     /**
      * Println function.
      *
@@ -83,19 +84,19 @@ public final class LibraryFunction {
      */
     private static void printlnFunction(final Context context) {
         final String argName = "a";
-        
+
         context.putFunction(
                 "println",
                 new Function("println", Arrays
                         .asList(new VariableNode(argName)),
                         new ExpressionNode<Void>(null) {
-                            @Override
-                            public APValue getValue(final Context context) {
-                                context.getOutputStream().println(
-                                        new VariableNode(argName).getValue(
-                                                context).getValue());
-                                return APValue.VOID;
-                            }
-                        }));
+                    @Override
+                    public APValue getValue(final Context context) {
+                        context.getOutputStream().println(
+                                new VariableNode(argName).getValue(
+                                        context).getValue());
+                        return APValue.VOID;
+                    }
+                }));
     }
 }

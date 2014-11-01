@@ -17,31 +17,33 @@ import org.junit.Test;
  * The Class LexerTest.
  */
 public class LexerTest {
-
-	/**
-	 * Test.
-	 */
-	@Test
-	public void test() {
-		final Lexer lexer = new Lexer("b = 1+3;a = f(3);");
-		final List<Token> expected = new ArrayList<>();
-
-		expected.add(new Token(TokenType.IDENTIFIER, "b"));
-		expected.add(new Token(TokenType.EQUAL, "="));
-		expected.add(new Token(TokenType.NUMBER, "1"));
-		expected.add(new Token(TokenType.PLUSMINUS, "+"));
-		expected.add(new Token(TokenType.NUMBER, "3"));
-		expected.add(new Token(TokenType.SEMI, ";"));
-
-		expected.add(new Token(TokenType.IDENTIFIER, "a"));
-		expected.add(new Token(TokenType.EQUAL, "="));
-		expected.add(new Token(TokenType.IDENTIFIER, "f"));
-		expected.add(new Token(TokenType.OPEN_PARENS, "("));
-		expected.add(new Token(TokenType.NUMBER, "3"));
-		expected.add(new Token(TokenType.CLOSE_PARENS, ")"));
-		expected.add(new Token(TokenType.SEMI, ";"));
-		
-		assertEquals(expected, lexer.lex());
-	}
-
+    
+    /**
+     * Test.
+     */
+    @Test
+    public void test() {
+        final Lexer lexer = new Lexer("b = 1+3;a = f(3);");
+        final List<Token> expected = new ArrayList<>();
+        
+        final LexerInformation lexInfo = new LexerInformation();
+        
+        expected.add(new Token(TokenType.IDENTIFIER, "b", lexInfo));
+        expected.add(new Token(TokenType.EQUAL, "=", lexInfo));
+        expected.add(new Token(TokenType.NUMBER, "1", lexInfo));
+        expected.add(new Token(TokenType.PLUSMINUS, "+", lexInfo));
+        expected.add(new Token(TokenType.NUMBER, "3", lexInfo));
+        expected.add(new Token(TokenType.SEMI, ";", lexInfo));
+        
+        expected.add(new Token(TokenType.IDENTIFIER, "a", lexInfo));
+        expected.add(new Token(TokenType.EQUAL, "=", lexInfo));
+        expected.add(new Token(TokenType.IDENTIFIER, "f", lexInfo));
+        expected.add(new Token(TokenType.OPEN_PARENS, "(", lexInfo));
+        expected.add(new Token(TokenType.NUMBER, "3", lexInfo));
+        expected.add(new Token(TokenType.CLOSE_PARENS, ")", lexInfo));
+        expected.add(new Token(TokenType.SEMI, ";", lexInfo));
+        
+        assertEquals(expected, lexer.lex());
+    }
+    
 }

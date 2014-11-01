@@ -14,6 +14,9 @@ public class Token {
     
     /** The type. */
     private final TokenType type;
+
+    /* Holds information about this token */
+    private final LexerInformation info;
     
     /**
      * Instantiates a new token.
@@ -23,9 +26,11 @@ public class Token {
      * @param text
      *            the text
      */
-    public Token(final TokenType type, final String text) {
+    public Token(final TokenType type, final String text,
+            final LexerInformation currentInfo) {
         this.type = type;
         this.text = text;
+        info = currentInfo;
     }
     
     /**
@@ -44,6 +49,15 @@ public class Token {
      */
     public TokenType getType() {
         return type;
+    }
+
+    /**
+     * Gets the token informations message.
+     *
+     * @return the type
+     */
+    public String getMessage() {
+        return info.getMessage();
     }
     
     /*

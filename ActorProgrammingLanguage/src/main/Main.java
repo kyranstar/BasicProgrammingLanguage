@@ -30,7 +30,7 @@ public final class Main {
      */
     public static void main(final String[] args) {
         final Interpreter interpreter = new Interpreter(System.out);
-        final Context context = interpreter.interpret("a= print (3);");
+        final Context context = interpreter.interpret("a= println (3);");
         
         for (final Map.Entry<String, APValue> a : context.getContext()
                 .entrySet()) {

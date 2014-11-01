@@ -6,23 +6,23 @@ package machine;
 import java.util.List;
 
 import parser.ExpressionNode;
-import parser.ExpressionNode.OrNode.VariableNode;
+import parser.ExpressionNode.VariableNode;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Function.
  */
 public class Function {
-    
+
     /** The body. */
     public final ExpressionNode body;
-    
+
     /** The parameters. */
     public final List<VariableNode> parameters;
-    
+
     /** The name. */
     public final String name;
-    
+
     /**
      * Instantiates a new function.
      *
