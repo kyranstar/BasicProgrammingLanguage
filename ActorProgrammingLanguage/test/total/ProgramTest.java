@@ -27,13 +27,13 @@ import type.APValueNum;
  * The Test Class TotalTest.
  */
 public class ProgramTest {
-    
+
     /** The number 10. */
     final BigDecimal expected10 = new BigDecimal("10");
-
+    
     /** The variable named a. */
     final String variableNameA = "a";
-    
+
     /**
      * Test if.
      */
@@ -41,14 +41,29 @@ public class ProgramTest {
     public void testIf() {
         test("a = if true 10 else 11;", expected10, variableNameA);
         test("a = if false 11 else 10;", expected10, variableNameA);
-        
+
         test("a = if 3 < 4 10 else 11;", expected10, variableNameA);
         test("a = if 3 > 4 11 else 10;", expected10, variableNameA);
-        
+
         test("a = if 3 <= 3 10 else 11;", expected10, variableNameA);
         test("a = if 3 >= 3 10 else 11;", expected10, variableNameA);
     }
     
+    /**
+     * Test comments.
+     */
+    @Test
+    public void testComments() {
+        test("a = 10; // Hi!", expected10, variableNameA);
+        test("a = //8\n10;", expected10, variableNameA);
+
+        test("a = 10; /*\n\n\n Wow hi! */", expected10, variableNameA);
+        test("a = /*\n8\n*/ 10;", expected10, variableNameA);
+
+        test("a = 10; //a = 8", expected10, variableNameA);
+        test("a /*\n*/= 10;", expected10, variableNameA);
+    }
+
     /**
      * Test function definition.
      */
@@ -58,14 +73,14 @@ public class ProgramTest {
         expectOutput("f a = a + 1 - 1; println(f(10));", "10");
         expectOutput("f a b = a + b - 1; println(f(10,1));", "10");
     }
-    
+
     /**
      * Test fibonacci sequence.
      */
     @Test
     public void testFib() {
         final String fib = "f a = if a = 0 0 else if a = 1 1 else f (a-1) + f (a-2);";
-
+        
         test(fib + "b = f (0);", new BigDecimal("0"), "b");
         test(fib + "b = f (1);", new BigDecimal("1"), "b");
         test(fib + "b = f (2);", new BigDecimal("1"), "b");
@@ -74,10 +89,10 @@ public class ProgramTest {
         test(fib + "b = f (5);", new BigDecimal("5"), "b");
         test(fib + "b = f (6);", new BigDecimal("8"), "b");
         test(fib + "b = f (7);", new BigDecimal("13"), "b");
-        
+
         testStackOverflowError(fib + "b = f (-1);");
     }
-
+    
     /**
      * Test print.
      */
@@ -85,7 +100,7 @@ public class ProgramTest {
     public void testPrint() {
         expectOutput("println(3);", "3");
     }
-    
+
     /**
      * Test divide by zero.
      */
@@ -93,7 +108,7 @@ public class ProgramTest {
     public void testDivideByZero() {
         test("a = 20/0;", expected10, variableNameA);
     }
-    
+
     /**
      * Test rational.
      */
@@ -102,7 +117,7 @@ public class ProgramTest {
         test("a = 10/3;", new BigDecimal("10").divide(new BigDecimal("3"),
                 APValueNum.DECIMALS, RoundingMode.HALF_UP), variableNameA);
     }
-    
+
     /**
      * Runs code s. Tests whether value expected is stored in variable
      * variableName.
@@ -119,7 +134,7 @@ public class ProgramTest {
         final Context c = new Context(new PrintStream(
                 new ByteArrayOutputStream()));
         final List<ExpressionNode> nodes = new Parser(new Lexer(s).lex())
-                .parse(c);
+        .parse(c);
         for (final ExpressionNode node : nodes) {
             node.getValue(c);
         }
@@ -132,7 +147,7 @@ public class ProgramTest {
                     + expected, e);
         }
     }
-
+    
     /**
      * Expect output.
      *
@@ -144,28 +159,29 @@ public class ProgramTest {
     public static void expectOutput(final String s, final String expected) {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final PrintStream p = new PrintStream(baos);
-
-        new Interpreter(p).interpret(s);
         
+        new Interpreter(p).interpret(s);
+
         final ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
         final PrintStream p2 = new PrintStream(baos2);
-        
+
         p2.println(expected);
-        
+
         Assert.assertEquals(baos2.toString(), baos.toString());
     }
-    
+
     /**
      * Test parser exception.
      *
-     * @param s the s
+     * @param s
+     *            the s
      */
     public static void testParserException(final String s) {
         try {
             final Context c = new Context(new PrintStream(
                     new ByteArrayOutputStream()));
             final List<ExpressionNode> nodes = new Parser(new Lexer(s).lex())
-            .parse(c);
+                    .parse(c);
             for (final ExpressionNode node : nodes) {
                 node.getValue(c);
             }
@@ -174,18 +190,19 @@ public class ProgramTest {
         }
         throw new AssertionError("Should have thrown a parser exception!");
     }
-    
+
     /**
      * Test stack overflow error.
      *
-     * @param code the code
+     * @param code
+     *            the code
      */
     private void testStackOverflowError(final String code) {
         try {
             final Context c = new Context(new PrintStream(
                     new ByteArrayOutputStream()));
             final List<ExpressionNode> nodes = new Parser(new Lexer(code).lex())
-            .parse(c);
+                    .parse(c);
             for (final ExpressionNode node : nodes) {
                 node.getValue(c);
             }
@@ -195,20 +212,23 @@ public class ProgramTest {
         throw new AssertionError(
                 "Should have thrown a stack overflow exception!");
     }
-
+    
     /**
      * Test.
      *
-     * @param string the string
-     * @param list the list
-     * @param variableName the variable name
+     * @param string
+     *            the string
+     * @param list
+     *            the list
+     * @param variableName
+     *            the variable name
      */
     public static void test(final String string, final List list,
             final String variableName) {
         final Context c = new Context(new PrintStream(
                 new ByteArrayOutputStream()));
         final List<ExpressionNode> nodes = new Parser(new Lexer(string).lex())
-                .parse(c);
+        .parse(c);
         for (final ExpressionNode node : nodes) {
             node.getValue(c);
         }

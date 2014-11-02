@@ -23,14 +23,16 @@ public class Lexer {
     // Token matchers, ordered by length to avoid hitting shorter ones first.
     // ("len" before "length")
     /** The matchers. */
-    private final TokenMatcher[] matchers = { new TokenMatchers.SPACE(),
+    private final TokenMatcher[] matchers = {
+            new TokenMatchers.MULTILINE_COMMENT(),
+            new TokenMatchers.LINE_COMMENT(), new TokenMatchers.SPACE(),
             new TokenMatchers.NUMBER(), new TokenMatchers.BOOLEAN(),
             new TokenMatchers.OPERATOR(), new TokenMatchers.BRACKETS(),
             new TokenMatchers.IF(), new TokenMatchers.IDENTIFIER() };
     
-    /** The types to ignore. */
+    /** The types to ignore when passing to parser. */
     private final List<TokenType> typesToIgnore = Arrays.asList(
-            TokenType.SPACE, TokenType.EOF);
+            TokenType.COMMENT, TokenType.SPACE, TokenType.EOF);
     
     /**
      * Instantiates a new lexer.
@@ -73,7 +75,7 @@ public class Lexer {
     }
     
     /**
-     * Lex.
+     * Lexes the code into tokens.
      *
      * @return the list
      */

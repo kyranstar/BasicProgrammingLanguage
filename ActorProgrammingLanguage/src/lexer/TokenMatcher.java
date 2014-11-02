@@ -10,21 +10,25 @@ package lexer;
 public abstract class TokenMatcher {
     
     /**
-     * Gets the token no check.
+     * Gets the token without checking for errors.
      *
-     * @param code the code
-     * @param lexInfo the lex info
+     * @param code
+     *            the code
+     * @param lexInfo
+     *            the lex info
      * @return the token no check
      */
     protected abstract Token getTokenNoCheck(final String code,
             final LexerInformation lexInfo);
     
     /**
-     * Matches no check.
+     * Matches without checking for errors.
      *
-     * @param code the code
-     * @param lexInfo the lex info
-     * @return true, if successful
+     * @param code
+     *            the code
+     * @param lexInfo
+     *            the lex info
+     * @return true, if it matches
      */
     protected abstract boolean matchesNoCheck(final String code,
             final LexerInformation lexInfo);
@@ -32,8 +36,10 @@ public abstract class TokenMatcher {
     /**
      * Gets the token.
      *
-     * @param code the code
-     * @param lexInfo the lex info
+     * @param code
+     *            the code
+     * @param lexInfo
+     *            the lex info
      * @return the token
      */
     public final Token getToken(final String code,
@@ -49,8 +55,10 @@ public abstract class TokenMatcher {
     /**
      * Matches.
      *
-     * @param code the code
-     * @param lexInfo the lex info
+     * @param code
+     *            the code
+     * @param lexInfo
+     *            the lex info
      * @return true, if successful
      */
     public final boolean matches(final String code,
