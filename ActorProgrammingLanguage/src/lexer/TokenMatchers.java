@@ -289,6 +289,10 @@ public class TokenMatchers {
                     return new Token(TokenType.OPEN_BRACKET, token, lexInfo);
                 case ']':
                     return new Token(TokenType.CLOSE_BRACKET, token, lexInfo);
+                case '{':
+                    return new Token(TokenType.OPEN_CURLY, token, lexInfo);
+                case '}':
+                    return new Token(TokenType.CLOSE_CURLY, token, lexInfo);
             }
             throw new LexerException("Unidentified token: " + token);
         }
@@ -303,7 +307,8 @@ public class TokenMatchers {
         public boolean matchesNoCheck(final String code,
                 final LexerInformation lexInfo) {
             return code.startsWith("(") || code.startsWith(")")
-                    || code.startsWith("[") || code.startsWith("]");
+                    || code.startsWith("[") || code.startsWith("]")
+                    || code.startsWith("{") || code.startsWith("}");
         }
     }
 
