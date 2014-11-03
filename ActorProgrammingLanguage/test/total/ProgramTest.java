@@ -28,6 +28,7 @@ import type.APValueNum;
 // TODO: Auto-generated Javadoc
 /**
  * The Test Class TotalTest.
+ *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
@@ -200,7 +201,9 @@ public class ProgramTest {
     
     /**
      * Method testIndexOutOfBoundsException.
-     * @param code String
+     *
+     * @param code
+     *            String
      */
     public static void testIndexOutOfBoundsException(final String code) {
         try {

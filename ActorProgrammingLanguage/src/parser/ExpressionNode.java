@@ -4,6 +4,7 @@
 package parser;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import type.APValueList;
 /**
  * An ExpressionNode is a expression in the language that evaluates to T.
  *
-
+ *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
@@ -51,8 +52,9 @@ public abstract class ExpressionNode<T> {
      *
      * @param i
      *            the index
-    
-     * @return the term */
+     *
+     * @return the term
+     */
     protected ExpressionNode<T> getTerm(final int i) {
         return terms.get(i);
     }
@@ -72,8 +74,9 @@ public abstract class ExpressionNode<T> {
      *
      * @param context
      *            the context
-    
-     * @return the expressions value in context */
+     *
+     * @return the expressions value in context
+     */
     public abstract APValue<T> getValue(Context context);
 
     /*
@@ -118,6 +121,7 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class ConstantNode. Represents a constant, for example "true" or "3"
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -161,6 +165,7 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class FunctionCallNode. Represents a function call
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -225,12 +230,31 @@ public abstract class ExpressionNode<T> {
                 final String name = func.parameters.get(i).name;
                 c.putVariable(name, given.getValue(context));
             }
-            return func.body.getValue(c);
+            
+            final APValue returnVal = func.body.getValue(c);
+            System.out.println("Return value " + returnVal + " in context "
+                    + c.getContext() + " in function " + func.signature);
+            // The reason we have to simplify a list before we return it is if
+            // the list uses the parameters. This means that if you return
+            // [a,a,a], the caller cannot simplify it because it has no access
+            // to parameters anymore.
+            if (returnVal instanceof APValueList) {
+                final List<ExpressionNode> nodes = (List<ExpressionNode>) returnVal
+                        .getValue();
+                final List<ExpressionNode> simplifiedNodes = new ArrayList<>();
+                for (final ExpressionNode node : nodes) {
+                    simplifiedNodes.add(new ConstantNode(node.getValue(c)));
+                }
+                return new APValueList(simplifiedNodes);
+            }
+
+            return returnVal;
         }
     }
 
     /**
      * The Class AssignmentNode.
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -283,6 +307,7 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class IfNode. Represents if else expression
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -329,6 +354,7 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class EqualNode.
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -364,6 +390,7 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class GreaterThanEqualNode.
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -400,6 +427,7 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class LessThanEqualNode.
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -436,6 +464,7 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class GreaterThanNode.
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -472,6 +501,7 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class LessThanNode.
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -508,6 +538,7 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class ListIndexNode.
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -554,6 +585,7 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class AndNode.
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -588,6 +620,7 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class OrNode.
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -623,6 +656,7 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class AdditionNode.
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -657,6 +691,7 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class SubtractionNode.
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -692,6 +727,7 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class MultiplicationNode.
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -726,6 +762,7 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class DivisionNode.
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -760,6 +797,7 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class ExponentiationNode.
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -794,6 +832,7 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class VariableNode.
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -836,8 +875,9 @@ public abstract class ExpressionNode<T> {
         /**
          * Gets the name.
          *
-        
-         * @return the name */
+         *
+         * @return the name
+         */
         public String getName() {
             return name;
         }

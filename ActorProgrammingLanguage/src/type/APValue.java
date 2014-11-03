@@ -3,45 +3,47 @@
  */
 package type;
 
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class APValue. Holds a value
  *
-
+ * 
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
 public abstract class APValue<T> {
-
+    
     /** The Constant VOID. */
     public static final APValue<Void> VOID = new APValue<Void>() {
         @Override
         public String toString() {
             return "VOID";
         }
-
+        
         @Override
         public Class<Void> getType() {
             return Void.class;
         }
-
+        
         @Override
         public APValue callMethod(final Operators s, final APValue arg) {
-
+            
             throw new MismatchedMethodException("Can't call method " + s
                     + " on type void!");
         }
     };
-
+    
     /** The data. */
     private T data;
-
+    
     /**
      * The Class APValueBool.
+     * 
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
-
+    
     /**
      * The Enum Methods.
      */
@@ -49,57 +51,59 @@ public abstract class APValue<T> {
         // Number operators
         /** The multiply operator. */
         MULTIPLY,
-
+        
         /** The divide. */
         DIVIDE,
-
+        
         /** The subtract. */
         SUBTRACT,
-
+        
         /** The add. */
         ADD,
-
+        
         /** The power. */
         POWER,
         // Boolean operators
         /** The and. */
         AND,
-
+        
         /** The or. */
         OR,
-        
+
         /** The greater equal. */
         GREATER_EQUAL,
-        
+
         /** The equal. */
         EQUAL,
-        
+
         /** The less equal. */
         LESS_EQUAL,
-        
+
         /** The greater. */
         GREATER,
-        
+
         /** The less. */
         LESS,
     }
-
+    
     /**
      * Gets the type.
      *
-    
-     * @return the type */
+     * 
+     * @return the type
+     */
     public abstract Class<T> getType();
-
+    
     /**
      * Gets the value.
      *
-    
-     * @return the value */
+     * 
+     * @return the value
+     */
     public T getValue() {
         return data;
     }
-
+    
     /**
      * Call method.
      *
@@ -107,10 +111,11 @@ public abstract class APValue<T> {
      *            the s
      * @param arg
      *            the arg
-    
-     * @return the AP value */
+     * 
+     * @return the AP value
+     */
     public abstract APValue callMethod(Operators s, APValue arg);
-
+    
     /**
      * Sets the value.
      *

@@ -12,14 +12,15 @@ import parser.ExpressionNode;
 // TODO: Auto-generated Javadoc
 /**
  * The Class APValueList.
+ * 
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
 public class APValueList extends APValue<List> {
-    
+
     /** The Constant TYPE. */
     private static final Class<List> TYPE = List.class;
-    
+
     /**
      * Instantiates a new AP value bool.
      *
@@ -29,36 +30,39 @@ public class APValueList extends APValue<List> {
     public APValueList(final List<ExpressionNode> expressionNode) {
         setValue(Collections.unmodifiableList(new ArrayList<>(expressionNode)));
     }
-    
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
         return "APValueList<" + getValue() + ">";
     }
-    
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see type.APValue#getType()
      */
     @Override
     public Class<List> getType() {
         return TYPE;
     }
-    
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see type.APValue#callMethod(type.APValue.Methods, type.APValue)
      */
     /**
      * Method callMethod.
-     * @param method Operators
-     * @param arg APValue
+     * 
+     * @param method
+     *            Operators
+     * @param arg
+     *            APValue
      * @return APValue
      */
     @Override
@@ -68,7 +72,7 @@ public class APValueList extends APValue<List> {
                     + " must take two list types. Was " + TYPE + " and "
                     + arg.getType());
         }
-        
+
         switch (method) {
             case ADD:
                 return new APValueList(
@@ -78,7 +82,7 @@ public class APValueList extends APValue<List> {
                         + method + " on type list!");
         }
     }
-
+    
     /**
      * Append.
      *
@@ -86,8 +90,9 @@ public class APValueList extends APValue<List> {
      *            the value
      * @param value2
      *            the value2
-    
-     * @return the list */
+     * 
+     * @return the list
+     */
     private List<ExpressionNode> append(final List value, final List value2) {
         final List<ExpressionNode> newList = new ArrayList<>(value.size()
                 + value2.size());
