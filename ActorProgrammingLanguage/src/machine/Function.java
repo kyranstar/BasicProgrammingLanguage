@@ -13,16 +13,16 @@ import parser.ExpressionNode.VariableNode;
  * The Class Function.
  */
 public class Function {
-
+    
     /** The body. */
     public final ExpressionNode body;
-
+    
     /** The parameters. */
     public final List<VariableNode> parameters;
-
+    
     /** The name. */
-    public final String name;
-
+    public final FunctionSignature signature;
+    
     /**
      * Instantiates a new function.
      *
@@ -35,7 +35,7 @@ public class Function {
      */
     public Function(final String name2, final List<VariableNode> parameters,
             final ExpressionNode body) {
-        name = name2;
+        signature = new FunctionSignature(name2, parameters.size());
         this.parameters = parameters;
         this.body = body;
     }

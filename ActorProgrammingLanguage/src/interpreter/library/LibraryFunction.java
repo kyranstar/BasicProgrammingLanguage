@@ -18,13 +18,13 @@ import type.APValueList;
  * The Class LibraryFunction.
  */
 public final class LibraryFunction {
-
+    
     /**
      * Private constructor, this is a utility class.
      */
     private LibraryFunction() {
     }
-
+    
     /**
      * Apply library functions.
      *
@@ -35,10 +35,10 @@ public final class LibraryFunction {
     public static Context applyLibraryFunctions(final Context context) {
         sublistFunction(context);
         printlnFunction(context);
-
+        
         return context;
     }
-
+    
     /**
      * Sublist function. First number is inclusive, second is exclusive.
      *
@@ -51,31 +51,46 @@ public final class LibraryFunction {
         final String listArg = "a";
         final String firstIndexArg = "b";
         final String secondIndexArg = "c";
+        
+        context.putFunction(new Function("sublist", Arrays.asList(
+                new VariableNode(listArg), new VariableNode(firstIndexArg),
+                new VariableNode(secondIndexArg)), new ExpressionNode<Void>(
+                null) {
+            @Override
+            public APValue getValue(final Context context) {
+                final int firstIndex = ((BigDecimal) new VariableNode(
+                        firstIndexArg).getValue(context).getValue())
+                        .intValueExact();
+                final int secondIndex = ((BigDecimal) new VariableNode(
+                        secondIndexArg).getValue(context).getValue())
+                        .intValueExact();
+                
+                final List<ExpressionNode> list = (List<ExpressionNode>) new VariableNode(
+                        listArg).getValue(context).getValue();
+                return new APValueList(list.subList(firstIndex, secondIndex));
+            }
+        }));
+        context.putFunction(new Function("sublist", Arrays.asList(
+                new VariableNode(listArg), new VariableNode(firstIndexArg)),
+                new ExpressionNode<Void>(null) {
+            @Override
+            public APValue getValue(final Context context) {
+                final int firstIndex = ((BigDecimal) new VariableNode(
+                        firstIndexArg).getValue(context).getValue())
+                        .intValueExact();
 
-        context.putFunction(
-                "sublist",
-                new Function("sublist", Arrays.asList(
-                        new VariableNode(listArg), new VariableNode(
-                                firstIndexArg),
-                                new VariableNode(secondIndexArg)),
-                                new ExpressionNode<Void>(null) {
-                    @Override
-                    public APValue getValue(final Context context) {
-                        final int firstIndex = ((BigDecimal) new VariableNode(
-                                firstIndexArg).getValue(context)
-                                .getValue()).intValueExact();
-                        final int secondIndex = ((BigDecimal) new VariableNode(
-                                secondIndexArg).getValue(context)
-                                .getValue()).intValueExact();
-
-                        final List<ExpressionNode> list = (List<ExpressionNode>) new VariableNode(
-                                listArg).getValue(context).getValue();
-                        return new APValueList(list.subList(firstIndex,
-                                secondIndex));
-                    }
-                }));
+                final List<ExpressionNode> list = (List<ExpressionNode>) new VariableNode(
+                        listArg).getValue(context).getValue();
+                try {
+                            return new APValueList(list.subList(firstIndex,
+                                    list.size()));
+                } catch (final IllegalArgumentException e) {
+                    throw new IndexOutOfBoundsException(e.getMessage());
+                }
+            }
+        }));
     }
-
+    
     /**
      * Println function.
      *
@@ -84,19 +99,16 @@ public final class LibraryFunction {
      */
     private static void printlnFunction(final Context context) {
         final String argName = "a";
-
-        context.putFunction(
-                "println",
-                new Function("println", Arrays
-                        .asList(new VariableNode(argName)),
-                        new ExpressionNode<Void>(null) {
-                    @Override
-                    public APValue getValue(final Context context) {
-                        context.getOutputStream().println(
-                                new VariableNode(argName).getValue(
-                                        context).getValue());
-                        return APValue.VOID;
-                    }
-                }));
+        
+        context.putFunction(new Function("println", Arrays
+                .asList(new VariableNode(argName)), new ExpressionNode<Void>(
+                null) {
+            @Override
+            public APValue getValue(final Context context) {
+                context.getOutputStream().println(
+                        new VariableNode(argName).getValue(context).getValue());
+                return APValue.VOID;
+            }
+        }));
     }
 }

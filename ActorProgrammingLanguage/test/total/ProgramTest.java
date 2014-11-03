@@ -11,11 +11,14 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
+import junit.framework.AssertionFailedError;
 import lexer.Lexer;
 import machine.Context;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import parser.ExpressionNode;
 import parser.Parser;
@@ -33,6 +36,8 @@ public class ProgramTest {
     
     /** The variable named a. */
     final String variableNameA = "a";
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     /**
      * Test if.
@@ -171,12 +176,12 @@ public class ProgramTest {
     }
 
     /**
-     * Test parser exception.
+     * Test stack overflow error.
      *
      * @param s
      *            the s
      */
-    public static void testParserException(final String s) {
+    public static void testStackOverflowError(final String s) {
         try {
             final Context c = new Context(new PrintStream(
                     new ByteArrayOutputStream()));
@@ -185,19 +190,13 @@ public class ProgramTest {
             for (final ExpressionNode node : nodes) {
                 node.getValue(c);
             }
-        } catch (final ParserException e) {
+            throw new AssertionFailedError("Did not throw StackOverflowError!");
+        } catch (final StackOverflowError e) {
             return;
         }
-        throw new AssertionError("Should have thrown a parser exception!");
     }
-
-    /**
-     * Test stack overflow error.
-     *
-     * @param code
-     *            the code
-     */
-    private void testStackOverflowError(final String code) {
+    
+    public static void testIndexOutOfBoundsException(final String code) {
         try {
             final Context c = new Context(new PrintStream(
                     new ByteArrayOutputStream()));
@@ -206,11 +205,32 @@ public class ProgramTest {
             for (final ExpressionNode node : nodes) {
                 node.getValue(c);
             }
-        } catch (final StackOverflowError e) {
+            throw new AssertionFailedError(
+                    "Did not throw IndexOutOfBoundsException!");
+        } catch (final IndexOutOfBoundsException e) {
             return;
         }
-        throw new AssertionError(
-                "Should have thrown a stack overflow exception!");
+    }
+    
+    /**
+     * Test parser exception.
+     *
+     * @param code
+     *            the code
+     */
+    public static void testParserException(final String code) {
+        try {
+            final Context c = new Context(new PrintStream(
+                    new ByteArrayOutputStream()));
+            final List<ExpressionNode> nodes = new Parser(new Lexer(code).lex())
+            .parse(c);
+            for (final ExpressionNode node : nodes) {
+                node.getValue(c);
+            }
+            throw new AssertionFailedError("Did not throw parser exception!");
+        } catch (final ParserException e) {
+            return;
+        }
     }
     
     /**

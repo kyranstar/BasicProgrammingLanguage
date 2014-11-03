@@ -9,6 +9,7 @@ import java.util.List;
 
 import machine.Context;
 import machine.Function;
+import machine.FunctionSignature;
 import type.APValue;
 import type.APValue.Operators;
 import type.APValueList;
@@ -203,12 +204,14 @@ public abstract class ExpressionNode<T> {
             final Context c = new Context(context.getOutputStream());
             c.setFunctions(context.getFunctions());
 
-            final Function func = context.getFunction(name);
+            final Function func = context.getFunction(new FunctionSignature(
+                    name, parameters.size()));
 
             if (parameters.size() != func.parameters.size()) {
                 throw new ParserException("You gave " + parameters.size()
-                        + " parameter(s), function " + func.name + " requires "
-                        + func.parameters.size() + " parameter(s).");
+                        + " parameter(s), function " + func.signature
+                        + " requires " + func.parameters.size()
+                        + " parameter(s).");
             }
 
             // Put all parameters in function scope

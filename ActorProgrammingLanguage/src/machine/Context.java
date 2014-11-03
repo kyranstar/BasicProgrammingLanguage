@@ -17,19 +17,19 @@ import type.APValue;
  * The Class Context.
  */
 public class Context {
-
+    
     /** The context. */
     private Map<String, APValue> context;
-
-    /** The functions. */
-    private Map<String, Function> functions;
     
+    /** The functions. */
+    private Map<FunctionSignature, Function> functions;
+
     /** The parent. */
     Optional<Context> parent;
-
+    
     /** The output stream. */
     private PrintStream outputStream;
-
+    
     /**
      * Instantiates a new context.
      *
@@ -41,10 +41,10 @@ public class Context {
         functions = new HashMap<>();
         parent = Optional.empty();
         outputStream = p;
-
+        
         LibraryFunction.applyLibraryFunctions(this);
     }
-
+    
     /**
      * Instantiates a new context.
      *
@@ -57,7 +57,7 @@ public class Context {
         this.parent = Optional.of(parent);
         outputStream = parent.getOutputStream();
     }
-
+    
     /**
      * Put variable.
      *
@@ -78,7 +78,7 @@ public class Context {
         }
         getContext().put(s, en);
     }
-
+    
     /**
      * Put function.
      *
@@ -87,19 +87,19 @@ public class Context {
      * @param func
      *            the func
      */
-    public void putFunction(final String s, final Function func) {
+    public void putFunction(final Function func) {
         // If this context has a parent
         if (parent.isPresent()) {
             // If that parent has the variable we are assigning
-            if (parent.get().getFunction(s) != null) {
+            if (parent.get().getFunction(func.signature) != null) {
                 // Put it to the parent instead
-                parent.get().putFunction(s, func);
+                parent.get().putFunction(func);
                 return;
             }
         }
-        getFunctions().put(s, func);
+        getFunctions().put(func.signature, func);
     }
-
+    
     /**
      * Gets the variable.
      *
@@ -118,9 +118,9 @@ public class Context {
             }
         }
         return node;
-
+        
     }
-
+    
     /**
      * Gets the function.
      *
@@ -128,7 +128,7 @@ public class Context {
      *            the s
      * @return the function
      */
-    public Function getFunction(final String s) {
+    public Function getFunction(final FunctionSignature s) {
         Function node = getFunctions().get(s);
         if (node == null) {
             if (parent.isPresent()) {
@@ -139,9 +139,9 @@ public class Context {
             }
         }
         return node;
-
+        
     }
-
+    
     /**
      * Gets the child.
      *
@@ -150,7 +150,7 @@ public class Context {
     public Context getChild() {
         return new Context(this);
     }
-
+    
     /**
      * Gets the context.
      *
@@ -159,7 +159,7 @@ public class Context {
     public Map<String, APValue> getContext() {
         return context;
     }
-
+    
     /**
      * Sets the context.
      *
@@ -169,7 +169,7 @@ public class Context {
     public void setContext(final Map<String, APValue> context) {
         this.context = context;
     }
-
+    
     /**
      * Gets the output stream.
      *
@@ -178,7 +178,7 @@ public class Context {
     public PrintStream getOutputStream() {
         return outputStream;
     }
-
+    
     /**
      * Sets the output stream.
      *
@@ -188,24 +188,24 @@ public class Context {
     public void setOutputStream(final PrintStream p) {
         outputStream = p;
     }
-    
+
     /**
      * Gets the functions.
      *
      * @return the functions
      */
-    public Map<String, Function> getFunctions() {
+    public Map<FunctionSignature, Function> getFunctions() {
         return functions;
     }
-
+    
     /**
      * Sets the functions.
      *
      * @param functions
      *            the functions
      */
-    public void setFunctions(final Map<String, Function> functions) {
+    public void setFunctions(final Map<FunctionSignature, Function> functions) {
         this.functions = functions;
     }
-
+    
 }
