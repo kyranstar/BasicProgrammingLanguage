@@ -11,6 +11,8 @@ import lexer.Token.TokenType;
 // TODO: Auto-generated Javadoc
 /**
  * The Class TokenMatchers.
+ * @author Kyran Adams
+ * @version $Revision: 1.0 $
  */
 public class TokenMatchers {
     
@@ -22,6 +24,8 @@ public class TokenMatchers {
     
     /**
      * The Class SPACE.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class SPACE extends TokenMatcher {
         
@@ -57,6 +61,8 @@ public class TokenMatchers {
         
     }
     
+    /**
+     */
     public static class LINE_COMMENT extends TokenMatcher {
         
         /*
@@ -91,6 +97,8 @@ public class TokenMatchers {
         
     }
 
+    /**
+     */
     public static class MULTILINE_COMMENT extends TokenMatcher {
         
         /*
@@ -131,6 +139,8 @@ public class TokenMatchers {
     
     /**
      * The Class NUMBER.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class NUMBER extends TokenMatcher {
         
@@ -166,6 +176,8 @@ public class TokenMatchers {
     
     /**
      * The Class BOOLEAN.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class BOOLEAN extends TokenMatcher {
         
@@ -205,6 +217,8 @@ public class TokenMatchers {
     
     /**
      * The Class OPERATOR.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class OPERATOR extends TokenMatcher {
         
@@ -235,6 +249,8 @@ public class TokenMatchers {
         
         /**
          * The Class StringToOperator.
+         * @author Kyran Adams
+         * @version $Revision: 1.0 $
          */
         private static class StringToOperator {
             
@@ -296,6 +312,8 @@ public class TokenMatchers {
     
     /**
      * The Class IF.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class IF extends TokenMatcher {
         
@@ -338,6 +356,8 @@ public class TokenMatchers {
     
     /**
      * The Class BRACKETS.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class BRACKETS extends TokenMatcher {
         
@@ -386,6 +406,8 @@ public class TokenMatchers {
     
     /**
      * The Class IDENTIFIER.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class IDENTIFIER extends TokenMatcher {
         

@@ -15,6 +15,8 @@ import type.APValue;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Context.
+ * @author Kyran Adams
+ * @version $Revision: 1.0 $
  */
 public class Context {
     
@@ -82,8 +84,7 @@ public class Context {
     /**
      * Put function.
      *
-     * @param s
-     *            the s
+    
      * @param func
      *            the func
      */
@@ -105,8 +106,8 @@ public class Context {
      *
      * @param s
      *            the s
-     * @return the variable
-     */
+    
+     * @return the variable */
     public APValue getVariable(final String s) {
         APValue node = getContext().get(s);
         if (node == null) {
@@ -126,8 +127,8 @@ public class Context {
      *
      * @param s
      *            the s
-     * @return the function
-     */
+    
+     * @return the function */
     public Function getFunction(final FunctionSignature s) {
         Function node = getFunctions().get(s);
         if (node == null) {
@@ -145,8 +146,8 @@ public class Context {
     /**
      * Gets the child.
      *
-     * @return the child
-     */
+    
+     * @return the child */
     public Context getChild() {
         return new Context(this);
     }
@@ -154,8 +155,8 @@ public class Context {
     /**
      * Gets the context.
      *
-     * @return the context
-     */
+    
+     * @return the context */
     public Map<String, APValue> getContext() {
         return context;
     }
@@ -173,8 +174,8 @@ public class Context {
     /**
      * Gets the output stream.
      *
-     * @return the output stream
-     */
+    
+     * @return the output stream */
     public PrintStream getOutputStream() {
         return outputStream;
     }
@@ -192,8 +193,8 @@ public class Context {
     /**
      * Gets the functions.
      *
-     * @return the functions
-     */
+    
+     * @return the functions */
     public Map<FunctionSignature, Function> getFunctions() {
         return functions;
     }

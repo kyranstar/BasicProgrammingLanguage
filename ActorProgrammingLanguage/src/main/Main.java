@@ -13,6 +13,8 @@ import type.APValue;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Main.
+ * @author Kyran Adams
+ * @version $Revision: 1.0 $
  */
 public final class Main {
 

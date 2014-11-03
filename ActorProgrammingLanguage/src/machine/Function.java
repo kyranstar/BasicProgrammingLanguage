@@ -11,6 +11,8 @@ import parser.ExpressionNode.VariableNode;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Function.
+ * @author Kyran Adams
+ * @version $Revision: 1.0 $
  */
 public class Function {
     

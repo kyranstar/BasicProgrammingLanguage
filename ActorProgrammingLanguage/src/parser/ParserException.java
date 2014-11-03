@@ -6,6 +6,8 @@ package parser;
 // TODO: Auto-generated Javadoc
 /**
  * The Class ParserException.
+ * @author Kyran Adams
+ * @version $Revision: 1.0 $
  */
 public class ParserException extends RuntimeException {
 

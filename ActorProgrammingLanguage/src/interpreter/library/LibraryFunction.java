@@ -16,6 +16,8 @@ import type.APValueList;
 
 /**
  * The Class LibraryFunction.
+ * @author Kyran Adams
+ * @version $Revision: 1.0 $
  */
 public final class LibraryFunction {
     
@@ -30,8 +32,8 @@ public final class LibraryFunction {
      *
      * @param context
      *            the context
-     * @return the context
-     */
+    
+     * @return the context */
     public static Context applyLibraryFunctions(final Context context) {
         sublistFunction(context);
         printlnFunction(context);

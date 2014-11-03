@@ -15,6 +15,8 @@ import org.junit.Test;
 // TODO: Auto-generated Javadoc
 /**
  * The Class LexerTest.
+ * @author Kyran Adams
+ * @version $Revision: 1.0 $
  */
 public class LexerTest {
     

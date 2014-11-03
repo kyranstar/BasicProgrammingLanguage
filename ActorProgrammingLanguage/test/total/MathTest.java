@@ -10,6 +10,8 @@ import org.junit.Test;
 // TODO: Auto-generated Javadoc
 /**
  * The Class MathTest.
+ * @author Kyran Adams
+ * @version $Revision: 1.0 $
  */
 public class MathTest {
     /** The number 10. */

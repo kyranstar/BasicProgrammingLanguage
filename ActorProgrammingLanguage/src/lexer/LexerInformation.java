@@ -6,6 +6,8 @@ package lexer;
 // TODO: Auto-generated Javadoc
 /**
  * The Class LexerInformation.
+ * @author Kyran Adams
+ * @version $Revision: 1.0 $
  */
 public class LexerInformation {
     
@@ -19,13 +21,17 @@ public class LexerInformation {
     /**
      * Gets the message.
      *
-     * @return the message
-     */
+    
+     * @return the message */
     public String getMessage() {
         return " (Line: " + currentLine + " Position: "
                 + (position - lastEndLine) + ")";
     }
     
+    /**
+     * Method copy.
+     * @return LexerInformation
+     */
     public LexerInformation copy() {
         final LexerInformation copy = new LexerInformation();
         copy.currentLine = currentLine;

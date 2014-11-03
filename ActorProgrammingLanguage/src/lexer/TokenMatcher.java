@@ -6,9 +6,11 @@ package lexer;
 // TODO: Auto-generated Javadoc
 /**
  * The Class TokenMatcher.
+ * @author Kyran Adams
+ * @version $Revision: 1.0 $
  */
 public abstract class TokenMatcher {
-    
+
     /**
      * Gets the token without checking for errors.
      *
@@ -16,11 +18,11 @@ public abstract class TokenMatcher {
      *            the code
      * @param lexInfo
      *            the lex info
-     * @return the token no check
-     */
+    
+     * @return the token no check */
     protected abstract Token getTokenNoCheck(final String code,
             final LexerInformation lexInfo);
-    
+
     /**
      * Matches without checking for errors.
      *
@@ -28,11 +30,11 @@ public abstract class TokenMatcher {
      *            the code
      * @param lexInfo
      *            the lex info
-     * @return true, if it matches
-     */
+    
+     * @return true, if it matches */
     protected abstract boolean matchesNoCheck(final String code,
             final LexerInformation lexInfo);
-    
+
     /**
      * Gets the token.
      *
@@ -40,10 +42,14 @@ public abstract class TokenMatcher {
      *            the code
      * @param lexInfo
      *            the lex info
-     * @return the token
-     */
+    
+     * @return the token */
     public final Token getToken(final String code,
             final LexerInformation lexInfo) {
+        if (code.length() <= 0) {
+            throw new LexerException("Code length was 0.");
+        }
+
         if (!matches(code, lexInfo)) {
             throw new LexerException("Tried to get token " + getClass()
                     + ", but did not match. Was {" + code.charAt(0)
@@ -51,7 +57,7 @@ public abstract class TokenMatcher {
         }
         return getTokenNoCheck(code, lexInfo);
     }
-    
+
     /**
      * Matches.
      *
@@ -59,8 +65,8 @@ public abstract class TokenMatcher {
      *            the code
      * @param lexInfo
      *            the lex info
-     * @return true, if successful
-     */
+    
+     * @return true, if successful */
     public final boolean matches(final String code,
             final LexerInformation lexInfo) {
         try {

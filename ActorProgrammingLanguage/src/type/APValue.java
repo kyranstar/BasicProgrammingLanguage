@@ -7,8 +7,9 @@ package type;
 /**
  * The Class APValue. Holds a value
  *
- * @param <T>
- *            the generic type this value holds.
+
+ * @author Kyran Adams
+ * @version $Revision: 1.0 $
  */
 public abstract class APValue<T> {
 
@@ -37,6 +38,8 @@ public abstract class APValue<T> {
 
     /**
      * The Class APValueBool.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
 
     /**
@@ -84,15 +87,15 @@ public abstract class APValue<T> {
     /**
      * Gets the type.
      *
-     * @return the type
-     */
+    
+     * @return the type */
     public abstract Class<T> getType();
 
     /**
      * Gets the value.
      *
-     * @return the value
-     */
+    
+     * @return the value */
     public T getValue() {
         return data;
     }
@@ -104,8 +107,8 @@ public abstract class APValue<T> {
      *            the s
      * @param arg
      *            the arg
-     * @return the AP value
-     */
+    
+     * @return the AP value */
     public abstract APValue callMethod(Operators s, APValue arg);
 
     /**

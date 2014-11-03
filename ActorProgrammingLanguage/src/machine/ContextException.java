@@ -6,6 +6,8 @@ package machine;
 // TODO: Auto-generated Javadoc
 /**
  * The Class ContextException.
+ * @author Kyran Adams
+ * @version $Revision: 1.0 $
  */
 public class ContextException extends RuntimeException {
 

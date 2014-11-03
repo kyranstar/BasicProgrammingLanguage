@@ -22,6 +22,8 @@ import type.APValueNum;
 // TODO: Auto-generated Javadoc
 /**
  * The Class ParserTest.
+ * @author Kyran Adams
+ * @version $Revision: 1.0 $
  */
 public class ParserTest {
 

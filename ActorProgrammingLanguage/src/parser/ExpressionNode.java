@@ -18,8 +18,9 @@ import type.APValueList;
 /**
  * An ExpressionNode is a expression in the language that evaluates to T.
  *
- * @param <T>
- *            the generic type that this expression returns
+
+ * @author Kyran Adams
+ * @version $Revision: 1.0 $
  */
 public abstract class ExpressionNode<T> {
 
@@ -50,8 +51,8 @@ public abstract class ExpressionNode<T> {
      *
      * @param i
      *            the index
-     * @return the term
-     */
+    
+     * @return the term */
     protected ExpressionNode<T> getTerm(final int i) {
         return terms.get(i);
     }
@@ -71,8 +72,8 @@ public abstract class ExpressionNode<T> {
      *
      * @param context
      *            the context
-     * @return the expressions value in context
-     */
+    
+     * @return the expressions value in context */
     public abstract APValue<T> getValue(Context context);
 
     /*
@@ -117,6 +118,8 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class ConstantNode. Represents a constant, for example "true" or "3"
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class ConstantNode extends ExpressionNode {
 
@@ -158,6 +161,8 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class FunctionCallNode. Represents a function call
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class FunctionCallNode extends ExpressionNode {
 
@@ -226,6 +231,8 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class AssignmentNode.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class AssignmentNode extends ExpressionNode {
 
@@ -276,6 +283,8 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class IfNode. Represents if else expression
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class IfNode extends ExpressionNode {
 
@@ -320,6 +329,8 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class EqualNode.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class EqualNode extends ExpressionNode {
 
@@ -353,6 +364,8 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class GreaterThanEqualNode.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class GreaterThanEqualNode extends ExpressionNode {
 
@@ -387,6 +400,8 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class LessThanEqualNode.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class LessThanEqualNode extends ExpressionNode {
 
@@ -421,6 +436,8 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class GreaterThanNode.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class GreaterThanNode extends ExpressionNode {
 
@@ -455,6 +472,8 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class LessThanNode.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class LessThanNode extends ExpressionNode {
 
@@ -489,6 +508,8 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class ListIndexNode.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class ListIndexNode extends ExpressionNode {
 
@@ -533,6 +554,8 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class AndNode.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class AndNode extends ExpressionNode<Boolean> {
 
@@ -565,6 +588,8 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class OrNode.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class OrNode extends ExpressionNode<Boolean> {
 
@@ -598,6 +623,8 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class AdditionNode.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class AdditionNode extends ExpressionNode<BigDecimal> {
 
@@ -630,6 +657,8 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class SubtractionNode.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class SubtractionNode extends ExpressionNode {
 
@@ -663,6 +692,8 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class MultiplicationNode.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class MultiplicationNode extends ExpressionNode {
 
@@ -695,6 +726,8 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class DivisionNode.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class DivisionNode extends ExpressionNode {
 
@@ -727,6 +760,8 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class ExponentiationNode.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class ExponentiationNode extends ExpressionNode<BigDecimal> {
 
@@ -759,6 +794,8 @@ public abstract class ExpressionNode<T> {
 
     /**
      * The Class VariableNode.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static class VariableNode extends ExpressionNode {
 
@@ -799,8 +836,8 @@ public abstract class ExpressionNode<T> {
         /**
          * Gets the name.
          *
-         * @return the name
-         */
+        
+         * @return the name */
         public String getName() {
             return name;
         }

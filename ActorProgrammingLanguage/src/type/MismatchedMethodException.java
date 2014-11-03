@@ -6,6 +6,8 @@ package type;
 // TODO: Auto-generated Javadoc
 /**
  * The Class MismatchedMethodException.
+ * @author Kyran Adams
+ * @version $Revision: 1.0 $
  */
 public class MismatchedMethodException extends RuntimeException {
 

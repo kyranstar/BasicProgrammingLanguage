@@ -6,6 +6,8 @@ package lexer;
 // TODO: Auto-generated Javadoc
 /**
  * The Class LexerException.
+ * @author Kyran Adams
+ * @version $Revision: 1.0 $
  */
 public class LexerException extends RuntimeException {
 

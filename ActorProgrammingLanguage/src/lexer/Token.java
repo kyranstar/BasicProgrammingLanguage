@@ -6,6 +6,8 @@ package lexer;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Token.
+ * @author Kyran Adams
+ * @version $Revision: 1.0 $
  */
 public class Token {
     
@@ -25,6 +27,7 @@ public class Token {
      *            the type
      * @param text
      *            the text
+     * @param currentInfo LexerInformation
      */
     public Token(final TokenType type, final String text,
             final LexerInformation currentInfo) {
@@ -36,8 +39,8 @@ public class Token {
     /**
      * Gets the text.
      *
-     * @return the text
-     */
+    
+     * @return the text */
     public String getText() {
         return text;
     }
@@ -45,8 +48,8 @@ public class Token {
     /**
      * Gets the type.
      *
-     * @return the type
-     */
+    
+     * @return the type */
     public TokenType getType() {
         return type;
     }
@@ -54,8 +57,8 @@ public class Token {
     /**
      * Gets the token informations message.
      *
-     * @return the type
-     */
+    
+     * @return the type */
     public String getMessage() {
         return info.getMessage();
     }
@@ -73,6 +76,8 @@ public class Token {
     
     /**
      * The Enum TokenType.
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
      */
     public static enum TokenType {
         

@@ -14,6 +14,8 @@ import parser.Parser;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Interpreter.
+ * @author Kyran Adams
+ * @version $Revision: 1.0 $
  */
 public class Interpreter {
     
@@ -33,8 +35,8 @@ public class Interpreter {
      * Interpret.
      *
      * @param s the s
-     * @return the context
-     */
+    
+     * @return the context */
     public Context interpret(final String s) {
         final Context context = new Context(printStream);
         final Lexer lexer = new Lexer(s);
