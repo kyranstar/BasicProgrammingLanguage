@@ -34,7 +34,7 @@ public final class Main {
         final Interpreter interpreter = new Interpreter(System.out);
         final Context context = interpreter.interpret("a= println (3);");
         
-        for (final Map.Entry<String, APValue> a : context.getContext()
+        for (final Map.Entry<String, APValue> a : context.getVariables()
                 .entrySet()) {
             System.out.println(a.getKey() + " -> " + a.getValue().getValue());
         }

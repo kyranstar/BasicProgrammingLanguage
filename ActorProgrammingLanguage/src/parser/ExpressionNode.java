@@ -15,7 +15,6 @@ import type.APValue;
 import type.APValue.Operators;
 import type.APValueList;
 
-// TODO: Auto-generated Javadoc
 /**
  * An ExpressionNode is a expression in the language that evaluates to T.
  *
@@ -26,7 +25,8 @@ import type.APValueList;
 public abstract class ExpressionNode<T> {
 
     /** The Constant VOID. */
-    public static final ExpressionNode VOID = new ExpressionNode<Void>(null) {
+    public static final ExpressionNode<Void> VOID = new ExpressionNode<Void>(
+            null) {
 
         @Override
         public APValue<Void> getValue(final Context context) {
@@ -108,7 +108,7 @@ public abstract class ExpressionNode<T> {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ExpressionNode other = (ExpressionNode) obj;
+        final ExpressionNode<?> other = (ExpressionNode<?>) obj;
         if (terms == null) {
             if (other.terms != null) {
                 return false;
@@ -232,8 +232,6 @@ public abstract class ExpressionNode<T> {
             }
             
             final APValue returnVal = func.body.getValue(c);
-            System.out.println("Return value " + returnVal + " in context "
-                    + c.getContext() + " in function " + func.signature);
             // The reason we have to simplify a list before we return it is if
             // the list uses the parameters. This means that if you return
             // [a,a,a], the caller cannot simplify it because it has no access

@@ -46,39 +46,78 @@ public class ProgramTest {
      * Test if.
      */
     @Test
-    public void testIf() {
+    public void testIfCondition() {
         test("a = if true 10 else 11;", expected10, variableNameA);
+    }
+
+    @Test
+    public void testIfNegativeCondition() {
         test("a = if false 11 else 10;", expected10, variableNameA);
+    }
 
+    @Test
+    public void testLessThan() {
         test("a = if 3 < 4 10 else 11;", expected10, variableNameA);
-        test("a = if 3 > 4 11 else 10;", expected10, variableNameA);
+    }
 
+    @Test
+    public void testGreaterThan() {
+        test("a = if 3 > 4 11 else 10;", expected10, variableNameA);
+    }
+
+    @Test
+    public void testLessThanEquals() {
         test("a = if 3 <= 3 10 else 11;", expected10, variableNameA);
+    }
+
+    @Test
+    public void testGreaterThanEquals() {
         test("a = if 3 >= 3 10 else 11;", expected10, variableNameA);
     }
-    
+
     /**
      * Test comments.
      */
     @Test
-    public void testComments() {
+    public void testEndlineComment() {
         test("a = 10; // Hi!", expected10, variableNameA);
+    }
+
+    @Test
+    public void testSeparatingEndlineComment() {
         test("a = //8\n10;", expected10, variableNameA);
+    }
 
+    @Test
+    public void testMultilineComment() {
         test("a = 10; /*\n\n\n Wow hi! */", expected10, variableNameA);
-        test("a = /*\n8\n*/ 10;", expected10, variableNameA);
+    }
 
+    @Test
+    public void testSeparatingMultilineComment() {
+        test("a = /*\n8\n*/ 10;", expected10, variableNameA);
+    }
+
+    @Test
+    public void testStatementInComment() {
         test("a = 10; //a = 8", expected10, variableNameA);
-        test("a /*\n*/= 10;", expected10, variableNameA);
     }
 
     /**
      * Test function definition.
      */
     @Test
-    public void testFuncDef() {
+    public void testVariableDef() {
         expectOutput("f = 10; println(f);", "10");
+    }
+    
+    @Test
+    public void testFuncDefOneParam() {
         expectOutput("f a = a + 1 - 1; println(f(10));", "10");
+    }
+    
+    @Test
+    public void testFuncDefTwoParams() {
         expectOutput("f a b = a + b - 1; println(f(10,1));", "10");
     }
 

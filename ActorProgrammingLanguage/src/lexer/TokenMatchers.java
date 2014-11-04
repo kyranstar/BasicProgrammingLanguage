@@ -8,30 +8,31 @@ import java.util.List;
 
 import lexer.Token.TokenType;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TokenMatchers.
+ * 
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
 public class TokenMatchers {
-    
+
     /**
      * Instantiates a new token matchers.
      */
     private TokenMatchers() {
     }
-    
+
     /**
      * The Class SPACE.
+     * 
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
     public static class SPACE extends TokenMatcher {
-        
+
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -46,10 +47,10 @@ public class TokenMatchers {
             }
             return new Token(TokenType.SPACE, spaces.toString(), lexInfo);
         }
-        
+
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -58,16 +59,16 @@ public class TokenMatchers {
                 final LexerInformation lexInfo) {
             return Character.isWhitespace(code.charAt(0));
         }
-        
+
     }
-    
+
     /**
      */
     public static class LINE_COMMENT extends TokenMatcher {
-        
+
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -82,10 +83,10 @@ public class TokenMatchers {
             }
             return new Token(TokenType.COMMENT, letters.toString(), lexInfo);
         }
-        
+
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -94,16 +95,16 @@ public class TokenMatchers {
                 final LexerInformation lexInfo) {
             return code.startsWith("//");
         }
-        
-    }
 
+    }
+    
     /**
      */
     public static class MULTILINE_COMMENT extends TokenMatcher {
-        
+
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -118,14 +119,14 @@ public class TokenMatchers {
                 }
                 final char c = sub.charAt(0);
                 letters.append(c);
-
+                
             }
             return new Token(TokenType.COMMENT, letters.toString(), lexInfo);
         }
-        
+
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -134,19 +135,20 @@ public class TokenMatchers {
                 final LexerInformation lexInfo) {
             return code.startsWith("/*");
         }
-        
+
     }
-    
+
     /**
      * The Class NUMBER.
+     * 
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
     public static class NUMBER extends TokenMatcher {
-        
+
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -159,10 +161,10 @@ public class TokenMatchers {
             } while (matches(code, lexInfo));
             return new Token(TokenType.NUMBER, number.toString(), lexInfo);
         }
-        
+
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -171,19 +173,20 @@ public class TokenMatchers {
                 final LexerInformation lexInfo) {
             return Character.isDigit(code.charAt(0)) || code.charAt(0) == '.';
         }
-        
+
     };
-    
+
     /**
      * The Class BOOLEAN.
+     * 
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
     public static class BOOLEAN extends TokenMatcher {
-        
+
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -200,10 +203,10 @@ public class TokenMatchers {
                     + ", but did not match. Was {" + code.charAt(0)
                     + "} instead. Should never get here! Compiler bug.");
         }
-        
+
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -212,48 +215,50 @@ public class TokenMatchers {
                 final LexerInformation lexInfo) {
             return code.startsWith("true") || code.startsWith("false");
         }
-        
+
     };
-    
+
     /**
      * The Class OPERATOR.
+     * 
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
     public static class OPERATOR extends TokenMatcher {
-        
+
         /** The Constant OPERATORS. */
         private static final List<StringToOperator> OPERATORS = new ArrayList<>();
         static {
             OPERATORS.add(new StringToOperator(";", TokenType.SEMI));
             OPERATORS.add(new StringToOperator(",", TokenType.COMMA));
             OPERATORS.add(new StringToOperator("=", TokenType.EQUAL));
-            
+
             OPERATORS.add(new StringToOperator("*", TokenType.MULDIV));
             OPERATORS.add(new StringToOperator("/", TokenType.MULDIV));
             OPERATORS.add(new StringToOperator("+", TokenType.PLUSMINUS));
             OPERATORS.add(new StringToOperator("-", TokenType.PLUSMINUS));
             OPERATORS.add(new StringToOperator("^", TokenType.RAISED));
-            
+
             OPERATORS
-                    .add(new StringToOperator("<=", TokenType.LESS_THAN_EQUAL));
+            .add(new StringToOperator("<=", TokenType.LESS_THAN_EQUAL));
             OPERATORS.add(new StringToOperator(">=",
                     TokenType.GREATER_THAN_EQUAL));
-            
+
             OPERATORS.add(new StringToOperator("<", TokenType.LESS_THAN));
             OPERATORS.add(new StringToOperator(">", TokenType.GREATER_THAN));
-            
+
             OPERATORS.add(new StringToOperator("&&", TokenType.AND));
             OPERATORS.add(new StringToOperator("||", TokenType.OR));
         }
-        
+
         /**
          * The Class StringToOperator.
+         * 
          * @author Kyran Adams
          * @version $Revision: 1.0 $
          */
         private static class StringToOperator {
-            
+
             /**
              * Instantiates a new string to operator.
              *
@@ -266,17 +271,17 @@ public class TokenMatchers {
                 text = string;
                 this.type = type;
             }
-            
+
             /** The text. */
             public String text;
-            
+
             /** The type. */
             public TokenType type;
         }
-        
+
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -288,13 +293,13 @@ public class TokenMatchers {
                     return new Token(entry.type, entry.text, lexInfo);
                 }
             }
-            
+
             throw new LexerException("Unidentified token");
         }
-        
+
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -309,40 +314,41 @@ public class TokenMatchers {
             return false;
         }
     }
-    
+
     /**
      * The Class IF.
+     * 
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
     public static class IF extends TokenMatcher {
-        
+
         /** The if string. */
         final String ifString = "if";
-        
+
         /** The else string. */
         final String elseString = "else";
-        
+
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
         @Override
         protected Token getTokenNoCheck(final String code,
                 final LexerInformation lexInfo) {
-            
+
             if (code.startsWith(ifString)) {
                 return new Token(TokenType.IF, ifString, lexInfo);
             } else {
                 return new Token(TokenType.ELSE, elseString, lexInfo);
             }
         }
-        
+
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -351,19 +357,20 @@ public class TokenMatchers {
                 final LexerInformation lexInfo) {
             return code.startsWith(ifString) || code.startsWith(elseString);
         }
-        
+
     }
-    
+
     /**
      * The Class BRACKETS.
+     * 
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
     public static class BRACKETS extends TokenMatcher {
-        
+
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -388,10 +395,10 @@ public class TokenMatchers {
             }
             throw new LexerException("Unidentified token: " + token);
         }
-        
+
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -403,17 +410,18 @@ public class TokenMatchers {
                     || code.startsWith("{") || code.startsWith("}");
         }
     }
-    
+
     /**
      * The Class IDENTIFIER.
+     * 
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
     public static class IDENTIFIER extends TokenMatcher {
-        
+
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -427,10 +435,10 @@ public class TokenMatchers {
             return new Token(TokenType.IDENTIFIER, identifier.toString(),
                     lexInfo);
         }
-        
+
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -440,6 +448,6 @@ public class TokenMatchers {
             return Character.isAlphabetic(code.charAt(0))
                     || code.charAt(0) == '_';
         }
-        
+
     };
 }
