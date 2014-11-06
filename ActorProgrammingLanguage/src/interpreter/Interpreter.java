@@ -11,18 +11,17 @@ import machine.Context;
 import parser.ExpressionNode;
 import parser.Parser;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Interpreter.
- * 
+ *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
 public class Interpreter {
-
+    
     /** The print stream. */
     private final PrintStream printStream;
-
+    
     /**
      * Instantiates a new interpreter.
      *
@@ -32,21 +31,20 @@ public class Interpreter {
     public Interpreter(final PrintStream printStream) {
         this.printStream = printStream;
     }
-    
+
     /**
-     * Interpret.
+     * Interprets the code passed in.
      *
-     * @param s
-     *            the s
-     * 
+     * @param code
+     *            the code
+     *
      * @return the context
      */
-    public Context interpret(final String s) {
+    public Context interpret(final String code) {
         final Context context = new Context(printStream);
-        final Lexer lexer = new Lexer(s);
+        final Lexer lexer = new Lexer(code);
         final List<ExpressionNode> nodes = new Parser(lexer.lex())
-        .parse(context);
-        System.out.println(nodes);
+                .parse(context);
         for (final ExpressionNode node : nodes) {
             node.getValue(context);
         }

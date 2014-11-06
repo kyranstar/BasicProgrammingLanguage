@@ -5,38 +5,27 @@ package main;
 
 import interpreter.Interpreter;
 
-import java.util.Map;
-
-import machine.Context;
-import type.APValue;
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class Main.
+ *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
 public final class Main {
 
     /**
-     * Instantiates a new main.
+     * Unused private constructor.
      */
     private Main() {
     }
 
     /**
-     * The main method.
+     * The main method. Callable from command line.
      *
      * @param args
-     *            the arguments
+     *            The arguments. arg[0] = the code to run.
      */
     public static void main(final String[] args) {
-        final Interpreter interpreter = new Interpreter(System.out);
-        final Context context = interpreter.interpret("a= println (3);");
-        
-        for (final Map.Entry<String, APValue> a : context.getContext()
-                .entrySet()) {
-            System.out.println(a.getKey() + " -> " + a.getValue().getValue());
-        }
+        new Interpreter(System.out).interpret(args[0]);
     }
 }
