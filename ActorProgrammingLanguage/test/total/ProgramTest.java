@@ -46,39 +46,78 @@ public class ProgramTest {
      * Test if.
      */
     @Test
-    public void testIf() {
-        test("a = if true 10 else 11;", expected10, variableNameA);
-        test("a = if false 11 else 10;", expected10, variableNameA);
-
-        test("a = if 3 < 4 10 else 11;", expected10, variableNameA);
-        test("a = if 3 > 4 11 else 10;", expected10, variableNameA);
-
-        test("a = if 3 <= 3 10 else 11;", expected10, variableNameA);
-        test("a = if 3 >= 3 10 else 11;", expected10, variableNameA);
+    public void testIfCondition() {
+        testNum("a = if true 10 else 11;", expected10, variableNameA);
     }
-    
+
+    @Test
+    public void testIfNegativeCondition() {
+        testNum("a = if false 11 else 10;", expected10, variableNameA);
+    }
+
+    @Test
+    public void testLessThan() {
+        testNum("a = if 3 < 4 10 else 11;", expected10, variableNameA);
+    }
+
+    @Test
+    public void testGreaterThan() {
+        testNum("a = if 3 > 4 11 else 10;", expected10, variableNameA);
+    }
+
+    @Test
+    public void testLessThanEquals() {
+        testNum("a = if 3 <= 3 10 else 11;", expected10, variableNameA);
+    }
+
+    @Test
+    public void testGreaterThanEquals() {
+        testNum("a = if 3 >= 3 10 else 11;", expected10, variableNameA);
+    }
+
     /**
      * Test comments.
      */
     @Test
-    public void testComments() {
-        test("a = 10; // Hi!", expected10, variableNameA);
-        test("a = //8\n10;", expected10, variableNameA);
+    public void testEndlineComment() {
+        testNum("a = 10; // Hi!", expected10, variableNameA);
+    }
 
-        test("a = 10; /*\n\n\n Wow hi! */", expected10, variableNameA);
-        test("a = /*\n8\n*/ 10;", expected10, variableNameA);
+    @Test
+    public void testSeparatingEndlineComment() {
+        testNum("a = //8\n10;", expected10, variableNameA);
+    }
 
-        test("a = 10; //a = 8", expected10, variableNameA);
-        test("a /*\n*/= 10;", expected10, variableNameA);
+    @Test
+    public void testMultilineComment() {
+        testNum("a = 10; /*\n\n\n Wow hi! */", expected10, variableNameA);
+    }
+
+    @Test
+    public void testSeparatingMultilineComment() {
+        testNum("a = /*\n8\n*/ 10;", expected10, variableNameA);
+    }
+
+    @Test
+    public void testStatementInComment() {
+        testNum("a = 10; //a = 8", expected10, variableNameA);
     }
 
     /**
      * Test function definition.
      */
     @Test
-    public void testFuncDef() {
+    public void testVariableDef() {
         expectOutput("f = 10; println(f);", "10");
+    }
+    
+    @Test
+    public void testFuncDefOneParam() {
         expectOutput("f a = a + 1 - 1; println(f(10));", "10");
+    }
+    
+    @Test
+    public void testFuncDefTwoParams() {
         expectOutput("f a b = a + b - 1; println(f(10,1));", "10");
     }
 
@@ -89,14 +128,14 @@ public class ProgramTest {
     public void testFib() {
         final String fib = "f a = if a = 0 0 else if a = 1 1 else f (a-1) + f (a-2);";
         
-        test(fib + "b = f (0);", new BigDecimal("0"), "b");
-        test(fib + "b = f (1);", new BigDecimal("1"), "b");
-        test(fib + "b = f (2);", new BigDecimal("1"), "b");
-        test(fib + "b = f (3);", new BigDecimal("2"), "b");
-        test(fib + "b = f (4);", new BigDecimal("3"), "b");
-        test(fib + "b = f (5);", new BigDecimal("5"), "b");
-        test(fib + "b = f (6);", new BigDecimal("8"), "b");
-        test(fib + "b = f (7);", new BigDecimal("13"), "b");
+        testNum(fib + "b = f (0);", new BigDecimal("0"), "b");
+        testNum(fib + "b = f (1);", new BigDecimal("1"), "b");
+        testNum(fib + "b = f (2);", new BigDecimal("1"), "b");
+        testNum(fib + "b = f (3);", new BigDecimal("2"), "b");
+        testNum(fib + "b = f (4);", new BigDecimal("3"), "b");
+        testNum(fib + "b = f (5);", new BigDecimal("5"), "b");
+        testNum(fib + "b = f (6);", new BigDecimal("8"), "b");
+        testNum(fib + "b = f (7);", new BigDecimal("13"), "b");
 
         testStackOverflowError(fib + "b = f (-1);");
     }
@@ -114,7 +153,7 @@ public class ProgramTest {
      */
     @Test(expected = ArithmeticException.class)
     public void testDivideByZero() {
-        test("a = 20/0;", expected10, variableNameA);
+        testNum("a = 20/0;", expected10, variableNameA);
     }
 
     /**
@@ -122,7 +161,7 @@ public class ProgramTest {
      */
     @Test
     public void testRational() {
-        test("a = 10/3;", new BigDecimal("10").divide(new BigDecimal("3"),
+        testNum("a = 10/3;", new BigDecimal("10").divide(new BigDecimal("3"),
                 APValueNum.DECIMALS, RoundingMode.HALF_UP), variableNameA);
     }
 
@@ -137,7 +176,7 @@ public class ProgramTest {
      * @param variableName
      *            the variable name
      */
-    public static void test(final String s, final BigDecimal expected,
+    public static void testNum(final String s, final BigDecimal expected,
             final String variableName) {
         final Context c = new Context(new PrintStream(
                 new ByteArrayOutputStream()));

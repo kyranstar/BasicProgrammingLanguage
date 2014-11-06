@@ -14,17 +14,17 @@ import type.APValue;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class Context.
+ * The Class Context stores variable and function mappings.
  *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
 public class Context {
     
-    /** The context. */
-    private Map<String, APValue> context;
+    /** The variable mapping. */
+    private Map<String, APValue> variables;
     
-    /** The functions. */
+    /** The function mapping. */
     private Map<FunctionSignature, Function> functions;
 
     /** The parent. */
@@ -34,13 +34,13 @@ public class Context {
     private PrintStream outputStream;
     
     /**
-     * Instantiates a new context.
+     * Instantiates a new context with a given print stream.
      *
      * @param p
      *            the p
      */
     public Context(final PrintStream p) {
-        setContext(new HashMap<>());
+        setVariables(new HashMap<>());
         functions = new HashMap<>();
         parent = Optional.empty();
         outputStream = p;
@@ -49,13 +49,13 @@ public class Context {
     }
     
     /**
-     * Instantiates a new context.
+     * Instantiates a new context with a given parent.
      *
      * @param parent
      *            the parent
      */
     public Context(final Context parent) {
-        setContext(new HashMap<>());
+        setVariables(new HashMap<>());
         functions = new HashMap<>();
         this.parent = Optional.of(parent);
         outputStream = parent.getOutputStream();
@@ -64,22 +64,22 @@ public class Context {
     /**
      * Put variable.
      *
-     * @param s
+     * @param name
      *            the s
-     * @param en
+     * @param value
      *            the en
      */
-    public void putVariable(final String s, final APValue en) {
+    public void putVariable(final String name, final APValue value) {
         // If this context has a parent
         if (parent.isPresent()) {
             // If that parent has the variable we are assigning
-            if (parent.get().getVariable(s) != null) {
+            if (parent.get().getVariable(name) != null) {
                 // Put it to the parent instead
-                parent.get().putVariable(s, en);
+                parent.get().putVariable(name, value);
                 return;
             }
         }
-        getContext().put(s, en);
+        getVariables().put(name, value);
     }
     
     /**
@@ -103,20 +103,20 @@ public class Context {
     }
     
     /**
-     * Gets the variable.
+     * Gets the variable with a given name.
      *
-     * @param s
+     * @param name
      *            the s
      *
      * @return the variable
      */
-    public APValue getVariable(final String s) {
-        APValue node = getContext().get(s);
+    public APValue getVariable(final String name) {
+        APValue node = getVariables().get(name);
         if (node == null) {
             if (parent.isPresent()) {
-                node = parent.get().getVariable(s);
+                node = parent.get().getVariable(name);
             } else {
-                throw new ContextException("Could not find value for <" + s
+                throw new ContextException("Could not find value for <" + name
                         + ">");
             }
         }
@@ -125,21 +125,21 @@ public class Context {
     }
     
     /**
-     * Gets the function.
+     * Gets the function with a given signature.
      *
-     * @param s
-     *            the s
+     * @param signature
+     *            the function signature
      *
      * @return the function
      */
-    public Function getFunction(final FunctionSignature s) {
-        Function node = getFunctions().get(s);
+    public Function getFunction(final FunctionSignature signature) {
+        Function node = getFunctions().get(signature);
         if (node == null) {
             if (parent.isPresent()) {
-                node = parent.get().getFunction(s);
+                node = parent.get().getFunction(signature);
             } else {
                 throw new ContextException(
-                        "Could not find function with name <" + s + ">");
+                        "Could not find function with name <" + signature + ">");
             }
         }
         return node;
@@ -147,33 +147,33 @@ public class Context {
     }
     
     /**
-     * Gets the child.
+     * Gets the child context.
      *
      *
-     * @return the child
+     * @return the child context
      */
     public Context getChild() {
         return new Context(this);
     }
     
     /**
-     * Gets the context.
+     * Gets the variables.
      *
      *
-     * @return the context
+     * @return the variables
      */
-    public Map<String, APValue> getContext() {
-        return context;
+    public Map<String, APValue> getVariables() {
+        return variables;
     }
     
     /**
-     * Sets the context.
+     * Sets the variable map.
      *
-     * @param context
-     *            the context
+     * @param variables
+     *            the variable map
      */
-    public void setContext(final Map<String, APValue> context) {
-        this.context = context;
+    public void setVariables(final Map<String, APValue> variables) {
+        this.variables = variables;
     }
     
     /**
@@ -197,7 +197,7 @@ public class Context {
     }
 
     /**
-     * Gets the functions.
+     * Gets the functions map.
      *
      *
      * @return the functions
@@ -207,13 +207,19 @@ public class Context {
     }
     
     /**
-     * Sets the functions.
+     * Sets the functions map.
      *
      * @param functions
      *            the functions
      */
     public void setFunctions(final Map<FunctionSignature, Function> functions) {
         this.functions = functions;
+    }
+
+    @Override
+    public String toString() {
+        return "Context [variables=" + variables + ", functions=" + functions
+                + ", outputStream=" + outputStream + "]";
     }
     
 }

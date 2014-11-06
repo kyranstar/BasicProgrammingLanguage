@@ -15,7 +15,6 @@ import type.APValue;
 import type.APValue.Operators;
 import type.APValueList;
 
-// TODO: Auto-generated Javadoc
 /**
  * An ExpressionNode is a expression in the language that evaluates to T.
  *
@@ -108,7 +107,7 @@ public abstract class ExpressionNode<T> {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ExpressionNode other = (ExpressionNode) obj;
+        final ExpressionNode<?> other = (ExpressionNode<?>) obj;
         if (terms == null) {
             if (other.terms != null) {
                 return false;

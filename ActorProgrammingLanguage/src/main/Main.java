@@ -12,13 +12,13 @@ import interpreter.Interpreter;
  * @version $Revision: 1.0 $
  */
 public final class Main {
-
+    
     /**
      * Unused private constructor.
      */
     private Main() {
     }
-
+    
     /**
      * The main method. Callable from command line.
      *

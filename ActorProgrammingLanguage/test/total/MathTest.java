@@ -25,12 +25,12 @@ public class MathTest {
      */
     @Test
     public void intTest() {
-        ProgramTest.test("a = 10;", expected10, variableNameA);
-        ProgramTest.test("a = 9+1;", expected10, variableNameA);
-        ProgramTest.test("a = 11-1;", expected10, variableNameA);
-        ProgramTest.test("a = 5*2;", expected10, variableNameA);
-        ProgramTest.test("a = 20/2;", expected10, variableNameA);
-        ProgramTest.test("a = 10^2 / 10;", expected10, variableNameA);
+        ProgramTest.testNum("a = 10;", expected10, variableNameA);
+        ProgramTest.testNum("a = 9+1;", expected10, variableNameA);
+        ProgramTest.testNum("a = 11-1;", expected10, variableNameA);
+        ProgramTest.testNum("a = 5*2;", expected10, variableNameA);
+        ProgramTest.testNum("a = 20/2;", expected10, variableNameA);
+        ProgramTest.testNum("a = 10^2 / 10;", expected10, variableNameA);
 
     }
     
@@ -39,8 +39,8 @@ public class MathTest {
      */
     @Test
     public void decTest() {
-        ProgramTest.test("a = 20 * 0.5;", expected10, variableNameA);
-        ProgramTest.test("a = 4 * 2.5;", expected10, variableNameA);
+        ProgramTest.testNum("a = 20 * 0.5;", expected10, variableNameA);
+        ProgramTest.testNum("a = 4 * 2.5;", expected10, variableNameA);
     }
     
     /**
@@ -48,12 +48,12 @@ public class MathTest {
      */
     @Test
     public void negTest() {
-        ProgramTest.test("a = -20/-2;", expected10, variableNameA);
-        ProgramTest.test("a = -10/2 + 15;", expected10, variableNameA);
-        ProgramTest.test("a = -10 + 20;", expected10, variableNameA);
-        ProgramTest.test("a = 20 + -10;", expected10, variableNameA);
-        ProgramTest.test("a = 100 ^ -2 * 100000;", expected10, variableNameA);
-        ProgramTest.test("a = 100 ^ (1/2);", expected10, variableNameA);
+        ProgramTest.testNum("a = -20/-2;", expected10, variableNameA);
+        ProgramTest.testNum("a = -10/2 + 15;", expected10, variableNameA);
+        ProgramTest.testNum("a = -10 + 20;", expected10, variableNameA);
+        ProgramTest.testNum("a = 20 + -10;", expected10, variableNameA);
+        ProgramTest.testNum("a = 100 ^ -2 * 100000;", expected10, variableNameA);
+        ProgramTest.testNum("a = 100 ^ (1/2);", expected10, variableNameA);
     }
     
     /**

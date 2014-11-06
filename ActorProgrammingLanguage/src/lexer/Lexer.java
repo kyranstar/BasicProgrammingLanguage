@@ -12,6 +12,7 @@ import lexer.Token.TokenType;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Lexer.
+ *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
@@ -27,7 +28,8 @@ public class Lexer {
     /** The matchers. */
     private final TokenMatcher[] matchers = {
             new TokenMatchers.MULTILINE_COMMENT(),
-            new TokenMatchers.LINE_COMMENT(), new TokenMatchers.SPACE(),
+            new TokenMatchers.LINE_COMMENT(), new TokenMatchers.STRING(),
+            new TokenMatchers.CHAR(), new TokenMatchers.SPACE(),
             new TokenMatchers.NUMBER(), new TokenMatchers.BOOLEAN(),
             new TokenMatchers.OPERATOR(), new TokenMatchers.BRACKETS(),
             new TokenMatchers.IF(), new TokenMatchers.IDENTIFIER() };
@@ -49,8 +51,9 @@ public class Lexer {
     /**
      * Match token.
      *
-    
-     * @return the token */
+     *
+     * @return the token
+     */
     private Token matchToken() {
         final String codeFromPosition = code.substring(lexInfo.position);
         
@@ -79,8 +82,9 @@ public class Lexer {
     /**
      * Lexes the code into tokens.
      *
-    
-     * @return the list */
+     *
+     * @return the list
+     */
     public List<Token> lex() {
         try {
             final List<Token> tokens = new ArrayList<>();

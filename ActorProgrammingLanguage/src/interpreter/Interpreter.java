@@ -33,7 +33,7 @@ public class Interpreter {
     }
 
     /**
-     * Interprets the code passed in.
+     * Interprets the passed in code.
      *
      * @param code
      *            the code
