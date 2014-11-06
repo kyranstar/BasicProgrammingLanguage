@@ -177,7 +177,7 @@ public class TokenMatchers {
     };
     
     /**
-     * The Class NUMBER.
+     * The Class STRING.
      *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
@@ -213,6 +213,47 @@ public class TokenMatchers {
         public boolean matchesNoCheck(final String code,
                 final LexerInformation lexInfo) {
             return code.charAt(0) == '"';
+        }
+        
+    };
+
+    /**
+     * The Class STRING.
+     *
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
+     */
+    public static class CHAR extends TokenMatcher {
+        
+        /*
+         * (non-Javadoc)
+         *
+         * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
+         * lexer.LexerInformation)
+         */
+        @Override
+        public Token getTokenNoCheck(String code, final LexerInformation lexInfo) {
+            final StringBuilder string = new StringBuilder();
+            string.append('\'');
+            code = code.substring(1);
+            do {
+                string.append(code.charAt(0));
+                code = code.substring(1);
+            } while (code.length() > 0 && code.charAt(0) != '\'');
+            string.append('\'');
+            return new Token(TokenType.CHAR, string.toString(), lexInfo);
+        }
+        
+        /*
+         * (non-Javadoc)
+         *
+         * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
+         * lexer.LexerInformation)
+         */
+        @Override
+        public boolean matchesNoCheck(final String code,
+                final LexerInformation lexInfo) {
+            return code.charAt(0) == '\'';
         }
         
     };
