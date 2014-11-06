@@ -3,8 +3,10 @@
  */
 package type;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import parser.ExpressionNode;
@@ -12,14 +14,11 @@ import parser.ExpressionNode;
 // TODO: Auto-generated Javadoc
 /**
  * The Class APValueList.
- * 
+ *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
 public class APValueList extends APValue<List> {
-
-    /** The Constant TYPE. */
-    private static final Class<List> TYPE = List.class;
 
     /**
      * Instantiates a new AP value bool.
@@ -38,6 +37,21 @@ public class APValueList extends APValue<List> {
      */
     @Override
     public String toString() {
+        boolean isString = true;
+        for (final Object o : getValue()) {
+            if (!(o instanceof Character)) {
+                isString = false;
+                break;
+            }
+        }
+        if (isString) {
+            final List<Character> characters = getValue();
+            final StringBuilder builder = new StringBuilder(characters.size());
+            for (final Character ch : characters) {
+                builder.append(ch);
+            }
+            return builder.toString();
+        }
         return "APValueList<" + getValue() + ">";
     }
 
@@ -48,7 +62,7 @@ public class APValueList extends APValue<List> {
      */
     @Override
     public Class<List> getType() {
-        return TYPE;
+        return List.class;
     }
 
     /*
@@ -58,7 +72,7 @@ public class APValueList extends APValue<List> {
      */
     /**
      * Method callMethod.
-     * 
+     *
      * @param method
      *            Operators
      * @param arg
@@ -66,21 +80,40 @@ public class APValueList extends APValue<List> {
      * @return APValue
      */
     @Override
-    public APValue callMethod(final Operators method, final APValue arg) {
-        if (!arg.getType().equals(TYPE)) {
-            throw new MismatchedMethodException(method
-                    + " must take two list types. Was " + TYPE + " and "
-                    + arg.getType());
-        }
-
+    public APValue<?> callMethod(final Operators method, final APValue arg) {
         switch (method) {
             case ADD:
-                return new APValueList(
-                        append(getValue(), (List) arg.getValue()));
+                return new APValueList(append(getValue(),
+                        (List<ExpressionNode>) arg.getValue()));
+            case MULTIPLY:
+                return new APValueList(multiply(getValue(),
+                        (BigDecimal) arg.getValue()));
             default:
                 throw new MismatchedMethodException("Can't call method "
                         + method + " on type list!");
         }
+    }
+    
+    private List<ExpressionNode> multiply(final List<ExpressionNode> value,
+            BigDecimal value2) {
+        boolean negative = false;
+        if (value2.compareTo(BigDecimal.ZERO) < 0) {
+            negative = true;
+            value2 = value2.negate();
+        }
+        
+        final List<ExpressionNode> b = new LinkedList<ExpressionNode>();
+
+        // if our number is greater than one
+        for (; value2.compareTo(BigDecimal.ONE) > 0; value2 = value2
+                .subtract(BigDecimal.ONE)) {
+            b.addAll(value);
+        }
+        b.addAll(value.subList(0, (int) (value.size() * value2.doubleValue())));
+        if (negative) {
+            Collections.reverse(b);
+        }
+        return b;
     }
     
     /**
@@ -90,10 +123,11 @@ public class APValueList extends APValue<List> {
      *            the value
      * @param value2
      *            the value2
-     * 
+     *
      * @return the list
      */
-    private List<ExpressionNode> append(final List value, final List value2) {
+    private List<ExpressionNode> append(final List<ExpressionNode> value,
+            final List<ExpressionNode> value2) {
         final List<ExpressionNode> newList = new ArrayList<>(value.size()
                 + value2.size());
         newList.addAll(value);

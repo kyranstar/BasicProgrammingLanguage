@@ -6,20 +6,21 @@ package lexer;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Token.
+ * 
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
 public class Token {
-    
+
     /** The text. */
     private final String text;
-    
+
     /** The type. */
     private final TokenType type;
-
+    
     /* Holds information about this token */
     private final LexerInformation info;
-    
+
     /**
      * Instantiates a new token.
      *
@@ -27,7 +28,8 @@ public class Token {
      *            the type
      * @param text
      *            the text
-     * @param currentInfo LexerInformation
+     * @param currentInfo
+     *            LexerInformation
      */
     public Token(final TokenType type, final String text,
             final LexerInformation currentInfo) {
@@ -35,37 +37,40 @@ public class Token {
         this.text = text;
         info = currentInfo;
     }
-    
+
     /**
      * Gets the text.
      *
-    
-     * @return the text */
+     * 
+     * @return the text
+     */
     public String getText() {
         return text;
     }
-    
+
     /**
      * Gets the type.
      *
-    
-     * @return the type */
+     * 
+     * @return the type
+     */
     public TokenType getType() {
         return type;
     }
-
+    
     /**
      * Gets the token informations message.
      *
-    
-     * @return the type */
+     * 
+     * @return the type
+     */
     public String getMessage() {
         return info.getMessage();
     }
-    
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -73,14 +78,15 @@ public class Token {
         return ("<" + type + "\"" + getText() + "\"" + ">").replaceAll("\n",
                 "\\\\n").replaceAll("\t", "\\\\t");
     }
-    
+
     /**
      * The Enum TokenType.
+     * 
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
     public static enum TokenType {
-        
+
         /** The number. */
         NUMBER,
         /** The space. */
@@ -123,20 +129,21 @@ public class Token {
         LESS_THAN_EQUAL,
         /** The greater than equal. */
         GREATER_THAN_EQUAL,
-        
+
         /** The open bracket. */
         OPEN_BRACKET,
-        
+
         /** The close bracket. */
         CLOSE_BRACKET,
         OPEN_CURLY,
         CLOSE_CURLY,
-        COMMENT;
+        COMMENT,
+        STRING;
     }
-    
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -147,10 +154,10 @@ public class Token {
         result = prime * result + (type == null ? 0 : type.hashCode());
         return result;
     }
-    
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -177,5 +184,5 @@ public class Token {
         }
         return true;
     }
-    
+
 }
