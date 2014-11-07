@@ -14,7 +14,7 @@ import lexer.Token.TokenType;
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
-public class TokenMatchers {
+public final class TokenMatchers {
     
     /**
      * Instantiates a new token matchers.
@@ -313,6 +313,7 @@ public class TokenMatchers {
         static {
             OPERATORS.add(new StringToOperator(";", TokenType.SEMI));
             OPERATORS.add(new StringToOperator(",", TokenType.COMMA));
+            OPERATORS.add(new StringToOperator("->", TokenType.ARROW));
             OPERATORS.add(new StringToOperator("=", TokenType.EQUAL));
             
             OPERATORS.add(new StringToOperator("*", TokenType.MULDIV));
@@ -406,10 +407,10 @@ public class TokenMatchers {
     public static class IF extends TokenMatcher {
         
         /** The if string. */
-        final String ifString = "if";
+        private final static String IF_STRING = "if";
         
         /** The else string. */
-        final String elseString = "else";
+        private final static String ELSE_STRING = "else";
         
         /*
          * (non-Javadoc)
@@ -421,10 +422,10 @@ public class TokenMatchers {
         protected Token getTokenNoCheck(final String code,
                 final LexerInformation lexInfo) {
             
-            if (code.startsWith(ifString)) {
-                return new Token(TokenType.IF, ifString, lexInfo);
+            if (code.startsWith(IF_STRING)) {
+                return new Token(TokenType.IF, IF_STRING, lexInfo);
             } else {
-                return new Token(TokenType.ELSE, elseString, lexInfo);
+                return new Token(TokenType.ELSE, ELSE_STRING, lexInfo);
             }
         }
         
@@ -437,7 +438,7 @@ public class TokenMatchers {
         @Override
         protected boolean matchesNoCheck(final String code,
                 final LexerInformation lexInfo) {
-            return code.startsWith(ifString) || code.startsWith(elseString);
+            return code.startsWith(IF_STRING) || code.startsWith(ELSE_STRING);
         }
         
     }

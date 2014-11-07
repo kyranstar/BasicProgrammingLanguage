@@ -4,7 +4,7 @@
 package parser.checking;
 
 /**
- * The Class ParserException.
+ * The Class compilerException.
  *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
@@ -12,7 +12,7 @@ package parser.checking;
 public class CompilerException extends Exception {
 
     /**
-     * Instantiates a new parser exception.
+     * Instantiates a new compiler exception.
      *
      * @param string
      *            the string
@@ -22,14 +22,14 @@ public class CompilerException extends Exception {
     }
 
     /**
-     * Instantiates a new parser exception.
+     * Instantiates a new compiler exception.
      */
     public CompilerException() {
         super();
     }
 
     /**
-     * Instantiates a new parser exception.
+     * Instantiates a new compiler exception.
      *
      * @param arg0
      *            the arg0
@@ -46,7 +46,7 @@ public class CompilerException extends Exception {
     }
 
     /**
-     * Instantiates a new parser exception.
+     * Instantiates a new compiler exception.
      *
      * @param arg0
      *            the arg0
@@ -58,7 +58,7 @@ public class CompilerException extends Exception {
     }
 
     /**
-     * Instantiates a new parser exception.
+     * Instantiates a new compiler exception.
      *
      * @param arg0
      *            the arg0

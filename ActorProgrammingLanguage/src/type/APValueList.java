@@ -59,16 +59,6 @@ public class APValueList extends APValue<List> {
     /*
      * (non-Javadoc)
      * 
-     * @see type.APValue#getType()
-     */
-    @Override
-    public Class<List> getType() {
-        return List.class;
-    }
-    
-    /*
-     * (non-Javadoc)
-     * 
      * @see type.APValue#callMethod(type.APValue.Methods, type.APValue)
      */
     /**
@@ -84,12 +74,12 @@ public class APValueList extends APValue<List> {
     public APValue<?> callMethod(final Operators method, final APValue arg) {
         switch (method) {
             case ADD:
-                if (arg.getType() == List.class) {
+                if (arg.getClass() == APValueList.class) {
                     return new APValueList(append(getValue(),
                             (List<ExpressionNode>) arg.getValue()));
                 }
             case MULTIPLY:
-                if (arg.getType() == BigDecimal.class) {
+                if (arg.getClass() == APValueNum.class) {
                     return new APValueList(multiply(getValue(),
                             (BigDecimal) arg.getValue()));
                 }

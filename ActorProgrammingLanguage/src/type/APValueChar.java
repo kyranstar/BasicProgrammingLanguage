@@ -12,17 +12,12 @@ public class APValueChar extends APValue<Character> {
     public String toString() {
         return "APValueChar<" + getValue() + ">";
     }
-    
-    @Override
-    public Class getType() {
-        return Character.class;
-    }
 
     @Override
     public APValue callMethod(final Operators s, final APValue arg) {
         switch (s) {
             case ADD:
-                if (arg.getType() == BigDecimal.class) {
+                if (arg.getClass() == APValueNum.class) {
                     return new APValueChar(
                             (char) (getValue() + ((BigDecimal) arg.getValue())
                                     .intValue()));
@@ -31,6 +26,6 @@ public class APValueChar extends APValue<Character> {
                 }
         }
         throw new MismatchedMethodException("Can't call method " + s
-                + " on type char with param " + arg.getType().getSimpleName());
+                + " on type char with param " + arg.getClass().getSimpleName());
     }
 }

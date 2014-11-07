@@ -121,6 +121,12 @@ public class ProgramTest {
         expectOutput("f a b = a + b - 1; println(f(10,1));", "10");
     }
 
+    @Test
+    public void testFuncSameName() {
+        expectOutput("f a = 10; f a b = 11; println(f (1)); println(f(1,2));",
+                "10\r\n11");
+    }
+
     /**
      * Test fibonacci sequence.
      */

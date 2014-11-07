@@ -3,12 +3,11 @@
  */
 package type;
 
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class APValue. Holds a value
  *
- * 
+ *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
@@ -19,11 +18,6 @@ public abstract class APValue<T> {
         @Override
         public String toString() {
             return "VOID";
-        }
-        
-        @Override
-        public Class<Void> getType() {
-            return Void.class;
         }
         
         @Override
@@ -39,7 +33,7 @@ public abstract class APValue<T> {
     
     /**
      * The Class APValueBool.
-     * 
+     *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
@@ -87,17 +81,9 @@ public abstract class APValue<T> {
     }
     
     /**
-     * Gets the type.
-     *
-     * 
-     * @return the type
-     */
-    public abstract Class<T> getType();
-    
-    /**
      * Gets the value.
      *
-     * 
+     *
      * @return the value
      */
     public T getValue() {
@@ -111,7 +97,7 @@ public abstract class APValue<T> {
      *            the s
      * @param arg
      *            the arg
-     * 
+     *
      * @return the AP value
      */
     public abstract APValue callMethod(Operators s, APValue arg);

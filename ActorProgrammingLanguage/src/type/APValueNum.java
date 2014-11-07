@@ -36,16 +36,6 @@ public class APValueNum extends APValue<BigDecimal> {
     public String toString() {
         return "APValueNum<" + getValue() + ">";
     }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see type.APValue#getType()
-     */
-    @Override
-    public Class<BigDecimal> getType() {
-        return BigDecimal.class;
-    }
     
     /** The number of decimals to round to if a repeating decimal occurs (10/3). */
     public static final int DECIMALS = 50;
@@ -100,7 +90,7 @@ public class APValueNum extends APValue<BigDecimal> {
                         (BigDecimal) arg.getValue()) <= 0);
             default:
                 throw new MismatchedMethodException("Can't call method " + s
-                        + " on type " + getType() + " and " + arg.getType());
+                        + " on type " + getClass() + " and " + arg.getClass());
         }
     }
 }
