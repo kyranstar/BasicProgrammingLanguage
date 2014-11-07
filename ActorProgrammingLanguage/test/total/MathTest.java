@@ -4,13 +4,16 @@
 package total;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import org.junit.Test;
+
+import type.APValueNum;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class MathTest.
- * 
+ *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
@@ -78,6 +81,25 @@ public class MathTest {
         ProgramTest.testParserException("a = 3 && 4");
         ProgramTest.testParserException("a = 4 && false");
         ProgramTest.testParserException("a = true && 3");
+    }
+
+    /**
+     * Test divide by zero.
+     */
+    @Test(expected = ArithmeticException.class)
+    public void testDivideByZero() {
+        ProgramTest.testNum("a = 20/0;", expected10, variableNameA);
+    }
+
+    /**
+     * Test rational.
+     */
+    @Test
+    public void testRational() {
+        ProgramTest.testNum("a = 10/3;",
+                new BigDecimal("10").divide(new BigDecimal("3"),
+                        APValueNum.DECIMALS, RoundingMode.HALF_UP),
+                variableNameA);
     }
 
 }
