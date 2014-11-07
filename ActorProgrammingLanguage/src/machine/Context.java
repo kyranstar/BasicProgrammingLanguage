@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import type.APValue;
+import type.APValueFunction;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Context stores variable and function mappings.
  *
@@ -22,10 +22,7 @@ import type.APValue;
 public class Context {
     
     /** The variable mapping. */
-    private Map<String, APValue> variables;
-    
-    /** The function mapping. */
-    private Map<FunctionSignature, Function> functions;
+    private Map<FunctionSignature, APValue> variables;
 
     /** The parent. */
     Optional<Context> parent;
@@ -41,7 +38,6 @@ public class Context {
      */
     public Context(final PrintStream p) {
         setVariables(new HashMap<>());
-        functions = new HashMap<>();
         parent = Optional.empty();
         outputStream = p;
         
@@ -56,7 +52,6 @@ public class Context {
      */
     public Context(final Context parent) {
         setVariables(new HashMap<>());
-        functions = new HashMap<>();
         this.parent = Optional.of(parent);
         outputStream = parent.getOutputStream();
     }
@@ -69,7 +64,7 @@ public class Context {
      * @param value
      *            the en
      */
-    public void putVariable(final String name, final APValue value) {
+    public void putVariable(final FunctionSignature name, final APValue value) {
         // If this context has a parent
         if (parent.isPresent()) {
             // If that parent has the variable we are assigning
@@ -81,65 +76,23 @@ public class Context {
         }
         getVariables().put(name, value);
     }
-    
-    /**
-     * Put function.
-     *
-     *
-     * @param func
-     *            the func
-     */
-    public void putFunction(final Function func) {
-        // If this context has a parent
-        if (parent.isPresent()) {
-            // If that parent has the variable we are assigning
-            if (parent.get().getFunction(func.signature) != null) {
-                // Put it to the parent instead
-                parent.get().putFunction(func);
-                return;
-            }
-        }
-        getFunctions().put(func.signature, func);
-    }
-    
+
     /**
      * Gets the variable with a given name.
      *
-     * @param name
+     * @param functionSignature
      *            the s
      *
      * @return the variable
      */
-    public APValue getVariable(final String name) {
-        APValue node = getVariables().get(name);
+    public APValue getVariable(final FunctionSignature functionSignature) {
+        APValue node = getVariables().get(functionSignature);
         if (node == null) {
             if (parent.isPresent()) {
-                node = parent.get().getVariable(name);
+                node = parent.get().getVariable(functionSignature);
             } else {
-                throw new ContextException("Could not find value for <" + name
-                        + ">");
-            }
-        }
-        return node;
-        
-    }
-    
-    /**
-     * Gets the function with a given signature.
-     *
-     * @param signature
-     *            the function signature
-     *
-     * @return the function
-     */
-    public Function getFunction(final FunctionSignature signature) {
-        Function node = getFunctions().get(signature);
-        if (node == null) {
-            if (parent.isPresent()) {
-                node = parent.get().getFunction(signature);
-            } else {
-                throw new ContextException(
-                        "Could not find function with name <" + signature + ">");
+                throw new ContextException("Could not find value for <"
+                        + functionSignature + ">");
             }
         }
         return node;
@@ -162,7 +115,7 @@ public class Context {
      *
      * @return the variables
      */
-    public Map<String, APValue> getVariables() {
+    public Map<FunctionSignature, APValue> getVariables() {
         return variables;
     }
     
@@ -172,7 +125,7 @@ public class Context {
      * @param variables
      *            the variable map
      */
-    public void setVariables(final Map<String, APValue> variables) {
+    public void setVariables(final Map<FunctionSignature, APValue> variables) {
         this.variables = variables;
     }
     
@@ -196,30 +149,14 @@ public class Context {
         outputStream = p;
     }
 
-    /**
-     * Gets the functions map.
-     *
-     *
-     * @return the functions
-     */
-    public Map<FunctionSignature, Function> getFunctions() {
-        return functions;
-    }
-    
-    /**
-     * Sets the functions map.
-     *
-     * @param functions
-     *            the functions
-     */
-    public void setFunctions(final Map<FunctionSignature, Function> functions) {
-        this.functions = functions;
-    }
-
     @Override
     public String toString() {
-        return "Context [variables=" + variables + ", functions=" + functions
-                + ", outputStream=" + outputStream + "]";
+        return "Context [variables=" + variables + ", outputStream="
+                + outputStream + "]";
+    }
+    
+    public void putFunction(final Function function) {
+        putVariable(function.signature, new APValueFunction(function));
     }
     
 }

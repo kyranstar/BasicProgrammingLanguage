@@ -14,7 +14,6 @@ import parser.ExpressionNode.VariableNode;
 import type.APValueChar;
 import type.APValueNum;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ListTest.
  *
@@ -84,28 +83,7 @@ public class ListTest {
     public void sublistDoubleParam() {
         ProgramTest.test("a = sublist ([10,4,1,2], 2, 4);", ONE_TWO_LIST, "a");
     }
-    
-    @Test
-    public void sublistSingleParam2() {
-        ProgramTest.test("a = sublist ([10,1,2], 1);", ONE_TWO_LIST, "a");
-    }
-    
-    @Test
-    public void sublistSingleParam() {
-        ProgramTest.test("a = sublist ([10,4,1,2], 2);", ONE_TWO_LIST, "a");
-    }
-    
-    @Test
-    public void sublistTooHighSingleParam() {
-        ProgramTest.testIndexOutOfBoundsException("a = sublist ([10,1,2], 4);");
-    }
-    
-    @Test
-    public void subListNegativeSingleParam() {
-        ProgramTest
-        .testIndexOutOfBoundsException("a = sublist ([10,4,1,2], -1);");
-    }
-    
+
     @Test
     public void charTest() {
         ProgramTest.test("a = \"Hi\";", Arrays.asList(new ConstantNode(

@@ -13,6 +13,7 @@ import machine.Function;
 import machine.FunctionSignature;
 import type.APValue;
 import type.APValue.Operators;
+import type.APValueFunction;
 import type.APValueList;
 
 /**
@@ -211,10 +212,12 @@ public abstract class ExpressionNode<T> {
             // We don't want a child scope because then it can affect variables
             // outside of scope.
             final Context c = new Context(context.getOutputStream());
-            c.setFunctions(context.getFunctions());
-
-            final Function func = context.getFunction(new FunctionSignature(
-                    name, parameters.size()));
+            
+            final APValue valueFunction = context
+                    .getVariable(new FunctionSignature(name));
+            final Function func = (Function) valueFunction.getValue();
+            // give it access to itself
+            c.putFunction(func);
 
             if (parameters.size() != func.parameters.size()) {
                 throw new ParserException("You gave " + parameters.size()
@@ -227,7 +230,8 @@ public abstract class ExpressionNode<T> {
             for (int i = 0; i < parameters.size(); i++) {
                 final ExpressionNode given = parameters.get(i);
                 final String name = func.parameters.get(i).name;
-                c.putVariable(name, given.getValue(context));
+                c.putVariable(new FunctionSignature(name),
+                        given.getValue(context));
             }
             
             final APValue returnVal = func.body.getValue(c);
@@ -296,7 +300,8 @@ public abstract class ExpressionNode<T> {
         @Override
         public APValue getValue(final Context context) {
             final APValue expr = this.expression.getValue(context);
-            context.putVariable(variable.name, expression.getValue(context));
+            context.putVariable(new FunctionSignature(variable.name),
+                    expression.getValue(context));
             return expr;
         }
 
@@ -348,7 +353,54 @@ public abstract class ExpressionNode<T> {
         }
 
     }
+    
+    /**
+     * The Class AssignmentNode.
+     *
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
+     */
+    public static class FunctionDefNode extends ExpressionNode {
 
+        /** The variable to assign to. */
+        private final Function func;
+
+        /**
+         * Instantiates a new assignment node.
+         *
+         * @param expr
+         *            the variable to assign to
+         * @param assigned
+         *            the assigned expression
+         */
+        public FunctionDefNode(final Function func) {
+            super(null);
+            this.func = func;
+        }
+
+        /*
+         * (non-Javadoc)
+         *
+         * @see parser.ExpressionNode#toString()
+         */
+        @Override
+        public String toString() {
+            return func.toString();
+        }
+
+        /*
+         * (non-Javadoc)
+         *
+         * @see parser.ExpressionNode#getValue(machine.Context)
+         */
+        @Override
+        public APValue getValue(final Context context) {
+            context.putFunction(func);
+            return new APValueFunction(func);
+        }
+
+    }
+    
     /**
      * The Class EqualNode.
      *
@@ -579,7 +631,7 @@ public abstract class ExpressionNode<T> {
         }
 
     }
-
+    
     /**
      * The Class AndNode.
      *
@@ -866,7 +918,7 @@ public abstract class ExpressionNode<T> {
          */
         @Override
         public APValue getValue(final Context c) {
-            return c.getVariable(name);
+            return c.getVariable(new FunctionSignature(name));
         }
 
         /**

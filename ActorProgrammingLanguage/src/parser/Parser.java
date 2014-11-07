@@ -110,14 +110,6 @@ public class Parser {
         }
     }
     
-    /**
-     * Statement.
-     *
-     * @param context
-     *            the context
-     *
-     * @return the expression node
-     */
     private ExpressionNode statement(final Context context) {
         final VariableNode expr = identifier();
         nextToken();
@@ -157,7 +149,7 @@ public class Parser {
             throw new ParserException(
                     "Non function call, assignment, or function def statement");
         }
-        
+
     }
     
     /**
@@ -344,15 +336,23 @@ public class Parser {
                 throw new ParserException("Expected CLOSE_CURLY");
             }
             nextToken();
-            return lowOp(new ListIndexNode(expr, insideParens), context);
+            return highOp(new ListIndexNode(expr, insideParens), context);
 
+        } else if (lookahead.getType() == TokenType.OPEN_PARENS) {
+            if (expr.getClass() != VariableNode.class) {
+                throw new ParserException(
+                        "Can't call function on a non function value");
+            }
+
+            return highOp(functionParameters(context, (VariableNode) expr),
+                    context);
         } else {
             // term_op -> EPSILON
             return expr;
         }
-        
+
     }
-    
+
     /**
      * Signed factor.
      *
@@ -378,7 +378,7 @@ public class Parser {
             return factor(context);
         }
     }
-    
+
     /**
      * matches a factor.
      *
@@ -391,7 +391,7 @@ public class Parser {
         // factor -> argument factor_op
         return factorOp(argument(context), context);
     }
-    
+
     /**
      * matches a factor operation.
      *
@@ -409,13 +409,13 @@ public class Parser {
             nextToken();
             final ExpressionNode exponent = signedFactor(context);
             return new ExponentiationNode(expression, exponent);
-            
+
         } else {
             // factor_op -> EPSILON
             return expression;
         }
     }
-    
+
     /**
      * matches an argument.
      *
@@ -429,12 +429,12 @@ public class Parser {
             // argument -> OPEN_BRACKET sum CLOSE_BRACKET
             nextToken();
             final ExpressionNode node = expression(context);
-            
+
             if (lookahead.getType() != TokenType.CLOSE_PARENS) {
                 throw new ParserException("Closing brackets expected and "
                         + lookahead.getText() + " found instead");
             }
-            
+
             nextToken();
             return node;
         } else {
@@ -442,7 +442,7 @@ public class Parser {
             return value(context);
         }
     }
-    
+
     /**
      * matches a signed term.
      *
@@ -468,7 +468,7 @@ public class Parser {
             return term(context);
         }
     }
-    
+
     /**
      * matches a value.
      *
@@ -488,36 +488,30 @@ public class Parser {
             return matchChar();
         } else if (lookahead.getType() == TokenType.OPEN_BRACKET) {
             return matchList(context);
-        }
-        
-        else if (lookahead.getType() == TokenType.IDENTIFIER) {
-            
+        } else if (lookahead.getType() == TokenType.IDENTIFIER) {
             final VariableNode expr = identifier();
             nextToken();
-            if (lookahead.getType() == TokenType.OPEN_PARENS) {
-                return functionParameters(context, expr);
-            }
             return expr;
         } else {
             throw new ParserException("Unexpected token " + lookahead
                     + " found");
         }
     }
-    
+
     private ExpressionNode matchBoolean() {
         final ExpressionNode.ConstantNode expr = new ExpressionNode.ConstantNode(
                 new APValueBool(Boolean.parseBoolean(lookahead.getText())));
         nextToken();
         return expr;
     }
-    
+
     private ExpressionNode matchNumber() {
         final ExpressionNode.ConstantNode expr = new ExpressionNode.ConstantNode(
                 new APValueNum(new BigDecimal(lookahead.getText())));
         nextToken();
         return expr;
     }
-    
+
     private ExpressionNode matchList(final Context context) {
         final List<ExpressionNode> nodes = new ArrayList<>();
         while (lookahead.getType() != TokenType.CLOSE_BRACKET) {
@@ -527,7 +521,7 @@ public class Parser {
         nextToken();
         return new ExpressionNode.ConstantNode(new APValueList(nodes));
     }
-    
+
     private ExpressionNode matchString() {
         final String stringMinusQuotes = lookahead.getText().substring(1,
                 lookahead.getText().length() - 1);
@@ -536,7 +530,7 @@ public class Parser {
         nextToken();
         return expr;
     }
-    
+
     private ExpressionNode matchChar() {
         final String charMinusQuotes = lookahead.getText().substring(1,
                 lookahead.getText().length() - 1);
@@ -557,7 +551,7 @@ public class Parser {
                     "Character literal must be one character long");
         }
     }
-    
+
     private List<ExpressionNode> stringToList(final String text) {
         final List<ExpressionNode> list = new ArrayList<>();
         for (final Character c : text.toCharArray()) {
@@ -595,7 +589,7 @@ public class Parser {
             nextToken();
             return node;
         }
-        
+
         while (lookahead.getType() != TokenType.CLOSE_PARENS) {
             if (lookahead.getType() != TokenType.COMMA) {
                 throw new ParserException("Expected comma, got " + lookahead);
@@ -604,10 +598,10 @@ public class Parser {
             parameters.add(expression(context));
         }
         nextToken();
-        
+
         return new ExpressionNode.FunctionCallNode(expr.getName(), parameters);
     }
-    
+
     /**
      * Matches an identifier.
      *

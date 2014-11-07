@@ -11,33 +11,34 @@ import parser.ExpressionNode.VariableNode;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Function.
+ * 
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
 public class Function {
-    
+
     /** The body. */
     public final ExpressionNode body;
-    
+
     /** The parameters. */
     public final List<VariableNode> parameters;
-    
+
     /** The name. */
     public final FunctionSignature signature;
-    
+
     /**
      * Instantiates a new function.
      *
-     * @param name2
-     *            the name2
+     * @param name
+     *            the name
      * @param parameters
      *            the parameters
      * @param body
      *            the body
      */
-    public Function(final String name2, final List<VariableNode> parameters,
+    public Function(final String name, final List<VariableNode> parameters,
             final ExpressionNode body) {
-        signature = new FunctionSignature(name2, parameters.size());
+        signature = new FunctionSignature(name);
         this.parameters = parameters;
         this.body = body;
     }
