@@ -1,8 +1,12 @@
 package total;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 import org.junit.Test;
+
+import parser.ExpressionNode.ConstantNode;
+import type.APValueNum;
 
 public class FunctionTest {
     
@@ -54,6 +58,28 @@ public class FunctionTest {
         ProgramTest.expectOutput("f a b = a + b - 1; println(f(10,1));", "10");
     }
 
+    @Test
+    public void testBinaryFunction() {
+        ProgramTest.testNum("sum a b = a + b; a = 6 sum 4;",
+                new BigDecimal(10), "a");
+    }
+    
+    @Test
+    public void testMap() {
+        ProgramTest.test("a = map([1,2,3], lambda b -> b+1);", Arrays.asList(
+                new ConstantNode(new APValueNum(new BigDecimal("2"))),
+                new ConstantNode(new APValueNum(new BigDecimal("3"))),
+                new ConstantNode(new APValueNum(new BigDecimal("4")))), "a");
+    }
+
+    @Test
+    public void testMapBinary() {
+        ProgramTest.test("a = [3,2,4] map lambda a -> a*2;", Arrays.asList(
+                new ConstantNode(new APValueNum(new BigDecimal("6"))),
+                new ConstantNode(new APValueNum(new BigDecimal("4"))),
+                new ConstantNode(new APValueNum(new BigDecimal("8")))), "a");
+    }
+    
     /**
      * Test fibonacci sequence.
      */

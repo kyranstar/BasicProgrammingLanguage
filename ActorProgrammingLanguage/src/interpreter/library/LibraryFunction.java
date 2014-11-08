@@ -4,14 +4,17 @@
 package interpreter.library;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import machine.Context;
 import machine.Function;
+import machine.FunctionSignature;
 import math.BigDecimalMath;
 import parser.ExpressionNode;
 import parser.ExpressionNode.VariableNode;
+import parser.ParserException;
 import type.APValue;
 import type.APValueList;
 import type.APValueNum;
@@ -23,13 +26,13 @@ import type.APValueNum;
  * @version $Revision: 1.0 $
  */
 public final class LibraryFunction {
-    
+
     /**
      * Private constructor, this is a utility class.
      */
     private LibraryFunction() {
     }
-    
+
     /**
      * Apply library functions.
      *
@@ -40,11 +43,43 @@ public final class LibraryFunction {
      */
     public static Context applyLibraryFunctions(final Context context) {
         sublistFunction(context);
+        mapFunction(context);
         printFunctions(context);
         mathFunctions(context);
         return context;
     }
+    
+    private static void mapFunction(final Context context) {
+        final String arg1 = "list";
+        final String arg2 = "func";
+        context.putFunction(new Function("map", Arrays.asList(new VariableNode(
+                arg1), new VariableNode(arg2)), new ExpressionNode<Void>(null) {
+            @Override
+            public APValue getValue(final Context context) {
+                final List<ExpressionNode> numArg = (List<ExpressionNode>) new VariableNode(
+                        arg1).getValue(context).getValue();
+                final Function function = (Function) new VariableNode(arg2)
+                        .getValue(context).getValue();
+                final List<ExpressionNode> result = new ArrayList<>(numArg
+                        .size());
 
+                if (function.parameters.size() != 1) {
+                    throw new ParserException(
+                            "Lambda function passed to map must only have one argument");
+                }
+
+                for (final ExpressionNode v : numArg) {
+                    final Context c = new Context(context.getOutputStream());
+                    c.putVariable(new FunctionSignature(function.parameters
+                            .get(0).getName()), v.getValue(c));
+                    result.add(new ConstantNode(function.body.getValue(c)));
+                }
+
+                return new APValueList(result);
+            }
+        }));
+    }
+    
     /*
      * Math functions. sqrt, sin, cosine, tan
      */
@@ -52,16 +87,16 @@ public final class LibraryFunction {
         final String argName = "a";
         context.putFunction(new Function("sqrt", Arrays
                 .asList(new VariableNode(argName)), new ExpressionNode<Void>(
-                        null) {
+                null) {
             @Override
             public APValue getValue(final Context context) {
                 final BigDecimal numArg = (BigDecimal) new VariableNode(argName)
-                        .getValue(context).getValue();
+                .getValue(context).getValue();
                 return new APValueNum(BigDecimalMath.sqrt(numArg));
             }
         }));
     }
-    
+
     /**
      * Sublist function. First number is inclusive, second is exclusive.
      *
@@ -74,11 +109,11 @@ public final class LibraryFunction {
         final String listArg = "a";
         final String firstIndexArg = "b";
         final String secondIndexArg = "c";
-        
+
         context.putFunction(new Function("sublist", Arrays.asList(
                 new VariableNode(listArg), new VariableNode(firstIndexArg),
                 new VariableNode(secondIndexArg)), new ExpressionNode<Void>(
-                null) {
+                        null) {
             @Override
             public APValue getValue(final Context context) {
                 final int firstIndex = ((BigDecimal) new VariableNode(
@@ -87,14 +122,14 @@ public final class LibraryFunction {
                 final int secondIndex = ((BigDecimal) new VariableNode(
                         secondIndexArg).getValue(context).getValue())
                         .intValueExact();
-                
+
                 final List<ExpressionNode> list = (List<ExpressionNode>) new VariableNode(
                         listArg).getValue(context).getValue();
                 return new APValueList(list.subList(firstIndex, secondIndex));
             }
         }));
     }
-    
+
     /**
      * Println and print function.
      *
@@ -103,10 +138,10 @@ public final class LibraryFunction {
      */
     private static void printFunctions(final Context context) {
         final String argName = "a";
-        
+
         context.putFunction(new Function("println", Arrays
                 .asList(new VariableNode(argName)), new ExpressionNode<Void>(
-                null) {
+                        null) {
             @Override
             public APValue getValue(final Context context) {
                 context.getOutputStream().println(
@@ -116,7 +151,7 @@ public final class LibraryFunction {
         }));
         context.putFunction(new Function("print", Arrays
                 .asList(new VariableNode(argName)), new ExpressionNode<Void>(
-                null) {
+                        null) {
             @Override
             public APValue getValue(final Context context) {
                 context.getOutputStream().print(
