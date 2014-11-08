@@ -17,6 +17,24 @@ public class FunctionTest {
         // g expects two params, giving it one
         ProgramTest.testParserException("f a = a(1); g b c = 10; a = f (g);");
     }
+
+    @Test
+    public void testLambda() {
+        ProgramTest.testNum("f a = a(1); a = f (lambda b -> 10);",
+                new BigDecimal(10), "a");
+    }
+    
+    @Test
+    public void testLambda2() {
+        ProgramTest.testNum("f a = a(6,4); a = f (lambda b,c -> b+c);",
+                new BigDecimal(10), "a");
+    }
+
+    @Test
+    public void testLambdaClojure() {
+        ProgramTest
+        .testContextException("f a = a(6,4); d = 5; a = f (lambda b,c -> d+b+c);");
+    }
     
     /**
      * Test function definition.

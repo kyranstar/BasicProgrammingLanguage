@@ -24,19 +24,19 @@ import type.APValueList;
  * @version $Revision: 1.0 $
  */
 public abstract class ExpressionNode<T> {
-
+    
     /** The Constant VOID. */
     public static final ExpressionNode VOID = new ExpressionNode<Void>(null) {
-
+        
         @Override
         public APValue<Void> getValue(final Context context) {
             return APValue.VOID;
         }
     };
-
+    
     /** The terms of an expression. In "3+4" the terms are 3 and 4. */
     private final List<ExpressionNode<T>> terms;
-
+    
     /**
      * Instantiates a new expression node.
      *
@@ -46,7 +46,7 @@ public abstract class ExpressionNode<T> {
     public ExpressionNode(final List<ExpressionNode<T>> terms) {
         this.terms = terms;
     }
-
+    
     /**
      * Gets the term.
      *
@@ -58,17 +58,17 @@ public abstract class ExpressionNode<T> {
     protected ExpressionNode<T> getTerm(final int i) {
         return terms.get(i);
     }
-
+    
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
         return getClass().getSimpleName() + "<" + terms + ">";
     }
-
+    
     /**
      * Gets the value of the expression in the context.
      *
@@ -78,10 +78,10 @@ public abstract class ExpressionNode<T> {
      * @return the expressions value in context
      */
     public abstract APValue<T> getValue(Context context);
-
+    
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -91,10 +91,10 @@ public abstract class ExpressionNode<T> {
         result = prime * result + (terms == null ? 0 : terms.hashCode());
         return result;
     }
-
+    
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -118,7 +118,7 @@ public abstract class ExpressionNode<T> {
         }
         return true;
     }
-
+    
     /**
      * The Class ConstantNode. Represents a constant, for example "true" or "3"
      *
@@ -126,10 +126,10 @@ public abstract class ExpressionNode<T> {
      * @version $Revision: 1.0 $
      */
     public static class ConstantNode extends ExpressionNode {
-
+        
         /** The value. */
         APValue v;
-
+        
         /**
          * Instantiates a new constant node.
          *
@@ -140,29 +140,29 @@ public abstract class ExpressionNode<T> {
             super(null);
             v = apValue;
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#toString()
          */
         @Override
         public String toString() {
             return ConstantNode.class.getSimpleName() + "<" + v + ">";
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
         public APValue getValue(final Context c) {
             return v;
         }
-
+        
     }
-
+    
     /**
      * The Class FunctionCallNode. Represents a function call
      *
@@ -170,13 +170,13 @@ public abstract class ExpressionNode<T> {
      * @version $Revision: 1.0 $
      */
     public static class FunctionCallNode extends ExpressionNode {
-
+        
         /** The function name. */
         private final String name;
-
+        
         /** The parameters. */
         private final List<ExpressionNode> parameters;
-
+        
         /**
          * Instantiates a new function call node.
          *
@@ -191,20 +191,20 @@ public abstract class ExpressionNode<T> {
             this.name = name;
             this.parameters = parameters;
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#toString()
          */
         @Override
         public String toString() {
             return name + "(" + parameters + ")";
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
@@ -212,20 +212,20 @@ public abstract class ExpressionNode<T> {
             // We don't want a child scope because then it can affect variables
             // outside of scope.
             final Context c = new Context(context.getOutputStream());
-            
+
             final APValue valueFunction = context
                     .getVariable(new FunctionSignature(name));
             final Function func = (Function) valueFunction.getValue();
             // give it access to itself
             c.putFunction(func);
-
+            
             if (parameters.size() != func.parameters.size()) {
                 throw new ParserException("You gave " + parameters.size()
                         + " parameter(s), function " + func.signature
                         + " requires " + func.parameters.size()
                         + " parameter(s).");
             }
-
+            
             // Put all parameters in function scope
             for (int i = 0; i < parameters.size(); i++) {
                 final ExpressionNode given = parameters.get(i);
@@ -233,7 +233,7 @@ public abstract class ExpressionNode<T> {
                 c.putVariable(new FunctionSignature(name),
                         given.getValue(context));
             }
-            
+
             final APValue returnVal = func.body.getValue(c);
             // The reason we have to simplify a list before we return it is if
             // the list uses the parameters. This means that if you return
@@ -248,11 +248,11 @@ public abstract class ExpressionNode<T> {
                 }
                 return new APValueList(simplifiedNodes);
             }
-
+            
             return returnVal;
         }
     }
-
+    
     /**
      * The Class AssignmentNode.
      *
@@ -260,13 +260,13 @@ public abstract class ExpressionNode<T> {
      * @version $Revision: 1.0 $
      */
     public static class AssignmentNode extends ExpressionNode {
-
+        
         /** The variable to assign to. */
         private final VariableNode variable;
-
+        
         /** The expression to assign to the variable. */
         private final ExpressionNode expression;
-
+        
         /**
          * Instantiates a new assignment node.
          *
@@ -281,20 +281,20 @@ public abstract class ExpressionNode<T> {
             variable = expr;
             this.expression = assigned;
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#toString()
          */
         @Override
         public String toString() {
             return variable + " = " + expression;
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
@@ -304,9 +304,9 @@ public abstract class ExpressionNode<T> {
                     expression.getValue(context));
             return expr;
         }
-
+        
     }
-
+    
     /**
      * The Class IfNode. Represents if else expression
      *
@@ -314,7 +314,7 @@ public abstract class ExpressionNode<T> {
      * @version $Revision: 1.0 $
      */
     public static class IfNode extends ExpressionNode {
-
+        
         /**
          * Instantiates a new if node.
          *
@@ -329,10 +329,10 @@ public abstract class ExpressionNode<T> {
                 final ExpressionNode thenExpr, final ExpressionNode elseExpr) {
             super(Arrays.asList(ifExpr, thenExpr, elseExpr));
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
@@ -351,20 +351,20 @@ public abstract class ExpressionNode<T> {
                 return getTerm(2).getValue(context);
             }
         }
-
+        
     }
-    
+
     /**
      * The Class AssignmentNode.
      *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
-    public static class FunctionDefNode extends ExpressionNode {
-
+    public static class LambdaNode extends ExpressionNode {
+        
         /** The variable to assign to. */
         private final Function func;
-
+        
         /**
          * Instantiates a new assignment node.
          *
@@ -373,34 +373,33 @@ public abstract class ExpressionNode<T> {
          * @param assigned
          *            the assigned expression
          */
-        public FunctionDefNode(final Function func) {
+        public LambdaNode(final Function func) {
             super(null);
             this.func = func;
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#toString()
          */
         @Override
         public String toString() {
             return func.toString();
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
         public APValue getValue(final Context context) {
-            context.putFunction(func);
             return new APValueFunction(func);
         }
-
+        
     }
-    
+
     /**
      * The Class EqualNode.
      *
@@ -408,7 +407,7 @@ public abstract class ExpressionNode<T> {
      * @version $Revision: 1.0 $
      */
     public static class EqualNode extends ExpressionNode {
-
+        
         /**
          * Instantiates a new equal (comparison) node.
          *
@@ -421,22 +420,22 @@ public abstract class ExpressionNode<T> {
                 final ExpressionNode<? extends Comparable> secondTerm) {
             super(Arrays.asList(firstTerm, secondTerm));
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
         public APValue getValue(final Context c) {
             final APValue termOne = getTerm(0).getValue(c);
             final APValue termTwo = getTerm(1).getValue(c);
-
+            
             return termOne.callMethod(Operators.EQUAL, termTwo);
         }
-
+        
     }
-
+    
     /**
      * The Class GreaterThanEqualNode.
      *
@@ -444,7 +443,7 @@ public abstract class ExpressionNode<T> {
      * @version $Revision: 1.0 $
      */
     public static class GreaterThanEqualNode extends ExpressionNode {
-
+        
         /**
          * Instantiates a new greater than equal node.
          *
@@ -458,22 +457,22 @@ public abstract class ExpressionNode<T> {
                 final ExpressionNode<? extends Comparable> secondTerm) {
             super(Arrays.asList(firstTerm, secondTerm));
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
         public APValue getValue(final Context c) {
             final APValue termOne = getTerm(0).getValue(c);
             final APValue termTwo = getTerm(1).getValue(c);
-
+            
             return termOne.callMethod(Operators.GREATER_EQUAL, termTwo);
         }
-
+        
     }
-
+    
     /**
      * The Class LessThanEqualNode.
      *
@@ -481,7 +480,7 @@ public abstract class ExpressionNode<T> {
      * @version $Revision: 1.0 $
      */
     public static class LessThanEqualNode extends ExpressionNode {
-
+        
         /**
          * Instantiates a new less than equal node.
          *
@@ -495,22 +494,22 @@ public abstract class ExpressionNode<T> {
                 final ExpressionNode<? extends Comparable> secondTerm) {
             super(Arrays.asList(firstTerm, secondTerm));
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
         public APValue getValue(final Context c) {
             final APValue termOne = getTerm(0).getValue(c);
             final APValue termTwo = getTerm(1).getValue(c);
-
+            
             return termOne.callMethod(Operators.LESS_EQUAL, termTwo);
         }
-
+        
     }
-
+    
     /**
      * The Class GreaterThanNode.
      *
@@ -518,7 +517,7 @@ public abstract class ExpressionNode<T> {
      * @version $Revision: 1.0 $
      */
     public static class GreaterThanNode extends ExpressionNode {
-
+        
         /**
          * Instantiates a new greater than node.
          *
@@ -532,22 +531,22 @@ public abstract class ExpressionNode<T> {
                 final ExpressionNode<? extends Comparable> secondTerm) {
             super(Arrays.asList(firstTerm, secondTerm));
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
         public APValue getValue(final Context c) {
             final APValue termOne = getTerm(0).getValue(c);
             final APValue termTwo = getTerm(1).getValue(c);
-
+            
             return termOne.callMethod(Operators.GREATER, termTwo);
         }
-
+        
     }
-
+    
     /**
      * The Class LessThanNode.
      *
@@ -555,7 +554,7 @@ public abstract class ExpressionNode<T> {
      * @version $Revision: 1.0 $
      */
     public static class LessThanNode extends ExpressionNode {
-
+        
         /**
          * Instantiates a new less than node.
          *
@@ -569,22 +568,22 @@ public abstract class ExpressionNode<T> {
                 final ExpressionNode<? extends Comparable> secondTerm) {
             super(Arrays.asList(firstTerm, secondTerm));
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
         public APValue getValue(final Context c) {
             final APValue termOne = getTerm(0).getValue(c);
             final APValue termTwo = getTerm(1).getValue(c);
-
+            
             return termOne.callMethod(Operators.LESS, termTwo);
         }
-
+        
     }
-
+    
     /**
      * The Class ListIndexNode.
      *
@@ -592,13 +591,13 @@ public abstract class ExpressionNode<T> {
      * @version $Revision: 1.0 $
      */
     public static class ListIndexNode extends ExpressionNode {
-
+        
         /** The list. */
         private final ExpressionNode list;
-        
+
         /** The index. */
         private final ExpressionNode index;
-
+        
         /**
          * Instantiates a new list index node.
          *
@@ -613,10 +612,10 @@ public abstract class ExpressionNode<T> {
             this.list = expr;
             this.index = insideParens;
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
@@ -629,9 +628,9 @@ public abstract class ExpressionNode<T> {
                     .getValue().get(indexValue);
             return expressionNode.getValue(context);
         }
-
+        
     }
-    
+
     /**
      * The Class AndNode.
      *
@@ -639,7 +638,7 @@ public abstract class ExpressionNode<T> {
      * @version $Revision: 1.0 $
      */
     public static class AndNode extends ExpressionNode<Boolean> {
-
+        
         /**
          * Instantiates a new and node.
          *
@@ -652,21 +651,21 @@ public abstract class ExpressionNode<T> {
                 final ExpressionNode<Boolean> secondTerm) {
             super(Arrays.asList(firstTerm, secondTerm));
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
         public APValue getValue(final Context c) {
             final APValue termOne = getTerm(0).getValue(c);
             final APValue termTwo = getTerm(1).getValue(c);
-
+            
             return termOne.callMethod(Operators.AND, termTwo);
         }
     }
-
+    
     /**
      * The Class OrNode.
      *
@@ -674,7 +673,7 @@ public abstract class ExpressionNode<T> {
      * @version $Revision: 1.0 $
      */
     public static class OrNode extends ExpressionNode<Boolean> {
-
+        
         /**
          * Instantiates a new or node.
          *
@@ -687,22 +686,22 @@ public abstract class ExpressionNode<T> {
                 final ExpressionNode<Boolean> secondTerm) {
             super(Arrays.asList(firstTerm, secondTerm));
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
         public APValue getValue(final Context c) {
             final APValue termOne = getTerm(0).getValue(c);
             final APValue termTwo = getTerm(1).getValue(c);
-
+            
             return termOne.callMethod(Operators.OR, termTwo);
-
+            
         }
     }
-
+    
     /**
      * The Class AdditionNode.
      *
@@ -710,7 +709,7 @@ public abstract class ExpressionNode<T> {
      * @version $Revision: 1.0 $
      */
     public static class AdditionNode extends ExpressionNode<BigDecimal> {
-
+        
         /**
          * Instantiates a new addition node.
          *
@@ -723,21 +722,21 @@ public abstract class ExpressionNode<T> {
                 final ExpressionNode<BigDecimal> secondTerm) {
             super(Arrays.asList(firstTerm, secondTerm));
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
         public APValue getValue(final Context c) {
             final APValue termOne = getTerm(0).getValue(c);
             final APValue termTwo = getTerm(1).getValue(c);
-
+            
             return termOne.callMethod(Operators.ADD, termTwo);
         }
     }
-
+    
     /**
      * The Class SubtractionNode.
      *
@@ -745,7 +744,7 @@ public abstract class ExpressionNode<T> {
      * @version $Revision: 1.0 $
      */
     public static class SubtractionNode extends ExpressionNode {
-
+        
         /**
          * Instantiates a new subtraction node.
          *
@@ -758,22 +757,22 @@ public abstract class ExpressionNode<T> {
                 final ExpressionNode secondTerm) {
             super(Arrays.asList(firstTerm, secondTerm));
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
         public APValue getValue(final Context c) {
             final APValue termOne = getTerm(0).getValue(c);
             final APValue termTwo = getTerm(1).getValue(c);
-
+            
             return termOne.callMethod(Operators.SUBTRACT, termTwo);
         }
-
+        
     }
-
+    
     /**
      * The Class MultiplicationNode.
      *
@@ -781,7 +780,7 @@ public abstract class ExpressionNode<T> {
      * @version $Revision: 1.0 $
      */
     public static class MultiplicationNode extends ExpressionNode {
-
+        
         /**
          * Instantiates a new multiplication node.
          *
@@ -794,21 +793,21 @@ public abstract class ExpressionNode<T> {
                 final ExpressionNode secondTerm) {
             super(Arrays.asList(firstTerm, secondTerm));
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
         public APValue getValue(final Context c) {
             final APValue termOne = getTerm(0).getValue(c);
             final APValue termTwo = getTerm(1).getValue(c);
-
+            
             return termOne.callMethod(Operators.MULTIPLY, termTwo);
         }
     }
-
+    
     /**
      * The Class DivisionNode.
      *
@@ -816,7 +815,7 @@ public abstract class ExpressionNode<T> {
      * @version $Revision: 1.0 $
      */
     public static class DivisionNode extends ExpressionNode {
-
+        
         /**
          * Instantiates a new division node.
          *
@@ -829,21 +828,21 @@ public abstract class ExpressionNode<T> {
                 final ExpressionNode secondTerm) {
             super(Arrays.asList(firstTerm, secondTerm));
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
         public APValue getValue(final Context c) {
             final APValue termOne = getTerm(0).getValue(c);
             final APValue termTwo = getTerm(1).getValue(c);
-
+            
             return termOne.callMethod(Operators.DIVIDE, termTwo);
         }
     }
-
+    
     /**
      * The Class ExponentiationNode.
      *
@@ -851,7 +850,7 @@ public abstract class ExpressionNode<T> {
      * @version $Revision: 1.0 $
      */
     public static class ExponentiationNode extends ExpressionNode<BigDecimal> {
-
+        
         /**
          * Instantiates a new exponentiation node.
          *
@@ -864,21 +863,21 @@ public abstract class ExpressionNode<T> {
                 final ExpressionNode<BigDecimal> secondTerm) {
             super(Arrays.asList(firstTerm, secondTerm));
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
         public APValue<BigDecimal> getValue(final Context c) {
             final APValue termOne = getTerm(0).getValue(c);
             final APValue termTwo = getTerm(1).getValue(c);
-
+            
             return termOne.callMethod(Operators.POWER, termTwo);
         }
     }
-
+    
     /**
      * The Class VariableNode.
      *
@@ -886,10 +885,10 @@ public abstract class ExpressionNode<T> {
      * @version $Revision: 1.0 $
      */
     public static class VariableNode extends ExpressionNode {
-
+        
         /** The name. */
         private final String name;
-
+        
         /**
          * Instantiates a new variable node.
          *
@@ -900,27 +899,27 @@ public abstract class ExpressionNode<T> {
             super(null);
             this.name = s;
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#toString()
          */
         @Override
         public String toString() {
             return VariableNode.class.getSimpleName() + "<" + name + ">";
         }
-
+        
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see parser.ExpressionNode#getValue(machine.Context)
          */
         @Override
         public APValue getValue(final Context c) {
             return c.getVariable(new FunctionSignature(name));
         }
-
+        
         /**
          * Gets the name.
          *
@@ -931,5 +930,5 @@ public abstract class ExpressionNode<T> {
             return name;
         }
     }
-
+    
 }

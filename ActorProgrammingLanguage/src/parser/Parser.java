@@ -28,6 +28,7 @@ import parser.checking.TreeChecker;
 import type.APValue.Operators;
 import type.APValueBool;
 import type.APValueChar;
+import type.APValueFunction;
 import type.APValueList;
 import type.APValueNum;
 
@@ -492,12 +493,28 @@ public class Parser {
             final VariableNode expr = identifier();
             nextToken();
             return expr;
+        } else if (lookahead.getType() == TokenType.LAMBDA) {
+            nextToken();
+            final VariableNode expr = identifier();
+            nextToken();
+            final List<VariableNode> expressions = new ArrayList<>();
+            expressions.add(expr);
+            while (lookahead.getType() != TokenType.ARROW) {
+                nextToken();
+                if (lookahead.getType() != TokenType.ARROW) {
+                    expressions.add(identifier());
+                }
+            }
+            nextToken();
+            final Function func = new Function(null, expressions,
+                    expression(context));
+            return new ConstantNode(new APValueFunction(func));
         } else {
             throw new ParserException("Unexpected token " + lookahead
                     + " found");
         }
     }
-
+    
     private ExpressionNode matchBoolean() {
         final ExpressionNode.ConstantNode expr = new ExpressionNode.ConstantNode(
                 new APValueBool(Boolean.parseBoolean(lookahead.getText())));

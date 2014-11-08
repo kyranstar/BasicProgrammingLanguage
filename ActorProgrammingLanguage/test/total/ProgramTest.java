@@ -13,6 +13,7 @@ import java.util.List;
 import junit.framework.AssertionFailedError;
 import lexer.Lexer;
 import machine.Context;
+import machine.ContextException;
 import machine.FunctionSignature;
 
 import org.junit.Assert;
@@ -211,6 +212,21 @@ public class ProgramTest {
             throw new AssertionError("Was "
                     + c.getVariable(new FunctionSignature(variableName))
                             .getValue() + " instead of " + list, e);
+        }
+    }
+
+    public static void testContextException(final String code) {
+        try {
+            final Context c = new Context(new PrintStream(
+                    new ByteArrayOutputStream()));
+            final List<ExpressionNode> nodes = new Parser(new Lexer(code).lex())
+            .parse(c);
+            for (final ExpressionNode node : nodes) {
+                node.getValue(c);
+            }
+            throw new AssertionFailedError("Did not throw context exception!");
+        } catch (final ContextException e) {
+            return;
         }
     }
 }
