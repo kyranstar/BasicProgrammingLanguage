@@ -7,11 +7,6 @@ public class APValueChar extends APValue<Character> {
     public APValueChar(final Character c) {
         setValue(c);
     }
-    
-    @Override
-    public String toString() {
-        return "APValueChar<" + getValue() + ">";
-    }
 
     @Override
     public APValue callMethod(final Operators s, final APValue arg) {

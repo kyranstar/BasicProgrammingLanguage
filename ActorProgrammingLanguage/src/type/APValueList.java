@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import parser.ExpressionNode;
-import parser.ExpressionNode.ConstantNode;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -53,7 +52,7 @@ public class APValueList extends APValue<List> {
             }
             return builder.toString();
         }
-        return "APValueList<" + getValue() + ">";
+        return "[" + getValue() + "]";
     }
     
     /*
@@ -127,24 +126,6 @@ public class APValueList extends APValue<List> {
                 + value2.size());
         newList.addAll(value);
         newList.addAll(value2);
-        return newList;
-    }
-    
-    /**
-     * Append a char to a list.
-     *
-     * @param value
-     *            the value
-     * @param character
-     *            the value2
-     *
-     * @return the list
-     */
-    private List<ExpressionNode> append(final List<ExpressionNode> value,
-            final Character character) {
-        final List<ExpressionNode> newList = new ArrayList<>(value.size() + 1);
-        newList.addAll(value);
-        newList.add(new ConstantNode(new APValueChar(character)));
         return newList;
     }
 }

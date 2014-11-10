@@ -90,11 +90,11 @@ public class ProgramTest {
             node.getValue(c);
         }
         try {
-            Assert.assertTrue(expected.compareTo((BigDecimal) c.getVariable(
+            Assert.assertTrue(expected.compareTo((BigDecimal) c.getFunction(
                     new FunctionSignature(variableName)).getValue()) == 0);
         } catch (final AssertionError e) {
             throw new AssertionError("Was "
-                    + c.getVariable(new FunctionSignature(variableName))
+                    + c.getFunction(new FunctionSignature(variableName))
                     .getValue() + " instead of " + expected, e);
         }
     }
@@ -206,11 +206,11 @@ public class ProgramTest {
         }
         try {
             Assert.assertEquals(list,
-                    c.getVariable(new FunctionSignature(variableName))
+                    c.getFunction(new FunctionSignature(variableName))
                             .getValue());
         } catch (final AssertionError e) {
             throw new AssertionError("Was "
-                    + c.getVariable(new FunctionSignature(variableName))
+                    + c.getFunction(new FunctionSignature(variableName))
                             .getValue() + " instead of " + list, e);
         }
     }

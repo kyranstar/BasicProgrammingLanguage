@@ -24,16 +24,6 @@ public class APValueBool extends APValue<Boolean> {
     public APValueBool(final Boolean expressionNode) {
         setValue(expressionNode);
     }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return "APValueBool<" + getValue() + ">";
-    }
     
     /*
      * (non-Javadoc)

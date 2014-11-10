@@ -64,13 +64,13 @@ public class Context {
      * @param value
      *            the en
      */
-    public void putVariable(final FunctionSignature name, final APValue value) {
+    public void putFunction(final FunctionSignature name, final APValue value) {
         // If this context has a parent
         if (parent.isPresent()) {
             // If that parent has the variable we are assigning
-            if (parent.get().getVariable(name) != null) {
+            if (parent.get().getFunction(name) != null) {
                 // Put it to the parent instead
-                parent.get().putVariable(name, value);
+                parent.get().putFunction(name, value);
                 return;
             }
         }
@@ -85,11 +85,11 @@ public class Context {
      *
      * @return the variable
      */
-    public APValue getVariable(final FunctionSignature functionSignature) {
+    public APValue getFunction(final FunctionSignature functionSignature) {
         APValue node = getVariables().get(functionSignature);
         if (node == null) {
             if (parent.isPresent()) {
-                node = parent.get().getVariable(functionSignature);
+                node = parent.get().getFunction(functionSignature);
             } else {
                 throw new ContextException("Could not find value for <"
                         + functionSignature + ">");
@@ -156,7 +156,7 @@ public class Context {
     }
     
     public void putFunction(final Function function) {
-        putVariable(function.signature, new APValueFunction(function));
+        putFunction(function.signature, new APValueFunction(function));
     }
     
 }

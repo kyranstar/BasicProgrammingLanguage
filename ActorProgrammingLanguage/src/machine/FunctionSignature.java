@@ -55,7 +55,10 @@ public class FunctionSignature {
      */
     @Override
     public String toString() {
-        return "FunctionSignature [functionName=" + functionName + "]";
+        if (functionName != null) {
+            return functionName;
+        }
+        return "lambda";
     }
     
 }

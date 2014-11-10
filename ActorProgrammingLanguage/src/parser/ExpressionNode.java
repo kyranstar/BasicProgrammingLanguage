@@ -6,7 +6,9 @@ package parser;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import machine.Context;
 import machine.Function;
@@ -148,7 +150,7 @@ public abstract class ExpressionNode<T> {
          */
         @Override
         public String toString() {
-            return ConstantNode.class.getSimpleName() + "<" + v + ">";
+            return v.toString();
         }
         
         /*
@@ -212,9 +214,16 @@ public abstract class ExpressionNode<T> {
             // We don't want a child scope because then it can affect variables
             // outside of scope.
             final Context c = new Context(context.getOutputStream());
+            // Add all functions of outer scope, but we have to add this
+            // function individually to avoid stackoverflow.
+            final Map<FunctionSignature, APValue> everythingButCurrentFunction = new HashMap<>(
+                    context.getVariables());
+            everythingButCurrentFunction.remove(new FunctionSignature(name));
+
+            c.setVariables(everythingButCurrentFunction);
 
             final APValue valueFunction = context
-                    .getVariable(new FunctionSignature(name));
+                    .getFunction(new FunctionSignature(name));
             final Function func = (Function) valueFunction.getValue();
             // give it access to itself
             c.putFunction(func);
@@ -230,7 +239,7 @@ public abstract class ExpressionNode<T> {
             for (int i = 0; i < parameters.size(); i++) {
                 final ExpressionNode given = parameters.get(i);
                 final String name = func.parameters.get(i).name;
-                c.putVariable(new FunctionSignature(name),
+                c.putFunction(new FunctionSignature(name),
                         given.getValue(context));
             }
 
@@ -300,7 +309,7 @@ public abstract class ExpressionNode<T> {
         @Override
         public APValue getValue(final Context context) {
             final APValue expr = this.expression.getValue(context);
-            context.putVariable(new FunctionSignature(variable.name),
+            context.putFunction(new FunctionSignature(variable.name),
                     expression.getValue(context));
             return expr;
         }
@@ -352,6 +361,16 @@ public abstract class ExpressionNode<T> {
             }
         }
         
+        /*
+         * (non-Javadoc)
+         * 
+         * @see parser.ExpressionNode#toString()
+         */
+        @Override
+        public String toString() {
+            return "if (" + getTerm(0) + ")" + getTerm(1) + " else "
+                    + getTerm(2);
+        }
     }
 
     /**
@@ -917,7 +936,7 @@ public abstract class ExpressionNode<T> {
          */
         @Override
         public APValue getValue(final Context c) {
-            return c.getVariable(new FunctionSignature(name));
+            return c.getFunction(new FunctionSignature(name));
         }
         
         /**

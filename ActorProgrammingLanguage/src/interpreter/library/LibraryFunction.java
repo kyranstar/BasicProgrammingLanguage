@@ -70,7 +70,7 @@ public final class LibraryFunction {
 
                 for (final ExpressionNode v : numArg) {
                     final Context c = new Context(context.getOutputStream());
-                    c.putVariable(new FunctionSignature(function.parameters
+                    c.putFunction(new FunctionSignature(function.parameters
                             .get(0).getName()), v.getValue(c));
                     result.add(new ConstantNode(function.body.getValue(c)));
                 }

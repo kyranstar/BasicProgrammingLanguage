@@ -11,21 +11,21 @@ import parser.ExpressionNode.VariableNode;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Function.
- * 
+ *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
 public class Function {
-
+    
     /** The body. */
     public final ExpressionNode body;
-
+    
     /** The parameters. */
     public final List<VariableNode> parameters;
-
+    
     /** The name. */
     public final FunctionSignature signature;
-
+    
     /**
      * Instantiates a new function.
      *
@@ -42,4 +42,10 @@ public class Function {
         this.parameters = parameters;
         this.body = body;
     }
+    
+    @Override
+    public String toString() {
+        return signature + "(" + parameters + ") = " + body;
+    }
+
 }
