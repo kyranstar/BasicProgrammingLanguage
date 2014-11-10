@@ -19,7 +19,7 @@ import parser.ExpressionNode;
  * @version $Revision: 1.0 $
  */
 public class APValueList extends APValue<List> {
-    
+
     /**
      * Instantiates a new AP value bool.
      *
@@ -29,10 +29,10 @@ public class APValueList extends APValue<List> {
     public APValueList(final List<ExpressionNode> expressionNode) {
         setValue(Collections.unmodifiableList(new ArrayList<>(expressionNode)));
     }
-    
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -54,10 +54,10 @@ public class APValueList extends APValue<List> {
         }
         return "[" + getValue() + "]";
     }
-    
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see type.APValue#callMethod(type.APValue.Methods, type.APValue)
      */
     /**
@@ -73,21 +73,28 @@ public class APValueList extends APValue<List> {
     public APValue<?> callMethod(final Operators method, final APValue arg) {
         switch (method) {
             case ADD:
-                if (arg.getClass() == APValueList.class) {
+                if (arg instanceof APValueList) {
                     return new APValueList(append(getValue(),
                             (List<ExpressionNode>) arg.getValue()));
                 }
+                break;
             case MULTIPLY:
-                if (arg.getClass() == APValueNum.class) {
+                if (arg instanceof APValueNum) {
                     return new APValueList(multiply(getValue(),
                             (BigDecimal) arg.getValue()));
                 }
+                break;
+            case EQUAL:
+                if (arg instanceof APValueList) {
+                    return new APValueBool(getValue().equals(arg.getValue()));
+                }
+                break;
         }
-        
-        throw new MismatchedMethodException("Can't call method " + method
-                + " on type list!");
-    }
 
+        throw new MismatchedMethodException("Can't call method " + method
+                + " on type list with param " + arg);
+    }
+    
     private List<ExpressionNode> multiply(final List<ExpressionNode> value,
             BigDecimal value2) {
         boolean negative = false;
@@ -95,9 +102,9 @@ public class APValueList extends APValue<List> {
             negative = true;
             value2 = value2.negate();
         }
-
-        final List<ExpressionNode> b = new LinkedList<ExpressionNode>();
         
+        final List<ExpressionNode> b = new LinkedList<ExpressionNode>();
+
         // if our number is greater than one
         for (; value2.compareTo(BigDecimal.ONE) > 0; value2 = value2
                 .subtract(BigDecimal.ONE)) {
@@ -109,7 +116,7 @@ public class APValueList extends APValue<List> {
         }
         return b;
     }
-
+    
     /**
      * Append two lists.
      *

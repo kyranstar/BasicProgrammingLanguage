@@ -141,7 +141,8 @@ public class Token {
         STRING,
         CHAR,
         ARROW,
-        LAMBDA;
+        LAMBDA,
+        TO;
     }
     
     /*

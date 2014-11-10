@@ -46,57 +46,27 @@ public class ProgramTest {
      */
     @Test
     public void testEndlineComment() {
-        testNum("a = 10; // Hi!", expected10, variableNameA);
+        test("a = 10; // Hi!", expected10, variableNameA);
     }
 
     @Test
     public void testSeparatingEndlineComment() {
-        testNum("a = //8\n10;", expected10, variableNameA);
+        test("a = //8\n10;", expected10, variableNameA);
     }
 
     @Test
     public void testMultilineComment() {
-        testNum("a = 10; /*\n\n\n Wow hi! */", expected10, variableNameA);
+        test("a = 10; /*\n\n\n Wow hi! */", expected10, variableNameA);
     }
 
     @Test
     public void testSeparatingMultilineComment() {
-        testNum("a = /*\n8\n*/ 10;", expected10, variableNameA);
+        test("a = /*\n8\n*/ 10;", expected10, variableNameA);
     }
 
     @Test
     public void testStatementInComment() {
-        testNum("a = 10; //a = 8", expected10, variableNameA);
-    }
-
-    /**
-     * Runs code s. Tests whether value expected is stored in variable
-     * variableName.
-     *
-     * @param s
-     *            the code
-     * @param expected
-     *            the expected value
-     * @param variableName
-     *            the variable name
-     */
-    public static void testNum(final String s, final BigDecimal expected,
-            final String variableName) {
-        final Context c = new Context(new PrintStream(
-                new ByteArrayOutputStream()));
-        final List<ExpressionNode> nodes = new Parser(new Lexer(s).lex())
-        .parse(c);
-        for (final ExpressionNode node : nodes) {
-            node.getValue(c);
-        }
-        try {
-            Assert.assertTrue(expected.compareTo((BigDecimal) c.getFunction(
-                    new FunctionSignature(variableName)).getValue()) == 0);
-        } catch (final AssertionError e) {
-            throw new AssertionError("Was "
-                    + c.getFunction(new FunctionSignature(variableName))
-                    .getValue() + " instead of " + expected, e);
-        }
+        test("a = 10; //a = 8", expected10, variableNameA);
     }
     
     /**
@@ -195,7 +165,7 @@ public class ProgramTest {
      * @param variableName
      *            the variable name
      */
-    public static void test(final String string, final List list,
+    public static void test(final String string, final Object expected,
             final String variableName) {
         final Context c = new Context(new PrintStream(
                 new ByteArrayOutputStream()));
@@ -205,13 +175,13 @@ public class ProgramTest {
             node.getValue(c);
         }
         try {
-            Assert.assertEquals(list,
+            Assert.assertEquals(expected,
                     c.getFunction(new FunctionSignature(variableName))
                             .getValue());
         } catch (final AssertionError e) {
             throw new AssertionError("Was "
                     + c.getFunction(new FunctionSignature(variableName))
-                            .getValue() + " instead of " + list, e);
+                            .getValue() + " instead of " + expected, e);
         }
     }
 

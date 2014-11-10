@@ -26,33 +26,45 @@ public class ListTest {
     private static final List<ConstantNode> ONE_TWO_LIST = Arrays.asList(
             new ConstantNode(new APValueNum(new BigDecimal("1"))),
             new ConstantNode(new APValueNum(new BigDecimal("2"))));
+    private static final List<ConstantNode> LIST_ONE_THROUGH_FIVE = Arrays
+            .asList(new ConstantNode(new APValueNum(new BigDecimal("1"))),
+                    new ConstantNode(new APValueNum(new BigDecimal("2"))),
+                    new ConstantNode(new APValueNum(new BigDecimal("3"))),
+                    new ConstantNode(new APValueNum(new BigDecimal("4"))),
+                    new ConstantNode(new APValueNum(new BigDecimal("5"))));
 
     @Test
     public void indexOperatorAndConcat() {
-        ProgramTest.testNum("a = ([1] + [[2]{0}]){0};", new BigDecimal("1"),
-                "a");
+        ProgramTest.test("a = ([1] + [[2]{0}]){0};", new BigDecimal("1"), "a");
     }
 
     @Test
     public void concatAndIndex() {
-        ProgramTest.testNum("a = ([1] + [2]){0};", new BigDecimal("1"), "a");
+        ProgramTest.test("a = ([1] + [2]){0};", new BigDecimal("1"), "a");
     }
 
     @Test
     public void indexOperator2() {
-        ProgramTest.testNum("a = [1,2]{0};", new BigDecimal("1"), "a");
+        ProgramTest.test("a = [1,2]{0};", new BigDecimal("1"), "a");
     }
 
     @Test
     public void listFunctionReturningParameter() {
-        ProgramTest.testNum("f a = [a,a,a]; c = f(3){1};", new BigDecimal("3"),
+        ProgramTest.test("f a = [a,a,a]; c = f(3){1};", new BigDecimal("3"),
                 "c");
     }
 
     @Test
     public void indexOperator() {
-        ProgramTest.testNum("b = 2; c = [1] + [b]; a = c{1};", new BigDecimal(
-                "2"), "a");
+        ProgramTest.test("b = 2; c = [1] + [b]; a = c{1};",
+                new BigDecimal("2"), "a");
+    }
+
+    @Test
+    public void listAndRange() {
+        ProgramTest.test(
+                "a = [1,2,3] + (4 to 6) + [7,8,9] = [1,2,3,4,5,6,7,8,9];",
+                true, "a");
     }
 
     @Test
@@ -136,7 +148,14 @@ public class ListTest {
                 new APValueChar('i')), new ConstantNode(new APValueChar('H'))),
                 "a");
     }
-
+    
+    @Test
+    public void stringTestMultiplyBackwards() {
+        ProgramTest.test("a = 1 * \"Hi\";", Arrays.asList(new ConstantNode(
+                new APValueChar('H')), new ConstantNode(new APValueChar('i'))),
+                "a");
+    }
+    
     @Test
     public void multiplyTestOne() {
         ProgramTest.test("a = [1,2] * 1;", ONE_TWO_LIST, "a");
@@ -146,9 +165,9 @@ public class ListTest {
     public void multiplyTestTwo() {
         ProgramTest.test("a = [1,2] * 2;", Arrays.asList(new ConstantNode(
                 new APValueNum(new BigDecimal("1"))), new ConstantNode(
-                        new APValueNum(new BigDecimal("2"))), new ConstantNode(
-                                new APValueNum(new BigDecimal("1"))), new ConstantNode(
-                                        new APValueNum(new BigDecimal("2")))), "a");
+                new APValueNum(new BigDecimal("2"))), new ConstantNode(
+                new APValueNum(new BigDecimal("1"))), new ConstantNode(
+                new APValueNum(new BigDecimal("2")))), "a");
     }
     
     @Test
@@ -191,5 +210,26 @@ public class ListTest {
                 new ConstantNode(new APValueNum(new BigDecimal("3"))),
                 new ConstantNode(new APValueNum(new BigDecimal("2"))),
                 new ConstantNode(new APValueNum(new BigDecimal("1")))), "a");
+    }
+    
+    @Test
+    public void rangeInclusive2() {
+        ProgramTest.test("c = [1,2,3,4,5] = 1 to 5;", true, "c");
+    }
+
+    @Test
+    public void rangeInclusive() {
+        ProgramTest.test("c = [1,2,3,4,5];", LIST_ONE_THROUGH_FIVE, "c");
+        ProgramTest.test("c = 1 to 5;", LIST_ONE_THROUGH_FIVE, "c");
+    }
+    
+    @Test
+    public void rangeGet() {
+        ProgramTest.test("c = (1 to 5){0};", new BigDecimal("1"), "c");
+    }
+
+    @Test
+    public void rangeSublist() {
+        ProgramTest.test("c = sublist(1 to 5,0,2);", ONE_TWO_LIST, "c");
     }
 }

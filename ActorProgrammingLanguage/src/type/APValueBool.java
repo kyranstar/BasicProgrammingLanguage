@@ -11,10 +11,10 @@ package type;
  * @version $Revision: 1.0 $
  */
 public class APValueBool extends APValue<Boolean> {
-
+    
     /** The Constant TYPE. */
     private static final Class<Boolean> TYPE = Boolean.class;
-
+    
     /**
      * Instantiates a new AP value bool.
      *
@@ -24,10 +24,10 @@ public class APValueBool extends APValue<Boolean> {
     public APValueBool(final Boolean expressionNode) {
         setValue(expressionNode);
     }
-    
+
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see type.APValue#callMethod(type.APValue.Methods, type.APValue)
      */
     /**
@@ -41,7 +41,7 @@ public class APValueBool extends APValue<Boolean> {
      */
     @Override
     public APValue callMethod(final Operators method, final APValue arg) {
-
+        
         switch (method) {
             case AND:
                 return new APValueBool(getValue()
@@ -49,6 +49,9 @@ public class APValueBool extends APValue<Boolean> {
             case OR:
                 return new APValueBool(getValue()
                         || ((APValueBool) arg).getValue());
+            case EQUAL:
+                return new APValueBool(
+                        getValue() == ((APValueBool) arg).getValue());
             default:
                 throw new MismatchedMethodException("Can't call method "
                         + method + " on type bool!");

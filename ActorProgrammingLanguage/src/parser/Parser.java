@@ -23,6 +23,7 @@ import parser.ExpressionNode.ExponentiationNode;
 import parser.ExpressionNode.FunctionCallNode;
 import parser.ExpressionNode.ListIndexNode;
 import parser.ExpressionNode.MultiplicationNode;
+import parser.ExpressionNode.RangeNode;
 import parser.ExpressionNode.SubtractionNode;
 import parser.ExpressionNode.VariableNode;
 import parser.checking.CompilerException;
@@ -314,7 +315,9 @@ public class Parser {
      */
     private ExpressionNode highOp(final ExpressionNode expr,
             final Context context) {
-        if (lookahead.getType() == TokenType.MULDIV) {
+        if (lookahead.getType() == TokenType.TO) {
+            return highOp(matchRange(expr, context), context);
+        } else if (lookahead.getType() == TokenType.MULDIV) {
             // term_op -> MULTDIV factor term_op
             ExpressionNode prod;
             
@@ -538,6 +541,7 @@ public class Parser {
     }
 
     private ExpressionNode matchNumber() {
+        System.out.println("Matching " + lookahead.getText());
         final ExpressionNode.ConstantNode expr = new ExpressionNode.ConstantNode(
                 new APValueNum(new BigDecimal(lookahead.getText())));
         nextToken();
@@ -551,9 +555,17 @@ public class Parser {
             nodes.add(expression(context));
         }
         nextToken();
-        return new ExpressionNode.ConstantNode(new APValueList(nodes));
+        return new ConstantNode(new APValueList(nodes));
     }
 
+    private ExpressionNode matchRange(final ExpressionNode first,
+            final Context context) {
+        assert lookahead.getType() == TokenType.TO;
+        nextToken();
+        final ExpressionNode second = expression(context);
+        return new RangeNode(first, second);
+    }
+    
     private ExpressionNode matchString() {
         final String stringMinusQuotes = lookahead.getText().substring(1,
                 lookahead.getText().length() - 1);

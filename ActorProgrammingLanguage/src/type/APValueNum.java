@@ -16,7 +16,7 @@ import math.BigDecimalMath;
  * @version $Revision: 1.0 $
  */
 public class APValueNum extends APValue<BigDecimal> {
-
+    
     /**
      * Instantiates a new AP value num.
      *
@@ -26,13 +26,13 @@ public class APValueNum extends APValue<BigDecimal> {
     public APValueNum(final BigDecimal expressionNode) {
         setValue(expressionNode);
     }
-    
+
     /** The number of decimals to round to if a repeating decimal occurs (10/3). */
     public static final int DECIMALS = 50;
-    
+
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see type.APValue#callMethod(type.APValue.Methods, type.APValue)
      */
     /**
@@ -48,42 +48,76 @@ public class APValueNum extends APValue<BigDecimal> {
     public APValue callMethod(final Operators s, final APValue arg) {
         switch (s) {
             case MULTIPLY:
-                return new APValueNum(getValue().multiply(
-                        (BigDecimal) arg.getValue()));
+                if (arg instanceof APValueNum) {
+                    return new APValueNum(getValue().multiply(
+                            (BigDecimal) arg.getValue()));
+                } else if (arg instanceof APValueList) {
+                    return arg.callMethod(Operators.MULTIPLY, this);
+                }
+                break;
             case DIVIDE:
-                return new APValueNum(getValue().divide(
-                        (BigDecimal) arg.getValue(), DECIMALS,
-                        RoundingMode.HALF_UP));
+                if (arg instanceof APValueNum) {
+                    return new APValueNum(getValue().divide(
+                            (BigDecimal) arg.getValue(), DECIMALS,
+                            RoundingMode.HALF_UP));
+                }
+                break;
             case ADD:
-                return new APValueNum(getValue().add(
-                        (BigDecimal) arg.getValue()));
+                if (arg instanceof APValueNum) {
+                    return new APValueNum(getValue().add(
+                            (BigDecimal) arg.getValue()));
+                } else if (arg instanceof APValueChar) {
+                    return arg.callMethod(Operators.ADD, this);
+                }
+                break;
             case SUBTRACT:
-                return new APValueNum(getValue().subtract(
-                        (BigDecimal) arg.getValue()));
+                if (arg instanceof APValueNum) {
+                    return new APValueNum(getValue().subtract(
+                            (BigDecimal) arg.getValue()));
+                }
+                break;
             case POWER:
-                return new APValueNum(BigDecimalMath.pow(getValue(),
-                        (BigDecimal) arg.getValue()));
+                if (arg instanceof APValueNum) {
+                    return new APValueNum(BigDecimalMath.pow(getValue(),
+                            (BigDecimal) arg.getValue()));
+                }
+                break;
             case EQUAL:
-                return new APValueBool(getValue().compareTo(
-                        (BigDecimal) arg.getValue()) == 0);
+                if (arg instanceof APValueNum) {
+                    return new APValueBool(getValue().compareTo(
+                            (BigDecimal) arg.getValue()) == 0);
+                }
+                break;
             case GREATER:
-                return new APValueBool(getValue().compareTo(
-                        (BigDecimal) arg.getValue()) > 0);
+                if (arg instanceof APValueNum) {
+                    return new APValueBool(getValue().compareTo(
+                            (BigDecimal) arg.getValue()) > 0);
+                }
+                break;
             case GREATER_EQUAL:
-                return new APValueBool(getValue().compareTo(
-                        (BigDecimal) arg.getValue()) >= 0);
+                if (arg instanceof APValueNum) {
+                    return new APValueBool(getValue().compareTo(
+                            (BigDecimal) arg.getValue()) >= 0);
+                }
+                break;
             case LESS:
-                return new APValueBool(getValue().compareTo(
-                        (BigDecimal) arg.getValue()) < 0);
+                if (arg instanceof APValueNum) {
+                    return new APValueBool(getValue().compareTo(
+                            (BigDecimal) arg.getValue()) < 0);
+                }
+                break;
             case LESS_EQUAL:
-                return new APValueBool(getValue().compareTo(
-                        (BigDecimal) arg.getValue()) <= 0);
-            default:
-                throw new MismatchedMethodException("Can't call method " + s
-                        + " on type " + getClass() + " and " + arg.getClass());
+                if (arg instanceof APValueNum) {
+                    return new APValueBool(getValue().compareTo(
+                            (BigDecimal) arg.getValue()) <= 0);
+                }
+                break;
         }
+        
+        throw new MismatchedMethodException("Can't call method " + s
+                + " on type " + getClass() + " and " + arg.getClass());
     }
-    
+
     @Override
     public String toString() {
         return getValue().stripTrailingZeros().toPlainString();

@@ -17,6 +17,7 @@ import type.APValue;
 import type.APValue.Operators;
 import type.APValueFunction;
 import type.APValueList;
+import type.APValueNum;
 
 /**
  * An ExpressionNode is a expression in the language that evaluates to T.
@@ -894,6 +895,55 @@ public abstract class ExpressionNode<T> {
             final APValue termTwo = getTerm(1).getValue(c);
             
             return termOne.callMethod(Operators.POWER, termTwo);
+        }
+    }
+
+    /**
+     * The Class ExponentiationNode.
+     *
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
+     */
+    public static class RangeNode extends ExpressionNode {
+        
+        /**
+         * Instantiates a new exponentiation node.
+         *
+         * @param firstTerm
+         *            the firstTerm
+         * @param secondTerm
+         *            the secondTerm
+         */
+        public RangeNode(final ExpressionNode firstTerm,
+                final ExpressionNode secondTerm) {
+            super(Arrays.asList(firstTerm, secondTerm));
+        }
+        
+        /*
+         * (non-Javadoc)
+         * 
+         * @see parser.ExpressionNode#getValue(machine.Context)
+         */
+        @Override
+        public APValue getValue(final Context c) {
+            final APValue termOne = getTerm(0).getValue(c);
+            final APValue termTwo = getTerm(1).getValue(c);
+            
+            final List<ExpressionNode> nodes = new ArrayList<>();
+            if (termOne instanceof APValueNum && termTwo instanceof APValueNum) {
+                BigDecimal first = (BigDecimal) termOne.getValue();
+                final BigDecimal second = (BigDecimal) termTwo.getValue();
+
+                for (; first.compareTo(second) <= 0; first = first
+                        .add(BigDecimal.ONE)) {
+                    nodes.add(new ConstantNode(new APValueNum(first)));
+                }
+            } else {
+                throw new ParserException("Cannot create range of types "
+                        + termOne.getClass() + " and " + termTwo.getClass());
+            }
+            
+            return new APValueList(nodes);
         }
     }
     
