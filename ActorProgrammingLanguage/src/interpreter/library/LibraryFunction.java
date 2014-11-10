@@ -6,6 +6,7 @@ package interpreter.library;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import machine.Context;
@@ -70,9 +71,51 @@ public final class LibraryFunction {
 
                 for (final ExpressionNode v : numArg) {
                     final Context c = new Context(context.getOutputStream());
+                    
+                    // give parent functions
+                    c.setVariables(new HashMap<>(context.getVariables()));
+
                     c.putFunction(new FunctionSignature(function.parameters
                             .get(0).getName()), v.getValue(c));
                     result.add(new ConstantNode(function.body.getValue(c)));
+                }
+
+                return new APValueList(result);
+            }
+        }));
+        context.putFunction(new Function("mapWithIndex", Arrays.asList(
+                new VariableNode(arg1), new VariableNode(arg2)),
+                new ExpressionNode<Void>(null) {
+            @Override
+            public APValue getValue(final Context context) {
+                final List<ExpressionNode> numArg = (List<ExpressionNode>) new VariableNode(
+                        arg1).getValue(context).getValue();
+                final Function function = (Function) new VariableNode(
+                        arg2).getValue(context).getValue();
+                final List<ExpressionNode> result = new ArrayList<>(
+                        numArg.size());
+
+                if (function.parameters.size() != 2) {
+                    throw new ParserException(
+                            "Lambda function passed to mapWithIndex must have two arguments");
+                }
+                BigDecimal index = BigDecimal.ZERO;
+                for (final ExpressionNode v : numArg) {
+                    final Context c = new Context(context
+                            .getOutputStream());
+
+                    // give parent functions
+                    c.setVariables(new HashMap<>(context.getVariables()));
+
+                    c.putFunction(new FunctionSignature(
+                            function.parameters.get(0).getName()), v
+                            .getValue(c));
+                    c.putFunction(new FunctionSignature(
+                            function.parameters.get(1).getName()),
+                                    new APValueNum(index));
+                    result.add(new ConstantNode(function.body
+                            .getValue(c)));
+                    index = index.add(BigDecimal.ONE);
                 }
 
                 return new APValueList(result);
