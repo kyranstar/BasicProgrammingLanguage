@@ -3,11 +3,11 @@ package type;
 import java.math.BigDecimal;
 
 public class APValueChar extends APValue<Character> {
-
+    
     public APValueChar(final Character c) {
         setValue(c);
     }
-
+    
     @Override
     public APValue callMethod(final Operators s, final APValue arg) {
         switch (s) {
@@ -16,6 +16,19 @@ public class APValueChar extends APValue<Character> {
                     return new APValueChar(
                             (char) (getValue() + ((BigDecimal) arg.getValue())
                                     .intValue()));
+                } else if (arg instanceof APValueChar) {
+                    return new APValueChar(
+                            (char) (getValue() + (Character) arg.getValue()));
+                }
+                break;
+            case SUBTRACT:
+                if (arg instanceof APValueNum) {
+                    return new APValueChar(
+                            (char) (getValue() - ((BigDecimal) arg.getValue())
+                                    .intValue()));
+                } else if (arg instanceof APValueChar) {
+                    return new APValueChar(
+                            (char) (getValue() - (Character) arg.getValue()));
                 }
                 break;
             case EQUAL:

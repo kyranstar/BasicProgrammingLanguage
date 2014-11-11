@@ -19,7 +19,7 @@ import parser.ExpressionNode;
  * @version $Revision: 1.0 $
  */
 public class APValueList extends APValue<List> {
-
+    
     /**
      * Instantiates a new AP value bool.
      *
@@ -32,32 +32,22 @@ public class APValueList extends APValue<List> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
-        boolean isString = true;
-        for (final Object o : getValue()) {
-            if (!(o instanceof Character)) {
-                isString = false;
-                break;
-            }
+        final List<Object> characters = getValue();
+        final StringBuilder builder = new StringBuilder(characters.size());
+        for (final Object ch : characters) {
+            builder.append(ch);
         }
-        if (isString) {
-            final List<Character> characters = getValue();
-            final StringBuilder builder = new StringBuilder(characters.size());
-            for (final Character ch : characters) {
-                builder.append(ch);
-            }
-            return builder.toString();
-        }
-        return "[" + getValue() + "]";
+        return builder.toString();
     }
-
+    
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see type.APValue#callMethod(type.APValue.Methods, type.APValue)
      */
     /**
@@ -90,7 +80,7 @@ public class APValueList extends APValue<List> {
                 }
                 break;
         }
-
+        
         throw new MismatchedMethodException("Can't call method " + method
                 + " on type list with param " + arg);
     }
@@ -104,7 +94,7 @@ public class APValueList extends APValue<List> {
         }
         
         final List<ExpressionNode> b = new LinkedList<ExpressionNode>();
-
+        
         // if our number is greater than one
         for (; value2.compareTo(BigDecimal.ONE) > 0; value2 = value2
                 .subtract(BigDecimal.ONE)) {

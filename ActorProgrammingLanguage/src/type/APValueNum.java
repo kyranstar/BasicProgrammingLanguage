@@ -74,6 +74,10 @@ public class APValueNum extends APValue<BigDecimal> {
                 if (arg instanceof APValueNum) {
                     return new APValueNum(getValue().subtract(
                             (BigDecimal) arg.getValue()));
+                } else if (arg instanceof APValueChar) {
+                    return new APValueChar(
+                            (char) (getValue().intValueExact() - (Character) arg
+                                    .getValue()));
                 }
                 break;
             case POWER:

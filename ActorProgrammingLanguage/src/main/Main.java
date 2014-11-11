@@ -17,13 +17,13 @@ import java.nio.file.Paths;
  * @version $Revision: 1.0 $
  */
 public final class Main {
-
+    
     /**
      * Unused private constructor.
      */
     private Main() {
     }
-
+    
     /**
      * The main method. Callable from command line.
      *
@@ -32,12 +32,12 @@ public final class Main {
      * @throws IOException
      */
     public static void main(final String[] args) throws IOException {
-        final String code = readFile("./test/code.txt",
+        final String code = readFile("./test/examples/code.txt",
                 Charset.defaultCharset());
-
+        
         new Interpreter(System.out).interpret(code);
     }
-    
+
     static String readFile(final String path, final Charset encoding)
             throws IOException {
         final byte[] encoded = Files.readAllBytes(Paths.get(path));

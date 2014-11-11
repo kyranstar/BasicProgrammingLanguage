@@ -17,10 +17,10 @@ import lexer.Token.TokenType;
  * @version $Revision: 1.0 $
  */
 public class Lexer {
-
+    
     /** The lex info. */
     private final LexerInformation lexInfo = new LexerInformation();
-
+    
     /** The code. */
     private final String code;
     // Token matchers, ordered by length to avoid hitting shorter ones first.
@@ -30,14 +30,15 @@ public class Lexer {
             new TokenMatchers.MULTILINE_COMMENT(),
             new TokenMatchers.LINE_COMMENT(), new TokenMatchers.STRING(),
             new TokenMatchers.CHAR(), new TokenMatchers.SPACE(),
-            new TokenMatchers.OPERATOR(), new TokenMatchers.NUMBER(),
-            new TokenMatchers.BOOLEAN(), new TokenMatchers.BRACKETS(),
-            new TokenMatchers.IF(), new TokenMatchers.IDENTIFIER() };
-
+            new TokenMatchers.OPERATOR(), new TokenMatchers.KEYWORDS(),
+            new TokenMatchers.NUMBER(), new TokenMatchers.BOOLEAN(),
+            new TokenMatchers.BRACKETS(), new TokenMatchers.IF(),
+            new TokenMatchers.IDENTIFIER() };
+    
     /** The types to ignore when passing to parser. */
     private final List<TokenType> typesToIgnore = Arrays.asList(
             TokenType.COMMENT, TokenType.SPACE, TokenType.EOF);
-
+    
     /**
      * Instantiates a new lexer.
      *
@@ -47,7 +48,7 @@ public class Lexer {
     public Lexer(final String code) {
         this.code = code;
     }
-
+    
     /**
      * Match token.
      *
@@ -56,29 +57,43 @@ public class Lexer {
      */
     private Token matchToken() {
         final String codeFromPosition = code.substring(lexInfo.position);
-
+        
+        final List<Token> potentialMatches = new ArrayList<>();
+        
         for (final TokenMatcher m : matchers) {
             if (m.matches(codeFromPosition, lexInfo)) {
                 final Token t = m.getToken(codeFromPosition, lexInfo.copy());
-                // if there is a newline in the text
-                final String tokenText = t.getText();
-                // Update lexer information
-                // if the text contains a new line
-                if (tokenText.indexOf('\n') != -1) {
-                    // add number of \n in text to the currentLine
-                    lexInfo.currentLine += tokenText.length()
-                            - tokenText.replace("\n", "").length();
-                    lexInfo.lastEndLine = lexInfo.position
-                            + tokenText.lastIndexOf('\n');
-                }
-                lexInfo.position += tokenText.length();
-                return t;
+                potentialMatches.add(t);
             }
         }
-        throw new LexerException("Could not match character '"
-                + code.charAt(lexInfo.position) + "' with token");
-    }
+        if (potentialMatches.size() == 0) {
+            throw new LexerException("Could not match character '"
+                    + code.charAt(lexInfo.position) + "' with token");
+        }
+        
+        Token longest = null;
+        for (final Token t : potentialMatches) {
+            if (longest == null
+                    || t.getText().length() > longest.getText().length()) {
+                longest = t;
+            }
+        }
 
+        // if there is a newline in the text
+        final String tokenText = longest.getText();
+        // Update lexer information
+        // if the text contains a new line
+        if (tokenText.indexOf('\n') != -1) {
+            // add number of \n in text to the currentLine
+            lexInfo.currentLine += tokenText.length()
+                    - tokenText.replace("\n", "").length();
+            lexInfo.lastEndLine = lexInfo.position
+                    + tokenText.lastIndexOf('\n');
+        }
+        lexInfo.position += tokenText.length();
+        return longest;
+    }
+    
     /**
      * Lexes the code into tokens.
      *
@@ -88,17 +103,17 @@ public class Lexer {
     public List<Token> lex() {
         try {
             final List<Token> tokens = new ArrayList<>();
-
+            
             while (lexInfo.position < code.length()) {
                 final Token t = matchToken();
                 if (!typesToIgnore.contains(t.getType())) {
                     tokens.add(t);
                 }
             }
-
+            
             return tokens;
         } catch (final LexerException e) {
-            throw new LexerException(e.getMessage() + lexInfo.getMessage());
+            throw new LexerException(lexInfo.getMessage(), e);
         }
     }
 }

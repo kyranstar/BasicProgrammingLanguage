@@ -42,17 +42,17 @@ import type.APValueNum;
  * @version $Revision: 1.0 $
  */
 public class Parser {
-    
+
     /** The Constant NEGATIVE_ONE. */
     private static final APValueNum NEGATIVE_ONE = new APValueNum(
             new BigDecimal("-1"));
-    
+
     /** The tokens. */
     LinkedList<Token> tokens = new LinkedList<>();
-    
+
     /** The lookahead token. */
     Token lookahead;
-
+    
     /**
      * Instantiates a new parser.
      *
@@ -65,7 +65,7 @@ public class Parser {
         }
         this.tokens.addAll(tokens);
     }
-
+    
     /**
      * Next token.
      */
@@ -83,7 +83,7 @@ public class Parser {
             lookahead = tokens.getFirst();
         }
     }
-
+    
     /**
      * Parses a string of code.
      *
@@ -95,9 +95,9 @@ public class Parser {
     public List<ExpressionNode> parse(final Context context) {
         try {
             final List<ExpressionNode> expressions = new ArrayList<>();
-
+            
             lookahead = tokens.getFirst();
-
+            
             while (lookahead.getType() != TokenType.EOF) {
                 expressions.add(statement(context));
             }
@@ -106,14 +106,14 @@ public class Parser {
             } catch (final CompilerException e) {
                 throw new ParserException("Could not compile", e);
             }
-            
+
             return expressions;
         } catch (final ParserException e) {
             throw new ParserException(e.getMessage() + lookahead.getMessage(),
                     e);
         }
     }
-
+    
     private ExpressionNode statement(final Context context) {
         final VariableNode expr = identifier();
         nextToken();
@@ -153,9 +153,9 @@ public class Parser {
             throw new ParserException(
                     "Non function call, assignment, or function def statement");
         }
-        
-    }
 
+    }
+    
     /**
      * Assignment.
      *
@@ -179,7 +179,7 @@ public class Parser {
         nextToken();
         return assignment;
     }
-
+    
     /**
      * Expression.
      *
@@ -192,11 +192,11 @@ public class Parser {
         if (lookahead.getType() == TokenType.IF) {
             return ifExpr(context);
         }
-
+        
         final ExpressionNode expr = signedTerm(context);
         return lowOp(expr, context);
     }
-
+    
     /**
      * If expr.
      *
@@ -217,14 +217,14 @@ public class Parser {
         final ExpressionNode elseExpr = expression(context);
         return new ExpressionNode.IfNode(ifExpr, thenExpr, elseExpr);
     }
-
+    
     /*
      * Lower level precedence operations: +, -, ||
-     * 
+     *
      * @param expr the expr
-     * 
+     *
      * @param context the context
-     * 
+     *
      * @return the expression node
      */
     /**
@@ -249,7 +249,7 @@ public class Parser {
             } else {
                 sum = new SubtractionNode(expr, t);
             }
-
+            
             return lowOp(sum, context);
         } else if (lookahead.getType() == TokenType.OR) {
             nextToken();
@@ -281,7 +281,7 @@ public class Parser {
             return expr;
         }
     }
-
+    
     /**
      * Term.
      *
@@ -294,14 +294,14 @@ public class Parser {
         // term -> factor term_op
         return highOp(factor(context), context);
     }
-
+    
     /*
      * High precedence operations: *, /, &&
-     * 
+     *
      * @param expr the expr
-     * 
+     *
      * @param context the context
-     * 
+     *
      * @return the expression node
      */
     /**
@@ -320,17 +320,17 @@ public class Parser {
         } else if (lookahead.getType() == TokenType.MULDIV) {
             // term_op -> MULTDIV factor term_op
             ExpressionNode prod;
-
+            
             final boolean positive = lookahead.getText().equals("*");
             nextToken();
             final ExpressionNode f = signedFactor(context);
-
+            
             if (positive) {
                 prod = new MultiplicationNode(expr, f);
             } else {
                 prod = new DivisionNode(expr, f);
             }
-
+            
             return highOp(prod, context);
         } else if (lookahead.getType() == TokenType.AND) {
             nextToken();
@@ -343,13 +343,13 @@ public class Parser {
             }
             nextToken();
             return highOp(new ListIndexNode(expr, insideParens), context);
-            
+
         } else if (lookahead.getType() == TokenType.OPEN_PARENS) {
             if (expr.getClass() != VariableNode.class) {
                 throw new ParserException(
                         "Can't call function on a non function value");
             }
-            
+
             return highOp(functionParameters(context, (VariableNode) expr),
                     context);
         } else if (lookahead.getType() == TokenType.IDENTIFIER) {
@@ -364,9 +364,9 @@ public class Parser {
             // term_op -> EPSILON
             return expr;
         }
-        
+
     }
-    
+
     /**
      * Signed factor.
      *
@@ -392,7 +392,7 @@ public class Parser {
             return factor(context);
         }
     }
-    
+
     /**
      * matches a factor.
      *
@@ -405,7 +405,7 @@ public class Parser {
         // factor -> argument factor_op
         return factorOp(argument(context), context);
     }
-    
+
     /**
      * matches a factor operation.
      *
@@ -423,13 +423,13 @@ public class Parser {
             nextToken();
             final ExpressionNode exponent = signedFactor(context);
             return new ExponentiationNode(expression, exponent);
-            
+
         } else {
             // factor_op -> EPSILON
             return expression;
         }
     }
-    
+
     /**
      * matches an argument.
      *
@@ -443,12 +443,12 @@ public class Parser {
             // argument -> OPEN_BRACKET sum CLOSE_BRACKET
             nextToken();
             final ExpressionNode node = expression(context);
-            
+
             if (lookahead.getType() != TokenType.CLOSE_PARENS) {
                 throw new ParserException("Closing brackets expected and "
                         + lookahead.getText() + " found instead");
             }
-            
+
             nextToken();
             return node;
         } else {
@@ -456,7 +456,7 @@ public class Parser {
             return value(context);
         }
     }
-    
+
     /**
      * matches a signed term.
      *
@@ -482,7 +482,7 @@ public class Parser {
             return term(context);
         }
     }
-    
+
     /**
      * matches a value.
      *
@@ -513,7 +513,7 @@ public class Parser {
                     + " found");
         }
     }
-    
+
     private ExpressionNode lambda(final Context context) {
         assert lookahead.getType() == TokenType.LAMBDA;
         nextToken();
@@ -532,21 +532,21 @@ public class Parser {
                 expression(context));
         return new ConstantNode(new APValueFunction(func));
     }
-
+    
     private ExpressionNode matchBoolean() {
         final ExpressionNode.ConstantNode expr = new ExpressionNode.ConstantNode(
                 new APValueBool(Boolean.parseBoolean(lookahead.getText())));
         nextToken();
         return expr;
     }
-    
+
     private ExpressionNode matchNumber() {
         final ExpressionNode.ConstantNode expr = new ExpressionNode.ConstantNode(
                 new APValueNum(new BigDecimal(lookahead.getText())));
         nextToken();
         return expr;
     }
-    
+
     private ExpressionNode matchList(final Context context) {
         final List<ExpressionNode> nodes = new ArrayList<>();
         while (lookahead.getType() != TokenType.CLOSE_BRACKET) {
@@ -556,7 +556,7 @@ public class Parser {
         nextToken();
         return new ConstantNode(new APValueList(nodes));
     }
-    
+
     private ExpressionNode matchRange(final ExpressionNode first,
             final Context context) {
         assert lookahead.getType() == TokenType.TO;
@@ -564,27 +564,21 @@ public class Parser {
         final ExpressionNode second = expression(context);
         return new RangeNode(first, second);
     }
-
+    
     private ExpressionNode matchString() {
         final String stringMinusQuotes = lookahead.getText().substring(1,
                 lookahead.getText().length() - 1);
-        final ExpressionNode.ConstantNode expr = new ExpressionNode.ConstantNode(
-                new APValueList(stringToList(stringMinusQuotes)));
+        final ConstantNode expr = new ConstantNode(new APValueList(
+                stringToList(unescapeJavaString(stringMinusQuotes))));
         nextToken();
         return expr;
     }
-    
+
     private ExpressionNode matchChar() {
-        final String charMinusQuotes = lookahead.getText().substring(1,
-                lookahead.getText().length() - 1);
-        if (charMinusQuotes.startsWith("\\u")) {
-            final char c = (char) Integer.parseUnsignedInt(
-                    charMinusQuotes.substring(2), 16);
-            final ExpressionNode.ConstantNode expr = new ExpressionNode.ConstantNode(
-                    new APValueChar(c));
-            nextToken();
-            return expr;
-        } else if (charMinusQuotes.length() == 1) {
+        final String charMinusQuotes = unescapeJavaString(lookahead.getText()
+                .substring(1, lookahead.getText().length() - 1));
+
+        if (charMinusQuotes.length() == 1) {
             final ExpressionNode.ConstantNode expr = new ExpressionNode.ConstantNode(
                     new APValueChar(charMinusQuotes.charAt(0)));
             nextToken();
@@ -594,7 +588,93 @@ public class Parser {
                     "Character literal must be one character long");
         }
     }
-    
+
+    /**
+     * Unescapes a string that contains standard Java escape sequences.
+     * <ul>
+     * <li><strong>&#92;b &#92;f &#92;n &#92;r &#92;t &#92;" &#92;'</strong> :
+     * BS, FF, NL, CR, TAB, double and single quote.</li>
+     * <li><strong>&#92;X &#92;XX &#92;XXX</strong> : Octal character
+     * specification (0 - 377, 0x00 - 0xFF).</li>
+     * <li><strong>&#92;uXXXX</strong> : Hexadecimal based Unicode character.</li>
+     * </ul>
+     *
+     * @param st
+     *            A string optionally containing standard java escape sequences.
+     * @return The translated string.
+     */
+    public static String unescapeJavaString(final String st) {
+        
+        final StringBuilder sb = new StringBuilder(st.length());
+        
+        for (int i = 0; i < st.length(); i++) {
+            char ch = st.charAt(i);
+            if (ch == '\\') {
+                final char nextChar = i == st.length() - 1 ? '\\' : st
+                        .charAt(i + 1);
+                // Octal escape?
+                if (nextChar >= '0' && nextChar <= '7') {
+                    String code = "" + nextChar;
+                    i++;
+                    if (i < st.length() - 1 && st.charAt(i + 1) >= '0'
+                            && st.charAt(i + 1) <= '7') {
+                        code += st.charAt(i + 1);
+                        i++;
+                        if (i < st.length() - 1 && st.charAt(i + 1) >= '0'
+                                && st.charAt(i + 1) <= '7') {
+                            code += st.charAt(i + 1);
+                            i++;
+                        }
+                    }
+                    sb.append((char) Integer.parseInt(code, 8));
+                    continue;
+                }
+                switch (nextChar) {
+                    case '\\':
+                        ch = '\\';
+                        break;
+                    case 'b':
+                        ch = '\b';
+                        break;
+                    case 'f':
+                        ch = '\f';
+                        break;
+                    case 'n':
+                        ch = '\n';
+                        break;
+                    case 'r':
+                        ch = '\r';
+                        break;
+                    case 't':
+                        ch = '\t';
+                        break;
+                    case '\"':
+                        ch = '\"';
+                        break;
+                    case '\'':
+                        ch = '\'';
+                        break;
+                    // Hex Unicode: u????
+                    case 'u':
+                        if (i >= st.length() - 5) {
+                            ch = 'u';
+                            break;
+                        }
+                        final int code = Integer.parseInt(
+                                "" + st.charAt(i + 2) + st.charAt(i + 3)
+                                        + st.charAt(i + 4) + st.charAt(i + 5),
+                                16);
+                        sb.append(Character.toChars(code));
+                        i += 5;
+                        continue;
+                }
+                i++;
+            }
+            sb.append(ch);
+        }
+        return sb.toString();
+    }
+
     private List<ExpressionNode> stringToList(final String text) {
         final List<ExpressionNode> list = new ArrayList<>();
         for (final Character c : text.toCharArray()) {
@@ -602,7 +682,7 @@ public class Parser {
         }
         return list;
     }
-    
+
     /**
      * Matches function parameters.
      *
@@ -632,7 +712,7 @@ public class Parser {
             nextToken();
             return node;
         }
-        
+
         while (lookahead.getType() != TokenType.CLOSE_PARENS) {
             if (lookahead.getType() != TokenType.COMMA) {
                 throw new ParserException("Expected comma, got " + lookahead);
@@ -641,10 +721,10 @@ public class Parser {
             parameters.add(expression(context));
         }
         nextToken();
-        
+
         return new ExpressionNode.FunctionCallNode(expr.getName(), parameters);
     }
-    
+
     /**
      * Matches an identifier.
      *

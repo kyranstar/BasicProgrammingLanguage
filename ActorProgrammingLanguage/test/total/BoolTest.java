@@ -42,4 +42,20 @@ public class BoolTest {
         ProgramTest
                 .test("a = if 3 >= 3 10 else 11;", expected10, variableNameA);
     }
+
+    @Test
+    public void testAnd() {
+        ProgramTest.test("a = true && true;", true, variableNameA);
+        ProgramTest.test("a = true && false;", false, variableNameA);
+        ProgramTest.test("a = false && true;", false, variableNameA);
+        ProgramTest.test("a = false && false;", false, variableNameA);
+    }
+    
+    @Test
+    public void testOr() {
+        ProgramTest.test("a = true || true;", true, variableNameA);
+        ProgramTest.test("a = true || false;", true, variableNameA);
+        ProgramTest.test("a = false || true;", true, variableNameA);
+        ProgramTest.test("a = false || false;", false, variableNameA);
+    }
 }
