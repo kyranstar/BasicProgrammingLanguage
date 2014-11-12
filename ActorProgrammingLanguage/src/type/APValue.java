@@ -12,32 +12,32 @@ package type;
  * @version $Revision: 1.0 $
  */
 public abstract class APValue<T> {
-
+    
     /** The Constant VOID. */
     public static final APValue<Void> VOID = new APValue<Void>() {
         @Override
         public String toString() {
             return "VOID";
         }
-
+        
         @Override
         public APValue callMethod(final Operators s, final APValue arg) {
-
+            
             throw new MismatchedMethodException("Can't call method " + s
                     + " on type void!");
         }
     };
-
+    
     /** The data. */
     private T data;
-
+    
     /**
      * The Class APValueBool.
      *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
-
+    
     /**
      * The Enum Methods.
      */
@@ -45,41 +45,42 @@ public abstract class APValue<T> {
         // Number operators
         /** The multiply operator. */
         MULTIPLY,
-
+        
         /** The divide. */
         DIVIDE,
-
+        
         /** The subtract. */
         SUBTRACT,
-
+        
         /** The add. */
         ADD,
-
+        
         /** The power. */
         POWER,
         // Boolean operators
         /** The and. */
         AND,
-
+        
         /** The or. */
         OR,
-        
+
         /** The greater equal. */
         GREATER_EQUAL,
-        
+
         /** The equal. */
         EQUAL,
-        
+
         /** The less equal. */
         LESS_EQUAL,
-        
+
         /** The greater. */
         GREATER,
-        
+
         /** The less. */
         LESS,
+        MOD,
     }
-
+    
     /**
      * Gets the value.
      *
@@ -89,12 +90,12 @@ public abstract class APValue<T> {
     public T getValue() {
         return data;
     }
-
+    
     @Override
     public String toString() {
         return getValue().toString();
     }
-
+    
     /**
      * Call method.
      *
@@ -106,7 +107,7 @@ public abstract class APValue<T> {
      * @return the AP value
      */
     public abstract APValue callMethod(Operators s, APValue arg);
-
+    
     /**
      * Sets the value.
      *

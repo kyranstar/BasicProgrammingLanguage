@@ -45,9 +45,56 @@ public final class LibraryFunction {
     public static Context applyLibraryFunctions(final Context context) {
         sublistFunction(context);
         mapFunction(context);
+        foldlFunction(context);
         printFunctions(context);
         mathFunctions(context);
         return context;
+    }
+
+    private static void foldlFunction(final Context context) {
+        final String arg1 = "arg1";
+        final String arg2 = "arg2";
+        
+        context.putFunction(new Function("foldl", Arrays.asList(
+                new VariableNode(arg1), new VariableNode(arg2)),
+                new ExpressionNode<Void>(null) {
+            @Override
+            public APValue getValue(final Context context) {
+                final List<ExpressionNode> unmodifiableList = (List<ExpressionNode>) new VariableNode(
+                        arg1).getValue(context).getValue();
+                final List<ExpressionNode> numArg = new ArrayList<>(
+                                unmodifiableList);
+                final Function function = (Function) new VariableNode(
+                        arg2).getValue(context).getValue();
+
+                if (function.parameters.size() != 2) {
+                    throw new ParserException(
+                            "Lambda function passed to foldl must take two arguments");
+                }
+
+                for (int i = 0; i < numArg.size() - 1; i++) {
+                    final ExpressionNode first = numArg.get(i);
+                    final ExpressionNode second = numArg.get(i + 1);
+
+                    final Context c = new Context(context
+                            .getOutputStream());
+
+                    // give parent functions
+                    c.setVariables(new HashMap<>(context.getVariables()));
+
+                    c.putFunction(new FunctionSignature(
+                            function.parameters.get(0).getName()),
+                            first.getValue(c));
+                    c.putFunction(new FunctionSignature(
+                            function.parameters.get(1).getName()),
+                            second.getValue(c));
+                    numArg.set(i + 1,
+                            new ConstantNode(function.body.getValue(c)));
+                }
+
+                return numArg.get(numArg.size() - 1).getValue(context);
+            }
+        }));
     }
 
     private static void mapFunction(final Context context) {

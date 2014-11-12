@@ -20,10 +20,10 @@ import type.APValueNum;
 public class MathTest {
     /** The number 10. */
     final BigDecimal expected10 = new BigDecimal("10");
-
+    
     /** The variable named a. */
     final String variableNameA = "a";
-    
+
     /**
      * Int test.
      */
@@ -35,18 +35,18 @@ public class MathTest {
         ProgramTest.test("a = 5*2;", expected10, variableNameA);
         ProgramTest.test("a = 20/2;", expected10, variableNameA);
         ProgramTest.test("a = 10^2 / 10;", expected10, variableNameA);
-        
+
     }
-    
+
     /**
      * functions test.
      */
     @Test
     public void funcTest() {
         ProgramTest.test("a = sqrt(100);", expected10, variableNameA);
-        
-    }
 
+    }
+    
     /**
      * Dec test.
      */
@@ -55,7 +55,7 @@ public class MathTest {
         ProgramTest.test("a = 20 * 0.5;", expected10, variableNameA);
         ProgramTest.test("a = 4 * 2.5;", expected10, variableNameA);
     }
-
+    
     /**
      * Neg test.
      */
@@ -68,7 +68,7 @@ public class MathTest {
         ProgramTest.test("a = 100 ^ -2 * 100000;", expected10, variableNameA);
         ProgramTest.test("a = 100 ^ (1/2);", expected10, variableNameA);
     }
-
+    
     /**
      * Invalid type test.
      */
@@ -81,7 +81,7 @@ public class MathTest {
         ProgramTest.testParserException("a = 4 && false");
         ProgramTest.testParserException("a = true && 3");
     }
-
+    
     /**
      * Test divide by zero.
      */
@@ -89,7 +89,7 @@ public class MathTest {
     public void testDivideByZero() {
         ProgramTest.test("a = 20/0;", expected10, variableNameA);
     }
-
+    
     /**
      * Test rational.
      */
@@ -98,7 +98,11 @@ public class MathTest {
         ProgramTest.test("a = 10/3;",
                 new BigDecimal("10").divide(new BigDecimal("3"),
                         APValueNum.DECIMALS, RoundingMode.HALF_UP),
-                variableNameA);
+                        variableNameA);
     }
-
+    
+    @Test
+    public void testMod() {
+        ProgramTest.test("a = 5 % 3;", new BigDecimal("2"), variableNameA);
+    }
 }

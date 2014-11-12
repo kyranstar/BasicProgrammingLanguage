@@ -16,7 +16,7 @@ import math.BigDecimalMath;
  * @version $Revision: 1.0 $
  */
 public class APValueNum extends APValue<BigDecimal> {
-    
+
     /**
      * Instantiates a new AP value num.
      *
@@ -26,13 +26,13 @@ public class APValueNum extends APValue<BigDecimal> {
     public APValueNum(final BigDecimal expressionNode) {
         setValue(expressionNode);
     }
-
+    
     /** The number of decimals to round to if a repeating decimal occurs (10/3). */
     public static final int DECIMALS = 50;
-
+    
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see type.APValue#callMethod(type.APValue.Methods, type.APValue)
      */
     /**
@@ -60,6 +60,12 @@ public class APValueNum extends APValue<BigDecimal> {
                     return new APValueNum(getValue().divide(
                             (BigDecimal) arg.getValue(), DECIMALS,
                             RoundingMode.HALF_UP));
+                }
+                break;
+            case MOD:
+                if (arg instanceof APValueNum) {
+                    return new APValueNum(getValue().remainder(
+                            (BigDecimal) arg.getValue()));
                 }
                 break;
             case ADD:
@@ -117,11 +123,11 @@ public class APValueNum extends APValue<BigDecimal> {
                 }
                 break;
         }
-        
+
         throw new MismatchedMethodException("Can't call method " + s
                 + " on type " + getClass() + " and " + arg.getClass());
     }
-
+    
     @Override
     public String toString() {
         return getValue().stripTrailingZeros().toPlainString();
