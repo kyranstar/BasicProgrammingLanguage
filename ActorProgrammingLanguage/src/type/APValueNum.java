@@ -16,7 +16,10 @@ import math.BigDecimalMath;
  * @version $Revision: 1.0 $
  */
 public class APValueNum extends APValue<BigDecimal> {
-
+    
+    private static final BigDecimal MAX_INT_VALUE = new BigDecimal(
+            Integer.MAX_VALUE);
+    
     /**
      * Instantiates a new AP value num.
      *
@@ -26,13 +29,13 @@ public class APValueNum extends APValue<BigDecimal> {
     public APValueNum(final BigDecimal expressionNode) {
         setValue(expressionNode);
     }
-    
+
     /** The number of decimals to round to if a repeating decimal occurs (10/3). */
     public static final int DECIMALS = 50;
-    
+
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see type.APValue#callMethod(type.APValue.Methods, type.APValue)
      */
     /**
@@ -88,6 +91,10 @@ public class APValueNum extends APValue<BigDecimal> {
                 break;
             case POWER:
                 if (arg instanceof APValueNum) {
+                    final BigDecimal y = (BigDecimal) arg.getValue();
+                    if (y.compareTo(MAX_INT_VALUE) < 0 && isIntegerValue(y)) {
+                        return new APValueNum(getValue().pow(y.intValue()));
+                    }
                     return new APValueNum(BigDecimalMath.pow(getValue(),
                             (BigDecimal) arg.getValue()));
                 }
@@ -123,13 +130,18 @@ public class APValueNum extends APValue<BigDecimal> {
                 }
                 break;
         }
-
+        
         throw new MismatchedMethodException("Can't call method " + s
                 + " on type " + getClass() + " and " + arg.getClass());
     }
-    
+
     @Override
     public String toString() {
         return getValue().stripTrailingZeros().toPlainString();
+    }
+    
+    private boolean isIntegerValue(final BigDecimal bd) {
+        return bd.signum() == 0 || bd.scale() <= 0
+                || bd.stripTrailingZeros().scale() <= 0;
     }
 }
