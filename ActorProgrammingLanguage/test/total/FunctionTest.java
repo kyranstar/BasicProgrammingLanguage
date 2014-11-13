@@ -107,7 +107,7 @@ public class FunctionTest {
      */
     @Test
     public void testFib() {
-        final String fib = "f a = if a = 0 0 else if a = 1 1 else f (a-1) + f (a-2);";
+        final String fib = "f a = if a = 0 then 0 else if a = 1 then 1 else f (a-1) + f (a-2);";
 
         ProgramTest.test(fib + "b = f (0);", new BigDecimal("0"), "b");
         ProgramTest.test(fib + "b = f (1);", new BigDecimal("1"), "b");
@@ -127,7 +127,10 @@ public class FunctionTest {
     @Test
     public void sumMultiples3And5Below1000() {
         ProgramTest
-                .test("sum a b =a+b;result = ((1 to 1000) map lambda x -> (if ((x%3 = 0) || (x%5 = 0)) (x) else 0)) foldl sum;",
+                .test("sum a b =a+b;\n"
+                        + "modThreeFive x = if ((x%3 = 0) || (x%5 = 0)) then x else 0;\n"
+                        + "result = ((1 to 999) map modThreeFive); \n"
+                        + "result = result foldl sum;",
                         new BigDecimal("233168"), "result");
     }
     

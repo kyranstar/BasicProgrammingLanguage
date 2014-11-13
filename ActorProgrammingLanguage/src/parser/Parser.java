@@ -21,6 +21,7 @@ import parser.ExpressionNode.ConstantNode;
 import parser.ExpressionNode.DivisionNode;
 import parser.ExpressionNode.ExponentiationNode;
 import parser.ExpressionNode.FunctionCallNode;
+import parser.ExpressionNode.IfNode;
 import parser.ExpressionNode.ListIndexNode;
 import parser.ExpressionNode.ModNode;
 import parser.ExpressionNode.MultiplicationNode;
@@ -210,13 +211,16 @@ public class Parser {
         assert lookahead.getType() == TokenType.IF;
         nextToken();
         final ExpressionNode ifExpr = expression(context);
+        assert lookahead.getType() == TokenType.IF
+                && lookahead.getText().equals("then");
+        nextToken();
         final ExpressionNode thenExpr = expression(context);
         if (lookahead.getType() != TokenType.ELSE) {
             throw new ParserException("Needs else after if, was " + lookahead);
         }
         nextToken();
         final ExpressionNode elseExpr = expression(context);
-        return new ExpressionNode.IfNode(ifExpr, thenExpr, elseExpr);
+        return new IfNode(ifExpr, thenExpr, elseExpr);
     }
 
     /*
