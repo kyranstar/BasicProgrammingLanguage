@@ -6,57 +6,71 @@ package lexer;
 // TODO: Auto-generated Javadoc
 /**
  * The Class LexerException.
+ * 
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
 public class LexerException extends RuntimeException {
-
-	/**
-	 * Instantiates a new lexer exception.
-	 *
-	 * @param string the string
-	 */
-	public LexerException(final String string) {
-		super(string);
-	}
-
-	/**
-	 * Instantiates a new lexer exception.
-	 */
-	public LexerException() {
-		super();
-	}
-
-	/**
-	 * Instantiates a new lexer exception.
-	 *
-	 * @param arg0 the arg0
-	 * @param arg1 the arg1
-	 * @param arg2 the arg2
-	 * @param arg3 the arg3
-	 */
-	public LexerException(final String arg0, final Throwable arg1,
-			final boolean arg2, final boolean arg3) {
-		super(arg0, arg1, arg2, arg3);
-	}
-
-	/**
-	 * Instantiates a new lexer exception.
-	 *
-	 * @param arg0 the arg0
-	 * @param arg1 the arg1
-	 */
-	public LexerException(final String arg0, final Throwable arg1) {
-		super(arg0, arg1);
-	}
-
-	/**
-	 * Instantiates a new lexer exception.
-	 *
-	 * @param arg0 the arg0
-	 */
-	public LexerException(final Throwable arg0) {
-		super(arg0);
-	}
-
+    
+    /**
+     * Instantiates a new lexer exception.
+     */
+    public LexerException() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+    
+    /**
+     * Instantiates a new lexer exception.
+     *
+     * @param message
+     *            the message
+     * @param cause
+     *            the cause
+     * @param enableSuppression
+     *            the enable suppression
+     * @param writableStackTrace
+     *            the writable stack trace
+     */
+    public LexerException(final String message, final Throwable cause,
+            final boolean enableSuppression, final boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+        // TODO Auto-generated constructor stub
+    }
+    
+    /**
+     * Instantiates a new lexer exception.
+     *
+     * @param message
+     *            the message
+     * @param cause
+     *            the cause
+     */
+    public LexerException(final String message, final Throwable cause) {
+        super(message, cause);
+        // TODO Auto-generated constructor stub
+    }
+    
+    /**
+     * Instantiates a new lexer exception.
+     *
+     * @param message
+     *            the message
+     */
+    public LexerException(final String message) {
+        super(message);
+        // TODO Auto-generated constructor stub
+    }
+    
+    /**
+     * Instantiates a new lexer exception.
+     *
+     * @param cause
+     *            the cause
+     */
+    public LexerException(final Throwable cause) {
+        super(cause);
+        // TODO Auto-generated constructor stub
+    }
+    
 }

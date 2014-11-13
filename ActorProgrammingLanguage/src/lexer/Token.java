@@ -11,16 +11,16 @@ package lexer;
  * @version $Revision: 1.0 $
  */
 public class Token {
-
+    
     /** The text. */
     private final String text;
-
+    
     /** The type. */
     private final TokenType type;
-    
+
     /* Holds information about this token */
     private final LexerInformation info;
-
+    
     /**
      * Instantiates a new token.
      *
@@ -37,7 +37,7 @@ public class Token {
         this.text = text;
         info = currentInfo;
     }
-
+    
     /**
      * Gets the text.
      *
@@ -47,7 +47,7 @@ public class Token {
     public String getText() {
         return text;
     }
-
+    
     /**
      * Gets the type.
      *
@@ -57,7 +57,7 @@ public class Token {
     public TokenType getType() {
         return type;
     }
-    
+
     /**
      * Gets the token informations message.
      *
@@ -67,10 +67,10 @@ public class Token {
     public String getMessage() {
         return info.getMessage();
     }
-
+    
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
@@ -78,7 +78,7 @@ public class Token {
         return ("<" + type + "\"" + getText() + "\"" + ">").replaceAll("\n",
                 "\\\\n").replaceAll("\t", "\\\\t");
     }
-
+    
     /**
      * The Enum TokenType.
      *
@@ -86,69 +86,82 @@ public class Token {
      * @version $Revision: 1.0 $
      */
     public static enum TokenType {
-
-        /** The number. */
+        
+        /** The number token. */
         NUMBER,
-        /** The space. */
+        /** The whitespace token. */
         SPACE,
-        /** The eof. */
+        /** The end of file marker token. */
         EOF,
-        /** The plusminus. */
-        PLUSMINUS,
-        /** The muldiv. */
-        MULDIV,
-        /** The raised. */
+        /** The addition operator and unary positive operator +. */
+        PLUS,
+        /** The subtraction operator and unary negative operator -. */
+        MINUS,
+        /** The multiplication operator *. */
+        MULTIPLY,
+        /** The division operator / */
+        DIVIDE,
+        /** The modulo operator %. */
+        MOD,
+        /** The raiser operator ^. */
         RAISED,
-        /** The open parens. */
+        /** The open parenthesis. */
         OPEN_PARENS,
-        /** The close parens. */
+        /** The close parenthesis. */
         CLOSE_PARENS,
-        /** The identifier. */
+        /** The identifier value. */
         IDENTIFIER,
-        /** The semi. */
+        /** The semi colon. */
         SEMI,
-        /** The equal. */
+        /** The equal sign. */
         EQUAL,
-        /** The comma. */
+        /** The comma symbol. */
         COMMA,
-        /** The and. */
+        /** The and operator &&. */
         AND,
-        /** The or. */
+        /** The or operator ||. */
         OR,
-        /** The boolean. */
+        /** The boolean value, true or false. */
         BOOLEAN,
-        /** The if. */
+        /** The if token. */
         IF,
-        /** The else. */
+        /** The else token. */
         ELSE,
-        /** The less than. */
+        /** The then token. */
+        THEN,
+        /** The less than operator <. */
         LESS_THAN,
-        /** The greater than. */
+        /** The greater than operator >. */
         GREATER_THAN,
-        /** The less than equal. */
+        /** The less than equal operator <=. */
         LESS_THAN_EQUAL,
-        /** The greater than equal. */
+        /** The greater than equal operator >=. */
         GREATER_THAN_EQUAL,
-
-        /** The open bracket. */
-        OPEN_BRACKET,
-
-        /** The close bracket. */
-        CLOSE_BRACKET,
-        OPEN_CURLY,
-        CLOSE_CURLY,
+        /** The open square bracket [. */
+        OPEN_SQUARE_BRACKET,
+        /** The close square bracket ]. */
+        CLOSE_SQUARE_BRACKET,
+        /** An open curly bracket {. */
+        OPEN_CURLY_BRACKET,
+        /** A close curly bracket }. */
+        CLOSE_CURLY_BRACKET,
+        /** A comment token. */
         COMMENT,
+        /** A string literal. */
         STRING,
+        /** A character literal */
         CHAR,
-        ARROW,
+        /** The arrow token -> */
+        ARROW_RIGHT,
+        /** The lambda token. */
         LAMBDA,
-        TO,
-        MOD;
+        /** The to token. */
+        TO;
     }
-
+    
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -159,10 +172,10 @@ public class Token {
         result = prime * result + (type == null ? 0 : type.hashCode());
         return result;
     }
-
+    
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -189,5 +202,5 @@ public class Token {
         }
         return true;
     }
-
+    
 }

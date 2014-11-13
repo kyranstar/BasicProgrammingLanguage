@@ -320,14 +320,14 @@ public final class TokenMatchers {
         static {
             OPERATORS.add(new StringToOperator(";", TokenType.SEMI));
             OPERATORS.add(new StringToOperator(",", TokenType.COMMA));
-            OPERATORS.add(new StringToOperator("->", TokenType.ARROW));
+            OPERATORS.add(new StringToOperator("->", TokenType.ARROW_RIGHT));
             OPERATORS.add(new StringToOperator("=", TokenType.EQUAL));
             
-            OPERATORS.add(new StringToOperator("*", TokenType.MULDIV));
-            OPERATORS.add(new StringToOperator("/", TokenType.MULDIV));
+            OPERATORS.add(new StringToOperator("*", TokenType.MULTIPLY));
+            OPERATORS.add(new StringToOperator("/", TokenType.DIVIDE));
             OPERATORS.add(new StringToOperator("%", TokenType.MOD));
-            OPERATORS.add(new StringToOperator("+", TokenType.PLUSMINUS));
-            OPERATORS.add(new StringToOperator("-", TokenType.PLUSMINUS));
+            OPERATORS.add(new StringToOperator("+", TokenType.PLUS));
+            OPERATORS.add(new StringToOperator("-", TokenType.MINUS));
             OPERATORS.add(new StringToOperator("^", TokenType.RAISED));
             
             OPERATORS
@@ -496,13 +496,13 @@ public final class TokenMatchers {
     public static class IF extends TokenMatcher {
         
         /** The if string. */
-        private final static String IF_STRING = "if";
+        public final static String IF_STRING = "if";
         
         /** The else string. */
-        private final static String ELSE_STRING = "else";
+        public final static String ELSE_STRING = "else";
 
         /** The then string. */
-        private final static String THEN_STRING = "then";
+        public final static String THEN_STRING = "then";
         
         /*
          * (non-Javadoc)
@@ -516,10 +516,10 @@ public final class TokenMatchers {
             
             if (code.startsWith(IF_STRING)) {
                 return new Token(TokenType.IF, IF_STRING, lexInfo);
-            } else if (code.startsWith(ELSE_STRING)) {
-                return new Token(TokenType.ELSE, ELSE_STRING, lexInfo);
+            } else if (code.startsWith(THEN_STRING)) {
+                return new Token(TokenType.THEN, THEN_STRING, lexInfo);
             } else {
-                return new Token(TokenType.ELSE, THEN_STRING, lexInfo);
+                return new Token(TokenType.ELSE, ELSE_STRING, lexInfo);
             }
         }
         
@@ -563,13 +563,17 @@ public final class TokenMatchers {
                 case ')':
                     return new Token(TokenType.CLOSE_PARENS, token, lexInfo);
                 case '[':
-                    return new Token(TokenType.OPEN_BRACKET, token, lexInfo);
+                    return new Token(TokenType.OPEN_SQUARE_BRACKET, token,
+                            lexInfo);
                 case ']':
-                    return new Token(TokenType.CLOSE_BRACKET, token, lexInfo);
+                    return new Token(TokenType.CLOSE_SQUARE_BRACKET, token,
+                            lexInfo);
                 case '{':
-                    return new Token(TokenType.OPEN_CURLY, token, lexInfo);
+                    return new Token(TokenType.OPEN_CURLY_BRACKET, token,
+                            lexInfo);
                 case '}':
-                    return new Token(TokenType.CLOSE_CURLY, token, lexInfo);
+                    return new Token(TokenType.CLOSE_CURLY_BRACKET, token,
+                            lexInfo);
             }
             throw new LexerException("Unidentified token: " + token);
         }

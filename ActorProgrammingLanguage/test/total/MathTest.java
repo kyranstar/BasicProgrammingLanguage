@@ -24,9 +24,6 @@ public class MathTest {
     /** The variable named a. */
     final String variableNameA = "a";
 
-    /**
-     * Int test.
-     */
     @Test
     public void intTest() {
         ProgramTest.test("a = 10;", expected10, variableNameA);
@@ -36,6 +33,14 @@ public class MathTest {
         ProgramTest.test("a = 20/2;", expected10, variableNameA);
         ProgramTest.test("a = 10^2 / 10;", expected10, variableNameA);
 
+    }
+
+    @Test
+    public void parensTest() {
+        ProgramTest.test("a = 7+1*3;", expected10, variableNameA);
+        ProgramTest.test("a = (3+2)*2;", expected10, variableNameA);
+        ProgramTest.test("a = (8+2)^2;", new BigDecimal("100"), variableNameA);
+        ProgramTest.test("a = 6+(2^2);", expected10, variableNameA);
     }
 
     /**

@@ -66,11 +66,12 @@ public class Lexer {
                 potentialMatches.add(t);
             }
         }
+        // If there are no potential matches
         if (potentialMatches.size() == 0) {
             throw new LexerException("Could not match character '"
                     + code.charAt(lexInfo.position) + "' with token");
         }
-        
+        // If there are matches, match the longest
         Token longest = null;
         for (final Token t : potentialMatches) {
             if (longest == null
@@ -81,7 +82,16 @@ public class Lexer {
 
         // if there is a newline in the text
         final String tokenText = longest.getText();
-        // Update lexer information
+        updateLexInfoPosition(tokenText);
+        return longest;
+    }
+    
+    /**
+     * This method updates the currentLine, lastEndLine, and position of the
+     * lexInfo. This should be called whenever a string is lexed with the string
+     * as the param.
+     */
+    private void updateLexInfoPosition(final String tokenText) {
         // if the text contains a new line
         if (tokenText.indexOf('\n') != -1) {
             // add number of \n in text to the currentLine
@@ -91,7 +101,6 @@ public class Lexer {
                     + tokenText.lastIndexOf('\n');
         }
         lexInfo.position += tokenText.length();
-        return longest;
     }
     
     /**
