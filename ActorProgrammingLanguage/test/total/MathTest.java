@@ -72,6 +72,7 @@ public class MathTest {
         ProgramTest.test("a = 20 + -10;", expected10, variableNameA);
         ProgramTest.test("a = 100 ^ -2 * 100000;", expected10, variableNameA);
         ProgramTest.test("a = 100 ^ (1/2);", expected10, variableNameA);
+        ProgramTest.test("a = 110 - 10^2;", expected10, variableNameA);
     }
     
     /**
@@ -79,12 +80,12 @@ public class MathTest {
      */
     @Test
     public void invalidTypeTest() {
-        ProgramTest.testParserException("a = true + false");
-        ProgramTest.testParserException("a = 3 + false");
-        ProgramTest.testParserException("a = true + 3");
-        ProgramTest.testParserException("a = 3 && 4");
-        ProgramTest.testParserException("a = 4 && false");
-        ProgramTest.testParserException("a = true && 3");
+        ProgramTest.testParserException("a = true + false;");
+        ProgramTest.testParserException("a = 3 + false;");
+        ProgramTest.testParserException("a = true + 3;");
+        ProgramTest.testParserException("a = 3 && 4;");
+        ProgramTest.testParserException("a = 4 && false;");
+        ProgramTest.testParserException("a = true && 3;");
     }
     
     /**

@@ -45,6 +45,20 @@ public class BoolTest {
     public void testGreaterThanEquals() {
         ProgramTest.test("a = if 3 >= 3 then 10 else 11;", expected10,
                 variableNameA);
+        ProgramTest.test("a = if 3 >= -3 then 10 else 11;", expected10,
+                variableNameA);
+        ProgramTest.test("a = if 3 >= (-3+5) then 10 else 11;", expected10,
+                variableNameA);
+    }
+    
+    @Test
+    public void testEquals() {
+        ProgramTest.test("a = true = true;", true, variableNameA);
+        ProgramTest.test("a = false = false;", true, variableNameA);
+        ProgramTest.test("a = false = true;", false, variableNameA);
+        ProgramTest.test("a = true = false;", false, variableNameA);
+        ProgramTest.test("a = 4 = 4;", true, variableNameA);
+        ProgramTest.test("a = 3 = 4;", false, variableNameA);
     }
     
     @Test
