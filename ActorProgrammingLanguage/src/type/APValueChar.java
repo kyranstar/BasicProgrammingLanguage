@@ -2,12 +2,26 @@ package type;
 
 import java.math.BigDecimal;
 
+/**
+ * The Class APValueChar. Represents a character literal.
+ */
 public class APValueChar extends APValue<Character> {
-    
+
+    /**
+     * Instantiates a new AP value char.
+     *
+     * @param c
+     *            the c
+     */
     public APValueChar(final Character c) {
         setValue(c);
     }
-    
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see type.APValue#callMethod(type.APValue.Operators, type.APValue)
+     */
     @Override
     public APValue callMethod(final Operators s, final APValue arg) {
         switch (s) {

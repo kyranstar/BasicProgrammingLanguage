@@ -11,15 +11,14 @@ import java.util.List;
 
 import parser.ExpressionNode;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class APValueList.
+ * The Class APValueList. Represents a list of expressions.
  *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
 public class APValueList extends APValue<List> {
-    
+
     /**
      * Instantiates a new AP value bool.
      *
@@ -29,10 +28,10 @@ public class APValueList extends APValue<List> {
     public APValueList(final List<ExpressionNode> expressionNode) {
         setValue(Collections.unmodifiableList(new ArrayList<>(expressionNode)));
     }
-
+    
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -44,10 +43,10 @@ public class APValueList extends APValue<List> {
         }
         return builder.toString();
     }
-    
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see type.APValue#callMethod(type.APValue.Methods, type.APValue)
      */
     /**
@@ -80,11 +79,20 @@ public class APValueList extends APValue<List> {
                 }
                 break;
         }
-        
+
         throw new MismatchedMethodException("Can't call method " + method
                 + " on type list with param " + arg);
     }
-    
+
+    /**
+     * Multiply.
+     *
+     * @param value
+     *            the value
+     * @param value2
+     *            the value2
+     * @return the list
+     */
     private List<ExpressionNode> multiply(final List<ExpressionNode> value,
             BigDecimal value2) {
         boolean negative = false;
@@ -92,9 +100,9 @@ public class APValueList extends APValue<List> {
             negative = true;
             value2 = value2.negate();
         }
-        
+
         final List<ExpressionNode> b = new LinkedList<ExpressionNode>();
-        
+
         // if our number is greater than one
         for (; value2.compareTo(BigDecimal.ONE) > 0; value2 = value2
                 .subtract(BigDecimal.ONE)) {
@@ -106,7 +114,7 @@ public class APValueList extends APValue<List> {
         }
         return b;
     }
-    
+
     /**
      * Append two lists.
      *

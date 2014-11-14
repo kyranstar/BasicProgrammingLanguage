@@ -8,28 +8,24 @@ import interpreter.library.LibraryFunction;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import type.APValue;
 import type.APValueFunction;
 
 /**
- * The Class Context stores variable and function mappings.
+ * The Class Context stores function mappings.
  *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
 public class Context {
-
+    
     /** The variable mapping. */
     private Map<String, APValue> variables;
     
-    /** The parent. */
-    Optional<Context> parent;
-
     /** The output stream. */
     private PrintStream outputStream;
-
+    
     /**
      * Instantiates a new context with a given print stream.
      *
@@ -38,24 +34,11 @@ public class Context {
      */
     public Context(final PrintStream p) {
         setVariables(new HashMap<>());
-        parent = Optional.empty();
         outputStream = p;
-
+        
         LibraryFunction.applyLibraryFunctions(this);
     }
-
-    /**
-     * Instantiates a new context with a given parent.
-     *
-     * @param parent
-     *            the parent
-     */
-    public Context(final Context parent) {
-        setVariables(new HashMap<>());
-        this.parent = Optional.of(parent);
-        outputStream = parent.getOutputStream();
-    }
-
+    
     /**
      * Put variable.
      *
@@ -65,18 +48,9 @@ public class Context {
      *            the en
      */
     public void putFunction(final String name, final APValue value) {
-        // If this context has a parent
-        if (parent.isPresent()) {
-            // If that parent has the variable we are assigning
-            if (parent.get().getFunction(name) != null) {
-                // Put it to the parent instead
-                parent.get().putFunction(name, value);
-                return;
-            }
-        }
         getVariables().put(name, value);
     }
-    
+
     /**
      * Gets the variable with a given name.
      *
@@ -86,29 +60,11 @@ public class Context {
      * @return the variable
      */
     public APValue getFunction(final String functionSignature) {
-        APValue node = getVariables().get(functionSignature);
-        if (node == null) {
-            if (parent.isPresent()) {
-                node = parent.get().getFunction(functionSignature);
-            } else {
-                throw new ContextException("Could not find value for <"
-                        + functionSignature + ">");
-            }
-        }
+        final APValue node = getVariables().get(functionSignature);
         return node;
-
+        
     }
-
-    /**
-     * Gets the child context.
-     *
-     *
-     * @return the child context
-     */
-    public Context getChild() {
-        return new Context(this);
-    }
-
+    
     /**
      * Gets the variables.
      *
@@ -118,7 +74,7 @@ public class Context {
     public Map<String, APValue> getVariables() {
         return variables;
     }
-
+    
     /**
      * Sets the variable map.
      *
@@ -128,7 +84,7 @@ public class Context {
     public void setVariables(final Map<String, APValue> variables) {
         this.variables = variables;
     }
-
+    
     /**
      * Gets the output stream.
      *
@@ -138,7 +94,7 @@ public class Context {
     public PrintStream getOutputStream() {
         return outputStream;
     }
-
+    
     /**
      * Sets the output stream.
      *
@@ -148,15 +104,26 @@ public class Context {
     public void setOutputStream(final PrintStream p) {
         outputStream = p;
     }
-    
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return "Context [variables=" + variables + ", outputStream="
                 + outputStream + "]";
     }
-
+    
+    /**
+     * Put function.
+     *
+     * @param function
+     *            the function
+     */
     public void putFunction(final Function function) {
         putFunction(function.name, new APValueFunction(function));
     }
-
+    
 }

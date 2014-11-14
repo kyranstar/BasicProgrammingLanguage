@@ -3,17 +3,19 @@
  */
 package lexer;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class LexerInformation.
+ * The Class PositionInfo. Holds information about the current position in the
+ * code.
+ *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
-public class LexerInformation {
+public class PositionInfo {
     
     /** Current line number we are on. */
     public int currentLine = 0;
-    /** The index from beginning of file of the last end line */
+    
+    /** The index from beginning of file of the last end line. */
     public int lastEndLine = 0;
     /** Total index from beginning of file. */
     public int position = 0;
@@ -21,8 +23,9 @@ public class LexerInformation {
     /**
      * Gets the message.
      *
-    
-     * @return the message */
+     *
+     * @return the message
+     */
     public String getMessage() {
         return " (Line: " + currentLine + " Position: "
                 + (position - lastEndLine) + ")";
@@ -30,10 +33,11 @@ public class LexerInformation {
     
     /**
      * Method copy.
+     *
      * @return LexerInformation
      */
-    public LexerInformation copy() {
-        final LexerInformation copy = new LexerInformation();
+    public PositionInfo copy() {
+        final PositionInfo copy = new PositionInfo();
         copy.currentLine = currentLine;
         copy.lastEndLine = lastEndLine;
         copy.position = position;

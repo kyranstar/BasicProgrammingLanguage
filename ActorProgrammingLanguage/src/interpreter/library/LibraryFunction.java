@@ -20,7 +20,8 @@ import type.APValueList;
 import type.APValueNum;
 
 /**
- * The Class LibraryFunction.
+ * The Class LibraryFunction. This class holds the methods to add library
+ * functions to a context.
  *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
@@ -34,7 +35,7 @@ public final class LibraryFunction {
     }
     
     /**
-     * Apply library functions.
+     * Apply all library functions.
      *
      * @param context
      *            the context
@@ -50,6 +51,12 @@ public final class LibraryFunction {
         return context;
     }
     
+    /**
+     * Fold left function.
+     *
+     * @param context
+     *            the context
+     */
     private static void foldlFunction(final Context context) {
         final String arg1 = "arg1";
         final String arg2 = "arg2";
@@ -94,6 +101,12 @@ public final class LibraryFunction {
                 }));
     }
     
+    /**
+     * map and mapWithIndex.
+     *
+     * @param context
+     *            the context
+     */
     private static void mapFunction(final Context context) {
         final String arg1 = "list";
         final String arg2 = "func";
@@ -167,6 +180,12 @@ public final class LibraryFunction {
 
     /*
      * Math functions. sqrt, sin, cosine, tan
+     */
+    /**
+     * Math functions.
+     *
+     * @param context
+     *            the context
      */
     private static void mathFunctions(final Context context) {
         final String argName = "a";

@@ -10,7 +10,7 @@ import java.util.List;
 import lexer.Token.TokenType;
 
 /**
- * The Class TokenMatchers.
+ * The Enumeration TokenMatchers.
  *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
@@ -18,7 +18,7 @@ import lexer.Token.TokenType;
 public enum TokenMatchers {
     
     /**
-     * The Class SPACE.
+     * Matches whitespace characters.
      *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
@@ -33,7 +33,7 @@ public enum TokenMatchers {
          */
         @Override
         public Token getTokenNoCheck(final String code,
-                final LexerInformation lexInfo) {
+                final PositionInfo lexInfo) {
             final StringBuilder spaces = new StringBuilder();
             for (String sub = code; matches(sub, lexInfo); sub = sub
                     .substring(1)) {
@@ -51,14 +51,13 @@ public enum TokenMatchers {
          */
         @Override
         public boolean matchesNoCheck(final String code,
-                final LexerInformation lexInfo) {
+                final PositionInfo lexInfo) {
             return Character.isWhitespace(code.charAt(0));
         }
 
     },
 
-    /**
-     */
+    /** Matches a line comment */
     LINE_COMMENT {
 
         /*
@@ -69,10 +68,10 @@ public enum TokenMatchers {
          */
         @Override
         public Token getTokenNoCheck(final String code,
-                final LexerInformation lexInfo) {
+                final PositionInfo lexInfo) {
             final StringBuilder letters = new StringBuilder();
-            for (String sub = code; !(sub.charAt(0) == '\n')
-                    && sub.length() > 0; sub = sub.substring(1)) {
+            for (String sub = code; !sub.startsWith("\n") && sub.length() > 0; sub = sub
+                    .substring(1)) {
                 final char c = sub.charAt(0);
                 letters.append(c);
             }
@@ -87,14 +86,13 @@ public enum TokenMatchers {
          */
         @Override
         public boolean matchesNoCheck(final String code,
-                final LexerInformation lexInfo) {
+                final PositionInfo lexInfo) {
             return code.startsWith("//");
         }
 
     },
     
-    /**
-     */
+    /** Matches a multi-line comment. */
     MULTILINE_COMMENT {
 
         /*
@@ -105,7 +103,7 @@ public enum TokenMatchers {
          */
         @Override
         public Token getTokenNoCheck(final String code,
-                final LexerInformation lexInfo) {
+                final PositionInfo lexInfo) {
             final StringBuilder letters = new StringBuilder();
             for (String sub = code; sub.length() > 0; sub = sub.substring(1)) {
                 if (sub.startsWith("*/")) {
@@ -127,14 +125,14 @@ public enum TokenMatchers {
          */
         @Override
         public boolean matchesNoCheck(final String code,
-                final LexerInformation lexInfo) {
+                final PositionInfo lexInfo) {
             return code.startsWith("/*");
         }
 
     },
 
     /**
-     * The Class NUMBER.
+     * Matches a number literal.
      *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
@@ -148,7 +146,7 @@ public enum TokenMatchers {
          * lexer.LexerInformation)
          */
         @Override
-        public Token getTokenNoCheck(String code, final LexerInformation lexInfo) {
+        public Token getTokenNoCheck(String code, final PositionInfo lexInfo) {
             final StringBuilder number = new StringBuilder();
             boolean foundDec = false;
             do {
@@ -172,14 +170,14 @@ public enum TokenMatchers {
          */
         @Override
         public boolean matchesNoCheck(final String code,
-                final LexerInformation lexInfo) {
+                final PositionInfo lexInfo) {
             return Character.isDigit(code.charAt(0)) || code.charAt(0) == '.';
         }
 
     },
 
     /**
-     * The Class STRING.
+     * Matches a string literal.
      *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
@@ -193,7 +191,7 @@ public enum TokenMatchers {
          * lexer.LexerInformation)
          */
         @Override
-        public Token getTokenNoCheck(String code, final LexerInformation lexInfo) {
+        public Token getTokenNoCheck(String code, final PositionInfo lexInfo) {
 
             final StringBuilder string = new StringBuilder();
             string.append('"');
@@ -214,14 +212,14 @@ public enum TokenMatchers {
          */
         @Override
         public boolean matchesNoCheck(final String code,
-                final LexerInformation lexInfo) {
+                final PositionInfo lexInfo) {
             return code.charAt(0) == '"';
         }
 
     },
     
     /**
-     * The Class STRING.
+     * Matches a character literal.
      *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
@@ -235,7 +233,7 @@ public enum TokenMatchers {
          * lexer.LexerInformation)
          */
         @Override
-        public Token getTokenNoCheck(String code, final LexerInformation lexInfo) {
+        public Token getTokenNoCheck(String code, final PositionInfo lexInfo) {
             final StringBuilder string = new StringBuilder();
             string.append('\'');
             code = code.substring(1);
@@ -255,14 +253,14 @@ public enum TokenMatchers {
          */
         @Override
         public boolean matchesNoCheck(final String code,
-                final LexerInformation lexInfo) {
+                final PositionInfo lexInfo) {
             return code.charAt(0) == '\'';
         }
 
     },
     
     /**
-     * The Class BOOLEAN.
+     * Matches a boolean literal.
      *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
@@ -277,7 +275,7 @@ public enum TokenMatchers {
          */
         @Override
         public Token getTokenNoCheck(final String code,
-                final LexerInformation lexInfo) {
+                final PositionInfo lexInfo) {
             if (code.startsWith("true")) {
                 return new Token(TokenType.BOOLEAN, "true", lexInfo);
             }
@@ -297,14 +295,14 @@ public enum TokenMatchers {
          */
         @Override
         public boolean matchesNoCheck(final String code,
-                final LexerInformation lexInfo) {
+                final PositionInfo lexInfo) {
             return code.startsWith("true") || code.startsWith("false");
         }
 
     },
 
     /**
-     * The Class OPERATOR.
+     * Matches an operator.
      *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
@@ -312,61 +310,29 @@ public enum TokenMatchers {
     OPERATOR {
 
         /** The Constant OPERATORS. */
-        private final List<StringToOperator> OPERATORS = Collections
-                .unmodifiableList(new ArrayList<StringToOperator>() {
+        @SuppressWarnings("serial")
+        private final List<StringToToken> OPERATORS = Collections
+                .unmodifiableList(new ArrayList<StringToToken>() {
                     {
-                        add(new StringToOperator(";", TokenType.SEMI));
-                        add(new StringToOperator(",", TokenType.COMMA));
-                        add(new StringToOperator("->", TokenType.ARROW_RIGHT));
-                        add(new StringToOperator("=", TokenType.EQUAL));
-
-                        add(new StringToOperator("*", TokenType.MULTIPLY));
-                        add(new StringToOperator("/", TokenType.DIVIDE));
-                        add(new StringToOperator("%", TokenType.MOD));
-                        add(new StringToOperator("+", TokenType.PLUS));
-                        add(new StringToOperator("-", TokenType.MINUS));
-                        add(new StringToOperator("^", TokenType.RAISED));
-
-                        add(new StringToOperator("<=",
-                                TokenType.LESS_THAN_EQUAL));
-                        add(new StringToOperator(">=",
-                                TokenType.GREATER_THAN_EQUAL));
-
-                        add(new StringToOperator("<", TokenType.LESS_THAN));
-                        add(new StringToOperator(">", TokenType.GREATER_THAN));
-
-                        add(new StringToOperator("&&", TokenType.AND));
-                        add(new StringToOperator("||", TokenType.OR));
+                        add(new StringToToken(";", TokenType.SEMI));
+                        add(new StringToToken(",", TokenType.COMMA));
+                        add(new StringToToken("->", TokenType.ARROW_RIGHT));
+                        add(new StringToToken("=", TokenType.EQUAL));
+                        add(new StringToToken("*", TokenType.MULTIPLY));
+                        add(new StringToToken("/", TokenType.DIVIDE));
+                        add(new StringToToken("%", TokenType.MOD));
+                        add(new StringToToken("+", TokenType.PLUS));
+                        add(new StringToToken("-", TokenType.MINUS));
+                        add(new StringToToken("^", TokenType.RAISED));
+                        add(new StringToToken("<=", TokenType.LESS_THAN_EQUAL));
+                        add(new StringToToken(">=",
+                        TokenType.GREATER_THAN_EQUAL));
+                        add(new StringToToken("<", TokenType.LESS_THAN));
+                        add(new StringToToken(">", TokenType.GREATER_THAN));
+                        add(new StringToToken("&&", TokenType.AND));
+                        add(new StringToToken("||", TokenType.OR));
                     }
                 });
-
-        /**
-         * The Class StringToOperator.
-         *
-         * @author Kyran Adams
-         * @version $Revision: 1.0 $
-         */
-        class StringToOperator {
-
-            /** The text. */
-            public String text;
-
-            /** The type. */
-            public TokenType type;
-
-            /**
-             * Instantiates a new string to operator.
-             *
-             * @param string
-             *            the string
-             * @param type
-             *            the type
-             */
-            public StringToOperator(final String string, final TokenType type) {
-                text = string;
-                this.type = type;
-            }
-        }
 
         /*
          * (non-Javadoc)
@@ -376,8 +342,8 @@ public enum TokenMatchers {
          */
         @Override
         public Token getTokenNoCheck(final String code,
-                final LexerInformation lexInfo) {
-            for (final StringToOperator entry : OPERATORS) {
+                final PositionInfo lexInfo) {
+            for (final StringToToken entry : OPERATORS) {
                 if (code.startsWith(entry.text)) {
                     return new Token(entry.type, entry.text, lexInfo);
                 }
@@ -395,8 +361,8 @@ public enum TokenMatchers {
          */
         @Override
         public boolean matchesNoCheck(final String code,
-                final LexerInformation lexInfo) {
-            for (final StringToOperator s : OPERATORS) {
+                final PositionInfo lexInfo) {
+            for (final StringToToken s : OPERATORS) {
                 if (code.startsWith(s.text)) {
                     return true;
                 }
@@ -406,7 +372,7 @@ public enum TokenMatchers {
     },
     
     /**
-     * The Class OPERATOR.
+     * Matches keywords in the language.
      *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
@@ -414,42 +380,17 @@ public enum TokenMatchers {
     KEYWORDS {
 
         /** The Constant OPERATORS. */
-        private final List<StringToKeywords> KEYWORDS = Collections
-                .unmodifiableList(new ArrayList<StringToKeywords>() {
+        @SuppressWarnings("serial")
+        private final List<StringToToken> KEYWORDS = Collections
+                .unmodifiableList(new ArrayList<StringToToken>() {
                     {
-                        add(new StringToKeywords("to", TokenType.TO));
-                        add(new StringToKeywords("lambda", TokenType.LAMBDA));
+                        add(new StringToToken("to", TokenType.TO));
+                        add(new StringToToken("lambda", TokenType.LAMBDA));
+                        add(new StringToToken("if", TokenType.IF));
+                        add(new StringToToken("then", TokenType.THEN));
+                        add(new StringToToken("else", TokenType.ELSE));
                     }
                 });
-
-        /**
-         * The Class StringToOperator.
-         *
-         * @author Kyran Adams
-         * @version $Revision: 1.0 $
-         */
-        class StringToKeywords {
-            
-            /** The text. */
-            public String text;
-
-            /** The type. */
-            public TokenType type;
-            
-            /**
-             * Instantiates a new string to operator.
-             *
-             * @param string
-             *            the string
-             * @param type
-             *            the type
-             */
-            public StringToKeywords(final String string, final TokenType type) {
-                text = string;
-                this.type = type;
-            }
-
-        }
 
         /*
          * (non-Javadoc)
@@ -459,8 +400,8 @@ public enum TokenMatchers {
          */
         @Override
         public Token getTokenNoCheck(final String code,
-                final LexerInformation lexInfo) {
-            for (final StringToKeywords entry : KEYWORDS) {
+                final PositionInfo lexInfo) {
+            for (final StringToToken entry : KEYWORDS) {
                 if (code.startsWith(entry.text)) {
                     return new Token(entry.type, entry.text, lexInfo);
                 }
@@ -478,8 +419,8 @@ public enum TokenMatchers {
          */
         @Override
         public boolean matchesNoCheck(final String code,
-                final LexerInformation lexInfo) {
-            for (final StringToKeywords s : KEYWORDS) {
+                final PositionInfo lexInfo) {
+            for (final StringToToken s : KEYWORDS) {
                 if (code.startsWith(s.text)) {
                     return true;
                 }
@@ -489,58 +430,7 @@ public enum TokenMatchers {
     },
 
     /**
-     * The Class IF.
-     *
-     * @author Kyran Adams
-     * @version $Revision: 1.0 $
-     */
-    IF {
-
-        /** The if string. */
-        public final static String IF_STRING = "if";
-
-        /** The else string. */
-        public final static String ELSE_STRING = "else";
-        
-        /** The then string. */
-        public final static String THEN_STRING = "then";
-
-        /*
-         * (non-Javadoc)
-         *
-         * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
-         * lexer.LexerInformation)
-         */
-        @Override
-        protected Token getTokenNoCheck(final String code,
-                final LexerInformation lexInfo) {
-
-            if (code.startsWith(IF_STRING)) {
-                return new Token(TokenType.IF, IF_STRING, lexInfo);
-            } else if (code.startsWith(THEN_STRING)) {
-                return new Token(TokenType.THEN, THEN_STRING, lexInfo);
-            } else {
-                return new Token(TokenType.ELSE, ELSE_STRING, lexInfo);
-            }
-        }
-
-        /*
-         * (non-Javadoc)
-         *
-         * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
-         * lexer.LexerInformation)
-         */
-        @Override
-        protected boolean matchesNoCheck(final String code,
-                final LexerInformation lexInfo) {
-            return code.startsWith(IF_STRING) || code.startsWith(ELSE_STRING)
-                    || code.startsWith(THEN_STRING);
-        }
-
-    },
-
-    /**
-     * The Class BRACKETS.
+     * Matches open and close parens, square brackets, and curly brackets.
      *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
@@ -555,7 +445,7 @@ public enum TokenMatchers {
          */
         @Override
         public Token getTokenNoCheck(final String code,
-                final LexerInformation lexInfo) {
+                final PositionInfo lexInfo) {
             final char c = code.charAt(0);
             final String token = String.valueOf(c);
             switch (code.charAt(0)) {
@@ -587,7 +477,7 @@ public enum TokenMatchers {
          */
         @Override
         public boolean matchesNoCheck(final String code,
-                final LexerInformation lexInfo) {
+                final PositionInfo lexInfo) {
             return code.charAt(0) == '(' || code.charAt(0) == ')'
                     || code.charAt(0) == '[' || code.charAt(0) == ']'
                     || code.charAt(0) == '{' || code.charAt(0) == '}';
@@ -595,7 +485,7 @@ public enum TokenMatchers {
     },
 
     /**
-     * The Class IDENTIFIER.
+     * Matches an identifier, like a variable name.
      *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
@@ -609,7 +499,7 @@ public enum TokenMatchers {
          * lexer.LexerInformation)
          */
         @Override
-        public Token getTokenNoCheck(String code, final LexerInformation lexInfo) {
+        public Token getTokenNoCheck(String code, final PositionInfo lexInfo) {
             final StringBuilder identifier = new StringBuilder();
             do {
                 identifier.append(code.charAt(0));
@@ -627,7 +517,7 @@ public enum TokenMatchers {
          */
         @Override
         public boolean matchesNoCheck(final String code,
-                final LexerInformation lexInfo) {
+                final PositionInfo lexInfo) {
             return Character.isAlphabetic(code.charAt(0))
                     || code.charAt(0) == '_';
         }
@@ -644,7 +534,7 @@ public enum TokenMatchers {
      * @return the token no check
      */
     protected abstract Token getTokenNoCheck(final String code,
-            final LexerInformation lexInfo);
+            final PositionInfo lexInfo);
 
     /**
      * Matches without checking for errors.
@@ -657,7 +547,7 @@ public enum TokenMatchers {
      * @return true, if it matches
      */
     protected abstract boolean matchesNoCheck(final String code,
-            final LexerInformation lexInfo);
+            final PositionInfo lexInfo);
 
     /**
      * Gets the token.
@@ -669,8 +559,7 @@ public enum TokenMatchers {
      *
      * @return the token
      */
-    public final Token getToken(final String code,
-            final LexerInformation lexInfo) {
+    public final Token getToken(final String code, final PositionInfo lexInfo) {
         if (code.length() <= 0) {
             throw new LexerException("Code length was 0.");
         }
@@ -693,13 +582,41 @@ public enum TokenMatchers {
      *
      * @return true, if successful
      */
-    public final boolean matches(final String code,
-            final LexerInformation lexInfo) {
+    public final boolean matches(final String code, final PositionInfo lexInfo) {
         try {
             return matchesNoCheck(code, lexInfo);
         } catch (final StringIndexOutOfBoundsException e) {
             // We are at the EOF
             return false;
         }
+    }
+
+    /**
+     * Helper class that represents string to token conversion
+     *
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
+     */
+    class StringToToken {
+        
+        /** The text. */
+        public String text;
+
+        /** The type. */
+        public TokenType type;
+        
+        /**
+         * Instantiates a new string to operator.
+         *
+         * @param string
+         *            the string
+         * @param type
+         *            the type
+         */
+        public StringToToken(final String string, final TokenType type) {
+            text = string;
+            this.type = type;
+        }
+
     }
 }

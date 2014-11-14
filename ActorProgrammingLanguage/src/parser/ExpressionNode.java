@@ -21,14 +21,16 @@ import type.APValueNum;
 /**
  * An ExpressionNode is a expression in the language that evaluates to T.
  *
- *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
+ * @param <T>
+ *            the generic type
  */
 public abstract class ExpressionNode<T> {
 
     /** The Constant VOID. */
-    public static final ExpressionNode VOID = new ExpressionNode<Void>(null) {
+    public static final ExpressionNode<Void> VOID = new ExpressionNode<Void>(
+            null) {
 
         @Override
         public APValue<Void> getValue(final Context context) {
@@ -166,7 +168,7 @@ public abstract class ExpressionNode<T> {
     }
 
     /**
-     * The Class FunctionCallNode. Represents a function call
+     * The Class FunctionCallNode. Represents a function call.
      *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
@@ -313,7 +315,7 @@ public abstract class ExpressionNode<T> {
     }
 
     /**
-     * The Class IfNode. Represents if else expression
+     * The Class IfNode. Represents if then else expression
      *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
@@ -383,10 +385,8 @@ public abstract class ExpressionNode<T> {
         /**
          * Instantiates a new assignment node.
          *
-         * @param expr
-         *            the variable to assign to
-         * @param assigned
-         *            the assigned expression
+         * @param func
+         *            the func
          */
         public LambdaNode(final Function func) {
             super(null);
@@ -823,6 +823,9 @@ public abstract class ExpressionNode<T> {
         }
     }
     
+    /**
+     * The Class ModNode.
+     */
     public static class ModNode extends ExpressionNode {
 
         /**
@@ -988,6 +991,7 @@ public abstract class ExpressionNode<T> {
          * @param s
          *            the s
          */
+        
         public VariableNode(final String s) {
             super(null);
             this.name = s;

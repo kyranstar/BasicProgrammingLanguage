@@ -29,7 +29,7 @@ public class LexerTest {
         final Lexer lexer = new Lexer("b = 1+3;a = f(3);");
         final List<Token> expected = new ArrayList<>();
         
-        final LexerInformation lexInfo = new LexerInformation();
+        final PositionInfo lexInfo = new PositionInfo();
         
         expected.add(new Token(TokenType.IDENTIFIER, "b", lexInfo));
         expected.add(new Token(TokenType.EQUAL, "=", lexInfo));
@@ -49,11 +49,14 @@ public class LexerTest {
         assertEquals(expected, lexer.lex());
     }
 
+    /**
+     * Test number.
+     */
     @Test
     public void testNumber() {
         final Lexer lexer = new Lexer("1 1.0 .0 -1.0");
         final List<Token> expected = new ArrayList<>();
-        final LexerInformation lexInfo = new LexerInformation();
+        final PositionInfo lexInfo = new PositionInfo();
         
         expected.add(new Token(TokenType.NUMBER, "1", lexInfo));
         expected.add(new Token(TokenType.NUMBER, "1.0", lexInfo));
@@ -63,22 +66,28 @@ public class LexerTest {
         assertEquals(expected, lexer.lex());
     }
 
+    /**
+     * Test boolean.
+     */
     @Test
     public void testBoolean() {
         final Lexer lexer = new Lexer("true false");
         final List<Token> expected = new ArrayList<>();
-        final LexerInformation lexInfo = new LexerInformation();
+        final PositionInfo lexInfo = new PositionInfo();
         
         expected.add(new Token(TokenType.BOOLEAN, "true", lexInfo));
         expected.add(new Token(TokenType.BOOLEAN, "false", lexInfo));
         assertEquals(expected, lexer.lex());
     }
     
+    /**
+     * Test string.
+     */
     @Test
     public void testString() {
         final Lexer lexer = new Lexer("\"\" \"hi\"");
         final List<Token> expected = new ArrayList<>();
-        final LexerInformation lexInfo = new LexerInformation();
+        final PositionInfo lexInfo = new PositionInfo();
         
         expected.add(new Token(TokenType.STRING, "\"\"", lexInfo));
         expected.add(new Token(TokenType.STRING, "\"hi\"", lexInfo));

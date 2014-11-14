@@ -3,7 +3,6 @@
  */
 package parser;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ParserException.
  *
@@ -11,14 +10,14 @@ package parser;
  * @version $Revision: 1.0 $
  */
 public class ParserException extends RuntimeException {
-
+    
     /**
      * Instantiates a new parser exception.
      */
     public ParserException() {
         super();
     }
-
+    
     /**
      * Instantiates a new parser exception.
      *
@@ -35,7 +34,7 @@ public class ParserException extends RuntimeException {
             final boolean enableSuppression, final boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
-
+    
     /**
      * Instantiates a new parser exception.
      *
@@ -47,7 +46,7 @@ public class ParserException extends RuntimeException {
     public ParserException(final String message, final Throwable cause) {
         super(message, cause);
     }
-
+    
     /**
      * Instantiates a new parser exception.
      *
@@ -57,7 +56,7 @@ public class ParserException extends RuntimeException {
     public ParserException(final String message) {
         super(message);
     }
-
+    
     /**
      * Instantiates a new parser exception.
      *
@@ -67,5 +66,5 @@ public class ParserException extends RuntimeException {
     public ParserException(final Throwable cause) {
         super(cause);
     }
-
+    
 }

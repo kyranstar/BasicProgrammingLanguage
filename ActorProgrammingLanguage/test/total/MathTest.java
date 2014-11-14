@@ -24,6 +24,9 @@ public class MathTest {
     /** The variable named a. */
     final String variableNameA = "a";
     
+    /**
+     * Int test.
+     */
     @Test
     public void intTest() {
         ProgramTest.test("a = 10;", expected10, variableNameA);
@@ -35,6 +38,9 @@ public class MathTest {
         
     }
     
+    /**
+     * Parens test.
+     */
     @Test
     public void parensTest() {
         ProgramTest.test("a = 7+1*3;", expected10, variableNameA);
@@ -88,6 +94,9 @@ public class MathTest {
         ProgramTest.testParserException("a = true && 3;");
     }
 
+    /**
+     * Pow test.
+     */
     @Test
     public void powTest() {
         final BigDecimal max = new BigDecimal(4438);
@@ -117,6 +126,9 @@ public class MathTest {
                 variableNameA);
     }
 
+    /**
+     * Test mod.
+     */
     @Test
     public void testMod() {
         ProgramTest.test("a = 5 % 3;", new BigDecimal("2"), variableNameA);

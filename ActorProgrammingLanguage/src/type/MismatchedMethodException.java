@@ -12,62 +12,64 @@ import parser.ParserException;
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
+@SuppressWarnings("serial")
 public class MismatchedMethodException extends ParserException {
-
-    /**
-     * Instantiates a new mismatched method exception.
-     *
-     * @param string
-     *            the string
-     */
-    public MismatchedMethodException(final String string) {
-        super(string);
-    }
-
+    
     /**
      * Instantiates a new mismatched method exception.
      */
     public MismatchedMethodException() {
         super();
     }
-
+    
     /**
      * Instantiates a new mismatched method exception.
      *
-     * @param arg0
-     *            the arg0
-     * @param arg1
-     *            the arg1
-     * @param arg2
-     *            the arg2
-     * @param arg3
-     *            the arg3
+     * @param message
+     *            the message
+     * @param cause
+     *            the cause
+     * @param enableSuppression
+     *            the enable suppression
+     * @param writableStackTrace
+     *            the writable stack trace
      */
-    public MismatchedMethodException(final String arg0, final Throwable arg1,
-            final boolean arg2, final boolean arg3) {
-        super(arg0, arg1, arg2, arg3);
+    public MismatchedMethodException(final String message,
+            final Throwable cause, final boolean enableSuppression,
+            final boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
     }
-
+    
     /**
      * Instantiates a new mismatched method exception.
      *
-     * @param arg0
-     *            the arg0
-     * @param arg1
-     *            the arg1
+     * @param message
+     *            the message
+     * @param cause
+     *            the cause
      */
-    public MismatchedMethodException(final String arg0, final Throwable arg1) {
-        super(arg0, arg1);
+    public MismatchedMethodException(final String message, final Throwable cause) {
+        super(message, cause);
     }
-
+    
     /**
      * Instantiates a new mismatched method exception.
      *
-     * @param arg0
-     *            the arg0
+     * @param message
+     *            the message
      */
-    public MismatchedMethodException(final Throwable arg0) {
-        super(arg0);
+    public MismatchedMethodException(final String message) {
+        super(message);
     }
-
+    
+    /**
+     * Instantiates a new mismatched method exception.
+     *
+     * @param cause
+     *            the cause
+     */
+    public MismatchedMethodException(final Throwable cause) {
+        super(cause);
+    }
+    
 }

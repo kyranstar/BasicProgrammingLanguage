@@ -3,24 +3,24 @@
  */
 package lexer;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Token.
+ * The Class Token. Represents a single token.
  *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
 public class Token {
-
+    
     /** The text. */
     private final String text;
-
+    
     /** The type. */
     private final TokenType type;
-    
-    /* Holds information about this token */
-    private final LexerInformation info;
 
+    /* Holds information about this token */
+    /** The info. */
+    private final PositionInfo info;
+    
     /**
      * Instantiates a new token.
      *
@@ -32,12 +32,12 @@ public class Token {
      *            LexerInformation
      */
     public Token(final TokenType type, final String text,
-            final LexerInformation currentInfo) {
+            final PositionInfo currentInfo) {
         this.type = type;
         this.text = text;
         info = currentInfo;
     }
-
+    
     /**
      * Gets the text.
      *
@@ -47,7 +47,7 @@ public class Token {
     public String getText() {
         return text;
     }
-
+    
     /**
      * Gets the type.
      *
@@ -57,7 +57,7 @@ public class Token {
     public TokenType getType() {
         return type;
     }
-    
+
     /**
      * Gets the token informations message.
      *
@@ -67,10 +67,10 @@ public class Token {
     public String getMessage() {
         return info.getMessage();
     }
-
+    
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
@@ -78,11 +78,16 @@ public class Token {
         return ("<" + type + "\"" + getText() + "\"" + ">").replaceAll("\n",
                 "\\\\n").replaceAll("\t", "\\\\t");
     }
-    
-    public LexerInformation getLexInfo() {
+
+    /**
+     * Gets the lex info.
+     *
+     * @return the lex info
+     */
+    public PositionInfo getLexInfo() {
         return info;
     }
-
+    
     /**
      * The Enum TokenType.
      *
@@ -90,7 +95,7 @@ public class Token {
      * @version $Revision: 1.0 $
      */
     public static enum TokenType {
-
+        
         /** The number token. */
         NUMBER,
         /** The whitespace token. */
@@ -103,7 +108,7 @@ public class Token {
         MINUS,
         /** The multiplication operator *. */
         MULTIPLY,
-        /** The division operator / */
+        /** The division operator /. */
         DIVIDE,
         /** The modulo operator %. */
         MOD,
@@ -153,19 +158,19 @@ public class Token {
         COMMENT,
         /** A string literal. */
         STRING,
-        /** A character literal */
+        /** A character literal. */
         CHAR,
-        /** The arrow token -> */
+        /** The arrow token ->. */
         ARROW_RIGHT,
         /** The lambda token. */
         LAMBDA,
-        /** The to token. */
+        /** The to token. Used in ranges. */
         TO;
     }
-
+    
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -176,10 +181,10 @@ public class Token {
         result = prime * result + (type == null ? 0 : type.hashCode());
         return result;
     }
-
+    
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -206,5 +211,5 @@ public class Token {
         }
         return true;
     }
-
+    
 }

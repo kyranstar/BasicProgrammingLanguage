@@ -3,18 +3,14 @@
  */
 package type;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class APValueBool.
+ * The Class APValueBool. Represents a boolean value: true or false.
  *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
 public class APValueBool extends APValue<Boolean> {
-
-    /** The Constant TYPE. */
-    private static final Class<Boolean> TYPE = Boolean.class;
-
+    
     /**
      * Instantiates a new AP value bool.
      *
@@ -24,10 +20,10 @@ public class APValueBool extends APValue<Boolean> {
     public APValueBool(final Boolean expressionNode) {
         setValue(expressionNode);
     }
-    
+
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see type.APValue#callMethod(type.APValue.Methods, type.APValue)
      */
     /**
@@ -41,7 +37,7 @@ public class APValueBool extends APValue<Boolean> {
      */
     @Override
     public APValue callMethod(final Operators method, final APValue arg) {
-
+        
         switch (method) {
             case AND:
                 if (arg instanceof APValueBool) {
@@ -59,7 +55,7 @@ public class APValueBool extends APValue<Boolean> {
                             getValue() == ((APValueBool) arg).getValue());
                 }
         }
-        
+
         throw new MismatchedMethodException("Can't call method " + method
                 + " on type bool!");
     }

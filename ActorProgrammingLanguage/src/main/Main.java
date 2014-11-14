@@ -30,6 +30,7 @@ public final class Main {
      * @param args
      *            The arguments. arg[0] = the code to run.
      * @throws IOException
+     *             Signals that an I/O exception has occurred.
      */
     public static void main(final String[] args) throws IOException {
         final String code = readFile("./test/examples/code.txt",
@@ -38,6 +39,17 @@ public final class Main {
         new Interpreter(System.out).interpret(code);
     }
 
+    /**
+     * Read file.
+     *
+     * @param path
+     *            the path
+     * @param encoding
+     *            the encoding
+     * @return the string
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
     static String readFile(final String path, final Charset encoding)
             throws IOException {
         final byte[] encoded = Files.readAllBytes(Paths.get(path));

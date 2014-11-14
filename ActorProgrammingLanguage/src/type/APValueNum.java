@@ -10,13 +10,14 @@ import math.BigDecimalMath;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class APValueNum.
+ * The Class APValueNum. Represents a real number.
  *
  * @author Kyran Adams
  * @version $Revision: 1.0 $
  */
 public class APValueNum extends APValue<BigDecimal> {
     
+    /** The Constant MAX_INT_VALUE. */
     private static final BigDecimal MAX_INT_VALUE = new BigDecimal(
             Integer.MAX_VALUE);
     
@@ -137,11 +138,23 @@ public class APValueNum extends APValue<BigDecimal> {
                 + " on type " + getClass() + " and " + arg.getClass());
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see type.APValue#toString()
+     */
     @Override
     public String toString() {
         return getValue().stripTrailingZeros().toPlainString();
     }
     
+    /**
+     * Checks if is integer value.
+     *
+     * @param bd
+     *            the bd
+     * @return true, if is integer value
+     */
     private boolean isIntegerValue(final BigDecimal bd) {
         return bd.signum() == 0 || bd.scale() <= 0
                 || bd.stripTrailingZeros().scale() <= 0;
