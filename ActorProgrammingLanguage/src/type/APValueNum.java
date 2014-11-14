@@ -92,7 +92,9 @@ public class APValueNum extends APValue<BigDecimal> {
             case POWER:
                 if (arg instanceof APValueNum) {
                     final BigDecimal y = (BigDecimal) arg.getValue();
-                    if (y.compareTo(MAX_INT_VALUE) < 0 && isIntegerValue(y)) {
+                    if (y.compareTo(MAX_INT_VALUE) < 0
+                            && y.compareTo(BigDecimal.ZERO) > 0
+                            && isIntegerValue(y)) {
                         return new APValueNum(getValue().pow(y.intValue()));
                     }
                     return new APValueNum(BigDecimalMath.pow(getValue(),

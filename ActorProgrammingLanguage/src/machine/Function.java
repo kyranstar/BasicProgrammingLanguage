@@ -24,7 +24,7 @@ public class Function {
     public final List<VariableNode> parameters;
     
     /** The name. */
-    public final FunctionSignature signature;
+    public final String name;
     
     /**
      * Instantiates a new function.
@@ -38,14 +38,14 @@ public class Function {
      */
     public Function(final String name, final List<VariableNode> parameters,
             final ExpressionNode body) {
-        signature = new FunctionSignature(name);
+        this.name = name;
         this.parameters = parameters;
         this.body = body;
     }
     
     @Override
     public String toString() {
-        return signature + "(" + parameters + ") = " + body;
+        return name + "(" + parameters + ") = " + body;
     }
 
 }

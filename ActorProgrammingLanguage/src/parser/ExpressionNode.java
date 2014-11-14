@@ -12,7 +12,6 @@ import java.util.Map;
 
 import machine.Context;
 import machine.Function;
-import machine.FunctionSignature;
 import type.APValue;
 import type.APValue.Operators;
 import type.APValueFunction;
@@ -217,31 +216,28 @@ public abstract class ExpressionNode<T> {
             final Context c = new Context(context.getOutputStream());
             // Add all functions of outer scope, but we have to add this
             // function individually to avoid stackoverflow.
-            final Map<FunctionSignature, APValue> everythingButCurrentFunction = new HashMap<>(
+            final Map<String, APValue> everythingButCurrentFunction = new HashMap<>(
                     context.getVariables());
-            everythingButCurrentFunction.remove(new FunctionSignature(name));
+            everythingButCurrentFunction.remove(name);
             
             c.setVariables(everythingButCurrentFunction);
             
-            final APValue valueFunction = context
-                    .getFunction(new FunctionSignature(name));
+            final APValue valueFunction = context.getFunction(name);
             final Function func = (Function) valueFunction.getValue();
             // give it access to itself
             c.putFunction(func);
 
             if (parameters.size() != func.parameters.size()) {
                 throw new ParserException("You gave " + parameters.size()
-                        + " parameter(s), function " + func.signature
-                        + " requires " + func.parameters.size()
-                        + " parameter(s).");
+                        + " parameter(s), function " + func.name + " requires "
+                        + func.parameters.size() + " parameter(s).");
             }
 
             // Put all parameters in function scope
             for (int i = 0; i < parameters.size(); i++) {
                 final ExpressionNode given = parameters.get(i);
                 final String name = func.parameters.get(i).name;
-                c.putFunction(new FunctionSignature(name),
-                        given.getValue(context));
+                c.putFunction(name, given.getValue(context));
             }
             
             final APValue returnVal = func.body.getValue(c);
@@ -310,8 +306,7 @@ public abstract class ExpressionNode<T> {
         @Override
         public APValue getValue(final Context context) {
             final APValue expr = this.expression.getValue(context);
-            context.putFunction(new FunctionSignature(variable.name),
-                    expression.getValue(context));
+            context.putFunction(variable.name, expression.getValue(context));
             return expr;
         }
 
@@ -1015,7 +1010,7 @@ public abstract class ExpressionNode<T> {
          */
         @Override
         public APValue getValue(final Context c) {
-            return c.getFunction(new FunctionSignature(name));
+            return c.getFunction(name);
         }
 
         /**

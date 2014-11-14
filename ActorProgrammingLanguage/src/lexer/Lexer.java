@@ -17,28 +17,26 @@ import lexer.Token.TokenType;
  * @version $Revision: 1.0 $
  */
 public class Lexer {
-    
+
     /** The lex info. */
     private final LexerInformation lexInfo = new LexerInformation();
-    
+
     /** The code. */
     private final String code;
     // Token matchers, ordered by length to avoid hitting shorter ones first.
     // ("len" before "length")
     /** The matchers. */
-    private final TokenMatcher[] matchers = {
-            new TokenMatchers.MULTILINE_COMMENT(),
-            new TokenMatchers.LINE_COMMENT(), new TokenMatchers.STRING(),
-            new TokenMatchers.CHAR(), new TokenMatchers.SPACE(),
-            new TokenMatchers.OPERATOR(), new TokenMatchers.KEYWORDS(),
-            new TokenMatchers.NUMBER(), new TokenMatchers.BOOLEAN(),
-            new TokenMatchers.BRACKETS(), new TokenMatchers.IF(),
-            new TokenMatchers.IDENTIFIER() };
-    
+    private final TokenMatchers[] matchers = { TokenMatchers.MULTILINE_COMMENT,
+            TokenMatchers.LINE_COMMENT, TokenMatchers.STRING,
+            TokenMatchers.CHAR, TokenMatchers.SPACE, TokenMatchers.OPERATOR,
+            TokenMatchers.KEYWORDS, TokenMatchers.NUMBER,
+            TokenMatchers.BOOLEAN, TokenMatchers.BRACKETS, TokenMatchers.IF,
+            TokenMatchers.IDENTIFIER };
+
     /** The types to ignore when passing to parser. */
     private final List<TokenType> typesToIgnore = Arrays.asList(
             TokenType.COMMENT, TokenType.SPACE, TokenType.EOF);
-    
+
     /**
      * Instantiates a new lexer.
      *
@@ -48,7 +46,7 @@ public class Lexer {
     public Lexer(final String code) {
         this.code = code;
     }
-    
+
     /**
      * Match token.
      *
@@ -57,17 +55,17 @@ public class Lexer {
      */
     private Token matchToken() {
         final String codeFromPosition = code.substring(lexInfo.position);
-        
+
         final List<Token> potentialMatches = new ArrayList<>();
-        
-        for (final TokenMatcher m : matchers) {
+
+        for (final TokenMatchers m : matchers) {
             if (m.matches(codeFromPosition, lexInfo)) {
                 final Token t = m.getToken(codeFromPosition, lexInfo.copy());
                 potentialMatches.add(t);
             }
         }
         // If there are no potential matches
-        if (potentialMatches.size() == 0) {
+        if (potentialMatches.isEmpty()) {
             throw new LexerException("Could not match character '"
                     + code.charAt(lexInfo.position) + "' with token");
         }
@@ -79,13 +77,13 @@ public class Lexer {
                 longest = t;
             }
         }
-
+        
         // if there is a newline in the text
         final String tokenText = longest.getText();
         updateLexInfoPosition(tokenText);
         return longest;
     }
-    
+
     /**
      * This method updates the currentLine, lastEndLine, and position of the
      * lexInfo. This should be called whenever a string is lexed with the string
@@ -102,7 +100,7 @@ public class Lexer {
         }
         lexInfo.position += tokenText.length();
     }
-    
+
     /**
      * Lexes the code into tokens.
      *
@@ -112,14 +110,14 @@ public class Lexer {
     public List<Token> lex() {
         try {
             final List<Token> tokens = new ArrayList<>();
-            
+
             while (lexInfo.position < code.length()) {
-                final Token t = matchToken();
-                if (!typesToIgnore.contains(t.getType())) {
-                    tokens.add(t);
+                final Token nextToken = matchToken();
+                if (!typesToIgnore.contains(nextToken.getType())) {
+                    tokens.add(nextToken);
                 }
             }
-            
+
             return tokens;
         } catch (final LexerException e) {
             throw new LexerException(lexInfo.getMessage(), e);

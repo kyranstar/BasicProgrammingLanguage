@@ -141,9 +141,8 @@ public class FunctionTest {
     @Test
     public void euler6() {
         ProgramTest.test("sum a b =a+b;\n"
-                + "sumOfSquares = (1 to 10) foldl lambda a,b -> a + b*b;\n"
-                + "sums = ((1 to 10) foldl lambda a,b -> a + b);\n"
-                + "squareOfSums = sums*sums;\n"
+                + "sumOfSquares = (1 to 10) foldl lambda a,b -> a + b^2;\n"
+                + "squareOfSums = ((1 to 10) foldl lambda a,b -> a + b)^2;\n"
                 + "diff = squareOfSums - sumOfSquares;",
                 new BigDecimal("2640"), "diff");
     }

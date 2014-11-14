@@ -14,7 +14,6 @@ import junit.framework.AssertionFailedError;
 import lexer.Lexer;
 import machine.Context;
 import machine.ContextException;
-import machine.FunctionSignature;
 
 import org.junit.Assert;
 import org.junit.Rule;
@@ -175,9 +174,7 @@ public class ProgramTest {
             node.getValue(c);
         }
         try {
-            final Object ob = c
-                    .getFunction(new FunctionSignature(variableName))
-                    .getValue();
+            final Object ob = c.getFunction(variableName).getValue();
             if (ob instanceof BigDecimal) {
                 Assert.assertTrue(((BigDecimal) ob)
                         .compareTo((BigDecimal) expected) == 0);
@@ -186,8 +183,8 @@ public class ProgramTest {
             }
         } catch (final AssertionError e) {
             throw new AssertionError("Was "
-                    + c.getFunction(new FunctionSignature(variableName))
-                            .getValue() + " instead of " + expected, e);
+                    + c.getFunction(variableName).getValue() + " instead of "
+                    + expected, e);
         }
     }
 
@@ -203,6 +200,16 @@ public class ProgramTest {
             throw new AssertionFailedError("Did not throw context exception!");
         } catch (final ContextException e) {
             return;
+        }
+    }
+
+    public static void testNoError(final String string) {
+        final Context c = new Context(new PrintStream(
+                new ByteArrayOutputStream()));
+        final List<ExpressionNode> nodes = new Parser(new Lexer(string).lex())
+        .parse(c);
+        for (final ExpressionNode node : nodes) {
+            node.getValue(c);
         }
     }
 }

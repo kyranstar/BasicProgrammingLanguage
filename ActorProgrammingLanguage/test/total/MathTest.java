@@ -20,10 +20,10 @@ import type.APValueNum;
 public class MathTest {
     /** The number 10. */
     final BigDecimal expected10 = new BigDecimal("10");
-    
+
     /** The variable named a. */
     final String variableNameA = "a";
-
+    
     @Test
     public void intTest() {
         ProgramTest.test("a = 10;", expected10, variableNameA);
@@ -32,9 +32,9 @@ public class MathTest {
         ProgramTest.test("a = 5*2;", expected10, variableNameA);
         ProgramTest.test("a = 20/2;", expected10, variableNameA);
         ProgramTest.test("a = 10^2 / 10;", expected10, variableNameA);
-
+        
     }
-
+    
     @Test
     public void parensTest() {
         ProgramTest.test("a = 7+1*3;", expected10, variableNameA);
@@ -42,16 +42,16 @@ public class MathTest {
         ProgramTest.test("a = (8+2)^2;", new BigDecimal("100"), variableNameA);
         ProgramTest.test("a = 6+(2^2);", expected10, variableNameA);
     }
-
+    
     /**
      * functions test.
      */
     @Test
     public void funcTest() {
         ProgramTest.test("a = sqrt(100);", expected10, variableNameA);
-
+        
     }
-    
+
     /**
      * Dec test.
      */
@@ -60,7 +60,7 @@ public class MathTest {
         ProgramTest.test("a = 20 * 0.5;", expected10, variableNameA);
         ProgramTest.test("a = 4 * 2.5;", expected10, variableNameA);
     }
-    
+
     /**
      * Neg test.
      */
@@ -70,11 +70,11 @@ public class MathTest {
         ProgramTest.test("a = -10/2 + 15;", expected10, variableNameA);
         ProgramTest.test("a = -10 + 20;", expected10, variableNameA);
         ProgramTest.test("a = 20 + -10;", expected10, variableNameA);
-        ProgramTest.test("a = 100 ^ -2 * 100000;", expected10, variableNameA);
+        ProgramTest.test("a = (100 ^ -2) * 100000;", expected10, variableNameA);
         ProgramTest.test("a = 100 ^ (1/2);", expected10, variableNameA);
         ProgramTest.test("a = 110 - 10^2;", expected10, variableNameA);
     }
-    
+
     /**
      * Invalid type test.
      */
@@ -87,7 +87,17 @@ public class MathTest {
         ProgramTest.testParserException("a = 4 && false;");
         ProgramTest.testParserException("a = true && 3;");
     }
-    
+
+    @Test
+    public void powTest() {
+        final BigDecimal max = new BigDecimal(4438);
+        final BigDecimal half = new BigDecimal("0.5");
+        for (BigDecimal bd = new BigDecimal("-798"); bd.compareTo(max) <= 0; bd = bd
+                .add(half)) {
+            ProgramTest.testNoError("a = 100^" + bd.toPlainString() + ";");
+        }
+    }
+
     /**
      * Test divide by zero.
      */
@@ -95,7 +105,7 @@ public class MathTest {
     public void testDivideByZero() {
         ProgramTest.test("a = 20/0;", expected10, variableNameA);
     }
-    
+
     /**
      * Test rational.
      */
@@ -104,9 +114,9 @@ public class MathTest {
         ProgramTest.test("a = 10/3;",
                 new BigDecimal("10").divide(new BigDecimal("3"),
                         APValueNum.DECIMALS, RoundingMode.HALF_UP),
-                        variableNameA);
+                variableNameA);
     }
-    
+
     @Test
     public void testMod() {
         ProgramTest.test("a = 5 % 3;", new BigDecimal("2"), variableNameA);
