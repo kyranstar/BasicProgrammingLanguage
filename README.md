@@ -5,6 +5,7 @@ This is a programming language that was originally going to be based around acto
 Todo list:
   - [x] Built in data types: Number, Boolean, List, Char
   - [x] Primitive operators
+    - [ ] Multiple levels of operator precedence
   - [x] First class functions
   - [ ] Library functions
   - [x] Ranges
