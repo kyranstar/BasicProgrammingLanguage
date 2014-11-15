@@ -38,7 +38,6 @@ import parser.ExpressionNode.SubtractionNode;
 import parser.ExpressionNode.VariableNode;
 import parser.checking.CompilerException;
 import parser.checking.TreeChecker;
-import type.APValue.Operators;
 import type.APValueBool;
 import type.APValueChar;
 import type.APValueFunction;
@@ -54,14 +53,14 @@ import type.APValueNum;
 public class Parser {
 
     /** The Constant NEGATIVE_ONE. */
-    private static final APValueNum NEGATIVE_ONE = new APValueNum(
-            new BigDecimal("-1"));
+    private static final ExpressionNode NEGATIVE_ONE = new ConstantNode(
+            new APValueNum(new BigDecimal("-1")));
 
     /** The Constant BACKWARD_TOKENS_IN_ERROR. */
     private static final int BACKWARD_TOKENS_IN_ERROR = 5;
 
     /** The Constant lastTokens. */
-    private static final Stack<Token> lastTokens = new Stack<>();
+    private final Stack<Token> lastTokens = new Stack<>();
 
     /** The tokens. */
     LinkedList<Token> tokens = new LinkedList<>();
@@ -321,45 +320,28 @@ public class Parser {
      */
     private ExpressionNode highOp(final ExpressionNode expr,
             final Context context) {
-        if (lookahead.getType() == TokenType.TO) {
-            return highOp(matchRange(expr, context), context);
-        } else if (lookahead.getType() == TokenType.MULTIPLY) {
+        if (lookahead.getType() == TokenType.MULTIPLY) {
             // term_op -> MULTDIV factor term_op
             nextToken();
             final ExpressionNode prod = new MultiplicationNode(expr,
-                    signedFactor(context));
+                    signedHighTerm(context));
             return highOp(prod, context);
         } else if (lookahead.getType() == TokenType.DIVIDE) {
             // term_op -> MULTDIV factor term_op
             nextToken();
             final ExpressionNode prod = new DivisionNode(expr,
-                    signedFactor(context));
+                    signedHighTerm(context));
             return highOp(prod, context);
         } else if (lookahead.getType() == TokenType.MOD) {
             // term_op -> MULTDIV factor term_op
             nextToken();
-            return highOp(new ModNode(expr, signedFactor(context)), context);
+            return highOp(new ModNode(expr, signedHighTerm(context)), context);
         } else if (lookahead.getType() == TokenType.AND) {
             nextToken();
-            return highOp(new AndNode(expr, value(context)), context);
+            return highOp(new AndNode(expr, signedHighTerm(context)), context);
         } else if (lookahead.getType() == TokenType.OR) {
             nextToken();
-            return highOp(new OrNode(expr, term(context)), context);
-        } else if (lookahead.getType() == TokenType.OPEN_CURLY_BRACKET) {
-            nextToken();
-            final ExpressionNode insideParens = expression(context);
-            assertNextToken(TokenType.CLOSE_CURLY_BRACKET);
-            nextToken();
-            return highOp(new ListIndexNode(expr, insideParens), context);
-
-        } else if (lookahead.getType() == TokenType.OPEN_PARENS) {
-            if (expr.getClass() != VariableNode.class) {
-                throw new ParserException(
-                        "Can't call function on a non function value");
-            }
-
-            return highOp(functionParameters(context, (VariableNode) expr),
-                    context);
+            return highOp(new OrNode(expr, signedHighTerm(context)), context);
         } else if (lookahead.getType() == TokenType.IDENTIFIER) {
             final VariableNode functionName = identifier();
             nextToken();
@@ -383,14 +365,13 @@ public class Parser {
      *
      * @return the expression node
      */
-    private ExpressionNode signedFactor(final Context context) {
+    private ExpressionNode signedHighTerm(final Context context) {
         if (lookahead.getType() == TokenType.PLUS) {
             nextToken();
             return factor(context);
         } else if (lookahead.getType() == TokenType.MINUS) {
             nextToken();
-            return new ConstantNode(((APValueNum) factor(context).getValue(
-                    context)).callMethod(Operators.MULTIPLY, NEGATIVE_ONE));
+            return new MultiplicationNode(factor(context), NEGATIVE_ONE);
         } else {
             return factor(context);
         }
@@ -405,7 +386,7 @@ public class Parser {
      * @return the expression node
      */
     private ExpressionNode factor(final Context context) {
-        return factorOp(argument(context), context);
+        return highestOp(argument(context), context);
     }
 
     /**
@@ -418,16 +399,33 @@ public class Parser {
      *
      * @return the expression node
      */
-    private ExpressionNode factorOp(final ExpressionNode expression,
+    private ExpressionNode highestOp(final ExpressionNode expr,
             final Context context) {
         if (lookahead.getType() == TokenType.RAISED) {
             // factor_op -> RAISED expression
             nextToken();
-            return new ExponentiationNode(expression, signedFactor(context));
+            return highestOp(new ExponentiationNode(expr,
+                    signedHighTerm(context)), context);
 
+        } else if (lookahead.getType() == TokenType.OPEN_CURLY_BRACKET) {
+            nextToken();
+            final ExpressionNode insideParens = expression(context);
+            assertNextToken(TokenType.CLOSE_CURLY_BRACKET);
+            nextToken();
+            return highestOp(new ListIndexNode(expr, insideParens), context);
+
+        } else if (lookahead.getType() == TokenType.OPEN_PARENS) {
+            if (expr.getClass() != VariableNode.class) {
+                throw new ParserException(
+                        "Can't call function on a non function value");
+            }
+
+            return highestOp(functionParameters(context, (VariableNode) expr),
+                    context);
+        } else if (lookahead.getType() == TokenType.TO) {
+            return highestOp(matchRange(expr, context), context);
         } else {
-            // factor_op -> EPSILON
-            return expression;
+            return expr;
         }
     }
 
@@ -471,8 +469,7 @@ public class Parser {
         } else if (lookahead.getType() == TokenType.MINUS) {
             // signed_term -> PLUSMINUS term
             nextToken();
-            return new ConstantNode(term(context).getValue(context).callMethod(
-                    Operators.MULTIPLY, NEGATIVE_ONE));
+            return new MultiplicationNode(term(context), NEGATIVE_ONE);
         } else {
             // signed_term -> term
             return term(context);
