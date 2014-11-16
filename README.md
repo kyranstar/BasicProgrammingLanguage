@@ -13,4 +13,4 @@ Todo list:
   - [ ] Compile type checking
     - [ ] Type inference
   - [ ] Exceptions
-  - [ ] User created data types and structures
+  - [x] User created data types and structures
