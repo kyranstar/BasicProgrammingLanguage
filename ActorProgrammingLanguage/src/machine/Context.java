@@ -19,13 +19,15 @@ import type.APValueFunction;
  * @version $Revision: 1.0 $
  */
 public class Context {
-    
+
     /** The variable mapping. */
     private Map<String, APValue> variables;
-    
+
+    private final Map<String, DataStructure> dataTypes;
+
     /** The output stream. */
     private PrintStream outputStream;
-    
+
     /**
      * Instantiates a new context with a given print stream.
      *
@@ -34,11 +36,12 @@ public class Context {
      */
     public Context(final PrintStream p) {
         setVariables(new HashMap<>());
+        dataTypes = new HashMap<>();
         outputStream = p;
-        
+
         LibraryFunction.applyLibraryFunctions(this);
     }
-    
+
     /**
      * Put variable.
      *
@@ -50,7 +53,7 @@ public class Context {
     public void putFunction(final String name, final APValue value) {
         getVariables().put(name, value);
     }
-
+    
     /**
      * Gets the variable with a given name.
      *
@@ -62,9 +65,9 @@ public class Context {
     public APValue getFunction(final String functionSignature) {
         final APValue node = getVariables().get(functionSignature);
         return node;
-        
+
     }
-    
+
     /**
      * Gets the variables.
      *
@@ -74,7 +77,7 @@ public class Context {
     public Map<String, APValue> getVariables() {
         return variables;
     }
-    
+
     /**
      * Sets the variable map.
      *
@@ -84,7 +87,7 @@ public class Context {
     public void setVariables(final Map<String, APValue> variables) {
         this.variables = variables;
     }
-    
+
     /**
      * Gets the output stream.
      *
@@ -94,7 +97,7 @@ public class Context {
     public PrintStream getOutputStream() {
         return outputStream;
     }
-    
+
     /**
      * Sets the output stream.
      *
@@ -104,10 +107,10 @@ public class Context {
     public void setOutputStream(final PrintStream p) {
         outputStream = p;
     }
-
+    
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -115,7 +118,7 @@ public class Context {
         return "Context [variables=" + variables + ", outputStream="
                 + outputStream + "]";
     }
-    
+
     /**
      * Put function.
      *
@@ -126,4 +129,12 @@ public class Context {
         putFunction(function.name, new APValueFunction(function));
     }
     
+    public void putDataType(final DataStructure dataType) {
+        dataTypes.put(dataType.name, dataType);
+    }
+    
+    public DataStructure getDataType(final String name) {
+        return dataTypes.get(name);
+    }
+
 }

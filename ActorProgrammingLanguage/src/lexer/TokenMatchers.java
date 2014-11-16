@@ -171,7 +171,8 @@ public enum TokenMatchers {
         @Override
         public boolean matchesNoCheck(final String code,
                 final PositionInfo lexInfo) {
-            return Character.isDigit(code.charAt(0)) || code.charAt(0) == '.';
+            return Character.isDigit(code.charAt(0)) || code.charAt(0) == '.'
+                    && Character.isDigit(code.charAt(1));
         }
 
     },
@@ -331,6 +332,7 @@ public enum TokenMatchers {
                         add(new StringToToken(">", TokenType.GREATER_THAN));
                         add(new StringToToken("&&", TokenType.AND));
                         add(new StringToToken("||", TokenType.OR));
+                        add(new StringToToken(".", TokenType.DOT));
                     }
                 });
 
@@ -389,6 +391,8 @@ public enum TokenMatchers {
                         add(new StringToToken("if", TokenType.IF));
                         add(new StringToToken("then", TokenType.THEN));
                         add(new StringToToken("else", TokenType.ELSE));
+                        add(new StringToToken("new", TokenType.NEW));
+                        add(new StringToToken("datatype", TokenType.DATA_TYPE));
                     }
                 });
 
