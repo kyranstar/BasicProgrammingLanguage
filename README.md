@@ -10,8 +10,5 @@ Todo list:
   - [ ] Library functions
   - [x] Ranges
   - [ ] Macros a la lisp
-  - [ ] Compile type checking
-    - [ ] Optional type declarations on function parameters, function creations
-    - [ ] All assignments after that must be checked
   - [ ] Exceptions
   - [x] User created data types and structures
