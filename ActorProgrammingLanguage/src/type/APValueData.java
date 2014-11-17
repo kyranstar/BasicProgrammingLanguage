@@ -10,11 +10,11 @@ public class APValueData extends APValue<DataStructureInstance> {
     public APValueData(final DataStructureInstance data) {
         setValue(data);
     }
-
+    
     @Override
     public APValue callMethod(final Operators s, final APValue arg) {
         throw new MismatchedMethodException("Can't call method " + s
                 + " on type data!");
     }
-    
+
 }

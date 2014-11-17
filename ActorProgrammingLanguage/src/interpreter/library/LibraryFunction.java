@@ -16,6 +16,7 @@ import parser.ExpressionNode;
 import parser.ExpressionNode.VariableNode;
 import parser.ParserException;
 import type.APValue;
+import type.APValueChar;
 import type.APValueList;
 import type.APValueNum;
 
@@ -45,11 +46,38 @@ public final class LibraryFunction {
     public static Context applyLibraryFunctions(final Context context) {
         sublistFunction(context);
         foreachFunction(context);
-        mapFunction(context);
+        toStringFunction(context);
+        mapFunctions(context);
         foldlFunction(context);
         printFunctions(context);
         mathFunctions(context);
         return context;
+    }
+
+    private static void toStringFunction(final Context context) {
+        final String argName = "a";
+        context.putFunction(new Function("toString", Arrays
+                .asList(new VariableNode(argName)), new ExpressionNode<Void>(
+                        null) {
+            @Override
+            public APValue getValue(final Context context) {
+                final List<ExpressionNode> characters = new ArrayList<>();
+                String n = "";
+
+                final APValue value = new VariableNode(argName)
+                .getValue(context);
+                if (value instanceof APValueNum) {
+                    final BigDecimal numArg = (BigDecimal) value.getValue();
+                    n = numArg.stripTrailingZeros().toPlainString();
+                } else {
+                    n = value.toString();
+                }
+                for (final char c : n.toCharArray()) {
+                    characters.add(new ConstantNode(new APValueChar(c)));
+                }
+                return new APValueList(characters);
+            }
+        }));
     }
 
     private static void foreachFunction(final Context context) {
@@ -143,7 +171,7 @@ public final class LibraryFunction {
      * @param context
      *            the context
      */
-    private static void mapFunction(final Context context) {
+    private static void mapFunctions(final Context context) {
         final String arg1 = "list";
         final String arg2 = "func";
         context.putFunction(new Function("map", Arrays.asList(new VariableNode(
