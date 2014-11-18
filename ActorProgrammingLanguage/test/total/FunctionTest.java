@@ -137,6 +137,17 @@ public class FunctionTest {
                         "println(toString(1 in [1,2,3]) + [' '] + toString(1 in [2,3,4]));",
                         "true false");
     }
+
+    /**
+     * Test length function.
+     */
+    @Test
+    public void testLength() {
+        ProgramTest
+                .expectOutput(
+                        "println(toString(length ([1,2,3])) + [' '] + toString(length ([])));",
+                        "3 0");
+    }
     
     /**
      * Test map.
