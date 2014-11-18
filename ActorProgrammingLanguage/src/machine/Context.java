@@ -9,6 +9,7 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import parser.ParserException;
 import type.APValue;
 import type.APValueFunction;
 
@@ -21,7 +22,7 @@ import type.APValueFunction;
 public class Context {
 
     /** The variable mapping. */
-    private Map<String, APValue> variables;
+    private Map<String, VariableMapping> variables;
 
     private final Map<String, DataStructure> dataTypes;
 
@@ -50,8 +51,18 @@ public class Context {
      * @param value
      *            the en
      */
-    public void putFunction(final String name, final APValue value) {
-        getVariables().put(name, value);
+    public void putFunction(final String name, final APValue value,
+            final boolean isMutable) {
+        final VariableMapping map = getVariables().get(name);
+        if (map != null) {
+            if (!map.isMutable) {
+                throw new ParserException(
+                        "Can't change the value of non mutable function "
+                                + name);
+            }
+        }
+        
+        getVariables().put(name, new VariableMapping(value, isMutable));
     }
     
     /**
@@ -63,7 +74,12 @@ public class Context {
      * @return the variable
      */
     public APValue getFunction(final String functionSignature) {
-        final APValue node = getVariables().get(functionSignature);
+        final VariableMapping variableMapping = getVariables().get(
+                functionSignature);
+        if (variableMapping == null) {
+            return null;
+        }
+        final APValue node = variableMapping.variable;
         return node;
 
     }
@@ -74,7 +90,7 @@ public class Context {
      *
      * @return the variables
      */
-    public Map<String, APValue> getVariables() {
+    public Map<String, VariableMapping> getVariables() {
         return variables;
     }
 
@@ -84,7 +100,7 @@ public class Context {
      * @param variables
      *            the variable map
      */
-    public void setVariables(final Map<String, APValue> variables) {
+    public void setVariables(final Map<String, VariableMapping> variables) {
         this.variables = variables;
     }
 
@@ -125,8 +141,8 @@ public class Context {
      * @param function
      *            the function
      */
-    public void putFunction(final Function function) {
-        putFunction(function.name, new APValueFunction(function));
+    public void putFunction(final Function function, final boolean isMutable) {
+        putFunction(function.name, new APValueFunction(function), isMutable);
     }
     
     public void putDataType(final DataStructure dataType) {
@@ -137,4 +153,14 @@ public class Context {
         return dataTypes.get(name);
     }
 
+    public static class VariableMapping {
+        public APValue variable;
+        public boolean isMutable;
+
+        public VariableMapping(final APValue variable, final boolean isMutable) {
+            this.variable = variable;
+            this.isMutable = isMutable;
+        }
+        
+    }
 }

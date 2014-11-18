@@ -10,17 +10,17 @@ package lexer;
  * @version $Revision: 1.0 $
  */
 public class Token {
-
+    
     /** The text. */
     private final String text;
-
+    
     /** The type. */
     private final TokenType type;
-    
+
     /* Holds information about this token */
     /** The info. */
     private final PositionInfo info;
-
+    
     /**
      * Instantiates a new token.
      *
@@ -37,7 +37,7 @@ public class Token {
         this.text = text;
         info = currentInfo;
     }
-
+    
     /**
      * Gets the text.
      *
@@ -47,7 +47,7 @@ public class Token {
     public String getText() {
         return text;
     }
-
+    
     /**
      * Gets the type.
      *
@@ -57,7 +57,7 @@ public class Token {
     public TokenType getType() {
         return type;
     }
-    
+
     /**
      * Gets the token informations message.
      *
@@ -67,10 +67,10 @@ public class Token {
     public String getMessage() {
         return info.getMessage();
     }
-
+    
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
@@ -78,7 +78,7 @@ public class Token {
         return ("<" + type + "\"" + getText() + "\"" + ">").replaceAll("\n",
                 "\\\\n").replaceAll("\t", "\\\\t");
     }
-    
+
     /**
      * Gets the lex info.
      *
@@ -87,7 +87,7 @@ public class Token {
     public PositionInfo getLexInfo() {
         return info;
     }
-
+    
     /**
      * The Enum TokenType.
      *
@@ -95,7 +95,7 @@ public class Token {
      * @version $Revision: 1.0 $
      */
     public static enum TokenType {
-
+        
         /** The number token. */
         NUMBER,
         /** The whitespace token. */
@@ -168,12 +168,13 @@ public class Token {
         TO,
         NEW,
         DATA_TYPE,
-        DOT;
+        DOT,
+        MUTABLE;
     }
-
+    
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -184,10 +185,10 @@ public class Token {
         result = prime * result + (type == null ? 0 : type.hashCode());
         return result;
     }
-
+    
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -214,5 +215,5 @@ public class Token {
         }
         return true;
     }
-
+    
 }

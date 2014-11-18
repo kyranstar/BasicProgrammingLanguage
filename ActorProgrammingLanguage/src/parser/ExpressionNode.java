@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import machine.Context;
+import machine.Context.VariableMapping;
 import machine.Function;
 import type.APValue;
 import type.APValue.Operators;
@@ -219,16 +220,20 @@ public abstract class ExpressionNode<T> {
             final Context c = new Context(context.getOutputStream());
             // Add all functions of outer scope, but we have to add this
             // function individually to avoid stackoverflow.
-            final Map<String, APValue> everythingButCurrentFunction = new HashMap<>(
+            final Map<String, VariableMapping> everythingButCurrentFunction = new HashMap<>(
                     context.getVariables());
             everythingButCurrentFunction.remove(name);
+
+            // everythingButCurrentFunction = new HashMap<>();
             
             c.setVariables(everythingButCurrentFunction);
             
             final APValue valueFunction = context.getFunction(name);
             final Function func = (Function) valueFunction.getValue();
             // give it access to itself
-            c.putFunction(func);
+            if (!c.getVariables().containsKey(func.name)) {
+                c.putFunction(func, false);
+            }
 
             if (parameters.size() != func.parameters.size()) {
                 throw new ParserException("You gave " + parameters.size()
@@ -240,7 +245,8 @@ public abstract class ExpressionNode<T> {
             for (int i = 0; i < parameters.size(); i++) {
                 final ExpressionNode given = parameters.get(i);
                 final String name = func.parameters.get(i).name;
-                c.putFunction(name, given.getValue(context));
+                // dont make them mutable
+                c.putFunction(name, given.getValue(context), true);
             }
             
             final APValue returnVal = func.body.getValue(c);
@@ -275,6 +281,8 @@ public abstract class ExpressionNode<T> {
 
         /** The expression to assign to the variable. */
         private final ExpressionNode expression;
+        
+        private final boolean isMutable;
 
         /**
          * Instantiates a new assignment node.
@@ -285,10 +293,11 @@ public abstract class ExpressionNode<T> {
          *            the assigned expression
          */
         public AssignmentNode(final VariableNode expr,
-                final ExpressionNode<BigDecimal> assigned) {
+                final ExpressionNode<BigDecimal> assigned, final boolean mutable) {
             super(null);
             variable = expr;
             this.expression = assigned;
+            this.isMutable = mutable;
         }
 
         /*
@@ -310,7 +319,7 @@ public abstract class ExpressionNode<T> {
         public APValue getValue(final Context context) {
             final APValue expr = this.getExpression().getValue(context);
             context.putFunction(getVariable().name,
-                    getExpression().getValue(context));
+                    getExpression().getValue(context), isMutable);
             return expr;
         }
 
@@ -375,7 +384,7 @@ public abstract class ExpressionNode<T> {
          */
         @Override
         public APValue getValue(final Context context) {
-            final APValue lh = context.getVariables().get(variable.getName());
+            final APValue lh = context.getVariables().get(variable.getName()).variable;
             if (!(lh instanceof APValueData)) {
                 throw new ParserException("Can't access field of non data type");
             }

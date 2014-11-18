@@ -22,12 +22,12 @@ import type.APValueNum;
  * @version $Revision: 1.0 $
  */
 public class ListTest {
-    
+
     /** The Constant ONE_TWO_LIST. */
     private static final List<ConstantNode> ONE_TWO_LIST = Arrays.asList(
             new ConstantNode(new APValueNum(new BigDecimal("1"))),
             new ConstantNode(new APValueNum(new BigDecimal("2"))));
-
+    
     /** The Constant LIST_ONE_THROUGH_FIVE. */
     private static final List<ConstantNode> LIST_ONE_THROUGH_FIVE = Arrays
             .asList(new ConstantNode(new APValueNum(new BigDecimal("1"))),
@@ -35,7 +35,7 @@ public class ListTest {
                     new ConstantNode(new APValueNum(new BigDecimal("3"))),
                     new ConstantNode(new APValueNum(new BigDecimal("4"))),
                     new ConstantNode(new APValueNum(new BigDecimal("5"))));
-    
+
     /**
      * Index operator and concat.
      */
@@ -43,7 +43,7 @@ public class ListTest {
     public void indexOperatorAndConcat() {
         ProgramTest.test("a = ([1] + [[2]{0}]){0};", new BigDecimal("1"), "a");
     }
-    
+
     /**
      * Concat and index.
      */
@@ -51,7 +51,7 @@ public class ListTest {
     public void concatAndIndex() {
         ProgramTest.test("a = ([1] + [2]){0};", new BigDecimal("1"), "a");
     }
-    
+
     /**
      * Index operator2.
      */
@@ -59,7 +59,7 @@ public class ListTest {
     public void indexOperator2() {
         ProgramTest.test("a = [1,2]{0};", new BigDecimal("1"), "a");
     }
-    
+
     /**
      * List function returning parameter.
      */
@@ -68,7 +68,7 @@ public class ListTest {
         ProgramTest.test("f a = [a,a,a]; c = f(3){1};", new BigDecimal("3"),
                 "c");
     }
-    
+
     /**
      * Index operator.
      */
@@ -77,7 +77,7 @@ public class ListTest {
         ProgramTest.test("b = 2; c = [1] + [b]; a = c{1};",
                 new BigDecimal("2"), "a");
     }
-    
+
     /**
      * List and range.
      */
@@ -87,7 +87,7 @@ public class ListTest {
                 "a = [1,2,3] + (4 to 6) + [7,8,9] = [1,2,3,4,5,6,7,8,9];",
                 true, "a");
     }
-    
+
     /**
      * Variable list.
      */
@@ -97,12 +97,12 @@ public class ListTest {
                 new ConstantNode(new APValueNum(new BigDecimal("1"))),
                 new VariableNode("b")), "a");
     }
-    
+
     @Test
     public void emptyList() {
-        ProgramTest.test("a = []; a = a + [1,2];", ONE_TWO_LIST, "a");
+        ProgramTest.test("mut a = []; a = a + [1,2];", ONE_TWO_LIST, "a");
     }
-
+    
     /**
      * List concat.
      */
@@ -110,7 +110,7 @@ public class ListTest {
     public void listConcat() {
         ProgramTest.test("a = [1] + [2];", ONE_TWO_LIST, "a");
     }
-    
+
     /**
      * List declaration.
      */
@@ -118,7 +118,7 @@ public class ListTest {
     public void listDeclaration() {
         ProgramTest.test("a = [1,2];", ONE_TWO_LIST, "a");
     }
-    
+
     /**
      * Sublist double param2.
      */
@@ -128,7 +128,7 @@ public class ListTest {
                 new ConstantNode(new APValueNum(new BigDecimal("4"))),
                 new ConstantNode(new APValueNum(new BigDecimal("1")))), "a");
     }
-    
+
     /**
      * Sublist double param.
      */
@@ -136,7 +136,7 @@ public class ListTest {
     public void sublistDoubleParam() {
         ProgramTest.test("a = sublist ([10,4,1,2], 2, 4);", ONE_TWO_LIST, "a");
     }
-    
+
     /**
      * Char test.
      */
@@ -149,7 +149,7 @@ public class ListTest {
                 new APValueChar('H')), new ConstantNode(new APValueChar('i'))),
                 "a");
     }
-
+    
     /**
      * Char test unicode.
      */
@@ -162,7 +162,7 @@ public class ListTest {
                 new ConstantNode(new APValueChar('H')), new ConstantNode(
                         new APValueChar('i'))), "a");
     }
-    
+
     /**
      * String concat char in list.
      */
@@ -172,7 +172,7 @@ public class ListTest {
                 new APValueChar('H')), new ConstantNode(new APValueChar('i')),
                 new ConstantNode(new APValueChar('c'))), "a");
     }
-
+    
     /**
      * String test.
      */
@@ -182,7 +182,7 @@ public class ListTest {
                 new APValueChar('H')), new ConstantNode(new APValueChar('i'))),
                 "a");
     }
-
+    
     /**
      * String test concat.
      */
@@ -192,7 +192,7 @@ public class ListTest {
                 new APValueChar('H')), new ConstantNode(new APValueChar('i'))),
                 "a");
     }
-    
+
     /**
      * Char test add num.
      */
@@ -200,7 +200,7 @@ public class ListTest {
     public void charTestAddNum() {
         ProgramTest.expectOutput("println(\"H\"{0} + 1);", "I");
     }
-    
+
     /**
      * String test multiply negative.
      */
@@ -210,7 +210,7 @@ public class ListTest {
                 new APValueChar('i')), new ConstantNode(new APValueChar('H'))),
                 "a");
     }
-
+    
     /**
      * String test multiply backwards.
      */
@@ -220,7 +220,7 @@ public class ListTest {
                 new APValueChar('H')), new ConstantNode(new APValueChar('i'))),
                 "a");
     }
-
+    
     /**
      * Multiply test one.
      */
@@ -228,7 +228,7 @@ public class ListTest {
     public void multiplyTestOne() {
         ProgramTest.test("a = [1,2] * 1;", ONE_TWO_LIST, "a");
     }
-    
+
     /**
      * Multiply test two.
      */
@@ -236,11 +236,11 @@ public class ListTest {
     public void multiplyTestTwo() {
         ProgramTest.test("a = [1,2] * 2;", Arrays.asList(new ConstantNode(
                 new APValueNum(new BigDecimal("1"))), new ConstantNode(
-                        new APValueNum(new BigDecimal("2"))), new ConstantNode(
-                                new APValueNum(new BigDecimal("1"))), new ConstantNode(
-                                        new APValueNum(new BigDecimal("2")))), "a");
+                new APValueNum(new BigDecimal("2"))), new ConstantNode(
+                new APValueNum(new BigDecimal("1"))), new ConstantNode(
+                new APValueNum(new BigDecimal("2")))), "a");
     }
-
+    
     /**
      * Multiply test zero.
      */
@@ -248,7 +248,7 @@ public class ListTest {
     public void multiplyTestZero() {
         ProgramTest.test("a = [1,2] * 0;", Arrays.asList(), "a");
     }
-    
+
     /**
      * Multiply test decimal.
      */
@@ -256,10 +256,10 @@ public class ListTest {
     public void multiplyTestDecimal() {
         ProgramTest.test("a = [1,2] * 1.5;", Arrays.asList(new ConstantNode(
                 new APValueNum(new BigDecimal("1"))), new ConstantNode(
-                new APValueNum(new BigDecimal("2"))), new ConstantNode(
-                new APValueNum(new BigDecimal("1")))), "a");
+                        new APValueNum(new BigDecimal("2"))), new ConstantNode(
+                                new APValueNum(new BigDecimal("1")))), "a");
     }
-    
+
     /**
      * Multiply test decimal2.
      */
@@ -272,7 +272,7 @@ public class ListTest {
                 new ConstantNode(new APValueNum(new BigDecimal("4"))),
                 new ConstantNode(new APValueNum(new BigDecimal("1")))), "a");
     }
-    
+
     /**
      * Multiply test negative decimal.
      */
@@ -280,10 +280,10 @@ public class ListTest {
     public void multiplyTestNegativeDecimal() {
         ProgramTest.test("a = [1,2] * -1.5;", Arrays.asList(new ConstantNode(
                 new APValueNum(new BigDecimal("1"))), new ConstantNode(
-                new APValueNum(new BigDecimal("2"))), new ConstantNode(
-                new APValueNum(new BigDecimal("1")))), "a");
+                        new APValueNum(new BigDecimal("2"))), new ConstantNode(
+                                new APValueNum(new BigDecimal("1")))), "a");
     }
-    
+
     /**
      * Multiply test negative decimal2.
      */
@@ -297,7 +297,7 @@ public class ListTest {
                 new ConstantNode(new APValueNum(new BigDecimal("2"))),
                 new ConstantNode(new APValueNum(new BigDecimal("1")))), "a");
     }
-
+    
     /**
      * Range inclusive2.
      */
@@ -305,7 +305,7 @@ public class ListTest {
     public void rangeInclusive2() {
         ProgramTest.test("c = [1,2,3,4,5] = 1 to 5;", true, "c");
     }
-    
+
     /**
      * Range inclusive.
      */
@@ -314,7 +314,7 @@ public class ListTest {
         ProgramTest.test("c = [1,2,3,4,5];", LIST_ONE_THROUGH_FIVE, "c");
         ProgramTest.test("c = 1 to 5;", LIST_ONE_THROUGH_FIVE, "c");
     }
-
+    
     /**
      * Range get.
      */
@@ -322,7 +322,7 @@ public class ListTest {
     public void rangeGet() {
         ProgramTest.test("c = (1 to 5){0};", new BigDecimal("1"), "c");
     }
-    
+
     /**
      * Range sublist.
      */
