@@ -8,7 +8,6 @@ import java.math.RoundingMode;
 
 import math.BigDecimalMath;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class APValueNum. Represents a real number.
  *
@@ -149,7 +148,7 @@ public class APValueNum extends APValue<BigDecimal> {
     }
     
     /**
-     * Checks if is integer value.
+     * Checks if a number has no decimal part.
      *
      * @param bd
      *            the bd
@@ -159,4 +158,5 @@ public class APValueNum extends APValue<BigDecimal> {
         return bd.signum() == 0 || bd.scale() <= 0
                 || bd.stripTrailingZeros().scale() <= 0;
     }
+    
 }

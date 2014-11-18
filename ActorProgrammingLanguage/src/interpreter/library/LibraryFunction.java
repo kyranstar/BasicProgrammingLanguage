@@ -16,6 +16,7 @@ import parser.ExpressionNode;
 import parser.ExpressionNode.VariableNode;
 import parser.ParserException;
 import type.APValue;
+import type.APValueBool;
 import type.APValueChar;
 import type.APValueList;
 import type.APValueNum;
@@ -44,14 +45,42 @@ public final class LibraryFunction {
      * @return the context
      */
     public static Context applyLibraryFunctions(final Context context) {
-        sublistFunction(context);
-        foreachFunction(context);
         toStringFunction(context);
-        mapFunctions(context);
-        foldlFunction(context);
+        listFunctions(context);
         printFunctions(context);
         mathFunctions(context);
         return context;
+    }
+
+    private static void listFunctions(final Context context) {
+        sublistFunction(context);
+        foreachFunction(context);
+        mapFunctions(context);
+        foldlFunction(context);
+        inFunction(context);
+    }
+
+    private static void inFunction(final Context context) {
+        final String arg1 = "member";
+        final String arg2 = "list";
+        context.putFunction(
+                new Function("in", Arrays.asList(new VariableNode(arg1),
+                        new VariableNode(arg2)),
+                        new ExpressionNode<Void>(null) {
+                    @Override
+                    public APValue getValue(final Context context) {
+                        final APValue value = new VariableNode(arg1)
+                        .getValue(context);
+                        final List<ExpressionNode> numArg = (List<ExpressionNode>) new VariableNode(
+                                arg2).getValue(context).getValue();
+                        for (final ExpressionNode node : numArg) {
+                            if (value.equals(node.getValue(context))) {
+                                return new APValueBool(true);
+                            }
+                        }
+                        return new APValueBool(false);
+                    }
+                }), false);
     }
 
     private static void toStringFunction(final Context context) {

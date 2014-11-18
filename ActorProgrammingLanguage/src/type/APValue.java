@@ -12,32 +12,32 @@ package type;
  *            the generic type
  */
 public abstract class APValue<T> {
-
+    
     /** The Constant VOID. */
     public static final APValue<Void> VOID = new APValue<Void>() {
         @Override
         public String toString() {
             return "VOID";
         }
-
+        
         @Override
         public APValue callMethod(final Operators s, final APValue arg) {
-
+            
             throw new MismatchedMethodException("Can't call method " + s
                     + " on type void!");
         }
     };
-
+    
     /** The data. */
     private T data;
-
+    
     /**
      * The Class APValueBool.
      *
      * @author Kyran Adams
      * @version $Revision: 1.0 $
      */
-
+    
     /**
      * The Enum Methods.
      */
@@ -45,44 +45,44 @@ public abstract class APValue<T> {
         // Number operators
         /** The multiply operator. */
         MULTIPLY,
-
+        
         /** The divide. */
         DIVIDE,
-
+        
         /** The subtract. */
         SUBTRACT,
-
+        
         /** The add. */
         ADD,
-
+        
         /** The power. */
         POWER,
         // Boolean operators
         /** The and. */
         AND,
-
+        
         /** The or. */
         OR,
-        
+
         /** The greater equal. */
         GREATER_EQUAL,
-        
+
         /** The equal. */
         EQUAL,
-        
+
         /** The less equal. */
         LESS_EQUAL,
-        
+
         /** The greater. */
         GREATER,
-        
+
         /** The less. */
         LESS,
-
+        
         /** The mod. */
         MOD,
     }
-
+    
     /**
      * Gets the value.
      *
@@ -92,17 +92,17 @@ public abstract class APValue<T> {
     public T getValue() {
         return data;
     }
-
+    
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
         return getValue().toString();
     }
-
+    
     /**
      * Call method.
      *
@@ -114,7 +114,7 @@ public abstract class APValue<T> {
      * @return the AP value
      */
     public abstract APValue callMethod(Operators s, APValue arg);
-
+    
     /**
      * Sets the value.
      *
@@ -124,4 +124,35 @@ public abstract class APValue<T> {
     public void setValue(final T value) {
         this.data = value;
     }
+    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (data == null ? 0 : data.hashCode());
+        return result;
+    }
+    
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final APValue other = (APValue) obj;
+        if (data == null) {
+            if (other.data != null) {
+                return false;
+            }
+        } else if (!data.equals(other.data)) {
+            return false;
+        }
+        return true;
+    }
+
 }
