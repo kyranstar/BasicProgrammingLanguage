@@ -8,7 +8,6 @@ import org.junit.Test;
 import parser.ExpressionNode.ConstantNode;
 import type.APValueNum;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class FunctionTest.
  */
@@ -45,6 +44,15 @@ public class FunctionTest {
     public void testFirstClassFunc2() {
         // g expects two params, giving it one
         ProgramTest.testParserException("f a = a(1); g b c = 10; a = f (g);");
+    }
+
+    @Test
+    public void testSequence() {
+        // g expects two params, giving it one
+        ProgramTest.test("a = seq(print(5), print(4), return 6);",
+                new BigDecimal("6"), "a");
+        ProgramTest
+                .expectOutput("a = seq(print(5), print(4), return 6);", "54");
     }
     
     /**

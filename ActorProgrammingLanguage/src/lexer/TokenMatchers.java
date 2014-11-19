@@ -394,6 +394,8 @@ public enum TokenMatchers {
                 add(new StringToToken("else", TokenType.ELSE));
                 add(new StringToToken("new", TokenType.NEW));
                 add(new StringToToken("datatype", TokenType.DATA_TYPE));
+                add(new StringToToken("return", TokenType.RETURN));
+                add(new StringToToken("seq", TokenType.SEQUENCE));
             }
         });
         

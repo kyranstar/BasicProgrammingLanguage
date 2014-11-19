@@ -169,7 +169,9 @@ public class Token {
         NEW,
         DATA_TYPE,
         DOT,
-        MUTABLE;
+        MUTABLE,
+        RETURN,
+        SEQUENCE;
     }
     
     /*

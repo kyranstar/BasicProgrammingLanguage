@@ -39,6 +39,7 @@ import parser.ExpressionNode.ModNode;
 import parser.ExpressionNode.MultiplicationNode;
 import parser.ExpressionNode.OrNode;
 import parser.ExpressionNode.RangeNode;
+import parser.ExpressionNode.SequenceNode;
 import parser.ExpressionNode.SubtractionNode;
 import parser.ExpressionNode.VariableNode;
 import parser.checking.CompilerException;
@@ -278,10 +279,36 @@ public class Parser {
             return ifExpr(context);
         } else if (lookahead.getType() == TokenType.NEW) {
             return newExpr(context);
+        } else if (lookahead.getType() == TokenType.SEQUENCE) {
+            return seqExpr(context);
         }
 
         final ExpressionNode expr = signedTerm(context);
         return lowOp(expr, context);
+    }
+
+    private ExpressionNode seqExpr(final Context context) {
+        assertNextToken(TokenType.SEQUENCE);
+        nextToken();
+        assertNextToken(TokenType.OPEN_PARENS);
+        nextToken();
+        final List<ExpressionNode> statements = new ArrayList<>();
+        
+        while (lookahead.getType() != TokenType.RETURN) {
+            statements.add(statement(context));
+            // assertNextToken(TokenType.COMMA);
+            // nextToken();
+            if (lookahead.getType() == TokenType.CLOSE_PARENS) {
+                throw new ParserException(
+                        "Sequence needs to end with 'return <expression>'");
+            }
+        }
+        assertNextToken(TokenType.RETURN);
+        nextToken();
+        final ExpressionNode expression = expression(context);
+        assertNextToken(TokenType.CLOSE_PARENS);
+        nextToken();
+        return new SequenceNode(statements, expression);
     }
 
     private ExpressionNode newExpr(final Context context) {
