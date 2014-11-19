@@ -12,22 +12,22 @@ import type.APValueNum;
  * The Class FunctionTest.
  */
 public class FunctionTest {
-    
+
     /**
      * Function using keyword.
      */
     @Test
     public void functionUsingKeyword() {
         ProgramTest
-                .test("toTen a = 10; a = toTen(5);", new BigDecimal(10), "a");
+        .test("toTen a = 10; a = toTen(5);", new BigDecimal(10), "a");
     }
-    
+
     @Test
     public void testMutability() {
         ProgramTest.testParserException("f = 10; f = 5;");
         ProgramTest.test("mut f = 10; f = 5;", new BigDecimal("5"), "f");
     }
-    
+
     /**
      * Test first class func.
      */
@@ -36,7 +36,7 @@ public class FunctionTest {
         ProgramTest.test("f a = a(1); g b = 10; a = f (g);",
                 new BigDecimal(10), "a");
     }
-
+    
     /**
      * Test first class func2.
      */
@@ -45,7 +45,7 @@ public class FunctionTest {
         // g expects two params, giving it one
         ProgramTest.testParserException("f a = a(1); g b c = 10; a = f (g);");
     }
-    
+
     @Test
     public void testSequence() {
         // g expects two params, giving it one
@@ -53,8 +53,10 @@ public class FunctionTest {
                 new BigDecimal("6"), "a");
         ProgramTest.expectOutput("a = seq(print(5), println(4), return 6);",
                 "54");
+        ProgramTest.expectOutput(
+                "a = seq(print(5), print(4), return 6); println(3);", "543");
     }
-
+    
     /**
      * Test lambda.
      */
@@ -63,7 +65,7 @@ public class FunctionTest {
         ProgramTest.test("f a = a(1); a = f (lambda b -> 10);", new BigDecimal(
                 10), "a");
     }
-    
+
     /**
      * Test lambda2.
      */
@@ -72,7 +74,7 @@ public class FunctionTest {
         ProgramTest.test("f a = a(6,4); a = f (lambda b,c -> b+c);",
                 new BigDecimal(10), "a");
     }
-
+    
     /**
      * Function as param.
      */
@@ -81,17 +83,17 @@ public class FunctionTest {
         ProgramTest.test("f a = a(5); z a = a + 3; c = f(z);", new BigDecimal(
                 "8"), "c");
     }
-    
+
     /**
      * Test function scope.
      */
     @Test
     public void testFunctionScope() {
         ProgramTest
-        .test("outside a = a(5)+outsideTwo(5); outsideTwo a = a+5; c = outside(lambda a -> a+3);",
-                new BigDecimal("18"), "c");
+                .test("outside a = a(5)+outsideTwo(5); outsideTwo a = a+5; c = outside(lambda a -> a+3);",
+                        new BigDecimal("18"), "c");
     }
-
+    
     /**
      * Test function definition.
      */
@@ -99,7 +101,7 @@ public class FunctionTest {
     public void testVariableDef() {
         ProgramTest.expectOutput("f = 10; println(f);", "10");
     }
-    
+
     /**
      * Test function definition.
      */
@@ -107,9 +109,9 @@ public class FunctionTest {
     public void testVariableReDef() {
         ProgramTest.expectOutput("mut f = 10; println(f); f = 20; println(f);",
                 "10\r\n20");
-
+        
     }
-    
+
     /**
      * Test func def one param.
      */
@@ -117,7 +119,7 @@ public class FunctionTest {
     public void testFuncDefOneParam() {
         ProgramTest.expectOutput("f a = a + 1 - 1; println(f(10));", "10");
     }
-    
+
     /**
      * Test func def two params.
      */
@@ -125,7 +127,7 @@ public class FunctionTest {
     public void testFuncDefTwoParams() {
         ProgramTest.expectOutput("f a b = a + b - 1; println(f(10,1));", "10");
     }
-
+    
     /**
      * Test binary function.
      */
@@ -134,29 +136,29 @@ public class FunctionTest {
         ProgramTest.test("sum a b = a + b; a = 6 sum 4;", new BigDecimal(10),
                 "a");
     }
-
+    
     /**
      * Test in function.
      */
     @Test
     public void testIn() {
         ProgramTest
-        .expectOutput(
-                "println(toString(1 in [1,2,3]) + [' '] + toString(1 in [2,3,4]));",
-                "true false");
+                .expectOutput(
+                        "println(toString(1 in [1,2,3]) + [' '] + toString(1 in [2,3,4]));",
+                        "true false");
     }
-    
+
     /**
      * Test length function.
      */
     @Test
     public void testLength() {
         ProgramTest
-        .expectOutput(
-                "println(toString(length ([1,2,3])) + [' '] + toString(length ([])));",
-                "3 0");
+                .expectOutput(
+                        "println(toString(length ([1,2,3])) + [' '] + toString(length ([])));",
+                        "3 0");
     }
-
+    
     /**
      * Test map.
      */
@@ -167,7 +169,7 @@ public class FunctionTest {
                 new ConstantNode(new APValueNum(new BigDecimal("3"))),
                 new ConstantNode(new APValueNum(new BigDecimal("4")))), "a");
     }
-
+    
     /**
      * Test map.
      */
@@ -175,7 +177,7 @@ public class FunctionTest {
     public void testForeach() {
         ProgramTest.expectOutput("foreach([1,2,3], println);", "1\r\n2\r\n3");
     }
-
+    
     /**
      * Test map binary.
      */
@@ -186,14 +188,14 @@ public class FunctionTest {
                 new ConstantNode(new APValueNum(new BigDecimal("4"))),
                 new ConstantNode(new APValueNum(new BigDecimal("8")))), "a");
     }
-    
+
     /**
      * Test fibonacci sequence.
      */
     @Test
     public void testFib() {
         final String fib = "f a = if a = 0 then 0 else if a = 1 then 1 else f (a-1) + f (a-2);";
-        
+
         ProgramTest.test(fib + "b = f (0);", new BigDecimal("0"), "b");
         ProgramTest.test(fib + "b = f (1);", new BigDecimal("1"), "b");
         ProgramTest.test(fib + "b = f (2);", new BigDecimal("1"), "b");
@@ -202,23 +204,23 @@ public class FunctionTest {
         ProgramTest.test(fib + "b = f (5);", new BigDecimal("5"), "b");
         ProgramTest.test(fib + "b = f (6);", new BigDecimal("8"), "b");
         ProgramTest.test(fib + "b = f (7);", new BigDecimal("13"), "b");
-
+        
         ProgramTest.testStackOverflowError(fib + "b = f (-1);");
     }
-    
+
     /**
      * Project euler problem 1.
      */
     @Test
     public void euler1() {
         ProgramTest
-        .test("sum a b =a+b;\n"
-                + "modThreeFive x = if ((x%3 = 0) || (x%5 = 0)) then x else 0;\n"
-                + "mut result = (1 to 999) map modThreeFive; \n"
-                + "result = result foldl sum;",
-                new BigDecimal("233168"), "result");
+                .test("sum a b =a+b;\n"
+                        + "modThreeFive x = if ((x%3 = 0) || (x%5 = 0)) then x else 0;\n"
+                        + "mut result = (1 to 999) map modThreeFive; \n"
+                        + "result = result foldl sum;",
+                        new BigDecimal("233168"), "result");
     }
-
+    
     /**
      * Project euler problem 6.
      */
@@ -230,7 +232,7 @@ public class FunctionTest {
                 + "diff = squareOfSums - sumOfSquares;",
                 new BigDecimal("2640"), "diff");
     }
-
+    
     /**
      * Test foldl.
      */
@@ -239,7 +241,7 @@ public class FunctionTest {
         ProgramTest.test("result = (1 to 5) foldl lambda x,y -> x+y;",
                 new BigDecimal("15"), "result");
     }
-    
+
     /**
      * Test print.
      */
@@ -247,7 +249,7 @@ public class FunctionTest {
     public void testPrintNum() {
         ProgramTest.expectOutput("println(3);", "3");
     }
-
+    
     /**
      * Test print string.
      */
