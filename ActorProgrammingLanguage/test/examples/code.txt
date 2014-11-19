@@ -1,1 +1,1 @@
-println("Hi!");
+a = seq(print(5), print(4), return 3);
