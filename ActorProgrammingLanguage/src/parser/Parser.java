@@ -596,9 +596,7 @@ public class Parser {
         } else if (lookahead.getType() == TokenType.CHAR) {
             return matchChar();
         } else if (lookahead.getType() == TokenType.OPEN_SQUARE_BRACKET) {
-            final ExpressionNode n = matchList(context);
-            System.out.println(n + " is cool");
-            return n;
+            return matchList(context);
         } else if (lookahead.getType() == TokenType.IDENTIFIER) {
             final VariableNode expr = identifier();
             nextToken();
