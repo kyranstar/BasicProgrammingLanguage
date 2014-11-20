@@ -205,7 +205,11 @@ public abstract class ExpressionNode<T> {
          */
         @Override
         public String toString() {
-            return name + "(" + parameters + ")";
+            final StringBuilder b = new StringBuilder(name).append("(");
+            for (final ExpressionNode node : parameters) {
+                b.append(node).append(",");
+            }
+            return b.substring(0, b.length() - 1) + ")";
         }
         
         /*
@@ -437,7 +441,11 @@ public abstract class ExpressionNode<T> {
          */
         @Override
         public String toString() {
-            return "seq(" + statements + ", return " + expression + ")";
+            final StringBuilder b = new StringBuilder("seq((");
+            for (final ExpressionNode node : statements) {
+                b.append(node).append(",");
+            }
+            return b.substring(0, b.length() - 1) + ")" + expression + ")";
         }
         
         /*
@@ -807,7 +815,7 @@ public abstract class ExpressionNode<T> {
 
         @Override
         public String toString() {
-            return "(" + list + "{" + index + "})";
+            return "(" + list + "[" + index + "])";
         }
     }
     
