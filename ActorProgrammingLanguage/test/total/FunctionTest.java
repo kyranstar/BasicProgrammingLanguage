@@ -55,12 +55,12 @@ public class FunctionTest {
     @Test
     public void testSequence() {
         // g expects two params, giving it one
-        ProgramTest.test("a = seq(print(5), println(4), return 6);",
+        ProgramTest.test("a = seq(print(5); println(4); return 6);",
                 new BigDecimal("6"), "a");
-        ProgramTest.expectOutput("a = seq(print(5), println(4), return 6);",
+        ProgramTest.expectOutput("a = seq(print(5); println(4); return 6);",
                 "54");
         ProgramTest.expectOutput(
-                "a = seq(print(5), print(4), return 6); println(3);", "543");
+                "a = seq(print(5); print(4); return 6); println(3);", "543");
     }
     
     /**
@@ -206,6 +206,7 @@ public class FunctionTest {
 
         ProgramTest.test(fib + "b = f (0);", new BigDecimal("0"), "b");
         ProgramTest.test(fib + "b = f (1);", new BigDecimal("1"), "b");
+        ProgramTest.test(fib + "b = f (2);", new BigDecimal("1"), "b");
         ProgramTest.test(fib + "b = f (3);", new BigDecimal("2"), "b");
         ProgramTest.test(fib + "b = f (4);", new BigDecimal("3"), "b");
         ProgramTest.test(fib + "b = f (5);", new BigDecimal("5"), "b");
@@ -214,13 +215,7 @@ public class FunctionTest {
         
         ProgramTest.testStackOverflowError(fib + "b = f (-1);");
     }
-    
-    @Test
-    public void asd() {
-        final String fib = "f = func a -> if a = 0 then 0 else if a = 1 then 1 else f (a-1) + f (a-2);";
-        ProgramTest.test(fib + "b = f (2);", new BigDecimal("1"), "b");
-    }
-    
+
     /**
      * Project euler problem 1.
      */
