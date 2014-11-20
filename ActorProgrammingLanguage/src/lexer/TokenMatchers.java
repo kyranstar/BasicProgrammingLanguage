@@ -527,15 +527,9 @@ public enum TokenMatchers {
                 final PositionInfo lexInfo) {
             final char c = code.charAt(0);
 
-            final String operators = "_?#@!`:¬⊥↑↓⌊⌈÷□≤≥≠∧∨";
+            final String operators = "~_?#@!`:¬⊥↑↓⌊⌈÷□≤≥≠∧∨";
 
-            return Character.isAlphabetic(c)
-                    || Character.isJavaIdentifierPart(c)
-                    || operators.indexOf(c) >= 0;// c
-            // >=
-            // '\u0020'
-            // && c <=
-            // '\u007F';
+            return Character.isAlphabetic(c) || operators.indexOf(c) >= 0;
         }
 
     };
