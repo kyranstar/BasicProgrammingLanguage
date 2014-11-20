@@ -220,14 +220,10 @@ public abstract class ExpressionNode<T> {
             final Context c = new Context(context.getOutputStream());
             // Add all functions of outer scope, but we have to add this
             // function individually to avoid stackoverflow.
-            final Map<String, VariableMapping> everythingButCurrentFunction = new HashMap<>(
+            final Map<String, VariableMapping> oldVariables = new HashMap<>(
                     context.getVariables());
-            everythingButCurrentFunction.remove(name);
-            
-            // everythingButCurrentFunction = new HashMap<>();
 
-            c.setVariables(everythingButCurrentFunction);
-
+            c.setVariables(oldVariables);
             final APValue valueFunction = context.getFunction(name);
             final Function func = (Function) valueFunction.getValue();
             // give it access to itself
@@ -252,7 +248,6 @@ public abstract class ExpressionNode<T> {
                 }
                 c.putFunction(name, given.getValue(context), true);
             }
-
             final APValue returnVal = func.body.getValue(c);
             // The reason we have to simplify a list before we return it is if
             // the list uses the parameters. This means that if you return
