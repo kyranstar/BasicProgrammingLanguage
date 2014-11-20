@@ -1,4 +1,4 @@
-BasicVirtualMachine
+GameDSL
 ===================
 
-A basic virtual machine to understand how they work.
+A domain specific language built to aid in game developement.
