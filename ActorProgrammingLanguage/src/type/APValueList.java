@@ -3,12 +3,12 @@
  */
 package type;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import math.APNumber;
 import parser.ExpressionNode;
 
 /**
@@ -70,7 +70,7 @@ public class APValueList extends APValue<List> {
             case MULTIPLY:
                 if (arg instanceof APValueNum) {
                     return new APValueList(multiply(getValue(),
-                            (BigDecimal) arg.getValue()));
+                            (APNumber) arg.getValue()));
                 }
                 break;
             case EQUAL:
@@ -94,9 +94,9 @@ public class APValueList extends APValue<List> {
      * @return the list
      */
     private List<ExpressionNode> multiply(final List<ExpressionNode> value,
-            BigDecimal value2) {
+            APNumber value2) {
         boolean negative = false;
-        if (value2.compareTo(BigDecimal.ZERO) < 0) {
+        if (value2.compareTo(APNumber.ZERO) < 0) {
             negative = true;
             value2 = value2.negate();
         }
@@ -104,8 +104,8 @@ public class APValueList extends APValue<List> {
         final List<ExpressionNode> b = new LinkedList<ExpressionNode>();
 
         // if our number is greater than one
-        for (; value2.compareTo(BigDecimal.ONE) > 0; value2 = value2
-                .subtract(BigDecimal.ONE)) {
+        for (; value2.compareTo(APNumber.ONE) > 0; value2 = value2
+                .subtract(APNumber.ONE)) {
             b.addAll(value);
         }
         b.addAll(value.subList(0, (int) (value.size() * value2.doubleValue())));

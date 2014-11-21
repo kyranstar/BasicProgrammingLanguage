@@ -3,8 +3,9 @@
  */
 package total;
 
-import java.math.BigDecimal;
 import java.math.RoundingMode;
+
+import math.APNumber;
 
 import org.junit.Test;
 
@@ -19,7 +20,7 @@ import type.APValueNum;
  */
 public class MathTest {
     /** The number 10. */
-    final BigDecimal expected10 = new BigDecimal("10");
+    final APNumber expected10 = new APNumber("10");
     
     /** The variable named a. */
     final String variableNameA = "a";
@@ -46,7 +47,7 @@ public class MathTest {
     public void parensTest() {
         ProgramTest.test("a = 7+1*3;", expected10, variableNameA);
         ProgramTest.test("a = (3+2)*2;", expected10, variableNameA);
-        ProgramTest.test("a = (8+2)^2;", new BigDecimal("100"), variableNameA);
+        ProgramTest.test("a = (8+2)^2;", new APNumber("100"), variableNameA);
         ProgramTest.test("a = 6+(2^2);", expected10, variableNameA);
     }
 
@@ -111,9 +112,9 @@ public class MathTest {
     /**
      * Test divide by zero.
      */
-    @Test(expected = ArithmeticException.class)
     public void testDivideByZero() {
-        ProgramTest.test("a = 20/0;", expected10, variableNameA);
+        ProgramTest.testArithmeticException("a = 20/0;", expected10,
+                variableNameA);
     }
     
     /**
@@ -121,10 +122,10 @@ public class MathTest {
      */
     @Test
     public void testRational() {
-        ProgramTest.test("a = 10/3;",
-                new BigDecimal("10").divide(new BigDecimal("3"),
-                        APValueNum.DECIMALS, RoundingMode.HALF_UP),
-                        variableNameA);
+        ProgramTest
+        .test("a = 10/3;", new APNumber("10").divide(new APNumber("3"),
+                APValueNum.DECIMALS, RoundingMode.HALF_UP),
+                variableNameA);
     }
     
     /**
@@ -132,6 +133,6 @@ public class MathTest {
      */
     @Test
     public void testMod() {
-        ProgramTest.test("a = 5 % 3;", new BigDecimal("2"), variableNameA);
+        ProgramTest.test("a = 5 % 3;", new APNumber("2"), variableNameA);
     }
 }

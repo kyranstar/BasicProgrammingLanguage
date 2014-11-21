@@ -3,7 +3,6 @@
  */
 package parser;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,6 +18,7 @@ import lexer.Token.TokenType;
 import machine.Context;
 import machine.DataStructure;
 import machine.Function;
+import math.APNumber;
 import parser.ExpressionNode.AdditionNode;
 import parser.ExpressionNode.AndNode;
 import parser.ExpressionNode.AssignmentNode;
@@ -62,7 +62,7 @@ public class Parser {
 
     /** The Constant NEGATIVE_ONE. */
     private static final ExpressionNode NEGATIVE_ONE = new ConstantNode(
-            new APValueNum(new BigDecimal("-1")));
+            new APValueNum(new APNumber("-1")));
 
     /** The Constant BACKWARD_TOKENS_IN_ERROR. */
     private static final int BACKWARD_TOKENS_IN_ERROR = 5;
@@ -649,8 +649,8 @@ public class Parser {
      * @return the expression node
      */
     private ExpressionNode matchNumber() {
-        final ConstantNode expr = new ConstantNode(new APValueNum(
-                new BigDecimal(lookahead.getText())));
+        final ConstantNode expr = new ConstantNode(new APValueNum(new APNumber(
+                lookahead.getText())));
         nextToken();
         return expr;
     }

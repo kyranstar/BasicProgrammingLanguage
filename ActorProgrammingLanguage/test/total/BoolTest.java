@@ -1,6 +1,6 @@
 package total;
 
-import java.math.BigDecimal;
+import math.APNumber;
 
 import org.junit.Test;
 
@@ -10,11 +10,11 @@ import org.junit.Test;
  */
 public class BoolTest {
     /** The number 10. */
-    final BigDecimal expected10 = new BigDecimal("10");
-    
+    final APNumber expected10 = new APNumber("10");
+
     /** The variable named a. */
     final String variableNameA = "a";
-
+    
     /**
      * Test if condition.
      */
@@ -23,7 +23,7 @@ public class BoolTest {
         ProgramTest.test("a = if true then 10 else 11;", expected10,
                 variableNameA);
     }
-
+    
     /**
      * Test if negative condition.
      */
@@ -32,7 +32,7 @@ public class BoolTest {
         ProgramTest.test("a = if false then 11 else 10;", expected10,
                 variableNameA);
     }
-
+    
     /**
      * Test less than.
      */
@@ -41,7 +41,7 @@ public class BoolTest {
         ProgramTest.test("a = if 3 < 4 then 10 else 11;", expected10,
                 variableNameA);
     }
-
+    
     /**
      * Test greater than.
      */
@@ -50,7 +50,7 @@ public class BoolTest {
         ProgramTest.test("a = if 3 > 4 then 11 else 10;", expected10,
                 variableNameA);
     }
-
+    
     /**
      * Test less than equals.
      */
@@ -59,7 +59,7 @@ public class BoolTest {
         ProgramTest.test("a = if 3 <= 3 then 10 else 11;", expected10,
                 variableNameA);
     }
-
+    
     /**
      * Test greater than equals.
      */
@@ -72,7 +72,7 @@ public class BoolTest {
         ProgramTest.test("a = if 3 >= (-3+5) then 10 else 11;", expected10,
                 variableNameA);
     }
-
+    
     /**
      * Test equals.
      */
@@ -85,7 +85,7 @@ public class BoolTest {
         ProgramTest.test("a = 4 = 4;", true, variableNameA);
         ProgramTest.test("a = 3 = 4;", false, variableNameA);
     }
-
+    
     /**
      * Test and.
      */
@@ -96,7 +96,7 @@ public class BoolTest {
         ProgramTest.test("a = false && true;", false, variableNameA);
         ProgramTest.test("a = false && false;", false, variableNameA);
     }
-    
+
     /**
      * Test or.
      */

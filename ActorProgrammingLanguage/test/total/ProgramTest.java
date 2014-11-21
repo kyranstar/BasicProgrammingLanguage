@@ -7,13 +7,13 @@ import interpreter.Interpreter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.math.BigDecimal;
 import java.util.List;
 
 import junit.framework.AssertionFailedError;
 import lexer.Lexer;
 import machine.Context;
 import machine.ContextException;
+import math.APNumber;
 
 import org.junit.Assert;
 import org.junit.Rule;
@@ -34,7 +34,7 @@ import parser.ParserException;
 public class ProgramTest {
     
     /** The number 10. */
-    final BigDecimal expected10 = new BigDecimal("10");
+    final APNumber expected10 = new APNumber("10");
 
     /** The variable named a. */
     final String variableNameA = "a";
@@ -190,9 +190,9 @@ public class ProgramTest {
         }
         try {
             final Object ob = c.getFunction(variableName).getValue();
-            if (ob instanceof BigDecimal) {
-                Assert.assertTrue(((BigDecimal) ob)
-                        .compareTo((BigDecimal) expected) == 0);
+            if (ob instanceof APNumber) {
+                Assert.assertTrue(((APNumber) ob)
+                        .compareTo((APNumber) expected) == 0);
             } else {
                 Assert.assertEquals(expected, ob);
             }
@@ -237,6 +237,23 @@ public class ProgramTest {
                 .parse(c);
         for (final ExpressionNode node : nodes) {
             node.getValue(c);
+        }
+    }
+
+    public static void testArithmeticException(final String code,
+            final APNumber expected, final String variableName) {
+        try {
+            final Context c = new Context(new PrintStream(
+                    new ByteArrayOutputStream()));
+            final List<ExpressionNode> nodes = new Parser(new Lexer(code).lex())
+            .parse(c);
+            for (final ExpressionNode node : nodes) {
+                node.getValue(c);
+            }
+            throw new AssertionFailedError(
+                    "Did not throw arithmetic exception!");
+        } catch (final ArithmeticException e) {
+            return;
         }
     }
 }

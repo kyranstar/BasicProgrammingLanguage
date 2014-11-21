@@ -1,6 +1,6 @@
 package type;
 
-import java.math.BigDecimal;
+import math.APNumber;
 
 /**
  * The Class APValueChar. Represents a character literal.
@@ -28,8 +28,8 @@ public class APValueChar extends APValue<Character> {
             case ADD:
                 if (arg instanceof APValueNum) {
                     return new APValueChar(
-                            (char) (getValue() + ((BigDecimal) arg.getValue())
-                                    .intValue()));
+                            (char) (getValue() + ((APNumber) arg.getValue())
+                                    .intValueExact()));
                 } else if (arg instanceof APValueChar) {
                     return new APValueChar(
                             (char) (getValue() + (Character) arg.getValue()));
@@ -38,8 +38,8 @@ public class APValueChar extends APValue<Character> {
             case SUBTRACT:
                 if (arg instanceof APValueNum) {
                     return new APValueChar(
-                            (char) (getValue() - ((BigDecimal) arg.getValue())
-                                    .intValue()));
+                            (char) (getValue() - ((APNumber) arg.getValue())
+                                    .intValueExact()));
                 } else if (arg instanceof APValueChar) {
                     return new APValueChar(
                             (char) (getValue() - (Character) arg.getValue()));
