@@ -45,10 +45,63 @@ public final class LibraryFunction {
      */
     public static Context applyLibraryFunctions(final Context context) {
         toStringFunction(context);
+        castingFunctions(context);
         listFunctions(context);
         printFunctions(context);
         mathFunctions(context);
         return context;
+    }
+
+    private static void castingFunctions(final Context context) {
+        final String theNum = "num";
+        context.putFunction(
+                new Function("char", Arrays.asList(new VariableNode(theNum)),
+                        new ExpressionNode<Void>(null) {
+                            @Override
+                            public APValue getValue(final Context context) {
+                                final APValue value = new VariableNode(theNum)
+                                        .getValue(context);
+                                if (!(value instanceof APValueNum)
+                                        && !(value instanceof APValueChar)) {
+                                    throw new ParserException(
+                                            "Can not pass arg "
+                                                    + value.getClass()
+                                                    + " to function char");
+                                }
+                                if (value instanceof APValueNum) {
+                                    return new APValueChar(
+                                            (char) ((APNumber) value.getValue())
+                                                    .intValueExact());
+                                } else {
+                                    return value;
+                                }
+                                
+                            }
+                        }), false);
+        final String theInput = "input";
+        context.putFunction(
+                new Function("num", Arrays.asList(new VariableNode(theInput)),
+                        new ExpressionNode<Void>(null) {
+                            @Override
+                            public APValue getValue(final Context context) {
+                                final APValue value = new VariableNode(theInput)
+                                        .getValue(context);
+                                if (!(value instanceof APValueNum)
+                                        && !(value instanceof APValueChar)) {
+                                    throw new ParserException(
+                                            "Can not pass arg "
+                                                    + value.getClass()
+                                                    + " to function num");
+                                }
+                                if (value instanceof APValueNum) {
+                                    return value;
+                                } else {
+                                    return new APValueNum(new APNumber(
+                                            (char) value.getValue()));
+                                }
+                                
+                            }
+                        }), false);
     }
 
     private static void listFunctions(final Context context) {
