@@ -2,11 +2,10 @@ package total;
 
 import java.util.Arrays;
 
-import math.APNumber;
-
 import org.junit.Test;
 
 import parser.ExpressionNode.ConstantNode;
+import type.APNumber;
 import type.APValueNum;
 
 /**

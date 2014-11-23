@@ -10,10 +10,10 @@ import java.util.List;
 
 import machine.Context;
 import machine.Function;
-import math.APNumber;
 import parser.ExpressionNode;
 import parser.ExpressionNode.VariableNode;
 import parser.ParserException;
+import type.APNumber;
 import type.APValue;
 import type.APValueBool;
 import type.APValueChar;

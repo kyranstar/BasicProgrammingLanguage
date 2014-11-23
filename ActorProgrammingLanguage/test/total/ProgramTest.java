@@ -13,7 +13,6 @@ import junit.framework.AssertionFailedError;
 import lexer.Lexer;
 import machine.Context;
 import machine.ContextException;
-import math.APNumber;
 
 import org.junit.Assert;
 import org.junit.Rule;
@@ -23,6 +22,7 @@ import org.junit.rules.ExpectedException;
 import parser.ExpressionNode;
 import parser.Parser;
 import parser.ParserException;
+import type.APNumber;
 
 // TODO: Auto-generated Javadoc
 /**

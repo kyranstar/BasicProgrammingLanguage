@@ -1,8 +1,8 @@
 package total;
 
-import math.APNumber;
-
 import org.junit.Test;
+
+import type.APNumber;
 
 public class DataTest {
     

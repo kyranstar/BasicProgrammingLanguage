@@ -18,7 +18,6 @@ import lexer.Token.TokenType;
 import machine.Context;
 import machine.DataStructure;
 import machine.Function;
-import math.APNumber;
 import parser.ExpressionNode.AdditionNode;
 import parser.ExpressionNode.AndNode;
 import parser.ExpressionNode.AssignmentNode;
@@ -32,6 +31,7 @@ import parser.ExpressionNode.FunctionCallNode;
 import parser.ExpressionNode.GreaterThanEqualNode;
 import parser.ExpressionNode.GreaterThanNode;
 import parser.ExpressionNode.IfNode;
+import parser.ExpressionNode.IndexAssignmentNode;
 import parser.ExpressionNode.LessThanEqualNode;
 import parser.ExpressionNode.LessThanNode;
 import parser.ExpressionNode.ListIndexNode;
@@ -44,6 +44,7 @@ import parser.ExpressionNode.SubtractionNode;
 import parser.ExpressionNode.VariableNode;
 import parser.checking.CompilerException;
 import parser.checking.TreeChecker;
+import type.APNumber;
 import type.APValueBool;
 import type.APValueChar;
 import type.APValueData;
@@ -144,7 +145,7 @@ public class Parser {
             }
 
             throw new ParserException(lookahead.getMessage() + "\n"
-                    + "After : " + sb.toString() + "\n" + e.getMessage(), e);
+                    + "After : \"" + sb.toString() + "\"\n" + e.getMessage(), e);
         }
     }
     
@@ -181,6 +182,9 @@ public class Parser {
                 // function call
                 final ExpressionNode node = functionParameters(context, expr);
                 return node;
+            } else if (lookahead.getType() == TokenType.OPEN_CURLY_BRACKET) {
+                final ExpressionNode node = indexAssignment(context, expr);
+                return node;
             }
             throw new ParserException(
                     "Expected <Dot>, <Equal> or <Open Parens>, was "
@@ -209,11 +213,24 @@ public class Parser {
             context.putDataType(new DataStructure(dataTypeName.getName(),
                     fields));
             return ExpressionNode.VOID;
+        } else {
+            assertNextToken(TokenType.OPEN_CURLY_BRACKET);
+            return indexAssignment(context,
+                    expression(context));
         }
-
-        throw new ParserException("Expected <Identifier> or <Datatype>, was "
-                + lookahead);
-        
+    }
+    
+    private ExpressionNode indexAssignment(final Context context,
+            final ExpressionNode expressionNode) {
+        assertNextToken(TokenType.OPEN_CURLY_BRACKET);
+        nextToken();
+        final ExpressionNode insideCurlies = expression(context);
+        assertNextToken(TokenType.CLOSE_CURLY_BRACKET);
+        nextToken();
+        assertNextToken(TokenType.EQUAL);
+        nextToken();
+        final ExpressionNode rh = expression(context);
+        return new IndexAssignmentNode(expressionNode, insideCurlies, rh);
     }
     
     private ExpressionNode fieldAssignment(final Context context,

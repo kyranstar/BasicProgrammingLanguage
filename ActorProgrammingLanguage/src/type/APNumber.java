@@ -1,4 +1,4 @@
-package math;
+package type;
 
 import java.math.RoundingMode;
 

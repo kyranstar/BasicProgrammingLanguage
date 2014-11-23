@@ -5,10 +5,9 @@ package total;
 
 import java.math.RoundingMode;
 
-import math.APNumber;
-
 import org.junit.Test;
 
+import type.APNumber;
 import type.APValueNum;
 
 // TODO: Auto-generated Javadoc

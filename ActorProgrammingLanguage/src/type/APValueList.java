@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import math.APNumber;
 import parser.ExpressionNode;
 
 /**
@@ -18,7 +17,7 @@ import parser.ExpressionNode;
  * @version $Revision: 1.0 $
  */
 public class APValueList extends APValue<List> {
-
+    
     /**
      * Instantiates a new AP value bool.
      *
@@ -26,12 +25,12 @@ public class APValueList extends APValue<List> {
      *            the expression node
      */
     public APValueList(final List<ExpressionNode> expressionNode) {
-        setValue(Collections.unmodifiableList(new ArrayList<>(expressionNode)));
+        setValue(new ArrayList<>(expressionNode));
     }
-    
+
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
@@ -43,10 +42,10 @@ public class APValueList extends APValue<List> {
         }
         return builder.toString();
     }
-
+    
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see type.APValue#callMethod(type.APValue.Methods, type.APValue)
      */
     /**
@@ -79,11 +78,11 @@ public class APValueList extends APValue<List> {
                 }
                 break;
         }
-
+        
         throw new MismatchedMethodException("Can't call method " + method
                 + " on type list with param " + arg);
     }
-
+    
     /**
      * Multiply.
      *
@@ -100,9 +99,9 @@ public class APValueList extends APValue<List> {
             negative = true;
             value2 = value2.negate();
         }
-
+        
         final List<ExpressionNode> b = new LinkedList<ExpressionNode>();
-
+        
         // if our number is greater than one
         for (; value2.compareTo(APNumber.ONE) > 0; value2 = value2
                 .subtract(APNumber.ONE)) {
@@ -114,7 +113,7 @@ public class APValueList extends APValue<List> {
         }
         return b;
     }
-
+    
     /**
      * Append two lists.
      *

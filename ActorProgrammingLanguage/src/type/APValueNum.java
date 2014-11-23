@@ -5,8 +5,6 @@ package type;
 
 import java.math.RoundingMode;
 
-import math.APNumber;
-
 /**
  * The Class APValueNum. Represents a real number.
  *

@@ -1,6 +1,5 @@
 package type;
 
-import math.APNumber;
 
 /**
  * The Class APValueChar. Represents a character literal.
