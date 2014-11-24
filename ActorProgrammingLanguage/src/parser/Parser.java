@@ -197,29 +197,35 @@ public class Parser {
             final VariableNode dataTypeName = identifier();
             assertNextToken(TokenType.EQUAL);
             nextToken();
-            assertNextToken(TokenType.OPEN_CURLY_BRACKET);
-            nextToken();
-            final List<String> fields = new ArrayList<>();
-            while (true) {
-                assertNextToken(TokenType.IDENTIFIER);
-                fields.add(identifier().getName());
-                if (lookahead.getType() == TokenType.CLOSE_CURLY_BRACKET) {
-                    nextToken();
-                    break;
-                }
-                assertNextToken(TokenType.COMMA);
+            
+            while(true){
+                assertNextToken(TokenType.OPEN_CURLY_BRACKET);
                 nextToken();
+                final List<String> fields = new ArrayList<>();
+                while (true) {
+                    assertNextToken(TokenType.IDENTIFIER);
+                    fields.add(identifier().getName());
+                    if (lookahead.getType() == TokenType.CLOSE_CURLY_BRACKET) {
+                        nextToken();
+                        break;
+                    }
+                    assertNextToken(TokenType.COMMA);
+                    nextToken();
+                }
+                context.putDataType(new DataStructure(dataTypeName.getName(),
+                        fields));
+                if(lookahead.getType() == TokenType.BAR){
+                    nextToken();
+                }else{
+                    return ExpressionNode.VOID;
+                }
             }
-            context.putDataType(new DataStructure(dataTypeName.getName(),
-                    fields));
-            return ExpressionNode.VOID;
         } else {
             assertNextToken(TokenType.OPEN_CURLY_BRACKET);
-            return indexAssignment(context,
-                    expression(context));
+            return indexAssignment(context, expression(context));
         }
     }
-    
+
     private ExpressionNode indexAssignment(final Context context,
             final ExpressionNode expressionNode) {
         assertNextToken(TokenType.OPEN_CURLY_BRACKET);
@@ -232,7 +238,7 @@ public class Parser {
         final ExpressionNode rh = expression(context);
         return new IndexAssignmentNode(expressionNode, insideCurlies, rh);
     }
-    
+
     private ExpressionNode fieldAssignment(final Context context,
             final VariableNode expr, final VariableNode field) {
         assertNextToken(TokenType.EQUAL);
@@ -240,7 +246,7 @@ public class Parser {
         final ExpressionNode assigned = expression(context);
         return new FieldAssignmentNode(expr, field, assigned);
     }
-    
+
     /**
      * Assignment.
      *
@@ -260,7 +266,7 @@ public class Parser {
                 mutable);
         return assignment;
     }
-    
+
     /**
      * Expression.
      *
@@ -277,11 +283,11 @@ public class Parser {
         } else if (lookahead.getType() == TokenType.SEQUENCE) {
             return seqExpr(context);
         }
-        
+
         final ExpressionNode expr = signedTerm(context);
         return lowOp(expr, context);
     }
-    
+
     private ExpressionNode seqExpr(final Context context) {
         assertNextToken(TokenType.SEQUENCE);
         nextToken();
@@ -306,7 +312,7 @@ public class Parser {
         final SequenceNode seq = new SequenceNode(statements, expression);
         return seq;
     }
-    
+
     private ExpressionNode newExpr(final Context context) {
         assertNextToken(TokenType.NEW);
         nextToken();
@@ -329,7 +335,7 @@ public class Parser {
         return new ConstantNode(new APValueData(new DataStructureInstance(type,
                 values)));
     }
-    
+
     /**
      * If expr.
      *
@@ -350,7 +356,7 @@ public class Parser {
         final ExpressionNode elseExpr = expression(context);
         return new IfNode(ifExpr, thenExpr, elseExpr);
     }
-    
+
     /*
      * Lower level precedence operations: +, -, ||
      *
@@ -401,7 +407,7 @@ public class Parser {
             return expr;
         }
     }
-    
+
     /**
      * Term.
      *
@@ -414,7 +420,7 @@ public class Parser {
         // term -> factor term_op
         return highOp(factor(context), context);
     }
-    
+
     /*
      * High precedence operations: *, /, &&
      *
@@ -647,7 +653,7 @@ public class Parser {
         final Function func = new Function(null, params, expression(context));
         return new ConstantNode(new APValueFunction(func));
     }
-    
+
     /**
      * Match boolean.
      *
@@ -710,7 +716,7 @@ public class Parser {
         final ExpressionNode second = expression(context);
         return new RangeNode(first, second);
     }
-    
+
     /**
      * Match string.
      *
@@ -760,9 +766,9 @@ public class Parser {
      * @return The translated string.
      */
     public static String unescapeJavaString(final String st) {
-        
+
         final StringBuilder sb = new StringBuilder(st.length());
-        
+
         for (int i = 0; i < st.length(); i++) {
             char ch = st.charAt(i);
             if (ch == '\\') {
@@ -818,7 +824,7 @@ public class Parser {
                         }
                         final int code = Integer.parseInt(
                                 "" + st.charAt(i + 2) + st.charAt(i + 3)
-                                        + st.charAt(i + 4) + st.charAt(i + 5),
+                                + st.charAt(i + 4) + st.charAt(i + 5),
                                 16);
                         sb.append(Character.toChars(code));
                         i += 5;
@@ -897,7 +903,7 @@ public class Parser {
         nextToken();
         return variableNode;
     }
-    
+
     /**
      * Assert next token.
      *
@@ -909,7 +915,7 @@ public class Parser {
             throw new ParserException("Expected " + t + " but was " + lookahead);
         }
     }
-    
+
     /**
      * Assert next token.
      *

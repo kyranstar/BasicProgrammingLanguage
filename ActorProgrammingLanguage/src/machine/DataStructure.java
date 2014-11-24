@@ -8,14 +8,14 @@ import parser.ParserException;
 import type.DataStructureInstance;
 
 public class DataStructure {
-    public String name;
-    public List<String> fields;
-
+    public final String name;
+    public final List<String> fields;
+    
     public DataStructure(final String name, final List<String> fields) {
         this.name = name;
         this.fields = fields;
     }
-    
+
     public DataStructureInstance getInstance(
             final Map<String, ExpressionNode> fields) {
         for (final String s : this.fields) {

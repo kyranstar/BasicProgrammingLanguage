@@ -6,7 +6,9 @@ package machine;
 import interpreter.library.LibraryFunction;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import parser.ParserException;
@@ -20,15 +22,16 @@ import type.APValueFunction;
  * @version $Revision: 1.0 $
  */
 public class Context {
-
+    
     /** The variable mapping. */
     private Map<String, VariableMapping> variables;
-
-    private final Map<String, DataStructure> dataTypes;
-
+    
+    /** A map of datatype names to a list of possible constructors */
+    private final Map<String, List<DataStructure>> dataTypes;
+    
     /** The output stream. */
     private PrintStream outputStream;
-
+    
     /**
      * Instantiates a new context with a given print stream.
      *
@@ -39,10 +42,10 @@ public class Context {
         setVariables(new HashMap<>());
         dataTypes = new HashMap<>();
         outputStream = p;
-
+        
         LibraryFunction.applyLibraryFunctions(this);
     }
-
+    
     /**
      * Put variable.
      *
@@ -61,10 +64,10 @@ public class Context {
                                 + name);
             }
         }
-        
+
         getVariables().put(name, new VariableMapping(value, isMutable));
     }
-    
+
     /**
      * Gets the variable with a given name.
      *
@@ -81,9 +84,9 @@ public class Context {
         }
         final APValue node = variableMapping.variable;
         return node;
-
+        
     }
-
+    
     /**
      * Gets the variables.
      *
@@ -93,7 +96,7 @@ public class Context {
     public Map<String, VariableMapping> getVariables() {
         return variables;
     }
-
+    
     /**
      * Sets the variable map.
      *
@@ -103,7 +106,7 @@ public class Context {
     public void setVariables(final Map<String, VariableMapping> variables) {
         this.variables = variables;
     }
-
+    
     /**
      * Gets the output stream.
      *
@@ -113,7 +116,7 @@ public class Context {
     public PrintStream getOutputStream() {
         return outputStream;
     }
-
+    
     /**
      * Sets the output stream.
      *
@@ -123,10 +126,10 @@ public class Context {
     public void setOutputStream(final PrintStream p) {
         outputStream = p;
     }
-    
+
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
@@ -134,7 +137,7 @@ public class Context {
         return "Context [variables=" + variables + ", outputStream="
                 + outputStream + "]";
     }
-
+    
     /**
      * Put function.
      *
@@ -144,23 +147,26 @@ public class Context {
     public void putFunction(final Function function, final boolean isMutable) {
         putFunction(function.name, new APValueFunction(function), isMutable);
     }
-    
+
     public void putDataType(final DataStructure dataType) {
-        dataTypes.put(dataType.name, dataType);
-    }
-    
-    public DataStructure getDataType(final String name) {
-        return dataTypes.get(name);
+        if (dataTypes.get(dataType.name) == null) {
+            dataTypes.put(dataType.name, new ArrayList<>());
+        }
+        dataTypes.get(dataType.name).add(dataType);
     }
 
+    public List<DataStructure> getDataType(final String name) {
+        return dataTypes.get(name);
+    }
+    
     public static class VariableMapping {
         public APValue variable;
         public boolean isMutable;
-
+        
         public VariableMapping(final APValue variable, final boolean isMutable) {
             this.variable = variable;
             this.isMutable = isMutable;
         }
-        
+
     }
 }
