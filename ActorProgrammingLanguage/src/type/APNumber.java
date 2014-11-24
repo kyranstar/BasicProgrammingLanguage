@@ -25,7 +25,7 @@ public class APNumber implements Comparable<APNumber> {
     }
 
     public boolean isInteger() {
-        return (int) d == d;
+        return Math.abs((int) d - d - 1.0) <= 0.000001;
         // return bd.signum() == 0 || bd.scale() <= 0
         // || bd.stripTrailingZeros().scale() <= 0;
     }

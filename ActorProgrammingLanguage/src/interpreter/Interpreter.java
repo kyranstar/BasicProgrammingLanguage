@@ -18,10 +18,10 @@ import parser.Parser;
  * @version $Revision: 1.0 $
  */
 public class Interpreter {
-
+    
     /** The print stream. */
     private final PrintStream printStream;
-
+    
     /**
      * Instantiates a new interpreter.
      *
@@ -31,7 +31,7 @@ public class Interpreter {
     public Interpreter(final PrintStream printStream) {
         this.printStream = printStream;
     }
-    
+
     /**
      * Interprets the passed in code.
      *
@@ -44,11 +44,7 @@ public class Interpreter {
         final Context context = new Context(printStream);
         final Lexer lexer = new Lexer(code);
         final List<ExpressionNode> nodes = new Parser(lexer.lex())
-        .parse(context);
-        for (final ExpressionNode node : nodes) {
-            System.out.println(node + ";");
-        }
-
+                .parse(context);
         for (final ExpressionNode node : nodes) {
             node.getValue(context);
         }

@@ -185,11 +185,11 @@
         </rule>
         <rule>
             <name>AvoidDeeplyNestedIfStmts</name>
-            <ruleset>Basic Velocity</ruleset>
+            <ruleset>Design</ruleset>
         </rule>
         <rule>
             <name>AvoidReassigningParameters</name>
-            <ruleset>Basic Velocity</ruleset>
+            <ruleset>Design</ruleset>
         </rule>
         <rule>
             <name>EmptyForeachStmt</name>

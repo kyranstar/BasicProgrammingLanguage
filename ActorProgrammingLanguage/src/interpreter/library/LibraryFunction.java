@@ -121,10 +121,7 @@ public final class LibraryFunction {
                         new ExpressionNode<Void>(null) {
                     @Override
                     public APValue getValue(final Context context) {
-                        final List<ExpressionNode> characters = new ArrayList<>();
-                        final String n = "";
-
-                        final APValue value = new VariableNode(argName)
+                                final APValue value = new VariableNode(argName)
                         .getValue(context);
                         if (value instanceof APValueList) {
                             final List<ExpressionNode> numArg = (List<ExpressionNode>) value

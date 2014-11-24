@@ -7,6 +7,7 @@ import interpreter.Interpreter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import junit.framework.AssertionFailedError;
@@ -15,14 +16,13 @@ import machine.Context;
 import machine.ContextException;
 
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import parser.ExpressionNode;
 import parser.Parser;
 import parser.ParserException;
 import type.APNumber;
+import type.APValue;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -34,21 +34,17 @@ import type.APNumber;
 public class ProgramTest {
     
     /** The number 10. */
-    final APNumber expected10 = new APNumber("10");
+    final static APNumber VAL_A = new APNumber("10");
 
     /** The variable named a. */
-    final String variableNameA = "a";
-
-    /** The expected exception. */
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+    final static String VAR_A = "a";
 
     /**
      * Test comments.
      */
     @Test
     public void testEndlineComment() {
-        test("a = 10; // Hi!", expected10, variableNameA);
+        test("a = 10; // Hi!", VAL_A, VAR_A);
     }
     
     /**
@@ -56,7 +52,7 @@ public class ProgramTest {
      */
     @Test
     public void testSeparatingEndlineComment() {
-        test("a = //8\n10;", expected10, variableNameA);
+        test("a = //8\n10;", VAL_A, VAR_A);
     }
     
     /**
@@ -64,7 +60,7 @@ public class ProgramTest {
      */
     @Test
     public void testMultilineComment() {
-        test("a = 10; /*\n\n\n Wow hi! */", expected10, variableNameA);
+        test("a = 10; /*\n\n\n Wow hi! */", VAL_A, VAR_A);
     }
     
     /**
@@ -72,7 +68,7 @@ public class ProgramTest {
      */
     @Test
     public void testSeparatingMultilineComment() {
-        test("a = /*\n8\n*/ 10;", expected10, variableNameA);
+        test("a = /*\n8\n*/ 10;", VAL_A, VAR_A);
     }
     
     /**
@@ -80,7 +76,7 @@ public class ProgramTest {
      */
     @Test
     public void testStatementInComment() {
-        test("a = 10; //a = 8", expected10, variableNameA);
+        test("a = 10; //a = 8", VAL_A, VAR_A);
     }
 
     /**
@@ -93,16 +89,30 @@ public class ProgramTest {
      */
     public static void expectOutput(final String s, final String expected) {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final PrintStream p = new PrintStream(baos);
+        PrintStream p = null;
+        try {
+            p = new PrintStream(baos, true, "UTF-8");
+        } catch (final UnsupportedEncodingException e) {
+            throw new RuntimeException("Unsupported Encoding Exception");
+        }
 
         new Interpreter(p).interpret(s);
         
         final ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
-        final PrintStream p2 = new PrintStream(baos2);
+        PrintStream p2 = null;
+        try {
+            p2 = new PrintStream(baos2, true, "UTF-8");
+        } catch (final UnsupportedEncodingException e) {
+            throw new RuntimeException("Unsupported Encoding Exception");
+        }
         
         p2.println(expected);
         
-        Assert.assertEquals(baos2.toString(), baos.toString());
+        try {
+            Assert.assertEquals(baos2.toString("UTF-8"), baos.toString("UTF-8"));
+        } catch (final UnsupportedEncodingException e) {
+            throw new RuntimeException("Unsupported Encoding Exception");
+        }
     }
     
     /**
@@ -113,8 +123,13 @@ public class ProgramTest {
      */
     public static void testStackOverflowError(final String s) {
         try {
-            final Context c = new Context(new PrintStream(
-                    new ByteArrayOutputStream()));
+            Context c = null;
+            try {
+                c = new Context(new PrintStream(new ByteArrayOutputStream(),
+                        true, "UTF-8"));
+            } catch (final UnsupportedEncodingException e) {
+                throw new RuntimeException("Unsupported Encoding Exception");
+            }
             final List<ExpressionNode> nodes = new Parser(new Lexer(s).lex())
             .parse(c);
             for (final ExpressionNode node : nodes) {
@@ -134,8 +149,13 @@ public class ProgramTest {
      */
     public static void testIndexOutOfBoundsException(final String code) {
         try {
-            final Context c = new Context(new PrintStream(
-                    new ByteArrayOutputStream()));
+            Context c = null;
+            try {
+                c = new Context(new PrintStream(new ByteArrayOutputStream(),
+                        true, "UTF-8"));
+            } catch (final UnsupportedEncodingException e) {
+                throw new RuntimeException("Unsupported Encoding Exception");
+            }
             final List<ExpressionNode> nodes = new Parser(new Lexer(code).lex())
                     .parse(c);
             for (final ExpressionNode node : nodes) {
@@ -156,8 +176,13 @@ public class ProgramTest {
      */
     public static void testParserException(final String code) {
         try {
-            final Context c = new Context(new PrintStream(
-                    new ByteArrayOutputStream()));
+            Context c = null;
+            try {
+                c = new Context(new PrintStream(new ByteArrayOutputStream(),
+                        true, "UTF-8"));
+            } catch (final UnsupportedEncodingException e) {
+                throw new RuntimeException("Unsupported Encoding Exception");
+            }
             final List<ExpressionNode> nodes = new Parser(new Lexer(code).lex())
                     .parse(c);
             for (final ExpressionNode node : nodes) {
@@ -181,15 +206,26 @@ public class ProgramTest {
      */
     public static void test(final String string, final Object expected,
             final String variableName) {
-        final Context c = new Context(new PrintStream(
-                new ByteArrayOutputStream()));
+        Context c = null;
+        try {
+            c = new Context(new PrintStream(new ByteArrayOutputStream(), true,
+                    "UTF-8"));
+        } catch (final UnsupportedEncodingException e1) {
+            throw new RuntimeException("Unsupported Encoding Exception");
+        }
         final List<ExpressionNode> nodes = new Parser(new Lexer(string).lex())
                 .parse(c);
         for (final ExpressionNode node : nodes) {
             node.getValue(c);
         }
         try {
-            final Object ob = c.getFunction(variableName).getValue();
+            final APValue val = c.getFunction(variableName);
+            if (val == null) {
+                throw new AssertionError("Var was null");
+            }
+            
+            final Object ob = val.getValue();
+            
             if (ob instanceof APNumber) {
                 Assert.assertTrue(((APNumber) ob)
                         .compareTo((APNumber) expected) == 0);
@@ -211,8 +247,13 @@ public class ProgramTest {
      */
     public static void testContextException(final String code) {
         try {
-            final Context c = new Context(new PrintStream(
-                    new ByteArrayOutputStream()));
+            Context c = null;
+            try {
+                c = new Context(new PrintStream(new ByteArrayOutputStream(),
+                        true, "UTF-8"));
+            } catch (final UnsupportedEncodingException e) {
+                throw new RuntimeException("Unsupported Encoding Exception");
+            }
             final List<ExpressionNode> nodes = new Parser(new Lexer(code).lex())
             .parse(c);
             for (final ExpressionNode node : nodes) {
@@ -231,8 +272,13 @@ public class ProgramTest {
      *            the string
      */
     public static void testNoError(final String string) {
-        final Context c = new Context(new PrintStream(
-                new ByteArrayOutputStream()));
+        Context c = null;
+        try {
+            c = new Context(new PrintStream(new ByteArrayOutputStream(), true,
+                    "UTF-8"));
+        } catch (final UnsupportedEncodingException e) {
+            throw new RuntimeException("Unsupported Encoding Exception");
+        }
         final List<ExpressionNode> nodes = new Parser(new Lexer(string).lex())
                 .parse(c);
         for (final ExpressionNode node : nodes) {
@@ -240,11 +286,15 @@ public class ProgramTest {
         }
     }
 
-    public static void testArithmeticException(final String code,
-            final APNumber expected, final String variableName) {
+    public static void testArithmeticException(final String code) {
         try {
-            final Context c = new Context(new PrintStream(
-                    new ByteArrayOutputStream()));
+            Context c = null;
+            try {
+                c = new Context(new PrintStream(new ByteArrayOutputStream(),
+                        true, "UTF-8"));
+            } catch (final UnsupportedEncodingException e) {
+                throw new RuntimeException("Unsupported Encoding Exception");
+            }
             final List<ExpressionNode> nodes = new Parser(new Lexer(code).lex())
             .parse(c);
             for (final ExpressionNode node : nodes) {
