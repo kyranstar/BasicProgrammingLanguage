@@ -1,4 +1,0 @@
-n = 10;
-a = [1 to n] * n;
-c = a mapWithIndex (func x i -> x map (func y -> y*(i+1)));
-print(c);
