@@ -163,7 +163,7 @@ public class Context {
         String[] parts = name.split("\\(");
         //Change it from format "name(sub)" to "name$sub"
         name = parts[0] + "$" + parts[1].substring(0,parts[1].length()-1);
-        this.variables.put(name, new VariableMapping(new APValueType(name), false));
+        this.variables.put(name, new VariableMapping(new APValueType(dataType.name), false));
     }
 
     public List<DataConstructor> getDataType(final String name) {

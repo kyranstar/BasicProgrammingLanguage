@@ -889,8 +889,17 @@ public abstract class ExpressionNode<T> {
         public APValue getValue(final Context context) {
             final APValueData apValueData = (APValueData) this.dataStructure
                     .getValue(context);
+            if(apValueData == null){
+                throw new ParserException("Undefined data structure " + this.dataStructure);
+            }
             
-            return apValueData.getValue().fields.get(field.name).getValue(
+            ExpressionNode fieldValue = apValueData.getValue().fields.get(field.name);
+            
+            if(fieldValue == null){
+                throw new ParserException("Undefined field " + field.name);
+            }
+            
+            return fieldValue.getValue(
                     context);
         }
 
