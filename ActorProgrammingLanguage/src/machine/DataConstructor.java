@@ -10,12 +10,13 @@ import type.DataStructureInstance;
 public class DataConstructor {
     public final String name;
     public final List<String> fields;
-    
-    public DataConstructor(final String name, String subName, final List<String> fields) {
-        this.name = name + "(" + subName + ")";
+
+    public DataConstructor(final String name, final String subName,
+            final List<String> fields) {
+        this.name = name + "$" + subName;
         this.fields = fields;
     }
-
+    
     public DataStructureInstance getInstance(
             final Map<String, ExpressionNode> fields) {
         for (final String s : this.fields) {

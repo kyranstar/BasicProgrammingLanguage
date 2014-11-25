@@ -528,7 +528,50 @@ public enum TokenMatchers {
                 final PositionInfo lexInfo) {
             final char c = code.charAt(0);
 
-            final String operators = "~_?$#@!`:¬⊥↑↓⌊⌈÷□≤≥≠∧∨";
+            final String operators = "~_?#@!`:¬⊥↑↓⌊⌈÷□≤≥≠∧∨";
+
+            return Character.isAlphabetic(c) || operators.indexOf(c) >= 0;
+        }
+
+    },
+
+    /**
+     * Matches an type name
+     *
+     * @author Kyran Adams
+     * @version $Revision: 1.0 $
+     */
+    TYPE_NAME {
+
+        /*
+         * (non-Javadoc)
+         *
+         * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
+         * lexer.LexerInformation)
+         */
+        @Override
+        public Token getTokenNoCheck(String code, final PositionInfo lexInfo) {
+            final StringBuilder identifier = new StringBuilder();
+            do {
+                identifier.append(code.charAt(0));
+                code = code.substring(1);
+            } while (matches(code, lexInfo));
+            return new Token(TokenType.TYPE_NAME, identifier.toString(),
+                    lexInfo);
+        }
+
+        /*
+         * (non-Javadoc)
+         *
+         * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
+         * lexer.LexerInformation)
+         */
+        @Override
+        public boolean matchesNoCheck(final String code,
+                final PositionInfo lexInfo) {
+            final char c = code.charAt(0);
+
+            final String operators = "$~_?#@!`:¬⊥↑↓⌊⌈÷□≤≥≠∧∨";
 
             return Character.isAlphabetic(c) || operators.indexOf(c) >= 0;
         }
