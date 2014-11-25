@@ -74,4 +74,9 @@ public class APValueChar extends APValue<Character> {
         throw new MismatchedMethodException("Can't call method " + s
                 + " on type char with param " + arg.getClass().getSimpleName());
     }
+
+    @Override
+    public String getType() {
+        return "Char";
+    }
 }

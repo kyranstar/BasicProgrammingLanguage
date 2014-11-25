@@ -26,6 +26,11 @@ public abstract class APValue<T> {
             throw new MismatchedMethodException("Can't call method " + s
                     + " on type void!");
         }
+
+        @Override
+        public String getType() {
+            return "VOID";
+        }
     };
     
     /** The data. */
@@ -154,5 +159,12 @@ public abstract class APValue<T> {
         }
         return true;
     }
+
+    /** Returns the type of this value. 
+     * For example: <li>Num</li> <li>List</li> <li>Char</li> <li>Func</li> <li>Bool</li>
+     * 
+     * For user defined functions: <li>Rectangle(Square)</li>
+     * */
+    public abstract String getType();
 
 }

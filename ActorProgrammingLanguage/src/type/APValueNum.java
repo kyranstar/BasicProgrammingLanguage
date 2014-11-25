@@ -139,4 +139,9 @@ public class APValueNum extends APValue<APNumber> {
         return getValue().toString();
     }
 
+    @Override
+    public String getType() {
+        return "Num";
+    }
+
 }

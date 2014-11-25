@@ -132,4 +132,9 @@ public class APValueList extends APValue<List> {
         newList.addAll(value2);
         return newList;
     }
+
+    @Override
+    public String getType() {
+        return "List";
+    }
 }

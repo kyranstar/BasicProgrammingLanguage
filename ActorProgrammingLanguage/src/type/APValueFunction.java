@@ -27,5 +27,10 @@ public class APValueFunction extends APValue<Function> {
         throw new MismatchedMethodException("Can't call method " + s
                 + " on type char with param " + arg.getClass().getSimpleName());
     }
+
+    @Override
+    public String getType() {
+        return "Func";
+    }
     
 }

@@ -17,4 +17,9 @@ public class APValueData extends APValue<DataStructureInstance> {
                 + " on type data!");
     }
 
+    @Override
+    public String getType() {
+        return getValue().type;
+    }
+
 }

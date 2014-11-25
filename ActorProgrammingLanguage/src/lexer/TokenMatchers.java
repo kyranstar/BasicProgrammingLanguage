@@ -528,7 +528,7 @@ public enum TokenMatchers {
                 final PositionInfo lexInfo) {
             final char c = code.charAt(0);
 
-            final String operators = "~_?#@!`:¬⊥↑↓⌊⌈÷□≤≥≠∧∨";
+            final String operators = "~_?$#@!`:¬⊥↑↓⌊⌈÷□≤≥≠∧∨";
 
             return Character.isAlphabetic(c) || operators.indexOf(c) >= 0;
         }

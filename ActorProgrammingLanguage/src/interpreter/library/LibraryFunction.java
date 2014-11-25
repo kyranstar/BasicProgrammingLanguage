@@ -19,6 +19,7 @@ import type.APValueBool;
 import type.APValueChar;
 import type.APValueList;
 import type.APValueNum;
+import type.APValueType;
 
 /**
  * The Class LibraryFunction. This class holds the methods to add library
@@ -46,10 +47,33 @@ public final class LibraryFunction {
     public static Context applyLibraryFunctions(final Context context) {
         toStringFunction(context);
         castingFunctions(context);
+        isaFunction(context);
         listFunctions(context);
         printFunctions(context);
         mathFunctions(context);
         return context;
+    }
+
+    private static void isaFunction(Context context) {
+        String arg1 = "arg1";
+        String typeArg = "type";
+        context.putFunction(
+                new Function("isa", Arrays.asList(new VariableNode(arg1), new VariableNode(typeArg)),
+                        new ExpressionNode<Void>(null) {
+                            @Override
+                            public APValue getValue(final Context context) {
+                                final APValue value = new VariableNode(arg1)
+                                        .getValue(context);
+                                final APValue type = new VariableNode(typeArg).getValue(context);
+                                if(!(type instanceof APValueType)){
+                                    throw new ParserException("Type argument must be a type, was " + type);
+                                }
+                                if(((APValueType) type).valueIsType(value)){
+                                    return new APValueBool(true);
+                                }
+                                return new APValueBool(false);
+                            }
+                        }), false);
     }
 
     private static void castingFunctions(final Context context) {

@@ -59,4 +59,9 @@ public class APValueBool extends APValue<Boolean> {
         throw new MismatchedMethodException("Can't call method " + method
                 + " on type bool!");
     }
+
+    @Override
+    public String getType() {
+        return "Bool";
+    }
 }

@@ -21,6 +21,35 @@ public class FunctionTest {
         ProgramTest.test("toTen = func a -> 10; a = toTen(5);",
                 new APNumber(10), "a");
     }
+    @Test
+    public void testIsa() {
+        ProgramTest.test("a = 10 isa Num;",
+               true, "a");
+        ProgramTest.test("a = 10 isa Bool;",
+                false, "a");
+        ProgramTest.test("a = true isa Bool;",
+                true, "a");
+         ProgramTest.test("a = true isa Num;",
+                 false, "a");
+         ProgramTest.test("a = [] isa List;",
+                 true, "a");
+          ProgramTest.test("a = [] isa Bool;",
+                  false, "a");
+          ProgramTest.test("a = (func a -> 10) isa Func;",
+                  true, "a");
+           ProgramTest.test("a = (func a -> 10) isa Bool;",
+                   false, "a");
+    }
+    @Test
+    public void testIsaDatatype(){
+        String decl = "datatype Rectangle = Rect{width, height} | Square {size};";
+        ProgramTest.test(decl + "b = new Rectangle.Rect(width=5,height=6);"
+                + "a = b isa Rectangle$Rect;",
+                true, "a");
+        ProgramTest.test(decl + "b = new Rectangle.Rect(width=5,height=6);"
+                + "a = b isa Rectangle$Square;",
+                false, "a");
+    }
     
     @Test
     public void testMutability() {

@@ -874,6 +874,8 @@ public abstract class ExpressionNode<T> {
         public FieldAccessNode(final ExpressionNode expr,
                 final VariableNode field) {
             super(null);
+            assert expr != null;
+            assert field != null;
             this.dataStructure = expr;
             this.field = field;
         }
@@ -887,6 +889,7 @@ public abstract class ExpressionNode<T> {
         public APValue getValue(final Context context) {
             final APValueData apValueData = (APValueData) this.dataStructure
                     .getValue(context);
+            
             return apValueData.getValue().fields.get(field.name).getValue(
                     context);
         }

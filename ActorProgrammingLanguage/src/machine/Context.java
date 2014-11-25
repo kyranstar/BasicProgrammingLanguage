@@ -14,6 +14,7 @@ import java.util.Map;
 import parser.ParserException;
 import type.APValue;
 import type.APValueFunction;
+import type.APValueType;
 
 /**
  * The Class Context stores function mappings.
@@ -24,10 +25,16 @@ import type.APValueFunction;
 public class Context {
     
     /** The variable mapping. */
-    private Map<String, VariableMapping> variables;
+   private Map<String, VariableMapping> variables = new HashMap<String, VariableMapping>(){{
+       String[] types = new String[]{"Num","Char", "Bool", "Func", "List"};
+       for(String s : types){
+           put(s, new VariableMapping(new APValueType(s), false));
+       }
+   }};;
     
     /** A map of datatype names to a list of possible constructors */
-    private final Map<String, List<DataConstructor>> dataTypes;
+    @SuppressWarnings("serial")
+    private final Map<String, List<DataConstructor>> dataTypes = new HashMap<>();
     
     /** The output stream. */
     private PrintStream outputStream;
@@ -39,8 +46,6 @@ public class Context {
      *            the p
      */
     public Context(final PrintStream p) {
-        setVariables(new HashMap<>());
-        dataTypes = new HashMap<>();
         outputStream = p;
         
         LibraryFunction.applyLibraryFunctions(this);
@@ -153,6 +158,12 @@ public class Context {
             dataTypes.put(dataType.name, new ArrayList<>());
         }
         dataTypes.get(dataType.name).add(dataType);
+        String name = dataType.name;
+        //split on the parens
+        String[] parts = name.split("\\(");
+        //Change it from format "name(sub)" to "name$sub"
+        name = parts[0] + "$" + parts[1].substring(0,parts[1].length()-1);
+        this.variables.put(name, new VariableMapping(new APValueType(name), false));
     }
 
     public List<DataConstructor> getDataType(final String name) {

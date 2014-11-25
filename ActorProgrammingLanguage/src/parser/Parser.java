@@ -219,6 +219,7 @@ public class Parser {
                 }
                 context.putDataType(new DataConstructor(dataTypeName.getName(),subNode.getName(),
                         fields));
+                
                 if(lookahead.getType() == TokenType.BAR){
                     nextToken();
                 }else{
