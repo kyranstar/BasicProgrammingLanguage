@@ -27,7 +27,7 @@ public class Context {
     private Map<String, VariableMapping> variables;
     
     /** A map of datatype names to a list of possible constructors */
-    private final Map<String, List<DataStructure>> dataTypes;
+    private final Map<String, List<DataConstructor>> dataTypes;
     
     /** The output stream. */
     private PrintStream outputStream;
@@ -148,14 +148,14 @@ public class Context {
         putFunction(function.name, new APValueFunction(function), isMutable);
     }
 
-    public void putDataType(final DataStructure dataType) {
+    public void putDataType(final DataConstructor dataType) {
         if (dataTypes.get(dataType.name) == null) {
             dataTypes.put(dataType.name, new ArrayList<>());
         }
         dataTypes.get(dataType.name).add(dataType);
     }
 
-    public List<DataStructure> getDataType(final String name) {
+    public List<DataConstructor> getDataType(final String name) {
         return dataTypes.get(name);
     }
     

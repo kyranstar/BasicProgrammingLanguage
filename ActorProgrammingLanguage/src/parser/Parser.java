@@ -16,7 +16,7 @@ import lexer.PositionInfo;
 import lexer.Token;
 import lexer.Token.TokenType;
 import machine.Context;
-import machine.DataStructure;
+import machine.DataConstructor;
 import machine.Function;
 import parser.ExpressionNode.AdditionNode;
 import parser.ExpressionNode.AndNode;
@@ -199,20 +199,25 @@ public class Parser {
             nextToken();
             
             while(true){
-                assertNextToken(TokenType.OPEN_CURLY_BRACKET);
-                nextToken();
+                assertNextToken(TokenType.IDENTIFIER);
+                VariableNode subNode = identifier();
+
                 final List<String> fields = new ArrayList<>();
-                while (true) {
-                    assertNextToken(TokenType.IDENTIFIER);
-                    fields.add(identifier().getName());
-                    if (lookahead.getType() == TokenType.CLOSE_CURLY_BRACKET) {
-                        nextToken();
-                        break;
-                    }
-                    assertNextToken(TokenType.COMMA);
+                if(lookahead.getType() == TokenType.OPEN_CURLY_BRACKET){
+                    assertNextToken(TokenType.OPEN_CURLY_BRACKET);
                     nextToken();
+                    while (true) {
+                        assertNextToken(TokenType.IDENTIFIER);
+                        fields.add(identifier().getName());
+                        if (lookahead.getType() == TokenType.CLOSE_CURLY_BRACKET) {
+                            nextToken();
+                            break;
+                        }
+                        assertNextToken(TokenType.COMMA);
+                        nextToken();
+                    }
                 }
-                context.putDataType(new DataStructure(dataTypeName.getName(),
+                context.putDataType(new DataConstructor(dataTypeName.getName(),subNode.getName(),
                         fields));
                 if(lookahead.getType() == TokenType.BAR){
                     nextToken();
@@ -317,11 +322,21 @@ public class Parser {
         assertNextToken(TokenType.NEW);
         nextToken();
         assertNextToken(TokenType.IDENTIFIER);
-        final String type = identifier().getName();
+        String type = identifier().getName();
+        assertNextToken(TokenType.DOT);
+        nextToken();
+        assertNextToken(TokenType.IDENTIFIER);
+        //add subname
+        type += "(" + identifier().getName() + ")";
+        
         assertNextToken(TokenType.OPEN_PARENS);
         final Map<String, ExpressionNode> values = new HashMap<>();
         while (true) {
             nextToken();
+            if(lookahead.getType() == TokenType.CLOSE_PARENS){
+                nextToken();
+                break;
+            }
             assertNextToken(TokenType.IDENTIFIER);
             final VariableNode field = identifier();
             final AssignmentNode node = assignment(context, field, true);

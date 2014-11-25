@@ -7,12 +7,12 @@ import parser.ExpressionNode;
 import parser.ParserException;
 import type.DataStructureInstance;
 
-public class DataStructure {
+public class DataConstructor {
     public final String name;
     public final List<String> fields;
     
-    public DataStructure(final String name, final List<String> fields) {
-        this.name = name;
+    public DataConstructor(final String name, String subName, final List<String> fields) {
+        this.name = name + "(" + subName + ")";
         this.fields = fields;
     }
 
