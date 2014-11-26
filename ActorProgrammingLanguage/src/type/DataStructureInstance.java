@@ -18,6 +18,10 @@ public class DataStructureInstance {
 
     @Override
     public String toString() {
+        if (fields.isEmpty()) {
+            return type + "{}";
+        }
+
         final StringBuilder fieldsAndValues = new StringBuilder();
         for (final Entry<String, ExpressionNode> node : fields.entrySet()) {
             fieldsAndValues.append(node.getKey()).append(" = ")
