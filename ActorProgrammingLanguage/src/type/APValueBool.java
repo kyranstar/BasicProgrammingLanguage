@@ -3,6 +3,7 @@
  */
 package type;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class APValueBool. Represents a boolean value: true or false.
  *
@@ -60,6 +61,9 @@ public class APValueBool extends APValue<Boolean> {
                 + " on type bool!");
     }
 
+    /* (non-Javadoc)
+     * @see type.APValue#getType()
+     */
     @Override
     public String getType() {
         return "Bool";

@@ -3,6 +3,7 @@
  */
 package machine;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ContextException. Represents when a variable is asked for but isn't
  * in context.

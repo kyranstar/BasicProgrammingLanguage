@@ -1,17 +1,30 @@
+/*
+ * 
+ */
 package total;
 
 import org.junit.Test;
 
 import type.APNumber;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DataTest.
+ */
 public class DataTest {
 
+    /**
+     * Test declaration with2 params.
+     */
     @Test
     public void testDeclarationWith2Params() {
         ProgramTest.testNoError("datatype Rectangle = Rect {width, height};");
 
     }
     
+    /**
+     * Test declaration with2 constructors.
+     */
     @Test
     public void testDeclarationWith2Constructors() {
         ProgramTest
@@ -19,6 +32,9 @@ public class DataTest {
 
     }
     
+    /**
+     * Test enumeration type.
+     */
     @Test
     public void testEnumerationType() {
         ProgramTest
@@ -29,6 +45,9 @@ public class DataTest {
                         false, "a");
     }
     
+    /**
+     * Test type function.
+     */
     @Test
     public void testTypeFunction() {
         // Is not exactly equal
@@ -48,6 +67,9 @@ public class DataTest {
 
     }
 
+    /**
+     * Test creation with two constructors.
+     */
     @Test
     public void testCreationWithTwoConstructors() {
         ProgramTest
@@ -56,12 +78,18 @@ public class DataTest {
                 + "c = new Rectangle.Square(size = 7);");
     }
 
+    /**
+     * Test creation with two params.
+     */
     @Test
     public void testCreationWithTwoParams() {
         ProgramTest.testNoError("datatype Rectangle = Rect {width, height};\n"
                 + "b = new Rectangle.Rect(width=5,height=6);");
     }
     
+    /**
+     * Test access of field two constructors.
+     */
     @Test
     public void testAccessOfFieldTwoConstructors() {
         ProgramTest.test(
@@ -70,6 +98,9 @@ public class DataTest {
                         new APNumber("5"), "a");
     }
     
+    /**
+     * Test access of field.
+     */
     @Test
     public void testAccessOfField() {
         ProgramTest.test("datatype Rectangle = Rect {width, height}; "
@@ -77,6 +108,9 @@ public class DataTest {
                 new APNumber("5"), "a");
     }
     
+    /**
+     * Test function accept data type.
+     */
     @Test
     public void testFunctionAcceptDataType() {
         ProgramTest.test("datatype Rectangle = Rect {width, height}; "
@@ -85,6 +119,9 @@ public class DataTest {
                 new APNumber("5"), "a");
     }
     
+    /**
+     * Test edit field.
+     */
     @Test
     public void testEditField() {
         ProgramTest.test("datatype Rectangle = Rect {width, height}; "
@@ -92,6 +129,9 @@ public class DataTest {
                 + "b.width = 7; a = b.width;", new APNumber("7"), "a");
     }
 
+    /**
+     * Test access and edit field.
+     */
     @Test
     public void testAccessAndEditField() {
         ProgramTest
@@ -101,6 +141,9 @@ public class DataTest {
                         "7"), "a");
     }
     
+    /**
+     * Test declaration no args.
+     */
     @Test
     public void testDeclarationNoArgs() {
         ProgramTest

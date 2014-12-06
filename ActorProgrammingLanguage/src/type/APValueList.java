@@ -10,6 +10,7 @@ import java.util.List;
 
 import parser.ExpressionNode;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class APValueList. Represents a list of expressions.
  *
@@ -17,7 +18,7 @@ import parser.ExpressionNode;
  * @version $Revision: 1.0 $
  */
 public class APValueList extends APValue<List> {
-    
+
     /**
      * Instantiates a new AP value bool.
      *
@@ -27,10 +28,10 @@ public class APValueList extends APValue<List> {
     public APValueList(final List<ExpressionNode> expressionNode) {
         setValue(new ArrayList<>(expressionNode));
     }
-
+    
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -42,10 +43,10 @@ public class APValueList extends APValue<List> {
         }
         return builder.toString();
     }
-    
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see type.APValue#callMethod(type.APValue.Methods, type.APValue)
      */
     /**
@@ -78,13 +79,13 @@ public class APValueList extends APValue<List> {
                 }
                 break;
         }
-        
+
         throw new MismatchedMethodException("Can't call method " + method
                 + " on type list with param " + arg);
     }
-    
+
     /**
-     * Multiply.
+     * Multiply list by number.
      *
      * @param value
      *            the value
@@ -99,21 +100,21 @@ public class APValueList extends APValue<List> {
             negative = true;
             value2 = value2.negate();
         }
-        
-        final List<ExpressionNode> b = new LinkedList<ExpressionNode>();
-        
+
+        final List<ExpressionNode> finalList = new LinkedList<ExpressionNode>();
+
         // if our number is greater than one
         for (; value2.compareTo(APNumber.ONE) > 0; value2 = value2
                 .subtract(APNumber.ONE)) {
-            b.addAll(value);
+            finalList.addAll(value);
         }
-        b.addAll(value.subList(0, (int) (value.size() * value2.doubleValue())));
+        finalList.addAll(value.subList(0, (int) (value.size() * value2.doubleValue())));
         if (negative) {
-            Collections.reverse(b);
+            Collections.reverse(finalList);
         }
-        return b;
+        return finalList;
     }
-    
+
     /**
      * Append two lists.
      *
@@ -132,7 +133,12 @@ public class APValueList extends APValue<List> {
         newList.addAll(value2);
         return newList;
     }
-
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see type.APValue#getType()
+     */
     @Override
     public String getType() {
         return "List";

@@ -21,6 +21,7 @@ import type.APValueList;
 import type.APValueNum;
 import type.APValueType;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class LibraryFunction. This class holds the methods to add library
  * functions to a context.
@@ -54,6 +55,11 @@ public final class LibraryFunction {
         return context;
     }
     
+    /**
+     * Isa function.
+     *
+     * @param context the context
+     */
     private static void isaFunction(final Context context) {
         final String arg1 = "arg1";
         final String typeArg = "type";
@@ -89,6 +95,11 @@ public final class LibraryFunction {
                 }), false);
     }
     
+    /**
+     * Casting functions.
+     *
+     * @param context the context
+     */
     private static void castingFunctions(final Context context) {
         final String theNum = "num";
         context.putFunction(
@@ -141,6 +152,11 @@ public final class LibraryFunction {
                 }), false);
     }
     
+    /**
+     * List functions.
+     *
+     * @param context the context
+     */
     private static void listFunctions(final Context context) {
         sublistFunction(context);
         foreachFunction(context);
@@ -150,6 +166,11 @@ public final class LibraryFunction {
         lengthFunction(context);
     }
     
+    /**
+     * Length function.
+     *
+     * @param context the context
+     */
     private static void lengthFunction(final Context context) {
         final String argName = "a";
         context.putFunction(
@@ -174,6 +195,11 @@ public final class LibraryFunction {
                         }), false);
     }
     
+    /**
+     * In function.
+     *
+     * @param context the context
+     */
     private static void inFunction(final Context context) {
         final String arg1 = "member";
         final String arg2 = "list";
@@ -197,6 +223,11 @@ public final class LibraryFunction {
                         }), false);
     }
     
+    /**
+     * To string function.
+     *
+     * @param context the context
+     */
     private static void toStringFunction(final Context context) {
         final String argName = "a";
         context.putFunction(
@@ -219,6 +250,11 @@ public final class LibraryFunction {
                         }), false);
     }
     
+    /**
+     * Foreach function.
+     *
+     * @param context the context
+     */
     private static void foreachFunction(final Context context) {
         final String arg1 = "list";
         final String arg2 = "func";

@@ -3,6 +3,7 @@
  */
 package type;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class APValue. Holds a value in the language.
  *
@@ -130,6 +131,9 @@ public abstract class APValue<T> {
         this.data = value;
     }
     
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -138,6 +142,9 @@ public abstract class APValue<T> {
         return result;
     }
     
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -160,11 +167,14 @@ public abstract class APValue<T> {
         return true;
     }
 
-    /** Returns the type of this value. 
+    /**
+     *  Returns the type of this value. 
      * For example: <li>Num</li> <li>List</li> <li>Char</li> <li>Func</li> <li>Bool</li>
      * 
      * For user defined functions: <li>Rectangle(Square)</li>
-     * */
+     *
+     * @return the type
+     */
     public abstract String getType();
 
 }

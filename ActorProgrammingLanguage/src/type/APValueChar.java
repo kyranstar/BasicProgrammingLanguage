@@ -1,6 +1,10 @@
+/*
+ * 
+ */
 package type;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class APValueChar. Represents a character literal.
  */
@@ -75,6 +79,9 @@ public class APValueChar extends APValue<Character> {
                 + " on type char with param " + arg.getClass().getSimpleName());
     }
 
+    /* (non-Javadoc)
+     * @see type.APValue#getType()
+     */
     @Override
     public String getType() {
         return "Char";

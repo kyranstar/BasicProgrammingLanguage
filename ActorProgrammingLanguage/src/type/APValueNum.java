@@ -5,6 +5,7 @@ package type;
 
 import java.math.RoundingMode;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class APValueNum. Represents a real number.
  *
@@ -139,6 +140,9 @@ public class APValueNum extends APValue<APNumber> {
         return getValue().toString();
     }
 
+    /* (non-Javadoc)
+     * @see type.APValue#getType()
+     */
     @Override
     public String getType() {
         return "Num";

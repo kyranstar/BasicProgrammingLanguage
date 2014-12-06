@@ -1,9 +1,13 @@
+/*
+ * 
+ */
 package parser.checking;
 
 import java.util.List;
 
 import parser.ExpressionNode;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TreeChecker.
  */

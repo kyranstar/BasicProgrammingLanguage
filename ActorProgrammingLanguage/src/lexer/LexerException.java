@@ -3,6 +3,7 @@
  */
 package lexer;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class LexerException. This represents an error during the lexer phase.
  *

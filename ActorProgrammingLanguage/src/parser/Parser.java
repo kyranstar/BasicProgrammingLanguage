@@ -64,7 +64,7 @@ import type.DataStructureInstance;
 public class Parser {
     
     /** The Constant NEGATIVE_ONE. */
-    private static final ExpressionNode NEGATIVE_ONE = new ConstantNode(
+    private static final ExpressionNode<APNumber> NEGATIVE_ONE = new ConstantNode<>(
             new APValueNum(new APNumber("-1")));
     
     /** The Constant BACKWARD_TOKENS_IN_ERROR. */
@@ -77,7 +77,7 @@ public class Parser {
     LinkedList<Token> tokens = new LinkedList<>();
     
     /** The lookahead token. */
-    Token lookahead;
+    private Token lookahead;
 
     /**
      * Instantiates a new parser.
@@ -122,6 +122,7 @@ public class Parser {
      *
      * @return the list
      */
+    @SuppressWarnings("rawtypes")
     public List<ExpressionNode> parse(final Context context) {
         try {
             final List<ExpressionNode> expressions = new ArrayList<>();
@@ -141,13 +142,14 @@ public class Parser {
             
             return expressions;
         } catch (final ParserException e) {
-            final StringBuilder sb = new StringBuilder();
+            final StringBuilder lastTokensString = new StringBuilder();
             for (final Token t : lastTokens) {
-                sb.append(t.getText()).append(' ');
+                lastTokensString.append(t.getText()).append(' ');
             }
             
             throw new ParserException(lookahead.getMessage() + "\n"
-                    + "After : \"" + sb.toString() + "\"\n" + e.getMessage(), e);
+                    + "After : \"" + lastTokensString.toString() + "\"\n"
+                    + e.getMessage(), e);
         }
     }
 
@@ -158,6 +160,7 @@ public class Parser {
      *            the context
      * @return the expression node
      */
+    @SuppressWarnings("rawtypes")
     private ExpressionNode statement(final Context context) {
         boolean mutable = false;
         if (lookahead.getType() == TokenType.MUTABLE) {
@@ -182,11 +185,9 @@ public class Parser {
                 return assignment;
             } else if (lookahead.getType() == TokenType.OPEN_PARENS) {
                 // function call
-                final ExpressionNode node = functionParameters(context, expr);
-                return node;
+                return functionParameters(context, expr);
             } else if (lookahead.getType() == TokenType.OPEN_CURLY_BRACKET) {
-                final ExpressionNode node = indexAssignment(context, expr);
-                return node;
+                return indexAssignment(context, expr);
             }
             throw new ParserException(
                     "Expected <Dot>, <Equal> or <Open Parens>, was "
@@ -238,6 +239,16 @@ public class Parser {
         }
     }
     
+    /**
+     * Index assignment.
+     *
+     * @param context
+     *            the context
+     * @param expressionNode
+     *            the expression node
+     * @return the expression node
+     */
+    @SuppressWarnings("rawtypes")
     private ExpressionNode indexAssignment(final Context context,
             final ExpressionNode expressionNode) {
         assertNextToken(TokenType.OPEN_CURLY_BRACKET);
@@ -247,10 +258,23 @@ public class Parser {
         nextToken();
         assertNextToken(TokenType.EQUAL);
         nextToken();
-        final ExpressionNode rh = expression(context);
-        return new IndexAssignmentNode(expressionNode, insideCurlies, rh);
+        final ExpressionNode rightHandExpression = expression(context);
+        return new IndexAssignmentNode(expressionNode, insideCurlies,
+                rightHandExpression);
     }
     
+    /**
+     * Field assignment.
+     *
+     * @param context
+     *            the context
+     * @param expr
+     *            the expr
+     * @param field
+     *            the field
+     * @return the expression node
+     */
+    @SuppressWarnings("rawtypes")
     private ExpressionNode fieldAssignment(final Context context,
             final VariableNode expr, final VariableNode field) {
         assertNextToken(TokenType.EQUAL);
@@ -266,9 +290,11 @@ public class Parser {
      *            the context
      * @param expr
      *            the expr
-     *
+     * @param mutable
+     *            the mutable
      * @return the expression node
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     private AssignmentNode assignment(final Context context,
             final VariableNode expr, final boolean mutable) {
         assertNextToken(TokenType.EQUAL);
@@ -287,12 +313,13 @@ public class Parser {
      *
      * @return the expression node
      */
+    @SuppressWarnings("rawtypes")
     private ExpressionNode expression(final Context context) {
         if (lookahead.getType() == TokenType.IF) {
             return ifExpr(context);
         } else if (lookahead.getType() == TokenType.NEW) {
             return newExpr(context);
-        } else if (lookahead.getType() == TokenType.SEQUENCE) {
+        } else if (lookahead.getType() == TokenType.OPEN_CURLY_BRACKET) {
             return seqExpr(context);
         }
         
@@ -300,31 +327,47 @@ public class Parser {
         return lowOp(expr, context);
     }
     
+    /**
+     * Seq expr.
+     *
+     * @param context
+     *            the context
+     * @return the expression node
+     */
+    @SuppressWarnings("rawtypes")
     private ExpressionNode seqExpr(final Context context) {
-        assertNextToken(TokenType.SEQUENCE);
-        nextToken();
-        assertNextToken(TokenType.OPEN_PARENS);
+        assertNextToken(TokenType.OPEN_CURLY_BRACKET);
         nextToken();
         final List<ExpressionNode> statements = new ArrayList<>();
         
-        while (lookahead.getType() != TokenType.RETURN) {
+        while (lookahead.getType() != TokenType.RETURN
+                && lookahead.getType() != TokenType.CLOSE_CURLY_BRACKET) {
             statements.add(statement(context));
-            assertNextToken(TokenType.COMMA);
+            assertNextToken(TokenType.SEMI);
             nextToken();
-            if (lookahead.getType() == TokenType.CLOSE_PARENS) {
-                throw new ParserException(
-                        "Sequence needs to end with 'return <expression>'");
-            }
         }
-        assertNextToken(TokenType.RETURN);
+        if (lookahead.getType() == TokenType.RETURN) {
+            nextToken();
+            final ExpressionNode expression = expression(context);
+            assertNextToken(TokenType.SEMI);
+            nextToken();
+            assertNextToken(TokenType.CLOSE_CURLY_BRACKET);
+            nextToken();
+            return new SequenceNode(statements, expression);
+        }
+        assertNextToken(TokenType.CLOSE_CURLY_BRACKET);
         nextToken();
-        final ExpressionNode expression = expression(context);
-        assertNextToken(TokenType.CLOSE_PARENS);
-        nextToken();
-        final SequenceNode seq = new SequenceNode(statements, expression);
-        return seq;
+        return new SequenceNode(statements, ExpressionNode.VOID);
     }
     
+    /**
+     * New expr.
+     *
+     * @param context
+     *            the context
+     * @return the expression node
+     */
+    @SuppressWarnings("rawtypes")
     private ExpressionNode newExpr(final Context context) {
         assertNextToken(TokenType.NEW);
         nextToken();
@@ -354,18 +397,19 @@ public class Parser {
             }
             assertNextToken(TokenType.COMMA);
         }
-        return new ConstantNode(new APValueData(new DataStructureInstance(type,
-                values)));
+        return new ConstantNode<>(new APValueData(new DataStructureInstance(
+                type, values)));
     }
     
     /**
-     * If expr.
+     * If expression.
      *
      * @param context
      *            the context
      *
      * @return the expression node
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     private ExpressionNode ifExpr(final Context context) {
         assertNextToken(TokenType.IF);
         nextToken();
@@ -397,6 +441,7 @@ public class Parser {
      *            Context
      * @return ExpressionNode
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     private ExpressionNode lowOp(final ExpressionNode expr,
             final Context context) {
         if (lookahead.getType() == TokenType.PLUS) {
@@ -438,6 +483,7 @@ public class Parser {
      *
      * @return the expression node
      */
+    @SuppressWarnings("rawtypes")
     private ExpressionNode term(final Context context) {
         // term -> factor term_op
         return highOp(factor(context), context);
@@ -461,6 +507,7 @@ public class Parser {
      *            Context
      * @return ExpressionNode
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     private ExpressionNode highOp(final ExpressionNode expr,
             final Context context) {
         if (lookahead.getType() == TokenType.MULTIPLY) {
@@ -486,9 +533,10 @@ public class Parser {
             nextToken();
             return highOp(new OrNode(expr, signedHighTerm(context)), context);
         } else if (lookahead.getType() == TokenType.IDENTIFIER) {
+            // binary function
+
             final VariableNode functionName = identifier();
             final ExpressionNode secondArg = expression(context);
-            // binary function
             return highOp(
                     new FunctionCallNode(functionName.getName(), Arrays.asList(
                             expr, secondArg)), context);
@@ -507,6 +555,7 @@ public class Parser {
      *
      * @return the expression node
      */
+    @SuppressWarnings("rawtypes")
     private ExpressionNode signedHighTerm(final Context context) {
         if (lookahead.getType() == TokenType.PLUS) {
             nextToken();
@@ -527,6 +576,7 @@ public class Parser {
      *
      * @return the expression node
      */
+    @SuppressWarnings("rawtypes")
     private ExpressionNode factor(final Context context) {
         return highestOp(argument(context), context);
     }
@@ -534,13 +584,13 @@ public class Parser {
     /**
      * matches a factor operation.
      *
-     * @param expression
-     *            the expression
+     * @param expr
+     *            the expr
      * @param context
      *            the context
-     *
      * @return the expression node
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private ExpressionNode highestOp(final ExpressionNode expr,
             final Context context) {
         if (lookahead.getType() == TokenType.RAISED) {
@@ -586,6 +636,7 @@ public class Parser {
      *
      * @return the expression node
      */
+    @SuppressWarnings("rawtypes")
     private ExpressionNode argument(final Context context) {
         if (lookahead.getType() == TokenType.OPEN_PARENS) {
             // argument -> OPEN_BRACKET sum CLOSE_BRACKET
@@ -610,6 +661,7 @@ public class Parser {
      *
      * @return the expression node
      */
+    @SuppressWarnings("rawtypes")
     private ExpressionNode signedTerm(final Context context) {
         if (lookahead.getType() == TokenType.PLUS) {
             // signed_term -> PLUSMINUS term
@@ -633,6 +685,7 @@ public class Parser {
      *
      * @return the expression node
      */
+    @SuppressWarnings("rawtypes")
     private ExpressionNode value(final Context context) {
         if (lookahead.getType() == TokenType.NUMBER) {
             return matchNumber();
@@ -650,8 +703,8 @@ public class Parser {
         } else if (lookahead.getType() == TokenType.LAMBDA) {
             return lambda(context);
         } else if (lookahead.getType() == TokenType.TYPE_NAME) {
-            final ConstantNode type = new ConstantNode(new APValueType(
-                    lookahead.getText()));
+            final ConstantNode<String> type = new ConstantNode<>(
+                    new APValueType(lookahead.getText()));
             nextToken();
             return type;
         } else {
@@ -667,6 +720,7 @@ public class Parser {
      *            the context
      * @return the expression node
      */
+    @SuppressWarnings("rawtypes")
     private ExpressionNode lambda(final Context context) {
         assertNextToken(TokenType.LAMBDA);
         nextToken();
@@ -678,7 +732,7 @@ public class Parser {
         }
         nextToken();
         final Function func = new Function(null, params, expression(context));
-        return new ConstantNode(new APValueFunction(func));
+        return new ConstantNode<>(new APValueFunction(func));
     }
     
     /**
@@ -686,8 +740,8 @@ public class Parser {
      *
      * @return the expression node
      */
-    private ExpressionNode matchBoolean() {
-        final ConstantNode expr = new ConstantNode(new APValueBool(
+    private ExpressionNode<Boolean> matchBoolean() {
+        final ConstantNode<Boolean> expr = new ConstantNode<>(new APValueBool(
                 Boolean.parseBoolean(lookahead.getText())));
         nextToken();
         return expr;
@@ -698,9 +752,9 @@ public class Parser {
      *
      * @return the expression node
      */
-    private ExpressionNode matchNumber() {
-        final ConstantNode expr = new ConstantNode(new APValueNum(new APNumber(
-                lookahead.getText())));
+    private ExpressionNode<APNumber> matchNumber() {
+        final ConstantNode<APNumber> expr = new ConstantNode<>(new APValueNum(
+                new APNumber(lookahead.getText())));
         nextToken();
         return expr;
     }
@@ -712,6 +766,7 @@ public class Parser {
      *            the context
      * @return the expression node
      */
+    @SuppressWarnings("rawtypes")
     private ExpressionNode matchList(final Context context) {
         assertNextToken(TokenType.OPEN_SQUARE_BRACKET);
         final List<ExpressionNode> nodes = new ArrayList<>();
@@ -724,11 +779,11 @@ public class Parser {
         }
         assertNextToken(TokenType.CLOSE_SQUARE_BRACKET);
         nextToken();
-        return new ConstantNode(new APValueList(nodes));
+        return new ConstantNode<>(new APValueList(nodes));
     }
     
     /**
-     * Match range.
+     * Matches a range expression.
      *
      * @param first
      *            the first
@@ -736,6 +791,7 @@ public class Parser {
      *            the context
      * @return the expression node
      */
+    @SuppressWarnings("rawtypes")
     private ExpressionNode matchRange(final ExpressionNode first,
             final Context context) {
         assertNextToken(TokenType.TO);
@@ -745,10 +801,11 @@ public class Parser {
     }
     
     /**
-     * Match string.
+     * Matches a string literal.
      *
      * @return the expression node
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     private ExpressionNode matchString() {
         final String stringMinusQuotes = lookahead.getText().substring(1,
                 lookahead.getText().length() - 1);
@@ -759,17 +816,19 @@ public class Parser {
     }
     
     /**
-     * Match char.
+     * Matches a char literal.
      *
      * @return the expression node
      */
+    @SuppressWarnings("rawtypes")
     private ExpressionNode matchChar() {
+        final int CHAR_LENGTH = 1;
         final String charMinusQuotes = unescapeJavaString(lookahead.getText()
                 .substring(1, lookahead.getText().length() - 1));
         
-        if (charMinusQuotes.length() == 1) {
-            final ConstantNode expr = new ConstantNode(new APValueChar(
-                    charMinusQuotes.charAt(0)));
+        if (charMinusQuotes.length() == CHAR_LENGTH) {
+            final ConstantNode<Character> expr = new ConstantNode<>(
+                    new APValueChar(charMinusQuotes.charAt(0)));
             nextToken();
             return expr;
         } else {
@@ -803,19 +862,19 @@ public class Parser {
                         .charAt(i + 1);
                 // Octal escape?
                 if (nextChar >= '0' && nextChar <= '7') {
-                    String code = "" + nextChar;
+                    final StringBuilder code = new StringBuilder(nextChar);
                     i++;
                     if (i < st.length() - 1 && st.charAt(i + 1) >= '0'
                             && st.charAt(i + 1) <= '7') {
-                        code += st.charAt(i + 1);
+                        code.append(st.charAt(i + 1));
                         i++;
                         if (i < st.length() - 1 && st.charAt(i + 1) >= '0'
                                 && st.charAt(i + 1) <= '7') {
-                            code += st.charAt(i + 1);
+                            code.append(st.charAt(i + 1));
                             i++;
                         }
                     }
-                    sb.append((char) Integer.parseInt(code, 8));
+                    sb.append((char) Integer.parseInt(code.toString(), 8));
                     continue;
                 }
                 switch (nextChar) {
@@ -850,12 +909,17 @@ public class Parser {
                             break;
                         }
                         final int code = Integer.parseInt(
-                                "" + st.charAt(i + 2) + st.charAt(i + 3)
-                                        + st.charAt(i + 4) + st.charAt(i + 5),
+                                new StringBuilder(st.charAt(i + 2))
+                                        .append(st.charAt(i + 3))
+                                        .append(st.charAt(i + 4))
+                                        .append(st.charAt(i + 5)).toString(),
                                 16);
                         sb.append(Character.toChars(code));
                         i += 5;
                         continue;
+                    default:
+                        throw new ParserException("Unsupported escape : \\"
+                                + nextChar);
                 }
                 i++;
             }
@@ -871,10 +935,11 @@ public class Parser {
      *            the text
      * @return the list
      */
+    @SuppressWarnings("rawtypes")
     private List<ExpressionNode> stringToList(final String text) {
         final List<ExpressionNode> list = new ArrayList<>();
         for (final Character c : text.toCharArray()) {
-            list.add(new ConstantNode(new APValueChar(c)));
+            list.add(new ConstantNode<>(new APValueChar(c)));
         }
         return list;
     }
@@ -889,6 +954,7 @@ public class Parser {
      *
      * @return the expression node
      */
+    @SuppressWarnings("rawtypes")
     private ExpressionNode functionParameters(final Context context,
             final VariableNode expr) {
         final List<ExpressionNode> parameters = new ArrayList<>();
@@ -939,7 +1005,10 @@ public class Parser {
      */
     public void assertNextToken(final TokenType t) {
         if (lookahead.getType() != t) {
-            throw new ParserException("Expected " + t + " but was " + lookahead);
+            // Prints error message. Expected type t, but was (lookahead) while
+            // matching (method that called this one)
+            throw new ParserException("Expected " + t + " but was " + lookahead
+                    + " while matching " + Debug.callerMethod(1));
         }
     }
     

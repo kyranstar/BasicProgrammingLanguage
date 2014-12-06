@@ -3,6 +3,7 @@
  */
 package lexer;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Token. Represents a single token.
  *
@@ -166,13 +167,29 @@ public class Token {
         LAMBDA,
         /** The to token. Used in ranges. */
         TO,
+        
+        /** The new. */
         NEW,
+        
+        /** The data type. */
         DATA_TYPE,
+        
+        /** The dot. */
         DOT,
+        
+        /** The mutable. */
         MUTABLE,
+        
+        /** The return. */
         RETURN,
+        
+        /** The sequence. */
         SEQUENCE,
+        
+        /** The bar. */
         BAR,
+        
+        /** The type name. */
         TYPE_NAME;
     }
     

@@ -220,10 +220,10 @@ public class ProgramTest {
         }
         final APValue variable = c.getFunction(variableName);
 
+        if (variable == null) {
+            throw new AssertionError("Var was null instead of " + expected);
+        }
         try {
-            if (variable == null) {
-                throw new RuntimeException("Var was null");
-            }
 
             final Object ob = variable.getValue();
             if (ob instanceof APNumber) {
@@ -233,7 +233,6 @@ public class ProgramTest {
                 Assert.assertEquals(expected, ob);
             }
         } catch (final AssertionError e) {
-            System.out.println(variable);
             throw new AssertionError("Was " + variable.getValue()
                     + " instead of " + expected, e);
         }
@@ -286,6 +285,12 @@ public class ProgramTest {
         }
     }
     
+    /**
+     * Test arithmetic exception.
+     *
+     * @param code
+     *            the code
+     */
     public static void testArithmeticException(final String code) {
         try {
             Context c = null;

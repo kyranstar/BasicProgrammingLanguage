@@ -3,6 +3,7 @@
  */
 package lexer;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class PositionInfo. Holds information about the current position in the
  * code.

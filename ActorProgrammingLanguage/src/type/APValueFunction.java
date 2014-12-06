@@ -1,7 +1,11 @@
+/*
+ * 
+ */
 package type;
 
 import machine.Function;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class APValueFunction. Represents a first class function.
  */
@@ -28,6 +32,9 @@ public class APValueFunction extends APValue<Function> {
                 + " on type char with param " + arg.getClass().getSimpleName());
     }
 
+    /* (non-Javadoc)
+     * @see type.APValue#getType()
+     */
     @Override
     public String getType() {
         return "Func";

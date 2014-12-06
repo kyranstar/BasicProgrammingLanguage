@@ -16,6 +16,7 @@ import type.APValue;
 import type.APValueFunction;
 import type.APValueType;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Context stores function mappings.
  *
@@ -23,7 +24,7 @@ import type.APValueType;
  * @version $Revision: 1.0 $
  */
 public class Context {
-
+    
     /** The variable mapping. */
     private Map<String, VariableMapping> variables = new HashMap<String, VariableMapping>() {
         {
@@ -33,27 +34,27 @@ public class Context {
                 put(s, new VariableMapping(new APValueType(s), false));
             }
         }
-    };;
-
-    /** A map of datatype names to a list of possible constructors */
+    };
+    
+    /** A map of datatype names to a list of possible constructors. */
     @SuppressWarnings("serial")
     private final Map<String, List<DataConstructor>> dataTypes = new HashMap<>();
-
+    
     /** The output stream. */
     private PrintStream outputStream;
-
+    
     /**
      * Instantiates a new context with a given print stream.
      *
-     * @param p
-     *            the p
+     * @param printStream
+     *            the printStream
      */
-    public Context(final PrintStream p) {
-        outputStream = p;
-
+    public Context(final PrintStream printStream) {
+        outputStream = printStream;
+        
         LibraryFunction.applyLibraryFunctions(this);
     }
-
+    
     /**
      * Put variable.
      *
@@ -61,21 +62,20 @@ public class Context {
      *            the s
      * @param value
      *            the en
+     * @param isMutable
+     *            the is mutable
      */
     public void putFunction(final String name, final APValue value,
             final boolean isMutable) {
         final VariableMapping map = getVariables().get(name);
-        if (map != null) {
-            if (!map.isMutable) {
-                throw new ParserException(
-                        "Can't change the value of non mutable function "
-                                + name);
-            }
+        if (map != null && !map.isMutable) {
+            throw new ParserException(
+                    "Can't change the value of non mutable function " + name);
         }
-        
+
         getVariables().put(name, new VariableMapping(value, isMutable));
     }
-    
+
     /**
      * Gets the variable with a given name.
      *
@@ -90,11 +90,10 @@ public class Context {
         if (variableMapping == null) {
             return null;
         }
-        final APValue node = variableMapping.variable;
-        return node;
-
+        return variableMapping.variable;
+        
     }
-
+    
     /**
      * Gets the variables.
      *
@@ -104,7 +103,7 @@ public class Context {
     public Map<String, VariableMapping> getVariables() {
         return variables;
     }
-
+    
     /**
      * Sets the variable map.
      *
@@ -114,7 +113,7 @@ public class Context {
     public void setVariables(final Map<String, VariableMapping> variables) {
         this.variables = variables;
     }
-
+    
     /**
      * Gets the output stream.
      *
@@ -124,20 +123,20 @@ public class Context {
     public PrintStream getOutputStream() {
         return outputStream;
     }
-
+    
     /**
      * Sets the output stream.
      *
-     * @param p
+     * @param printStream
      *            the new output stream
      */
-    public void setOutputStream(final PrintStream p) {
-        outputStream = p;
+    public void setOutputStream(final PrintStream printStream) {
+        outputStream = printStream;
     }
-    
+
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
@@ -145,17 +144,25 @@ public class Context {
         return "Context [variables=" + variables + ", outputStream="
                 + outputStream + "]";
     }
-
+    
     /**
      * Put function.
      *
      * @param function
      *            the function
+     * @param isMutable
+     *            the is mutable
      */
     public void putFunction(final Function function, final boolean isMutable) {
         putFunction(function.name, new APValueFunction(function), isMutable);
     }
-    
+
+    /**
+     * Put data type.
+     *
+     * @param dataType
+     *            the data type
+     */
     public void putDataType(final DataConstructor dataType) {
         if (dataTypes.get(dataType.name) == null) {
             dataTypes.put(dataType.name, new ArrayList<>());
@@ -169,19 +176,41 @@ public class Context {
         variables.put(name, new VariableMapping(new APValueType(dataType.name),
                 false));
     }
-    
+
+    /**
+     * Gets the data type.
+     *
+     * @param name
+     *            the name
+     * @return the data type
+     */
     public List<DataConstructor> getDataType(final String name) {
         return dataTypes.get(name);
     }
-
+    
+    /**
+     * The Class VariableMapping.
+     */
     public static class VariableMapping {
-        public APValue variable;
-        public boolean isMutable;
 
+        /** The variable. */
+        public APValue variable;
+
+        /** The is mutable. */
+        public boolean isMutable;
+        
+        /**
+         * Instantiates a new variable mapping.
+         *
+         * @param variable
+         *            the variable
+         * @param isMutable
+         *            the is mutable
+         */
         public VariableMapping(final APValue variable, final boolean isMutable) {
             this.variable = variable;
             this.isMutable = isMutable;
         }
-        
+
     }
 }

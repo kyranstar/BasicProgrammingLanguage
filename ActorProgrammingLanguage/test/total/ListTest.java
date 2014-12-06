@@ -98,6 +98,9 @@ public class ListTest {
                 new VariableNode("b")), "a");
     }
     
+    /**
+     * Empty list.
+     */
     @Test
     public void emptyList() {
         ProgramTest.test("mut a = []; a = a + [1,2];", ONE_TWO_LIST, "a");
