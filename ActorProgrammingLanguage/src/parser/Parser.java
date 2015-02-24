@@ -90,6 +90,8 @@ public class Parser {
             throw new ParserException("Cannot parse an empty file!");
         }
         this.tokens.addAll(tokens);
+
+        lookahead = this.tokens.getFirst();
     }
     
     /**
@@ -126,8 +128,6 @@ public class Parser {
     public List<ExpressionNode> parse(final Context context) {
         try {
             final List<ExpressionNode> expressions = new ArrayList<>();
-            
-            lookahead = tokens.getFirst();
             
             while (lookahead.getType() != TokenType.EOF) {
                 expressions.add(statement(context));
@@ -240,17 +240,19 @@ public class Parser {
     }
 
     /**
-     * Index assignment.
+     * Index assignment.<br>
+     * <code>a{b} = c</code> Assumes that a is already matched and passed in as
+     * the argument
      *
      * @param context
      *            the context
-     * @param expressionNode
-     *            the expression node
+     * @param leftHand
+     *            the left hand expression
      * @return the expression node
      */
     @SuppressWarnings("rawtypes")
-    private ExpressionNode indexAssignment(final Context context,
-            final ExpressionNode expressionNode) {
+    private IndexAssignmentNode indexAssignment(final Context context,
+            final ExpressionNode<List> leftHand) {
         assertNextToken(TokenType.OPEN_CURLY_BRACKET);
         nextToken();
         final ExpressionNode insideCurlies = expression(context);
@@ -259,20 +261,23 @@ public class Parser {
         assertNextToken(TokenType.EQUAL);
         nextToken();
         final ExpressionNode rightHandExpression = expression(context);
-        return new IndexAssignmentNode(expressionNode, insideCurlies,
+        return new IndexAssignmentNode(leftHand, insideCurlies,
                 rightHandExpression);
     }
 
     /**
-     * Field assignment.
+     * Field assignment.<br>
+     * <code>a.b = c</code><br>
+     * Assumes that a and b are already matched and are passed in as expr and
+     * field.
      *
      * @param context
      *            the context
      * @param expr
-     *            the expr
+     *            the a expression
      * @param field
-     *            the field
-     * @return the expression node
+     *            the b expression
+     * @return the fieldAssignmentNode representing the assignment
      */
     @SuppressWarnings("rawtypes")
     private ExpressionNode fieldAssignment(final Context context,
@@ -284,14 +289,16 @@ public class Parser {
     }
 
     /**
-     * Assignment.
+     * Assignment.<br>
+     * <code>a = b</code><br>
+     * Assumes that a is already matched and is passed in as an argument.
      *
      * @param context
      *            the context
      * @param expr
-     *            the expr
+     *            the left hand expression
      * @param mutable
-     *            the mutable
+     *            whether this assignment will be marked mutable or not
      * @return the expression node
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -306,7 +313,11 @@ public class Parser {
     }
 
     /**
-     * Expression.
+     * Matches an expression.<br>
+     * Can be of forms:<br>
+     * <li>If expression: <code>if...</code></li> <li>New expression:
+     * <code>new...</code></li> <li>Sequence expression: <code>{...</code></li>
+     * <li></li>
      *
      * @param context
      *            the context
@@ -328,7 +339,8 @@ public class Parser {
     }
 
     /**
-     * Seq expr.
+     * Matches a sequence expression.<br>
+     * <code>{a;b; return c;}</code>
      *
      * @param context
      *            the context
@@ -361,7 +373,8 @@ public class Parser {
     }
 
     /**
-     * Matches a new datatype expression.
+     * Matches a new datatype expression.<br>
+     * <code>new a.b(c,d)</code>
      *
      * @param context
      *            the context
@@ -432,15 +445,6 @@ public class Parser {
      *
      * @return the expression node
      */
-    /**
-     * Method lowOp.
-     *
-     * @param expr
-     *            ExpressionNode
-     * @param context
-     *            Context
-     * @return ExpressionNode
-     */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private ExpressionNode lowOp(final ExpressionNode expr,
             final Context context) {
@@ -476,7 +480,8 @@ public class Parser {
     }
 
     /**
-     * Term.
+     * Matches a term.<br>
+     * <code>returns {@link #highOp(ExpressionNode, Context) highOp(}{@link #factor(Context) factor(context)}{@link #highOp(ExpressionNode, Context) ,context)}</code>
      *
      * @param context
      *            the context
@@ -489,23 +494,16 @@ public class Parser {
         return highOp(factor(context), context);
     }
 
-    /*
-     * High precedence operations: *, /, &&
-     *
-     * @param expr the expr
-     *
-     * @param context the context
-     *
-     * @return the expression node
-     */
     /**
-     * Method highOp.
+     * High precedence operations: *, /, %, &&, || or binary functions
      *
      * @param expr
-     *            ExpressionNode
+     *            the left hand expression
+     *
      * @param context
-     *            Context
-     * @return ExpressionNode
+     *            the context
+     *
+     * @return the expression node
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private ExpressionNode highOp(final ExpressionNode expr,
@@ -629,7 +627,8 @@ public class Parser {
     }
 
     /**
-     * matches an argument.
+     * matches an single argument<br>
+     * <code>(a)</code> or <code>a</code>
      *
      * @param context
      *            the context

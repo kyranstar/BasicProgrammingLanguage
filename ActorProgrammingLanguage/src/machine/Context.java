@@ -24,8 +24,9 @@ import type.APValueType;
  * @version $Revision: 1.0 $
  */
 public class Context {
-    
+
     /** The variable mapping. */
+    @SuppressWarnings("serial")
     private Map<String, VariableMapping> variables = new HashMap<String, VariableMapping>() {
         {
             final String[] types = new String[] { "Num", "Char", "Bool",
@@ -35,14 +36,14 @@ public class Context {
             }
         }
     };
-    
+
     /** A map of datatype names to a list of possible constructors. */
     @SuppressWarnings("serial")
     private final Map<String, List<DataConstructor>> dataTypes = new HashMap<>();
-    
+
     /** The output stream. */
     private PrintStream outputStream;
-    
+
     /**
      * Instantiates a new context with a given print stream.
      *
@@ -51,10 +52,10 @@ public class Context {
      */
     public Context(final PrintStream printStream) {
         outputStream = printStream;
-        
+
         LibraryFunction.applyLibraryFunctions(this);
     }
-    
+
     /**
      * Put variable.
      *
@@ -72,10 +73,10 @@ public class Context {
             throw new ParserException(
                     "Can't change the value of non mutable function " + name);
         }
-
+        
         getVariables().put(name, new VariableMapping(value, isMutable));
     }
-
+    
     /**
      * Gets the variable with a given name.
      *
@@ -91,9 +92,9 @@ public class Context {
             return null;
         }
         return variableMapping.variable;
-        
+
     }
-    
+
     /**
      * Gets the variables.
      *
@@ -103,7 +104,7 @@ public class Context {
     public Map<String, VariableMapping> getVariables() {
         return variables;
     }
-    
+
     /**
      * Sets the variable map.
      *
@@ -113,7 +114,7 @@ public class Context {
     public void setVariables(final Map<String, VariableMapping> variables) {
         this.variables = variables;
     }
-    
+
     /**
      * Gets the output stream.
      *
@@ -123,7 +124,7 @@ public class Context {
     public PrintStream getOutputStream() {
         return outputStream;
     }
-    
+
     /**
      * Sets the output stream.
      *
@@ -133,10 +134,10 @@ public class Context {
     public void setOutputStream(final PrintStream printStream) {
         outputStream = printStream;
     }
-
+    
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -144,7 +145,7 @@ public class Context {
         return "Context [variables=" + variables + ", outputStream="
                 + outputStream + "]";
     }
-    
+
     /**
      * Put function.
      *
@@ -156,7 +157,7 @@ public class Context {
     public void putFunction(final Function function, final boolean isMutable) {
         putFunction(function.name, new APValueFunction(function), isMutable);
     }
-
+    
     /**
      * Put data type.
      *
@@ -176,7 +177,7 @@ public class Context {
         variables.put(name, new VariableMapping(new APValueType(dataType.name),
                 false));
     }
-
+    
     /**
      * Gets the data type.
      *
@@ -187,18 +188,18 @@ public class Context {
     public List<DataConstructor> getDataType(final String name) {
         return dataTypes.get(name);
     }
-    
+
     /**
      * The Class VariableMapping.
      */
     public static class VariableMapping {
-
+        
         /** The variable. */
         public APValue variable;
-
+        
         /** The is mutable. */
         public boolean isMutable;
-        
+
         /**
          * Instantiates a new variable mapping.
          *
@@ -211,6 +212,6 @@ public class Context {
             this.variable = variable;
             this.isMutable = isMutable;
         }
-
+        
     }
 }

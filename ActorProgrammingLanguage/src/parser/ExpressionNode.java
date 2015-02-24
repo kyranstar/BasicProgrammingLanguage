@@ -394,10 +394,22 @@ public abstract class ExpressionNode<T> {
         public APValue getValue(final Context context) {
             variable.getValue(context)
             .getValue()
-            .set(((APNumber) insideCurlies.getValue(context).getValue())
+            .set(((APNumber) getInsideCurlies().getValue(context).getValue())
                     .intValueExact(),
-                    new ConstantNode(rhExpr.getValue(context)));
+                    new ConstantNode(getRightHand().getValue(context)));
             return APValue.VOID;
+        }
+
+        public ExpressionNode<List> getLeftHand() {
+            return variable;
+        }
+
+        public ExpressionNode getInsideCurlies() {
+            return insideCurlies;
+        }
+
+        public ExpressionNode getRightHand() {
+            return rhExpr;
         }
         
     }
