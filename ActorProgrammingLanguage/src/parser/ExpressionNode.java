@@ -167,6 +167,36 @@ public abstract class ExpressionNode<T> {
         public APValue<T> getValue(final Context c) {
             return v;
         }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = super.hashCode();
+            result = prime * result + (v == null ? 0 : v.hashCode());
+            return result;
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (!super.equals(obj)) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final ConstantNode other = (ConstantNode) obj;
+            if (v == null) {
+                if (other.v != null) {
+                    return false;
+                }
+            } else if (!v.equals(other.v)) {
+                return false;
+            }
+            return true;
+        }
         
     }
     
@@ -394,8 +424,8 @@ public abstract class ExpressionNode<T> {
         public APValue getValue(final Context context) {
             variable.getValue(context)
             .getValue()
-            .set(((APNumber) getInsideCurlies().getValue(context).getValue())
-                    .intValueExact(),
+            .set(((APNumber) getInsideCurlies().getValue(context)
+                    .getValue()).intValueExact(),
                     new ConstantNode(getRightHand().getValue(context)));
             return APValue.VOID;
         }
@@ -1474,6 +1504,37 @@ public abstract class ExpressionNode<T> {
         public String getName() {
             return name;
         }
+        
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = super.hashCode();
+            result = prime * result + (name == null ? 0 : name.hashCode());
+            return result;
+        }
+        
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (!super.equals(obj)) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final VariableNode other = (VariableNode) obj;
+            if (name == null) {
+                if (other.name != null) {
+                    return false;
+                }
+            } else if (!name.equals(other.name)) {
+                return false;
+            }
+            return true;
+        }
+
     }
     
 }

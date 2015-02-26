@@ -10,26 +10,28 @@ package parser;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Consumer;
 
 import lexer.Lexer;
 import machine.Context;
 
 import org.junit.Test;
 
+import parser.ExpressionNode.AdditionNode;
 import parser.ExpressionNode.AssignmentNode;
 import parser.ExpressionNode.ConstantNode;
 import parser.ExpressionNode.IndexAssignmentNode;
 import parser.ExpressionNode.VariableNode;
+import total.ProgramTest;
 import type.APNumber;
 import type.APValueNum;
 
 public class ParserTest {
-
+    
     /**
      *
      * @throws Exception
@@ -37,20 +39,30 @@ public class ParserTest {
      */
     @Test
     public void assignment() throws Exception {
-        final Parser parser = new Parser(new Lexer("= 5;").lex());
+        
+        final Map<String, ExpressionNode> toTest = new HashMap<>();
+        toTest.put("= 5", new AssignmentNode(new VariableNode("a"),
+                new ConstantNode(new APValueNum(new APNumber(5))), false));
 
-        final Context context = getEmptyContext();
+        toTest.put("= 5+1", new AssignmentNode(new VariableNode("a"),
+                new AdditionNode(new ConstantNode(new APValueNum(
+                        new APNumber(5))), new ConstantNode(new APValueNum(
+                        new APNumber(1)))), false));
+        
+        final Context context = ProgramTest.getEmptyContext();
         final VariableNode expr = new VariableNode("a");
-
-        // call private method assignment
-        final AssignmentNode result = (AssignmentNode) callMethod(parser,
-                "assignment", new Class[] { Context.class, VariableNode.class,
+        
+        testMethod(toTest, new Consumer<Entry<String, ExpressionNode>>() {
+            @Override
+            public void accept(final Entry<String, ExpressionNode> t) {
+                assertEquals("a", ((AssignmentNode) t.getValue()).getVariable()
+                        .getName());
+            }
+        }, "assignment", new Class[] { Context.class, VariableNode.class,
                 boolean.class }, context, expr, false);
-
-        assertNotNull("result cannot be null", result);
-        assertEquals("a", result.getVariable().getName());
+        
     }
-
+    
     /**
      *
      * @throws Exception
@@ -58,50 +70,93 @@ public class ParserTest {
      */
     @Test
     public void indexAssignment() throws Exception {
-        final Parser parser = new Parser(new Lexer("{0} = 5;").lex());
-
-        final Context context = getEmptyContext();
-        final VariableNode expressionNode = new VariableNode("a");
-        // call indexAssignment
-        final IndexAssignmentNode result = (IndexAssignmentNode) callMethod(
-                parser, "indexAssignment", new Class[] { Context.class,
-                        ExpressionNode.class }, context, expressionNode);
-
-        assertNotNull("result cannot be null", result);
-        assertEquals("a", ((VariableNode) result.getLeftHand()).getName());
-        assertEquals(new ConstantNode<APNumber>(new APValueNum(APNumber.ONE)),
-                result.getInsideCurlies());
-        assertEquals(
-                new ConstantNode<APNumber>(new APValueNum(new APNumber(5))),
-                result.getRightHand());
+        final Map<String, ExpressionNode> toTest = new HashMap<>();
+        toTest.put("{0} = 5", new IndexAssignmentNode(new VariableNode("a"),
+                new ConstantNode(new APValueNum(new APNumber(0))),
+                new ConstantNode(new APValueNum(new APNumber(5)))));
+        
+        final Context context = ProgramTest.getEmptyContext();
+        final VariableNode expr = new VariableNode("a");
+        
+        testMethod(
+                toTest,
+                new Consumer<Entry<String, ExpressionNode>>() {
+                    @Override
+                    public void accept(final Entry<String, ExpressionNode> t) {
+                        
+                        assertEquals("a",
+                                ((VariableNode) ((IndexAssignmentNode) t
+                                        .getValue()).getLeftHand()).getName());
+                    }
+                }, "indexAssignment",
+                new Class[] { Context.class, ExpressionNode.class }, context,
+                expr);
+    }
+    
+    /**
+     * This method tests a method from the Parser class by looping through each
+     * testCase key and asserting that the result is both not null and equal to
+     * the testCase result. It also calls the consumer with the entry of the key
+     * and the result so that the caller can run their own tests.
+     *
+     * @param testCases
+     *            String is the parameter to the parser, ExpressionNode is the
+     *            expected result
+     * @param tests
+     *            Additional tests the user might like to run on the parameter
+     *            and the result
+     * @param name
+     *            The name of the method in the Parser class
+     * @param argTypes
+     *            The type of arguments that are parameters to the method
+     * @param args
+     *            The arguments to be passed into the method
+     * @throws Exception
+     */
+    private void testMethod(final Map<String, ExpressionNode> testCases,
+            final Consumer<Entry<String, ExpressionNode>> tests,
+            final String name, final Class[] argTypes, final Object... args)
+            throws Exception {
+        
+        for (final Entry<String, ExpressionNode> e : testCases.entrySet()) {
+            final Parser parser = new Parser(new Lexer(e.getKey()).lex());
+            
+            // call private method assignment
+            final ExpressionNode result = (ExpressionNode) callMethod(parser,
+                    name, argTypes, args);
+            
+            assertNotNull("result cannot be null", result);
+            assertEquals(e.getValue(), result);
+            tests.accept(new Entry<String, ExpressionNode>() {
+                
+                @Override
+                public String getKey() {
+                    return e.getKey();
+                }
+                
+                @Override
+                public ExpressionNode getValue() {
+                    return result;
+                }
+                
+                @Override
+                public ExpressionNode setValue(final ExpressionNode value) {
+                    // TODO Auto-generated method stub
+                    return null;
+                }
+            });
+        }
     }
     
     private Object callMethod(final Object object, final String name,
             final Class<Object>[] argTypes, final Object... args)
             throws Exception {
-
+        
         final Method m = object.getClass().getDeclaredMethod(name, argTypes);
-
+        
         m.setAccessible(true);
-
+        
         return m.invoke(object, args);
     }
     
-    private static Context getEmptyContext() {
-        final OutputStream nullOutputStream = new OutputStream() {
-            @Override
-            public void write(final int b) throws IOException {
-
-            }
-        };
-        try {
-            return new Context(
-                    new PrintStream(nullOutputStream, false, "UTF-8"));
-        } catch (final UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        throw new RuntimeException(
-                "I don't really expect this to fail so this is weird.");
-    }
-
 }

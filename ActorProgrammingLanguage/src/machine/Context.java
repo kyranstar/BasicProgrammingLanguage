@@ -38,7 +38,6 @@ public class Context {
     };
 
     /** A map of datatype names to a list of possible constructors. */
-    @SuppressWarnings("serial")
     private final Map<String, List<DataConstructor>> dataTypes = new HashMap<>();
 
     /** The output stream. */
@@ -211,6 +210,41 @@ public class Context {
         public VariableMapping(final APValue variable, final boolean isMutable) {
             this.variable = variable;
             this.isMutable = isMutable;
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + (isMutable ? 1231 : 1237);
+            result = prime * result
+                    + (variable == null ? 0 : variable.hashCode());
+            return result;
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final VariableMapping other = (VariableMapping) obj;
+            if (isMutable != other.isMutable) {
+                return false;
+            }
+            if (variable == null) {
+                if (other.variable != null) {
+                    return false;
+                }
+            } else if (!variable.equals(other.variable)) {
+                return false;
+            }
+            return true;
         }
         
     }

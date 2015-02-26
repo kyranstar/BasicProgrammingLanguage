@@ -58,7 +58,8 @@ public final class LibraryFunction {
     /**
      * Isa function.
      *
-     * @param context the context
+     * @param context
+     *            the context
      */
     private static void isaFunction(final Context context) {
         final String arg1 = "arg1";
@@ -98,7 +99,8 @@ public final class LibraryFunction {
     /**
      * Casting functions.
      *
-     * @param context the context
+     * @param context
+     *            the context
      */
     private static void castingFunctions(final Context context) {
         final String theNum = "num";
@@ -155,7 +157,8 @@ public final class LibraryFunction {
     /**
      * List functions.
      *
-     * @param context the context
+     * @param context
+     *            the context
      */
     private static void listFunctions(final Context context) {
         sublistFunction(context);
@@ -169,7 +172,8 @@ public final class LibraryFunction {
     /**
      * Length function.
      *
-     * @param context the context
+     * @param context
+     *            the context
      */
     private static void lengthFunction(final Context context) {
         final String argName = "a";
@@ -198,7 +202,8 @@ public final class LibraryFunction {
     /**
      * In function.
      *
-     * @param context the context
+     * @param context
+     *            the context
      */
     private static void inFunction(final Context context) {
         final String arg1 = "member";
@@ -226,7 +231,8 @@ public final class LibraryFunction {
     /**
      * To string function.
      *
-     * @param context the context
+     * @param context
+     *            the context
      */
     private static void toStringFunction(final Context context) {
         final String argName = "a";
@@ -253,7 +259,8 @@ public final class LibraryFunction {
     /**
      * Foreach function.
      *
-     * @param context the context
+     * @param context
+     *            the context
      */
     private static void foreachFunction(final Context context) {
         final String arg1 = "list";
@@ -382,6 +389,10 @@ public final class LibraryFunction {
                                     // give parent functions
                                     c.setVariables(new HashMap<>(context
                                             .getVariables()));
+                                    
+                                    c.getVariables().remove(
+                                    function.parameters.get(0)
+                                    .getName());
                                     
                                     c.putFunction(function.parameters.get(0)
                                             .getName(), v.getValue(c), false);
