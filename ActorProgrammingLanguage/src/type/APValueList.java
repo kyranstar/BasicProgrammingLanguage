@@ -10,7 +10,6 @@ import java.util.List;
 
 import parser.ExpressionNode;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class APValueList. Represents a list of expressions.
  *
@@ -108,7 +107,8 @@ public class APValueList extends APValue<List> {
                 .subtract(APNumber.ONE)) {
             finalList.addAll(value);
         }
-        finalList.addAll(value.subList(0, (int) (value.size() * value2.doubleValue())));
+        finalList.addAll(value.subList(0,
+                (int) (value.size() * value2.doubleValue())));
         if (negative) {
             Collections.reverse(finalList);
         }

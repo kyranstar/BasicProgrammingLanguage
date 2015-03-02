@@ -381,6 +381,50 @@ public abstract class ExpressionNode<T> {
             return expression;
         }
         
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = super.hashCode();
+            result = prime * result
+                    + (expression == null ? 0 : expression.hashCode());
+            result = prime * result + (isMutable ? 1231 : 1237);
+            result = prime * result
+                    + (variable == null ? 0 : variable.hashCode());
+            return result;
+        }
+        
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (!super.equals(obj)) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final AssignmentNode other = (AssignmentNode) obj;
+            if (expression == null) {
+                if (other.expression != null) {
+                    return false;
+                }
+            } else if (!expression.equals(other.expression)) {
+                return false;
+            }
+            if (isMutable != other.isMutable) {
+                return false;
+            }
+            if (variable == null) {
+                if (other.variable != null) {
+                    return false;
+                }
+            } else if (!variable.equals(other.variable)) {
+                return false;
+            }
+            return true;
+        }
+        
     }
 
     /**
@@ -579,6 +623,46 @@ public abstract class ExpressionNode<T> {
                 statement.getValue(context);
             }
             return expression.getValue(context);
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = super.hashCode();
+            result = prime * result
+                    + (expression == null ? 0 : expression.hashCode());
+            result = prime * result
+                    + (statements == null ? 0 : statements.hashCode());
+            return result;
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (!super.equals(obj)) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final SequenceNode other = (SequenceNode) obj;
+            if (expression == null) {
+                if (other.expression != null) {
+                    return false;
+                }
+            } else if (!expression.equals(other.expression)) {
+                return false;
+            }
+            if (statements == null) {
+                if (other.statements != null) {
+                    return false;
+                }
+            } else if (!statements.equals(other.statements)) {
+                return false;
+            }
+            return true;
         }
         
     }
