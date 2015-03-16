@@ -536,8 +536,8 @@ public class Parser {
             final VariableNode functionName = identifier();
             final ExpressionNode secondArg = expression(context);
             return highOp(
-                    new FunctionCallNode(functionName.getName(), Arrays.asList(
-                            expr, secondArg)), context);
+                    new FunctionCallNode(functionName, Arrays.asList(expr,
+                            secondArg)), context);
         } else {
             // term_op -> EPSILON
             return expr;
@@ -605,13 +605,13 @@ public class Parser {
             return highestOp(new ListIndexNode(expr, insideParens), context);
 
         } else if (lookahead.getType() == TokenType.OPEN_PARENS) {
-            if (expr.getClass() != VariableNode.class) {
-                throw new ParserException(
-                        "Can't call function on a non function value");
-            }
+            // if (expr.getClass() != VariableNode.class) {
+            // throw new ParserException(
+            // "Can't call function on a non function value. Was a "
+            // + expr.getClass());
+            // }
 
-            return highestOp(functionParameters(context, (VariableNode) expr),
-                    context);
+            return highestOp(functionParameters(context, expr), context);
         } else if (lookahead.getType() == TokenType.DOT) {
             // field access
             nextToken();
@@ -699,8 +699,8 @@ public class Parser {
         } else if (lookahead.getType() == TokenType.IDENTIFIER) {
             final VariableNode expr = identifier();
             return expr;
-        } else if (lookahead.getType() == TokenType.LAMBDA) {
-            return lambda(context);
+        } else if (lookahead.getType() == TokenType.FUNCTION) {
+            return function(context);
         } else if (lookahead.getType() == TokenType.TYPE_NAME) {
             final ConstantNode<String> type = new ConstantNode<>(
                     new APValueType(lookahead.getText()));
@@ -720,12 +720,10 @@ public class Parser {
      * @return the expression node
      */
     @SuppressWarnings("rawtypes")
-    private ExpressionNode lambda(final Context context) {
-        assertNextToken(TokenType.LAMBDA);
+    private ExpressionNode function(final Context context) {
+        assertNextToken(TokenType.FUNCTION);
         nextToken();
-        final VariableNode expr = identifier();
         final List<VariableNode> params = new ArrayList<>();
-        params.add(expr);
         while (lookahead.getType() != TokenType.ARROW_RIGHT) {
             params.add(identifier());
         }
@@ -955,21 +953,19 @@ public class Parser {
      */
     @SuppressWarnings("rawtypes")
     private ExpressionNode functionParameters(final Context context,
-            final VariableNode expr) {
+            final ExpressionNode expr) {
         final List<ExpressionNode> parameters = new ArrayList<>();
         nextToken();
         if (lookahead.getType() == TokenType.CLOSE_PARENS) {
             // No params
-            final FunctionCallNode node = new FunctionCallNode(expr.getName(),
-                    parameters);
+            final FunctionCallNode node = new FunctionCallNode(expr, parameters);
             nextToken();
             return node;
         }
         parameters.add(expression(context));
         if (lookahead.getType() == TokenType.CLOSE_PARENS) {
             // One parameter
-            final FunctionCallNode node = new FunctionCallNode(expr.getName(),
-                    parameters);
+            final FunctionCallNode node = new FunctionCallNode(expr, parameters);
             nextToken();
             return node;
         }
@@ -981,7 +977,7 @@ public class Parser {
         }
         nextToken();
 
-        return new FunctionCallNode(expr.getName(), parameters);
+        return new FunctionCallNode(expr, parameters);
     }
 
     /**

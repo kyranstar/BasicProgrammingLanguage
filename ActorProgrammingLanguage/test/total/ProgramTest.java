@@ -26,7 +26,6 @@ import parser.ParserException;
 import type.APNumber;
 import type.APValue;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Test Class TotalTest.
  *
@@ -34,13 +33,13 @@ import type.APValue;
  * @version $Revision: 1.0 $
  */
 public class ProgramTest {
-    
+
     /** The number 10. */
     final static APNumber VAL_A = new APNumber("10");
-
+    
     /** The variable named a. */
     final static String VAR_A = "a";
-
+    
     /**
      * Test comments.
      */
@@ -48,7 +47,7 @@ public class ProgramTest {
     public void testEndlineComment() {
         test("a = 10; // Hi!", VAL_A, VAR_A);
     }
-    
+
     /**
      * Test separating endline comment.
      */
@@ -56,7 +55,7 @@ public class ProgramTest {
     public void testSeparatingEndlineComment() {
         test("a = //8\n10;", VAL_A, VAR_A);
     }
-    
+
     /**
      * Test multiline comment.
      */
@@ -64,7 +63,7 @@ public class ProgramTest {
     public void testMultilineComment() {
         test("a = 10; /*\n\n\n Wow hi! */", VAL_A, VAR_A);
     }
-    
+
     /**
      * Test separating multiline comment.
      */
@@ -72,7 +71,7 @@ public class ProgramTest {
     public void testSeparatingMultilineComment() {
         test("a = /*\n8\n*/ 10;", VAL_A, VAR_A);
     }
-    
+
     /**
      * Test statement in comment.
      */
@@ -80,16 +79,16 @@ public class ProgramTest {
     public void testStatementInComment() {
         test("a = 10; //a = 8", VAL_A, VAR_A);
     }
-
+    
     public static Context getEmptyContext() {
         return new Context(getEmptyPrintStream());
     }
-    
+
     public static PrintStream getEmptyPrintStream() {
         final OutputStream nullOutputStream = new OutputStream() {
             @Override
             public void write(final int b) throws IOException {
-                
+
             }
         };
         try {
@@ -100,7 +99,7 @@ public class ProgramTest {
         throw new RuntimeException(
                 "I don't really expect this to fail so this is weird.");
     }
-    
+
     /**
      * Expect output.
      *
@@ -117,9 +116,9 @@ public class ProgramTest {
         } catch (final UnsupportedEncodingException e) {
             throw new RuntimeException("Unsupported Encoding Exception");
         }
-
-        new Interpreter(p).interpret(s);
         
+        new Interpreter(p).interpret(s);
+
         final ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
         PrintStream p2 = null;
         try {
@@ -127,16 +126,16 @@ public class ProgramTest {
         } catch (final UnsupportedEncodingException e) {
             throw new RuntimeException("Unsupported Encoding Exception");
         }
-        
+
         p2.println(expected);
-        
+
         try {
             Assert.assertEquals(baos2.toString("UTF-8"), baos.toString("UTF-8"));
         } catch (final UnsupportedEncodingException e) {
             throw new RuntimeException("Unsupported Encoding Exception");
         }
     }
-    
+
     /**
      * Test stack overflow error.
      *
@@ -153,7 +152,7 @@ public class ProgramTest {
                 throw new RuntimeException("Unsupported Encoding Exception");
             }
             final List<ExpressionNode> nodes = new Parser(new Lexer(s).lex())
-            .parse(c);
+                    .parse(c);
             for (final ExpressionNode node : nodes) {
                 node.getValue(c);
             }
@@ -162,7 +161,7 @@ public class ProgramTest {
             return;
         }
     }
-
+    
     /**
      * Method testIndexOutOfBoundsException.
      *
@@ -179,7 +178,7 @@ public class ProgramTest {
                 throw new RuntimeException("Unsupported Encoding Exception");
             }
             final List<ExpressionNode> nodes = new Parser(new Lexer(code).lex())
-                    .parse(c);
+            .parse(c);
             for (final ExpressionNode node : nodes) {
                 node.getValue(c);
             }
@@ -189,7 +188,7 @@ public class ProgramTest {
             return;
         }
     }
-
+    
     /**
      * Test parser exception.
      *
@@ -206,7 +205,7 @@ public class ProgramTest {
                 throw new RuntimeException("Unsupported Encoding Exception");
             }
             final List<ExpressionNode> nodes = new Parser(new Lexer(code).lex())
-                    .parse(c);
+            .parse(c);
             for (final ExpressionNode node : nodes) {
                 node.getValue(c);
             }
@@ -215,7 +214,7 @@ public class ProgramTest {
             return;
         }
     }
-
+    
     /**
      * Test.
      *
@@ -236,17 +235,17 @@ public class ProgramTest {
             throw new RuntimeException("Unsupported Encoding Exception");
         }
         final List<ExpressionNode> nodes = new Parser(new Lexer(string).lex())
-                .parse(c);
+        .parse(c);
         for (final ExpressionNode node : nodes) {
             node.getValue(c);
         }
-        final APValue variable = c.getFunction(variableName);
-        
+        final APValue variable = c.getVariable(variableName);
+
         if (variable == null) {
             throw new AssertionError("Var was null instead of " + expected);
         }
         try {
-            
+
             final Object ob = variable.getValue();
             if (ob instanceof APNumber) {
                 Assert.assertTrue(((APNumber) ob)
@@ -259,7 +258,7 @@ public class ProgramTest {
                     + " instead of " + expected, e);
         }
     }
-    
+
     /**
      * Test context exception.
      *
@@ -276,7 +275,7 @@ public class ProgramTest {
                 throw new RuntimeException("Unsupported Encoding Exception");
             }
             final List<ExpressionNode> nodes = new Parser(new Lexer(code).lex())
-            .parse(c);
+                    .parse(c);
             for (final ExpressionNode node : nodes) {
                 node.getValue(c);
             }
@@ -285,7 +284,7 @@ public class ProgramTest {
             return;
         }
     }
-    
+
     /**
      * Test no error.
      *
@@ -301,12 +300,12 @@ public class ProgramTest {
             throw new RuntimeException("Unsupported Encoding Exception");
         }
         final List<ExpressionNode> nodes = new Parser(new Lexer(string).lex())
-                .parse(c);
+        .parse(c);
         for (final ExpressionNode node : nodes) {
             node.getValue(c);
         }
     }
-
+    
     /**
      * Test arithmetic exception.
      *
@@ -323,7 +322,7 @@ public class ProgramTest {
                 throw new RuntimeException("Unsupported Encoding Exception");
             }
             final List<ExpressionNode> nodes = new Parser(new Lexer(code).lex())
-            .parse(c);
+                    .parse(c);
             for (final ExpressionNode node : nodes) {
                 node.getValue(c);
             }

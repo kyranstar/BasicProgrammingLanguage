@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package total;
 
@@ -7,17 +7,16 @@ import org.junit.Test;
 
 import type.APNumber;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BoolTest.
  */
 public class BoolTest {
     /** The number 10. */
     final static APNumber VAL_10 = new APNumber("10");
-    
+
     /** The variable named a. */
     final static String VAR_A = "a";
-
+    
     /**
      * Test if condition.
      */
@@ -25,7 +24,7 @@ public class BoolTest {
     public void testIfCondition() {
         ProgramTest.test("a = if true then 10 else 11;", VAL_10, VAR_A);
     }
-
+    
     /**
      * Test if negative condition.
      */
@@ -33,31 +32,42 @@ public class BoolTest {
     public void testIfNegativeCondition() {
         ProgramTest.test("a = if false then 11 else 10;", VAL_10, VAR_A);
     }
-
+    
     /**
      * Test less than.
      */
     @Test
     public void testLessThan() {
         ProgramTest.test("a = if 3 < 4 then 10 else 11;", VAL_10, VAR_A);
+        ProgramTest.test("a = -1 < 0;", true, VAR_A);
+        ProgramTest.test("a = 100 < 9;", false, VAR_A);
+        ProgramTest.test("a = 100 < 100;", false, VAR_A);
     }
-
+    
     /**
      * Test greater than.
      */
     @Test
     public void testGreaterThan() {
         ProgramTest.test("a = if 3 > 4 then 11 else 10;", VAL_10, VAR_A);
+        ProgramTest.test("a = -1 > 0;", false, VAR_A);
+        ProgramTest.test("a = 100 > 9;", true, VAR_A);
+        ProgramTest.test("a = 100 > 100;", false, VAR_A);
+        ProgramTest.test("a = 0 > -1;", true, VAR_A);
     }
-
+    
     /**
      * Test less than equals.
      */
     @Test
     public void testLessThanEquals() {
         ProgramTest.test("a = if 3 <= 3 then 10 else 11;", VAL_10, VAR_A);
+        ProgramTest.test("a = -1 <= 0.5;", true, VAR_A);
+        ProgramTest.test("a = 100 <= 9;", false, VAR_A);
+        ProgramTest.test("a = 100 <= 100;", true, VAR_A);
+        ProgramTest.test("a = 0 <= -1;", false, VAR_A);
     }
-
+    
     /**
      * Test greater than equals.
      */
@@ -67,7 +77,7 @@ public class BoolTest {
         ProgramTest.test("a = if 3 >= -3 then 10 else 11;", VAL_10, VAR_A);
         ProgramTest.test("a = if 3 >= (-3+5) then 10 else 11;", VAL_10, VAR_A);
     }
-
+    
     /**
      * Test equals.
      */
@@ -80,7 +90,7 @@ public class BoolTest {
         ProgramTest.test("a = 4 = 4;", true, VAR_A);
         ProgramTest.test("a = 3 = 4;", false, VAR_A);
     }
-
+    
     /**
      * Test and.
      */
@@ -90,8 +100,9 @@ public class BoolTest {
         ProgramTest.test("a = true && false;", false, VAR_A);
         ProgramTest.test("a = false && true;", false, VAR_A);
         ProgramTest.test("a = false && false;", false, VAR_A);
+        ProgramTest.test("x = true; a = x && x;", true, VAR_A);
     }
-    
+
     /**
      * Test or.
      */

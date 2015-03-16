@@ -65,7 +65,7 @@ public class Context {
      * @param isMutable
      *            the is mutable
      */
-    public void putFunction(final String name, final APValue value,
+    public void putVariable(final String name, final APValue value,
             final boolean isMutable) {
         final VariableMapping map = getVariables().get(name);
         if (map != null && !map.isMutable) {
@@ -84,7 +84,7 @@ public class Context {
      *
      * @return the variable
      */
-    public APValue getFunction(final String functionSignature) {
+    public APValue getVariable(final String functionSignature) {
         final VariableMapping variableMapping = getVariables().get(
                 functionSignature);
         if (variableMapping == null) {
@@ -154,7 +154,7 @@ public class Context {
      *            the is mutable
      */
     public void putFunction(final Function function, final boolean isMutable) {
-        putFunction(function.name, new APValueFunction(function), isMutable);
+        putVariable(function.name, new APValueFunction(function), isMutable);
     }
     
     /**

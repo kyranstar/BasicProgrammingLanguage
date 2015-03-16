@@ -33,7 +33,7 @@ import type.APNumber;
 import type.APValueNum;
 
 public class ParserTest {
-    
+
     /**
      *
      * @throws Exception
@@ -41,34 +41,34 @@ public class ParserTest {
      */
     @Test
     public void assignment() throws Exception {
-        
+
         final Map<String, ExpressionNode> toTest = new HashMap<>();
         toTest.put("= 5", new AssignmentNode(new VariableNode("a"),
                 new ConstantNode<APNumber>(new APValueNum(new APNumber(5))),
                 false));
         toTest.put("= x", new AssignmentNode(new VariableNode("a"),
                 new VariableNode("x"), false));
-
+        
         toTest.put("= 5+1", new AssignmentNode(new VariableNode("a"),
                 new AdditionNode(new ConstantNode<APNumber>(new APValueNum(
                         new APNumber(5))), new ConstantNode<APNumber>(
-                                new APValueNum(new APNumber(1)))), false));
-        
+                        new APValueNum(new APNumber(1)))), false));
+
         final Context context = ProgramTest.getEmptyContext();
         final VariableNode expr = new VariableNode("a");
-        
+
         testMethod(
                 toTest,
                 t -> {
                     assertEquals("a", ((AssignmentNode) t.getValue())
                             .getVariable().getName());
-                    
+
                 }, "assignment", new Class[] { Context.class,
                         VariableNode.class, boolean.class }, context, expr,
-                false);
-        
-    }
+                        false);
 
+    }
+    
     /**
      *
      * @throws Exception
@@ -76,27 +76,27 @@ public class ParserTest {
      */
     @Test
     public void seqExpr() throws Exception {
-        
+
         final Map<String, ExpressionNode> toTest = new HashMap<>();
         toTest.put(
                 "{x = 1; y = 2; return b;}",
                 new SequenceNode(Arrays.asList(new AssignmentNode(
                         new VariableNode("x"), new ConstantNode<APNumber>(
                                 new APValueNum(new APNumber(1))), false),
-                                new AssignmentNode(new VariableNode("y"),
-                                        new ConstantNode<APNumber>(new APValueNum(
-                                                new APNumber(2))), false)),
-                                                new VariableNode("b")));
-        
+                        new AssignmentNode(new VariableNode("y"),
+                                new ConstantNode<APNumber>(new APValueNum(
+                                        new APNumber(2))), false)),
+                        new VariableNode("b")));
+
         final Context context = ProgramTest.getEmptyContext();
-        
+
         testMethod(toTest, t -> {
             System.out.println(t.getValue());
-            
-        }, "seqExpr", new Class[] { Context.class }, context);
-        
-    }
 
+        }, "seqExpr", new Class[] { Context.class }, context);
+
+    }
+    
     /**
      *
      * @throws Exception
@@ -105,16 +105,16 @@ public class ParserTest {
     @Test
     public void indexAssignment() throws Exception {
         final Map<String, ExpressionNode> toTest = new HashMap<>();
-        
+
         toTest.put("{0} = 5", new IndexAssignmentNode(new VariableNode("a"),
                 new ConstantNode<APNumber>(new APValueNum(new APNumber(0))),
                 new ConstantNode<APNumber>(new APValueNum(new APNumber(5)))));
         toTest.put("{x} = y", new IndexAssignmentNode(new VariableNode("a"),
                 new VariableNode("x"), new VariableNode("y")));
-
+        
         final Context context = ProgramTest.getEmptyContext();
         final VariableNode expr = new VariableNode("a");
-        
+
         testMethod(
                 toTest,
                 t -> {
@@ -123,7 +123,7 @@ public class ParserTest {
                 }, "indexAssignment", new Class[] { Context.class,
                         ExpressionNode.class }, context, expr);
     }
-    
+
     /**
      * This method tests a method from the Parser class by looping through each
      * testCase key and asserting that the result is both not null and equal to
@@ -147,29 +147,29 @@ public class ParserTest {
     private void testMethod(final Map<String, ExpressionNode> testCases,
             final Consumer<Entry<String, ExpressionNode>> tests,
             final String name, final Class[] argTypes, final Object... args)
-            throws Exception {
-        
+                    throws Exception {
+
         for (final Entry<String, ExpressionNode> e : testCases.entrySet()) {
             final Parser parser = new Parser(new Lexer(e.getKey()).lex());
-            
+
             // call private method assignment
             final ExpressionNode<?> result = (ExpressionNode<?>) callMethod(
                     parser, name, argTypes, args);
-            
+
             assertNotNull("result cannot be null", result);
             assertEquals(e.getValue(), result);
             tests.accept(new Entry<String, ExpressionNode>() {
-                
+
                 @Override
                 public String getKey() {
                     return e.getKey();
                 }
-                
+
                 @Override
                 public ExpressionNode getValue() {
                     return result;
                 }
-
+                
                 @Override
                 public ExpressionNode setValue(final ExpressionNode value) {
                     // TODO Auto-generated method stub
@@ -178,16 +178,16 @@ public class ParserTest {
             });
         }
     }
-    
+
     private Object callMethod(final Object object, final String name,
             final Class<Object>[] argTypes, final Object... args)
-            throws Exception {
-        
+                    throws Exception {
+
         final Method m = object.getClass().getDeclaredMethod(name, argTypes);
-        
+
         m.setAccessible(true);
-        
+
         return m.invoke(object, args);
     }
-    
+
 }

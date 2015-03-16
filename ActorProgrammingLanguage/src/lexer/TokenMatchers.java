@@ -16,7 +16,7 @@ import lexer.Token.TokenType;
  * @version $Revision: 1.0 $
  */
 public enum TokenMatchers {
-    
+
     /**
      * Matches whitespace characters.
      *
@@ -24,10 +24,10 @@ public enum TokenMatchers {
      * @version $Revision: 1.0 $
      */
     SPACE {
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -42,10 +42,10 @@ public enum TokenMatchers {
             }
             return new Token(TokenType.SPACE, spaces.toString(), lexInfo);
         }
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -54,15 +54,15 @@ public enum TokenMatchers {
                 final PositionInfo lexInfo) {
             return Character.isWhitespace(code.charAt(0));
         }
-
+        
     },
-
+    
     /** Matches a line comment. */
     LINE_COMMENT {
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -77,10 +77,10 @@ public enum TokenMatchers {
             }
             return new Token(TokenType.COMMENT, letters.toString(), lexInfo);
         }
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -89,15 +89,15 @@ public enum TokenMatchers {
                 final PositionInfo lexInfo) {
             return code.startsWith("//");
         }
-
+        
     },
-    
+
     /** Matches a multi-line comment. */
     MULTILINE_COMMENT {
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -112,14 +112,14 @@ public enum TokenMatchers {
                 }
                 final char c = sub.charAt(0);
                 letters.append(c);
-                
+
             }
             return new Token(TokenType.COMMENT, letters.toString(), lexInfo);
         }
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -128,9 +128,9 @@ public enum TokenMatchers {
                 final PositionInfo lexInfo) {
             return code.startsWith("/*");
         }
-
+        
     },
-
+    
     /**
      * Matches a number literal.
      *
@@ -138,12 +138,12 @@ public enum TokenMatchers {
      * @version $Revision: 1.0 $
      */
     NUMBER {
-        
+
         private static final char DECIMAL_POINT = '.';
-        
+
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -163,10 +163,10 @@ public enum TokenMatchers {
                             && code.charAt(0) == '.'));
             return new Token(TokenType.NUMBER, number.toString(), lexInfo);
         }
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -176,9 +176,9 @@ public enum TokenMatchers {
             return Character.isDigit(code.charAt(0)) || code.charAt(0) == '.'
                     && Character.isDigit(code.charAt(1));
         }
-
+        
     },
-
+    
     /**
      * Matches a string literal.
      *
@@ -186,16 +186,16 @@ public enum TokenMatchers {
      * @version $Revision: 1.0 $
      */
     STRING {
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
         @Override
         public Token getTokenNoCheck(String code, final PositionInfo lexInfo) {
-
+            
             final StringBuilder string = new StringBuilder();
             string.append('"');
             code = code.substring(1);
@@ -206,10 +206,10 @@ public enum TokenMatchers {
             string.append('"');
             return new Token(TokenType.STRING, string.toString(), lexInfo);
         }
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -218,9 +218,9 @@ public enum TokenMatchers {
                 final PositionInfo lexInfo) {
             return code.charAt(0) == '"';
         }
-
+        
     },
-    
+
     /**
      * Matches a character literal.
      *
@@ -228,10 +228,10 @@ public enum TokenMatchers {
      * @version $Revision: 1.0 $
      */
     CHAR {
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -247,10 +247,10 @@ public enum TokenMatchers {
             string.append('\'');
             return new Token(TokenType.CHAR, string.toString(), lexInfo);
         }
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -259,9 +259,9 @@ public enum TokenMatchers {
                 final PositionInfo lexInfo) {
             return code.charAt(0) == '\'';
         }
-
+        
     },
-    
+
     /**
      * Matches a boolean literal.
      *
@@ -269,10 +269,10 @@ public enum TokenMatchers {
      * @version $Revision: 1.0 $
      */
     BOOLEAN {
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -289,10 +289,10 @@ public enum TokenMatchers {
                     + ", but did not match. Was {" + code.charAt(0)
                     + "} instead. Should never get here! Compiler bug.");
         }
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -301,9 +301,9 @@ public enum TokenMatchers {
                 final PositionInfo lexInfo) {
             return code.startsWith("true") || code.startsWith("false");
         }
-
+        
     },
-
+    
     /**
      * Matches an operator.
      *
@@ -311,37 +311,37 @@ public enum TokenMatchers {
      * @version $Revision: 1.0 $
      */
     OPERATOR {
-
+        
         /** The Constant OPERATORS. */
         @SuppressWarnings("serial")
         private final List<StringToToken> OPERATORS = Collections
-                .unmodifiableList(new ArrayList<StringToToken>() {
-                    {
-                        add(new StringToToken(";", TokenType.SEMI));
-                        add(new StringToToken(",", TokenType.COMMA));
-                        add(new StringToToken("->", TokenType.ARROW_RIGHT));
-                        add(new StringToToken("=", TokenType.EQUAL));
-                        add(new StringToToken("*", TokenType.MULTIPLY));
-                        add(new StringToToken("/", TokenType.DIVIDE));
-                        add(new StringToToken("%", TokenType.MOD));
-                        add(new StringToToken("+", TokenType.PLUS));
-                        add(new StringToToken("-", TokenType.MINUS));
-                        add(new StringToToken("^", TokenType.RAISED));
-                        add(new StringToToken("<=", TokenType.LESS_THAN_EQUAL));
-                        add(new StringToToken(">=",
-                                TokenType.GREATER_THAN_EQUAL));
-                        add(new StringToToken("<", TokenType.LESS_THAN));
-                        add(new StringToToken(">", TokenType.GREATER_THAN));
-                        add(new StringToToken("&&", TokenType.AND));
-                        add(new StringToToken("||", TokenType.OR));
-                        add(new StringToToken("|", TokenType.BAR));
-                        add(new StringToToken(".", TokenType.DOT));
-                    }
-                });
-
+        .unmodifiableList(new ArrayList<StringToToken>() {
+            {
+                add(new StringToToken(";", TokenType.SEMI));
+                add(new StringToToken(",", TokenType.COMMA));
+                add(new StringToToken("->", TokenType.ARROW_RIGHT));
+                add(new StringToToken("=", TokenType.EQUAL));
+                add(new StringToToken("*", TokenType.MULTIPLY));
+                add(new StringToToken("/", TokenType.DIVIDE));
+                add(new StringToToken("%", TokenType.MOD));
+                add(new StringToToken("+", TokenType.PLUS));
+                add(new StringToToken("-", TokenType.MINUS));
+                add(new StringToToken("^", TokenType.RAISED));
+                add(new StringToToken("<=", TokenType.LESS_THAN_EQUAL));
+                add(new StringToToken(">=",
+                        TokenType.GREATER_THAN_EQUAL));
+                add(new StringToToken("<", TokenType.LESS_THAN));
+                add(new StringToToken(">", TokenType.GREATER_THAN));
+                add(new StringToToken("&&", TokenType.AND));
+                add(new StringToToken("||", TokenType.OR));
+                add(new StringToToken("|", TokenType.BAR));
+                add(new StringToToken(".", TokenType.DOT));
+            }
+        });
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -353,14 +353,14 @@ public enum TokenMatchers {
                     return new Token(entry.type, entry.text, lexInfo);
                 }
             }
-
+            
             throw new LexerException("Unidentified token (" + code.charAt(0)
                     + ")");
         }
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -375,7 +375,7 @@ public enum TokenMatchers {
             return false;
         }
     },
-    
+
     /**
      * Matches keywords in the language.
      *
@@ -383,28 +383,28 @@ public enum TokenMatchers {
      * @version $Revision: 1.0 $
      */
     KEYWORDS {
-
+        
         /** The Constant OPERATORS. */
         @SuppressWarnings("serial")
         private final List<StringToToken> KEYWORDS = Collections
-                .unmodifiableList(new ArrayList<StringToToken>() {
-                    {
-                        add(new StringToToken("to", TokenType.TO));
-                        add(new StringToToken("func", TokenType.LAMBDA));
-                        add(new StringToToken("if", TokenType.IF));
-                        add(new StringToToken("mut", TokenType.MUTABLE));
-                        add(new StringToToken("then", TokenType.THEN));
-                        add(new StringToToken("else", TokenType.ELSE));
-                        add(new StringToToken("new", TokenType.NEW));
-                        add(new StringToToken("datatype", TokenType.DATA_TYPE));
-                        add(new StringToToken("return", TokenType.RETURN));
-                        add(new StringToToken("seq", TokenType.SEQUENCE));
-                    }
-                });
-
+        .unmodifiableList(new ArrayList<StringToToken>() {
+            {
+                add(new StringToToken("to", TokenType.TO));
+                add(new StringToToken("func", TokenType.FUNCTION));
+                add(new StringToToken("if", TokenType.IF));
+                add(new StringToToken("mut", TokenType.MUTABLE));
+                add(new StringToToken("then", TokenType.THEN));
+                add(new StringToToken("else", TokenType.ELSE));
+                add(new StringToToken("new", TokenType.NEW));
+                add(new StringToToken("datatype", TokenType.DATA_TYPE));
+                add(new StringToToken("return", TokenType.RETURN));
+                add(new StringToToken("seq", TokenType.SEQUENCE));
+            }
+        });
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -416,14 +416,14 @@ public enum TokenMatchers {
                     return new Token(entry.type, entry.text, lexInfo);
                 }
             }
-
+            
             throw new LexerException("Unidentified token (" + code.charAt(0)
                     + ")");
         }
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -438,7 +438,7 @@ public enum TokenMatchers {
             return false;
         }
     },
-
+    
     /**
      * Matches open and close parens, square brackets, and curly brackets.
      *
@@ -446,10 +446,10 @@ public enum TokenMatchers {
      * @version $Revision: 1.0 $
      */
     BRACKETS {
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -478,10 +478,10 @@ public enum TokenMatchers {
             }
             throw new LexerException("Unidentified token: " + token);
         }
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -493,7 +493,7 @@ public enum TokenMatchers {
                     || code.charAt(0) == '{' || code.charAt(0) == '}';
         }
     },
-
+    
     /**
      * Matches an identifier, like a variable name.
      *
@@ -501,10 +501,10 @@ public enum TokenMatchers {
      * @version $Revision: 1.0 $
      */
     IDENTIFIER {
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -518,10 +518,10 @@ public enum TokenMatchers {
             return new Token(TokenType.IDENTIFIER, identifier.toString(),
                     lexInfo);
         }
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -529,13 +529,13 @@ public enum TokenMatchers {
         public boolean matchesNoCheck(final String code,
                 final PositionInfo lexInfo) {
             final char c = code.charAt(0);
-
+            
             return Character.isAlphabetic(c)
                     || IDENTIFIER_OPERATORS.indexOf(c) >= 0;
         }
-
+        
     },
-
+    
     /**
      * Matches an type name.
      *
@@ -543,10 +543,10 @@ public enum TokenMatchers {
      * @version $Revision: 1.0 $
      */
     TYPE_NAME {
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#getTokenNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -560,10 +560,10 @@ public enum TokenMatchers {
             return new Token(TokenType.TYPE_NAME, identifier.toString(),
                     lexInfo);
         }
-
+        
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see lexer.TokenMatcher#matchesNoCheck(java.lang.String,
          * lexer.LexerInformation)
          */
@@ -571,17 +571,17 @@ public enum TokenMatchers {
         public boolean matchesNoCheck(final String code,
                 final PositionInfo lexInfo) {
             final char c = code.charAt(0);
-
+            
             final String operators = IDENTIFIER_OPERATORS + "$";
-
+            
             return Character.isAlphabetic(c) || operators.indexOf(c) >= 0;
         }
-
+        
     };
-
-    /** A list of operators that identifiers can use */
-    private static final String IDENTIFIER_OPERATORS = "~_?#@!`:¬⊥↑↓⌊⌈÷□≤≥≠∧∨";
     
+    /** A list of operators that identifiers can use */
+    private static final String IDENTIFIER_OPERATORS = "~_?#@!`:";
+
     /**
      * Gets the token without checking for errors.
      *
@@ -594,7 +594,7 @@ public enum TokenMatchers {
      */
     protected abstract Token getTokenNoCheck(final String code,
             final PositionInfo lexInfo);
-
+    
     /**
      * Matches without checking for errors.
      *
@@ -607,7 +607,7 @@ public enum TokenMatchers {
      */
     protected abstract boolean matchesNoCheck(final String code,
             final PositionInfo lexInfo);
-
+    
     /**
      * Gets the token.
      *
@@ -622,7 +622,7 @@ public enum TokenMatchers {
         if (code.length() <= 0) {
             throw new LexerException("Code length was 0.");
         }
-
+        
         if (!matches(code, lexInfo)) {
             throw new LexerException("Tried to get token " + getClass()
                     + ", but did not match. Was {" + code.charAt(0)
@@ -630,7 +630,7 @@ public enum TokenMatchers {
         }
         return getTokenNoCheck(code, lexInfo);
     }
-
+    
     /**
      * Matches.
      *
@@ -649,7 +649,7 @@ public enum TokenMatchers {
             return false;
         }
     }
-
+    
     /**
      * Helper class that represents string to token conversion.
      *
@@ -657,13 +657,13 @@ public enum TokenMatchers {
      * @version $Revision: 1.0 $
      */
     private static class StringToToken {
-        
+
         /** The text. */
         public String text;
-
+        
         /** The type. */
         public TokenType type;
-        
+
         /**
          * Instantiates a new string to operator.
          *
@@ -676,6 +676,6 @@ public enum TokenMatchers {
             text = string;
             this.type = type;
         }
-
+        
     }
 }

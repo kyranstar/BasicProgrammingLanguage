@@ -164,7 +164,7 @@ public class Token {
         /** The arrow token ->. */
         ARROW_RIGHT,
         /** The lambda token. */
-        LAMBDA,
+        FUNCTION,
         /** The to token. Used in ranges. */
         TO,
         

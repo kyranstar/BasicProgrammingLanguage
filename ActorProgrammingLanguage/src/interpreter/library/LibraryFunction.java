@@ -289,7 +289,7 @@ public final class LibraryFunction {
                                     c.setVariables(new HashMap<>(context
                                             .getVariables()));
                                     
-                                    c.putFunction(function.parameters.get(0)
+                                    c.putVariable(function.parameters.get(0)
                                             .getName(), v.getValue(c), false);
                                     function.body.getValue(c);
                                 }
@@ -339,10 +339,10 @@ public final class LibraryFunction {
                                     c.setVariables(new HashMap<>(context
                                             .getVariables()));
                                     
-                                    c.putFunction(function.parameters.get(0)
+                                    c.putVariable(function.parameters.get(0)
                                             .getName(), first.getValue(c),
                                     false);
-                                    c.putFunction(function.parameters.get(1)
+                                    c.putVariable(function.parameters.get(1)
                                             .getName(), second.getValue(c),
                                     false);
                                     numArg.set(i + 1, new ConstantNode(
@@ -394,7 +394,7 @@ public final class LibraryFunction {
                                     function.parameters.get(0)
                                     .getName());
                                     
-                                    c.putFunction(function.parameters.get(0)
+                                    c.putVariable(function.parameters.get(0)
                                             .getName(), v.getValue(c), false);
                                     result.add(new ConstantNode(function.body
                                             .getValue(c)));
@@ -429,9 +429,9 @@ public final class LibraryFunction {
                                     c.setVariables(new HashMap<>(context
                                             .getVariables()));
                                     
-                                    c.putFunction(function.parameters.get(0)
+                                    c.putVariable(function.parameters.get(0)
                                             .getName(), v.getValue(c), false);
-                                    c.putFunction(function.parameters.get(1)
+                                    c.putVariable(function.parameters.get(1)
                                             .getName(), new APValueNum(index),
                                     false);
                                     result.add(new ConstantNode(function.body
