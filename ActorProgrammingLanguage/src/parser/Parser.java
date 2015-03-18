@@ -169,29 +169,7 @@ public class Parser {
         }
         
         if (lookahead.getType() == TokenType.IDENTIFIER) {
-            final VariableNode expr = identifier();
-            if (lookahead.getType() == TokenType.DOT) {
-                // Assignment with field access as lh operator
-                nextToken();
-                assertNextToken(TokenType.IDENTIFIER);
-                final VariableNode field = identifier();
-                final ExpressionNode assignment = fieldAssignment(context,
-                        expr, field);
-                return assignment;
-            } else if (lookahead.getType() == TokenType.EQUAL) {
-                // variable declaration
-                final ExpressionNode assignment = assignment(context, expr,
-                        mutable);
-                return assignment;
-            } else if (lookahead.getType() == TokenType.OPEN_PARENS) {
-                // function call
-                return functionParameters(context, expr);
-            } else if (lookahead.getType() == TokenType.OPEN_CURLY_BRACKET) {
-                return indexAssignment(context, expr);
-            }
-            throw new ParserException(
-                    "Expected <Dot>, <Equal> or <Open Parens>, was "
-                            + lookahead);
+            return handleIdStatement(context, mutable);
         } else if (lookahead.getType() == TokenType.DATA_TYPE) {
             // data type declaration
             assertNextToken(TokenType.DATA_TYPE);
@@ -237,6 +215,41 @@ public class Parser {
             assertNextToken(TokenType.OPEN_CURLY_BRACKET);
             return indexAssignment(context, expression(context));
         }
+    }
+
+    /**
+     * Matches a statement starting with an identifier
+     *
+     * @param context
+     * @param mutable
+     * @return
+     */
+    private ExpressionNode handleIdStatement(final Context context,
+            final boolean mutable) {
+        assertNextToken(TokenType.IDENTIFIER);
+        final VariableNode expr = identifier();
+        if (lookahead.getType() == TokenType.DOT) {
+            // Assignment with field access as lh operator
+            nextToken();
+            assertNextToken(TokenType.IDENTIFIER);
+            final VariableNode field = identifier();
+            final ExpressionNode assignment = fieldAssignment(context, expr,
+                    field);
+            return assignment;
+        } else if (lookahead.getType() == TokenType.EQUAL) {
+            // variable declaration
+            final ExpressionNode assignment = assignment(context, expr, mutable);
+            return assignment;
+        } else if (lookahead.getType() == TokenType.OPEN_PARENS) {
+            // function call
+            return functionParameters(context, expr);
+        } else if (lookahead.getType() == TokenType.OPEN_CURLY_BRACKET) {
+            // index assignment
+            return indexAssignment(context, expr);
+        }
+        throw new ParserException(
+                "Expected <Dot>, <Equal>, <OPEN_CURLY_BRACKET> or <Open Parens>, was "
+                        + lookahead);
     }
 
     /**

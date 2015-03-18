@@ -8,8 +8,13 @@ import parser.ExpressionNode.ConstantNode;
 import type.APNumber;
 import type.APValueNum;
 
+/**
+ * Test built in functions
+ * 
+ * @author s-KADAMS
+ */
 public class BuiltinTest {
-    
+
     /**
      * Test isa function.
      */
@@ -24,7 +29,7 @@ public class BuiltinTest {
         ProgramTest.test("a = (func a -> 10) isa Func;", true, "a");
         ProgramTest.test("a = (func a -> 10) isa Bool;", false, "a");
     }
-    
+
     /**
      * Test isa datatype.
      */
@@ -39,36 +44,36 @@ public class BuiltinTest {
                 + "a = b isa Rectangle$Square;", false, "a");
         ProgramTest.test(decl + "b = new Rectangle.Square(size=4);"
                 + "a = b isa Rectangle$Rect;", false, "a");
-        
+
         ProgramTest.test(decl + "b = new Rectangle.Rect(width=5,height=6);"
                 + "a = b isa Rectangle;", true, "a");
         ProgramTest.test(decl + "b = new Rectangle.Square(size=4);"
                 + "a = b isa Rectangle;", true, "a");
-
+        
     }
-    
+
     /**
      * Test in function.
      */
     @Test
     public void testIn() {
         ProgramTest
-                .expectOutput(
-                        "println(toString(1 in [1,2,3]) + [' '] + toString(1 in [2,3,4]));",
-                        "true false");
+        .expectOutput(
+                "println(toString(1 in [1,2,3]) + [' '] + toString(1 in [2,3,4]));",
+                "true false");
     }
-
+    
     /**
      * Test length function.
      */
     @Test
     public void testLength() {
         ProgramTest
-                .expectOutput(
-                        "println(toString(length ([1,2,3])) + [' '] + toString(length ([])));",
-                        "3 0");
+        .expectOutput(
+                "println(toString(length ([1,2,3])) + [' '] + toString(length ([])));",
+                "3 0");
     }
-    
+
     /**
      * Test map.
      */
@@ -79,7 +84,7 @@ public class BuiltinTest {
                 new ConstantNode(new APValueNum(new APNumber("3"))),
                 new ConstantNode(new APValueNum(new APNumber("4")))), "a");
     }
-    
+
     /**
      * Test foreach.
      */
@@ -87,7 +92,7 @@ public class BuiltinTest {
     public void testForeach() {
         ProgramTest.expectOutput("foreach([1,2,3], println);", "1\r\n2\r\n3");
     }
-    
+
     /**
      * Test map binary.
      */
@@ -98,7 +103,7 @@ public class BuiltinTest {
                 new ConstantNode(new APValueNum(new APNumber("4"))),
                 new ConstantNode(new APValueNum(new APNumber("8")))), "a");
     }
-
+    
     /**
      * Test foldl.
      */
@@ -107,7 +112,7 @@ public class BuiltinTest {
         ProgramTest.test("result = (1 to 5) foldl func x y -> x+y;",
                 new APNumber("15"), "result");
     }
-
+    
     /**
      * Test print with a number.
      */
@@ -115,7 +120,7 @@ public class BuiltinTest {
     public void testPrintNum() {
         ProgramTest.expectOutput("println(3);", "3");
     }
-    
+
     /**
      * Test print string.
      */
@@ -123,5 +128,5 @@ public class BuiltinTest {
     public void testPrintString() {
         ProgramTest.expectOutput("println(\"Hi\");", "Hi");
     }
-    
+
 }
