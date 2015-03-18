@@ -167,54 +167,67 @@ public class Parser {
             mutable = true;
             nextToken();
         }
+        assertNextToken(TokenType.IDENTIFIER, TokenType.DATA_TYPE,
+                TokenType.OPEN_CURLY_BRACKET);
         
         if (lookahead.getType() == TokenType.IDENTIFIER) {
             return handleIdStatement(context, mutable);
         } else if (lookahead.getType() == TokenType.DATA_TYPE) {
-            // data type declaration
-            assertNextToken(TokenType.DATA_TYPE);
-            nextToken();
-            assertNextToken(TokenType.IDENTIFIER);
-            final VariableNode dataTypeName = identifier();
-            context.getVariables().put(
-                    dataTypeName.getName(),
-                    new VariableMapping(
-                            new APValueType(dataTypeName.getName()), false));
-            assertNextToken(TokenType.EQUAL);
-            nextToken();
-            
-            while (true) {
-                assertNextToken(TokenType.IDENTIFIER);
-                final VariableNode subNode = identifier();
-
-                final List<String> fields = new ArrayList<>();
-                if (lookahead.getType() == TokenType.OPEN_CURLY_BRACKET) {
-                    assertNextToken(TokenType.OPEN_CURLY_BRACKET);
-                    nextToken();
-                    while (true) {
-                        assertNextToken(TokenType.IDENTIFIER);
-                        fields.add(identifier().getName());
-                        if (lookahead.getType() == TokenType.CLOSE_CURLY_BRACKET) {
-                            nextToken();
-                            break;
-                        }
-                        assertNextToken(TokenType.COMMA);
-                        nextToken();
-                    }
-                }
-                context.putDataType(new DataConstructor(dataTypeName.getName(),
-                        subNode.getName(), fields));
-                
-                if (lookahead.getType() == TokenType.BAR) {
-                    nextToken();
-                } else {
-                    return ExpressionNode.VOID;
-                }
-            }
+            return matchDatatypeStatement(context);
         } else {
             assertNextToken(TokenType.OPEN_CURLY_BRACKET);
             return indexAssignment(context, expression(context));
         }
+    }
+    
+    /**
+     * Matches a datatype declaration statement
+     *
+     * @param context
+     * @return ExpressionNode.VOID
+     */
+    private ExpressionNode matchDatatypeStatement(final Context context) {
+        // data type declaration
+        assertNextToken(TokenType.DATA_TYPE);
+        nextToken();
+        assertNextToken(TokenType.IDENTIFIER);
+        final VariableNode dataTypeName = identifier();
+        context.getVariables().put(
+                dataTypeName.getName(),
+                new VariableMapping(new APValueType(dataTypeName.getName()),
+                        false));
+        assertNextToken(TokenType.EQUAL);
+        nextToken();
+        
+        while (true) {
+            assertNextToken(TokenType.IDENTIFIER);
+            final VariableNode subNode = identifier();
+
+            final List<String> fields = new ArrayList<>();
+            if (lookahead.getType() == TokenType.OPEN_CURLY_BRACKET) {
+                assertNextToken(TokenType.OPEN_CURLY_BRACKET);
+                nextToken();
+                while (true) {
+                    assertNextToken(TokenType.IDENTIFIER);
+                    fields.add(identifier().getName());
+                    if (lookahead.getType() == TokenType.CLOSE_CURLY_BRACKET) {
+                        nextToken();
+                        break;
+                    }
+                    assertNextToken(TokenType.COMMA);
+                    nextToken();
+                }
+            }
+            context.putDataType(new DataConstructor(dataTypeName.getName(),
+                    subNode.getName(), fields));
+            
+            if (lookahead.getType() == TokenType.BAR) {
+                nextToken();
+            } else {
+                break;
+            }
+        }
+        return ExpressionNode.VOID;
     }
 
     /**
@@ -226,15 +239,16 @@ public class Parser {
      */
     private ExpressionNode handleIdStatement(final Context context,
             final boolean mutable) {
+        
         assertNextToken(TokenType.IDENTIFIER);
         final VariableNode expr = identifier();
+        
+        assertNextToken(TokenType.DOT, TokenType.EQUAL, TokenType.OPEN_PARENS,
+                TokenType.OPEN_CURLY_BRACKET);
+
         if (lookahead.getType() == TokenType.DOT) {
             // Assignment with field access as lh operator
-            nextToken();
-            assertNextToken(TokenType.IDENTIFIER);
-            final VariableNode field = identifier();
-            final ExpressionNode assignment = fieldAssignment(context, expr,
-                    field);
+            final ExpressionNode assignment = fieldAssignment(context, expr);
             return assignment;
         } else if (lookahead.getType() == TokenType.EQUAL) {
             // variable declaration
@@ -243,13 +257,12 @@ public class Parser {
         } else if (lookahead.getType() == TokenType.OPEN_PARENS) {
             // function call
             return functionParameters(context, expr);
-        } else if (lookahead.getType() == TokenType.OPEN_CURLY_BRACKET) {
+        } else {
+            assertNextToken(TokenType.OPEN_CURLY_BRACKET);
             // index assignment
             return indexAssignment(context, expr);
         }
-        throw new ParserException(
-                "Expected <Dot>, <Equal>, <OPEN_CURLY_BRACKET> or <Open Parens>, was "
-                        + lookahead);
+        // can't get here
     }
 
     /**
@@ -281,20 +294,21 @@ public class Parser {
     /**
      * Field assignment.<br>
      * <code>a.b = c</code><br>
-     * Assumes that a and b are already matched and are passed in as expr and
-     * field.
+     * Assumes that a is already matched and are passed in as expr.
      *
      * @param context
      *            the context
      * @param expr
      *            the a expression
-     * @param field
-     *            the b expression
      * @return the fieldAssignmentNode representing the assignment
      */
     @SuppressWarnings("rawtypes")
     private ExpressionNode fieldAssignment(final Context context,
-            final VariableNode expr, final VariableNode field) {
+            final VariableNode expr) {
+        assertNextToken(TokenType.DOT);
+        nextToken();
+        assertNextToken(TokenType.IDENTIFIER);
+        final VariableNode field = identifier();
         assertNextToken(TokenType.EQUAL);
         nextToken();
         final ExpressionNode assigned = expression(context);
@@ -371,6 +385,7 @@ public class Parser {
             assertNextToken(TokenType.SEMI);
             nextToken();
         }
+        assertNextToken(TokenType.RETURN, TokenType.CLOSE_CURLY_BRACKET);
         if (lookahead.getType() == TokenType.RETURN) {
             nextToken();
             final ExpressionNode expression = expression(context);
@@ -1006,17 +1021,35 @@ public class Parser {
     }
 
     /**
-     * Assert next token.
+     * Assert next token equals at least one of the parameters, or throw a
+     * parser exception.
      *
-     * @param t
-     *            the t
+     * @param types
+     *            the types to check against
+     * @throws ParserException
      */
-    private void assertNextToken(final TokenType t) {
-        if (lookahead.getType() != t) {
-            // Prints error message. Expected type t, but was (lookahead) while
-            // matching (method that called this one)
-            throw new ParserException("Expected " + t + " but was " + lookahead
-                    + " while matching " + Debug.callerMethod(1));
+    private void assertNextToken(final TokenType... types) {
+        final List<TokenType> typesList = Arrays.asList(types);
+        if (typesList.contains(lookahead.getType())) {
+            return;
+        } else {
+            final StringBuilder sb = new StringBuilder();
+            if (types.length == 1) {
+                // 0
+                sb.append(types[0]);
+            } else if (types.length == 2) {
+                // 0 or 1
+                sb.append(types[0]).append(" or ").append(types[1]);
+            } else {
+                // 0, 1, 2... n-1, or n
+                for (int i = 0; i < types.length - 1; i++) {
+                    sb.append(types[i]).append(", ");
+                }
+                sb.append(" or ").append(types[types.length - 1]);
+            }
+            
+            throw new ParserException("Expected " + sb.toString() + " but was "
+                    + lookahead + " while matching " + Debug.callerMethod(1));
         }
     }
 }
